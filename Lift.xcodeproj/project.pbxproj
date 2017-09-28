@@ -14,6 +14,9 @@
 		8F7C52361F7D39E5004A91BC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F7C52341F7D39E5004A91BC /* Main.storyboard */; };
 		8F7C52421F7D39E5004A91BC /* LiftTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C52411F7D39E5004A91BC /* LiftTests.swift */; };
 		8F7C524D1F7D39E5004A91BC /* LiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C524C1F7D39E5004A91BC /* LiftUITests.swift */; };
+		8F7C525B1F7D39F5004A91BC /* SQLiteCreateTableParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C525A1F7D39F5004A91BC /* SQLiteCreateTableParser.swift */; };
+		8F7C525D1F7D3A51004A91BC /* TableDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C525C1F7D3A51004A91BC /* TableDefinition.swift */; };
+		8FB9F14D1F7D72220090FA53 /* ColumnDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F14C1F7D72220090FA53 /* ColumnDefinition.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,6 +51,9 @@
 		8F7C52481F7D39E5004A91BC /* LiftUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LiftUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F7C524C1F7D39E5004A91BC /* LiftUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiftUITests.swift; sourceTree = "<group>"; };
 		8F7C524E1F7D39E5004A91BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		8F7C525A1F7D39F5004A91BC /* SQLiteCreateTableParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteCreateTableParser.swift; sourceTree = "<group>"; };
+		8F7C525C1F7D3A51004A91BC /* TableDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableDefinition.swift; sourceTree = "<group>"; };
+		8FB9F14C1F7D72220090FA53 /* ColumnDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnDefinition.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +107,7 @@
 				8F7C522C1F7D39E5004A91BC /* AppDelegate.swift */,
 				8F7C522E1F7D39E5004A91BC /* ViewController.swift */,
 				8F7C52301F7D39E5004A91BC /* Document.swift */,
+				8F7C525F1F7D3A69004A91BC /* Table Parse */,
 				8F7C52321F7D39E5004A91BC /* Assets.xcassets */,
 				8F7C52341F7D39E5004A91BC /* Main.storyboard */,
 				8F7C52371F7D39E5004A91BC /* Info.plist */,
@@ -125,6 +132,16 @@
 				8F7C524E1F7D39E5004A91BC /* Info.plist */,
 			);
 			path = LiftUITests;
+			sourceTree = "<group>";
+		};
+		8F7C525F1F7D3A69004A91BC /* Table Parse */ = {
+			isa = PBXGroup;
+			children = (
+				8F7C525A1F7D39F5004A91BC /* SQLiteCreateTableParser.swift */,
+				8F7C525C1F7D3A51004A91BC /* TableDefinition.swift */,
+				8FB9F14C1F7D72220090FA53 /* ColumnDefinition.swift */,
+			);
+			path = "Table Parse";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -260,9 +277,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8FB9F14D1F7D72220090FA53 /* ColumnDefinition.swift in Sources */,
 				8F7C522F1F7D39E5004A91BC /* ViewController.swift in Sources */,
 				8F7C522D1F7D39E5004A91BC /* AppDelegate.swift in Sources */,
 				8F7C52311F7D39E5004A91BC /* Document.swift in Sources */,
+				8F7C525D1F7D3A51004A91BC /* TableDefinition.swift in Sources */,
+				8F7C525B1F7D39F5004A91BC /* SQLiteCreateTableParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
