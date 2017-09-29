@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct TableDefinition {
+class TableDefinition {
     public var isTemp = false
     public var withoutRowID = false
     public var databaseName = ""
@@ -16,9 +16,10 @@ struct TableDefinition {
 
     public var columns = [ColumnDefinition]()
 
+    public var tableConstraints = [TableConstraint]()
 
 
-    mutating func parseTableName(from scanner: Scanner) throws {
+    func parseTableName(from scanner: Scanner) throws {
         let skipChars = scanner.charactersToBeSkipped
         scanner.charactersToBeSkipped = nil
         tableName = ""

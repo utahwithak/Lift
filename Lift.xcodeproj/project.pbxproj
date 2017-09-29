@@ -17,6 +17,16 @@
 		8F7C525B1F7D39F5004A91BC /* SQLiteCreateTableParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C525A1F7D39F5004A91BC /* SQLiteCreateTableParser.swift */; };
 		8F7C525D1F7D3A51004A91BC /* TableDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C525C1F7D3A51004A91BC /* TableDefinition.swift */; };
 		8FB9F14D1F7D72220090FA53 /* ColumnDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F14C1F7D72220090FA53 /* ColumnDefinition.swift */; };
+		8FB9F14F1F7DC6EA0090FA53 /* TableConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F14E1F7DC6EA0090FA53 /* TableConstraint.swift */; };
+		8FB9F1511F7E7FA40090FA53 /* IndexedColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1501F7E7FA40090FA53 /* IndexedColumn.swift */; };
+		8FB9F1531F7E7FCE0090FA53 /* ColumnName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1521F7E7FCE0090FA53 /* ColumnName.swift */; };
+		8FB9F1551F7E83230090FA53 /* ConflictClause.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1541F7E83230090FA53 /* ConflictClause.swift */; };
+		8FB9F1571F7EA3C80090FA53 /* String+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1561F7EA3C80090FA53 /* String+Additions.swift */; };
+		8FB9F15A1F7EA4D40090FA53 /* PrimaryKeyTableConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1591F7EA4D40090FA53 /* PrimaryKeyTableConstraint.swift */; };
+		8FB9F15C1F7EA4EB0090FA53 /* IndexedTableConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F15B1F7EA4EB0090FA53 /* IndexedTableConstraint.swift */; };
+		8FB9F15F1F7EA50A0090FA53 /* UniqueTableConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F15E1F7EA50A0090FA53 /* UniqueTableConstraint.swift */; };
+		8FB9F1611F7EA5690090FA53 /* CheckTableConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1601F7EA5690090FA53 /* CheckTableConstraint.swift */; };
+		8FB9F1631F7EA5990090FA53 /* ForeignKeyTableConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1621F7EA5990090FA53 /* ForeignKeyTableConstraint.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +64,16 @@
 		8F7C525A1F7D39F5004A91BC /* SQLiteCreateTableParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteCreateTableParser.swift; sourceTree = "<group>"; };
 		8F7C525C1F7D3A51004A91BC /* TableDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableDefinition.swift; sourceTree = "<group>"; };
 		8FB9F14C1F7D72220090FA53 /* ColumnDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnDefinition.swift; sourceTree = "<group>"; };
+		8FB9F14E1F7DC6EA0090FA53 /* TableConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableConstraint.swift; sourceTree = "<group>"; };
+		8FB9F1501F7E7FA40090FA53 /* IndexedColumn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexedColumn.swift; sourceTree = "<group>"; };
+		8FB9F1521F7E7FCE0090FA53 /* ColumnName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnName.swift; sourceTree = "<group>"; };
+		8FB9F1541F7E83230090FA53 /* ConflictClause.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConflictClause.swift; sourceTree = "<group>"; };
+		8FB9F1561F7EA3C80090FA53 /* String+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Additions.swift"; sourceTree = "<group>"; };
+		8FB9F1591F7EA4D40090FA53 /* PrimaryKeyTableConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryKeyTableConstraint.swift; sourceTree = "<group>"; };
+		8FB9F15B1F7EA4EB0090FA53 /* IndexedTableConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexedTableConstraint.swift; sourceTree = "<group>"; };
+		8FB9F15E1F7EA50A0090FA53 /* UniqueTableConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniqueTableConstraint.swift; sourceTree = "<group>"; };
+		8FB9F1601F7EA5690090FA53 /* CheckTableConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckTableConstraint.swift; sourceTree = "<group>"; };
+		8FB9F1621F7EA5990090FA53 /* ForeignKeyTableConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForeignKeyTableConstraint.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,8 +160,34 @@
 				8F7C525A1F7D39F5004A91BC /* SQLiteCreateTableParser.swift */,
 				8F7C525C1F7D3A51004A91BC /* TableDefinition.swift */,
 				8FB9F14C1F7D72220090FA53 /* ColumnDefinition.swift */,
+				8FB9F1581F7EA4C00090FA53 /* Table Constraints */,
+				8FB9F1501F7E7FA40090FA53 /* IndexedColumn.swift */,
+				8FB9F1521F7E7FCE0090FA53 /* ColumnName.swift */,
+				8FB9F1541F7E83230090FA53 /* ConflictClause.swift */,
+				8FB9F1561F7EA3C80090FA53 /* String+Additions.swift */,
 			);
 			path = "Table Parse";
+			sourceTree = "<group>";
+		};
+		8FB9F1581F7EA4C00090FA53 /* Table Constraints */ = {
+			isa = PBXGroup;
+			children = (
+				8FB9F14E1F7DC6EA0090FA53 /* TableConstraint.swift */,
+				8FB9F1601F7EA5690090FA53 /* CheckTableConstraint.swift */,
+				8FB9F1621F7EA5990090FA53 /* ForeignKeyTableConstraint.swift */,
+				8FB9F15D1F7EA4F90090FA53 /* Indexed Table Constraints */,
+			);
+			path = "Table Constraints";
+			sourceTree = "<group>";
+		};
+		8FB9F15D1F7EA4F90090FA53 /* Indexed Table Constraints */ = {
+			isa = PBXGroup;
+			children = (
+				8FB9F15B1F7EA4EB0090FA53 /* IndexedTableConstraint.swift */,
+				8FB9F1591F7EA4D40090FA53 /* PrimaryKeyTableConstraint.swift */,
+				8FB9F15E1F7EA50A0090FA53 /* UniqueTableConstraint.swift */,
+			);
+			path = "Indexed Table Constraints";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -277,12 +323,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8FB9F15A1F7EA4D40090FA53 /* PrimaryKeyTableConstraint.swift in Sources */,
 				8FB9F14D1F7D72220090FA53 /* ColumnDefinition.swift in Sources */,
+				8FB9F15F1F7EA50A0090FA53 /* UniqueTableConstraint.swift in Sources */,
+				8FB9F1531F7E7FCE0090FA53 /* ColumnName.swift in Sources */,
 				8F7C522F1F7D39E5004A91BC /* ViewController.swift in Sources */,
+				8FB9F14F1F7DC6EA0090FA53 /* TableConstraint.swift in Sources */,
+				8FB9F15C1F7EA4EB0090FA53 /* IndexedTableConstraint.swift in Sources */,
 				8F7C522D1F7D39E5004A91BC /* AppDelegate.swift in Sources */,
 				8F7C52311F7D39E5004A91BC /* Document.swift in Sources */,
+				8FB9F1551F7E83230090FA53 /* ConflictClause.swift in Sources */,
+				8FB9F1631F7EA5990090FA53 /* ForeignKeyTableConstraint.swift in Sources */,
+				8FB9F1511F7E7FA40090FA53 /* IndexedColumn.swift in Sources */,
 				8F7C525D1F7D3A51004A91BC /* TableDefinition.swift in Sources */,
 				8F7C525B1F7D39F5004A91BC /* SQLiteCreateTableParser.swift in Sources */,
+				8FB9F1571F7EA3C80090FA53 /* String+Additions.swift in Sources */,
+				8FB9F1611F7EA5690090FA53 /* CheckTableConstraint.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,6 +496,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Lift/Lift.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = QV4QS82KBT;
@@ -447,6 +504,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.datumapps.Lift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
@@ -456,6 +514,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Lift/Lift.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = QV4QS82KBT;
@@ -463,6 +522,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.datumapps.Lift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
