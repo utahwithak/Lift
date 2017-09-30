@@ -16,10 +16,20 @@
 		8F7C524D1F7D39E5004A91BC /* LiftUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C524C1F7D39E5004A91BC /* LiftUITests.swift */; };
 		8F7C525B1F7D39F5004A91BC /* SQLiteCreateTableParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C525A1F7D39F5004A91BC /* SQLiteCreateTableParser.swift */; };
 		8F7C525D1F7D3A51004A91BC /* TableDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C525C1F7D3A51004A91BC /* TableDefinition.swift */; };
+		8F805CC81F7ED2B30074FE6B /* UniqueColumnConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F805CC71F7ED2B30074FE6B /* UniqueColumnConstraint.swift */; };
+		8F805CCA1F7ED3560074FE6B /* ConflictColumnConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F805CC91F7ED3560074FE6B /* ConflictColumnConstraint.swift */; };
+		8F805CCD1F7ED3EF0074FE6B /* NotNullColumnConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F805CCC1F7ED3EF0074FE6B /* NotNullColumnConstraint.swift */; };
+		8F805CCF1F7ED4240074FE6B /* PrimaryKeyColumnConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F805CCE1F7ED4240074FE6B /* PrimaryKeyColumnConstraint.swift */; };
+		8F921DB61F7EB85000464D27 /* ForeignKeyDeferStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F921DB51F7EB85000464D27 /* ForeignKeyDeferStatement.swift */; };
+		8F921DB91F7ECD4500464D27 /* ColumnConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F921DB81F7ECD4500464D27 /* ColumnConstraint.swift */; };
+		8F921DBB1F7ECD7100464D27 /* ForeignKeyColumnConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F921DBA1F7ECD7100464D27 /* ForeignKeyColumnConstraint.swift */; };
+		8F921DBD1F7ECE7800464D27 /* CollateColumnConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F921DBC1F7ECE7800464D27 /* CollateColumnConstraint.swift */; };
+		8F921DBF1F7ECECB00464D27 /* DefaultColumnConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F921DBE1F7ECECB00464D27 /* DefaultColumnConstraint.swift */; };
+		8F921DC11F7ED0FB00464D27 /* CheckColumnConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F921DC01F7ED0FB00464D27 /* CheckColumnConstraint.swift */; };
 		8FB9F14D1F7D72220090FA53 /* ColumnDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F14C1F7D72220090FA53 /* ColumnDefinition.swift */; };
 		8FB9F14F1F7DC6EA0090FA53 /* TableConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F14E1F7DC6EA0090FA53 /* TableConstraint.swift */; };
 		8FB9F1511F7E7FA40090FA53 /* IndexedColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1501F7E7FA40090FA53 /* IndexedColumn.swift */; };
-		8FB9F1531F7E7FCE0090FA53 /* ColumnName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1521F7E7FCE0090FA53 /* ColumnName.swift */; };
+		8FB9F1531F7E7FCE0090FA53 /* SQLiteName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1521F7E7FCE0090FA53 /* SQLiteName.swift */; };
 		8FB9F1551F7E83230090FA53 /* ConflictClause.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1541F7E83230090FA53 /* ConflictClause.swift */; };
 		8FB9F1571F7EA3C80090FA53 /* String+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1561F7EA3C80090FA53 /* String+Additions.swift */; };
 		8FB9F15A1F7EA4D40090FA53 /* PrimaryKeyTableConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1591F7EA4D40090FA53 /* PrimaryKeyTableConstraint.swift */; };
@@ -27,6 +37,9 @@
 		8FB9F15F1F7EA50A0090FA53 /* UniqueTableConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F15E1F7EA50A0090FA53 /* UniqueTableConstraint.swift */; };
 		8FB9F1611F7EA5690090FA53 /* CheckTableConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1601F7EA5690090FA53 /* CheckTableConstraint.swift */; };
 		8FB9F1631F7EA5990090FA53 /* ForeignKeyTableConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1621F7EA5990090FA53 /* ForeignKeyTableConstraint.swift */; };
+		8FB9F1651F7EB5C40090FA53 /* ForeignKeyClause.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1641F7EB5C40090FA53 /* ForeignKeyClause.swift */; };
+		8FB9F1681F7EB62C0090FA53 /* ForeignKeyActionStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1671F7EB62C0090FA53 /* ForeignKeyActionStatement.swift */; };
+		8FB9F16A1F7EB66C0090FA53 /* ForeignKeyMatchStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1691F7EB66C0090FA53 /* ForeignKeyMatchStatement.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -63,10 +76,20 @@
 		8F7C524E1F7D39E5004A91BC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8F7C525A1F7D39F5004A91BC /* SQLiteCreateTableParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteCreateTableParser.swift; sourceTree = "<group>"; };
 		8F7C525C1F7D3A51004A91BC /* TableDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableDefinition.swift; sourceTree = "<group>"; };
+		8F805CC71F7ED2B30074FE6B /* UniqueColumnConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniqueColumnConstraint.swift; sourceTree = "<group>"; };
+		8F805CC91F7ED3560074FE6B /* ConflictColumnConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConflictColumnConstraint.swift; sourceTree = "<group>"; };
+		8F805CCC1F7ED3EF0074FE6B /* NotNullColumnConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotNullColumnConstraint.swift; sourceTree = "<group>"; };
+		8F805CCE1F7ED4240074FE6B /* PrimaryKeyColumnConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryKeyColumnConstraint.swift; sourceTree = "<group>"; };
+		8F921DB51F7EB85000464D27 /* ForeignKeyDeferStatement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForeignKeyDeferStatement.swift; sourceTree = "<group>"; };
+		8F921DB81F7ECD4500464D27 /* ColumnConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnConstraint.swift; sourceTree = "<group>"; };
+		8F921DBA1F7ECD7100464D27 /* ForeignKeyColumnConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForeignKeyColumnConstraint.swift; sourceTree = "<group>"; };
+		8F921DBC1F7ECE7800464D27 /* CollateColumnConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollateColumnConstraint.swift; sourceTree = "<group>"; };
+		8F921DBE1F7ECECB00464D27 /* DefaultColumnConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultColumnConstraint.swift; sourceTree = "<group>"; };
+		8F921DC01F7ED0FB00464D27 /* CheckColumnConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckColumnConstraint.swift; sourceTree = "<group>"; };
 		8FB9F14C1F7D72220090FA53 /* ColumnDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnDefinition.swift; sourceTree = "<group>"; };
 		8FB9F14E1F7DC6EA0090FA53 /* TableConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableConstraint.swift; sourceTree = "<group>"; };
 		8FB9F1501F7E7FA40090FA53 /* IndexedColumn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexedColumn.swift; sourceTree = "<group>"; };
-		8FB9F1521F7E7FCE0090FA53 /* ColumnName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnName.swift; sourceTree = "<group>"; };
+		8FB9F1521F7E7FCE0090FA53 /* SQLiteName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteName.swift; sourceTree = "<group>"; };
 		8FB9F1541F7E83230090FA53 /* ConflictClause.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConflictClause.swift; sourceTree = "<group>"; };
 		8FB9F1561F7EA3C80090FA53 /* String+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Additions.swift"; sourceTree = "<group>"; };
 		8FB9F1591F7EA4D40090FA53 /* PrimaryKeyTableConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryKeyTableConstraint.swift; sourceTree = "<group>"; };
@@ -74,6 +97,9 @@
 		8FB9F15E1F7EA50A0090FA53 /* UniqueTableConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniqueTableConstraint.swift; sourceTree = "<group>"; };
 		8FB9F1601F7EA5690090FA53 /* CheckTableConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckTableConstraint.swift; sourceTree = "<group>"; };
 		8FB9F1621F7EA5990090FA53 /* ForeignKeyTableConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForeignKeyTableConstraint.swift; sourceTree = "<group>"; };
+		8FB9F1641F7EB5C40090FA53 /* ForeignKeyClause.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForeignKeyClause.swift; sourceTree = "<group>"; };
+		8FB9F1671F7EB62C0090FA53 /* ForeignKeyActionStatement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForeignKeyActionStatement.swift; sourceTree = "<group>"; };
+		8FB9F1691F7EB66C0090FA53 /* ForeignKeyMatchStatement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForeignKeyMatchStatement.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,13 +186,38 @@
 				8F7C525A1F7D39F5004A91BC /* SQLiteCreateTableParser.swift */,
 				8F7C525C1F7D3A51004A91BC /* TableDefinition.swift */,
 				8FB9F14C1F7D72220090FA53 /* ColumnDefinition.swift */,
-				8FB9F1581F7EA4C00090FA53 /* Table Constraints */,
-				8FB9F1501F7E7FA40090FA53 /* IndexedColumn.swift */,
-				8FB9F1521F7E7FCE0090FA53 /* ColumnName.swift */,
+				8FB9F1521F7E7FCE0090FA53 /* SQLiteName.swift */,
 				8FB9F1541F7E83230090FA53 /* ConflictClause.swift */,
+				8F921DB71F7ECD0C00464D27 /* ColumnConstraints */,
+				8FB9F1661F7EB5C80090FA53 /* Foreign Key */,
+				8FB9F1581F7EA4C00090FA53 /* Table Constraints */,
 				8FB9F1561F7EA3C80090FA53 /* String+Additions.swift */,
 			);
 			path = "Table Parse";
+			sourceTree = "<group>";
+		};
+		8F805CCB1F7ED3680074FE6B /* Conflict Constraints */ = {
+			isa = PBXGroup;
+			children = (
+				8F805CC71F7ED2B30074FE6B /* UniqueColumnConstraint.swift */,
+				8F805CCE1F7ED4240074FE6B /* PrimaryKeyColumnConstraint.swift */,
+				8F805CCC1F7ED3EF0074FE6B /* NotNullColumnConstraint.swift */,
+				8F805CC91F7ED3560074FE6B /* ConflictColumnConstraint.swift */,
+			);
+			path = "Conflict Constraints";
+			sourceTree = "<group>";
+		};
+		8F921DB71F7ECD0C00464D27 /* ColumnConstraints */ = {
+			isa = PBXGroup;
+			children = (
+				8F921DB81F7ECD4500464D27 /* ColumnConstraint.swift */,
+				8F921DBA1F7ECD7100464D27 /* ForeignKeyColumnConstraint.swift */,
+				8F921DBC1F7ECE7800464D27 /* CollateColumnConstraint.swift */,
+				8F921DBE1F7ECECB00464D27 /* DefaultColumnConstraint.swift */,
+				8F921DC01F7ED0FB00464D27 /* CheckColumnConstraint.swift */,
+				8F805CCB1F7ED3680074FE6B /* Conflict Constraints */,
+			);
+			path = ColumnConstraints;
 			sourceTree = "<group>";
 		};
 		8FB9F1581F7EA4C00090FA53 /* Table Constraints */ = {
@@ -183,11 +234,23 @@
 		8FB9F15D1F7EA4F90090FA53 /* Indexed Table Constraints */ = {
 			isa = PBXGroup;
 			children = (
+				8FB9F1501F7E7FA40090FA53 /* IndexedColumn.swift */,
 				8FB9F15B1F7EA4EB0090FA53 /* IndexedTableConstraint.swift */,
 				8FB9F1591F7EA4D40090FA53 /* PrimaryKeyTableConstraint.swift */,
 				8FB9F15E1F7EA50A0090FA53 /* UniqueTableConstraint.swift */,
 			);
 			path = "Indexed Table Constraints";
+			sourceTree = "<group>";
+		};
+		8FB9F1661F7EB5C80090FA53 /* Foreign Key */ = {
+			isa = PBXGroup;
+			children = (
+				8FB9F1641F7EB5C40090FA53 /* ForeignKeyClause.swift */,
+				8FB9F1671F7EB62C0090FA53 /* ForeignKeyActionStatement.swift */,
+				8FB9F1691F7EB66C0090FA53 /* ForeignKeyMatchStatement.swift */,
+				8F921DB51F7EB85000464D27 /* ForeignKeyDeferStatement.swift */,
+			);
+			path = "Foreign Key";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -323,18 +386,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8FB9F1681F7EB62C0090FA53 /* ForeignKeyActionStatement.swift in Sources */,
 				8FB9F15A1F7EA4D40090FA53 /* PrimaryKeyTableConstraint.swift in Sources */,
+				8F921DBB1F7ECD7100464D27 /* ForeignKeyColumnConstraint.swift in Sources */,
 				8FB9F14D1F7D72220090FA53 /* ColumnDefinition.swift in Sources */,
 				8FB9F15F1F7EA50A0090FA53 /* UniqueTableConstraint.swift in Sources */,
-				8FB9F1531F7E7FCE0090FA53 /* ColumnName.swift in Sources */,
+				8FB9F1531F7E7FCE0090FA53 /* SQLiteName.swift in Sources */,
 				8F7C522F1F7D39E5004A91BC /* ViewController.swift in Sources */,
+				8F921DBD1F7ECE7800464D27 /* CollateColumnConstraint.swift in Sources */,
+				8F805CCA1F7ED3560074FE6B /* ConflictColumnConstraint.swift in Sources */,
 				8FB9F14F1F7DC6EA0090FA53 /* TableConstraint.swift in Sources */,
 				8FB9F15C1F7EA4EB0090FA53 /* IndexedTableConstraint.swift in Sources */,
+				8F805CCD1F7ED3EF0074FE6B /* NotNullColumnConstraint.swift in Sources */,
+				8FB9F1651F7EB5C40090FA53 /* ForeignKeyClause.swift in Sources */,
 				8F7C522D1F7D39E5004A91BC /* AppDelegate.swift in Sources */,
 				8F7C52311F7D39E5004A91BC /* Document.swift in Sources */,
+				8F805CC81F7ED2B30074FE6B /* UniqueColumnConstraint.swift in Sources */,
+				8F921DB61F7EB85000464D27 /* ForeignKeyDeferStatement.swift in Sources */,
 				8FB9F1551F7E83230090FA53 /* ConflictClause.swift in Sources */,
 				8FB9F1631F7EA5990090FA53 /* ForeignKeyTableConstraint.swift in Sources */,
+				8F921DBF1F7ECECB00464D27 /* DefaultColumnConstraint.swift in Sources */,
+				8FB9F16A1F7EB66C0090FA53 /* ForeignKeyMatchStatement.swift in Sources */,
 				8FB9F1511F7E7FA40090FA53 /* IndexedColumn.swift in Sources */,
+				8F921DB91F7ECD4500464D27 /* ColumnConstraint.swift in Sources */,
+				8F921DC11F7ED0FB00464D27 /* CheckColumnConstraint.swift in Sources */,
+				8F805CCF1F7ED4240074FE6B /* PrimaryKeyColumnConstraint.swift in Sources */,
 				8F7C525D1F7D3A51004A91BC /* TableDefinition.swift in Sources */,
 				8F7C525B1F7D39F5004A91BC /* SQLiteCreateTableParser.swift in Sources */,
 				8FB9F1571F7EA3C80090FA53 /* String+Additions.swift in Sources */,

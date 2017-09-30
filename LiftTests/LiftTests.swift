@@ -337,6 +337,33 @@ class LiftTests: XCTestCase {
     }
 
 
+    func testForeignKeyTableConstraints() {
+        do {
+            let table = try SQLiteCreateTableParser.parseSQL("CREATE TABLE table1(cola,colb,colc,cold, FOREIGN KEY (cola, colb) REFERENCES table2 (cola1, colb1) ON DELETE SET NULL ON UPDATE NO ACTION MATCH \"some crazy\"\" name\" NOT DEFERRABLE INITIALLY DEFERRED)")
+
+            var clause = ForeignKeyClause(destination: "table2", columns: ["cola1","colb1"])
+            clause.actionStatements.append( ForeignKeyActionStatement(type: .delete, result: .setNull))
+            clause.actionStatements.append( ForeignKeyActionStatement(type: .update, result: .noAction))
+            clause.matchStatements.append(ForeignKeyMatchStatement(name:"some crazy\"\" name"))
+            clause.deferStatement = ForeignKeyDeferStatement(deferrable: false, type: .initiallyDeferred)
+            var byHand = ForeignKeyTableConstraint(name: "", columns: ["cola", "colb"], clause: clause)
+
+            XCTAssert(table.tableName == "table1")
+            if let tableconst = table.tableConstraints.last as? ForeignKeyTableConstraint {
+
+                XCTAssert( tableconst == byHand)
+            } else {
+                  XCTFail("Didn't parse table cosntraint")
+            }
+
+
+        } catch {
+            XCTFail("Couldn't parse foreign key")
+        }
+
+
+    }
+
 //    func testPerformanceExample() {
 //        // This is an example of a performance test case.
 //        self.measure {

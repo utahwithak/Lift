@@ -11,9 +11,11 @@ import Foundation
 
 class ColumnDefinition {
 
-    public var name: ColumnName
+    public var name: SQLiteName
 
     public var type = ""
+
+    public var columnConstraints = [ColumnConstraint]()
 
     init?(from scanner: Scanner) throws {
 
@@ -21,9 +23,12 @@ class ColumnDefinition {
         if colName.isEmpty {
             return nil
         }
-        name = ColumnName(rawValue: colName)
+        name = SQLiteName(rawValue: colName)
         type = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
 
+        while let constraint = try ColumnConstraint.parseConstraint(from: scanner) {
+            columnConstraints.append(constraint)
+        }
 
         
     }

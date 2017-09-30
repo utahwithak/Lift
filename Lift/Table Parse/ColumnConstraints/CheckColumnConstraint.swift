@@ -1,5 +1,5 @@
 //
-//  CheckTableConstraint.swift
+//  CheckColumnConstraint.swift
 //  Lift
 //
 //  Created by Carl Wieland on 9/29/17.
@@ -8,18 +8,18 @@
 
 import Foundation
 
-class CheckTableConstraint: TableConstraint {
+class CheckColumnConstraint: ColumnConstraint {
 
     var checkExpression: String
 
-    init(from scanner: Scanner,named name: String) throws {
+    init(with name:String, from scanner: Scanner) throws {
 
         if !scanner.scanString("check", into: nil) {
             throw ParserError.unexpectedError("Invalid table check")
         }
-       
+
         checkExpression = try SQLiteCreateTableParser.parseExp(from: scanner)
 
-        super.init(named: name)
+        super.init(name: name)
     }
 }

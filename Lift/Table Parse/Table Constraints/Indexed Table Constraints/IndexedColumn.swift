@@ -15,7 +15,7 @@ enum IndexColumnSortOrder {
 }
 
 class IndexedColumn {
-    var columnName: ColumnName
+    var columnName: SQLiteName
     var collationName: String
     var sortOrder: IndexColumnSortOrder
 
@@ -26,7 +26,7 @@ class IndexedColumn {
         if name.isEmpty {
             return nil
         }
-        columnName = ColumnName(rawValue: name)
+        columnName = SQLiteName(rawValue: name)
         if scanner.scanString("COLLATE", into: nil) {
             collationName = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
         } else {
