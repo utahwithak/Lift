@@ -14,7 +14,7 @@ class IndexedTableConstraint: TableConstraint {
 
     var conflictClause: ConflictClause?
 
-    init(from scanner: Scanner,named name: String) throws {
+    init(with name: SQLiteName?, from scanner: Scanner) throws {
         indexedColumns = try IndexedTableConstraint.parseIndexColumns(from: scanner)
 
         guard scanner.scanString(")", into: nil) else {
@@ -23,7 +23,7 @@ class IndexedTableConstraint: TableConstraint {
 
         conflictClause = try ConflictClause(from: scanner)
 
-        super.init(named: name)
+        super.init(name: name)
 
 
     }

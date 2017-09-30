@@ -71,7 +71,7 @@ class SQLiteCreateTableParser {
             do {
                 let nextName = try parseStringOrName(from: stringScanner)
                 stringScanner.scanLocation = currentLocation
-                switch nextName.lowercased() {
+                switch nextName.rawValue.lowercased() {
                 case "constraint", "primary", "unique", "check", "foreign":
                     let constraint = try TableConstraint.parseConstraint(from: stringScanner)
                     currentTable.tableConstraints.append(constraint)
@@ -100,7 +100,7 @@ class SQLiteCreateTableParser {
         return currentTable
     }
 
-    public static func parseStringOrName(from scanner: Scanner) throws -> String {
+    public static func parseStringOrName(from scanner: Scanner) throws -> SQLiteName {
         let skipChars = scanner.charactersToBeSkipped
         scanner.charactersToBeSkipped = nil
 
@@ -137,7 +137,7 @@ class SQLiteCreateTableParser {
 
                 if name.count > 1 && name.hasSuffix("\"") && (!name.hasSuffix("\"\"") || name.hasSuffix("\"\"\"")) {
 
-                    return String(name.dropLast())
+                    return SQLiteName(rawValue: "\"\(name)")
                 }
 
             }
@@ -151,7 +151,7 @@ class SQLiteCreateTableParser {
             let scannedPortions = scanner.scanCharacters(from: validChars , into: &buffer)
 
             if !scannedPortions && !scanner.scanString("\"\"", into: &buffer) {
-                return name
+                return SQLiteName(rawValue: name)
             }
 
             guard let str = buffer as String? else {
@@ -161,7 +161,7 @@ class SQLiteCreateTableParser {
             name += str
         }
 
-        return name
+        return SQLiteName(rawValue: name)
 
     }
 
@@ -192,7 +192,7 @@ class SQLiteCreateTableParser {
             moreToParse = !fullExpression.isBalanced()
         }
 
-        fullExpression = String(fullExpression.trimmingCharacters(in: CharacterSet.whitespaces).dropFirst().dropLast()).trimmingCharacters(in: CharacterSet.whitespaces)
+        fullExpression = fullExpression.trimmingCharacters(in: CharacterSet.whitespaces)
         if fullExpression.isEmpty {
             throw ParserError.unexpectedError("Empty check expression!?")
         }

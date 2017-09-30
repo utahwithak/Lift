@@ -12,7 +12,7 @@ class ForeignKeyColumnConstraint: ColumnConstraint {
 
     var clause: ForeignKeyClause
 
-    init(with name: String, from scanner: Scanner) throws {
+    init(with name: SQLiteName?, from scanner: Scanner) throws {
         clause = try ForeignKeyClause(from: scanner)
         super.init(name: name)
     }

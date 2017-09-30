@@ -9,14 +9,14 @@
 import Foundation
 class TableConstraint {
 
-    var name: String
+    var name: SQLiteName?
 
-    init(named name: String) {
+    init(name: SQLiteName?) {
         self.name = name
     }
 
     static func parseConstraint(from scanner: Scanner) throws -> TableConstraint {
-        var name = ""
+        var name: SQLiteName?
 
         if scanner.scanString("constraint", into: nil) {
             name = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
@@ -25,15 +25,15 @@ class TableConstraint {
         let curIndex = scanner.scanLocation
         let nextPart = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
         scanner.scanLocation = curIndex
-        switch nextPart.lowercased() {
+        switch nextPart.rawValue.lowercased() {
         case "primary":
-            return try PrimaryKeyTableConstraint(from: scanner, named: name)
+            return try PrimaryKeyTableConstraint(with:name, from: scanner)
         case "unique":
-            return try UniqueTableConstraint(from: scanner, named: name)
+            return try UniqueTableConstraint(with:name, from: scanner)
         case "check":
-            return try CheckTableConstraint(from: scanner, named: name)
+            return try CheckTableConstraint(with:name, from: scanner)
         case "foreign":
-            return try ForeignKeyTableConstraint(from: scanner, named: name)
+            return try ForeignKeyTableConstraint(with:name, from: scanner)
         default:
             throw ParserError.unexpectedError("Unexpected table constraint type!")
         }

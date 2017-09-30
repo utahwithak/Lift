@@ -10,7 +10,7 @@ import Foundation
 
 class UniqueColumnConstraint: ConflictColumnConstraint {
 
-    override init(with name: String, from scanner: Scanner) throws {
+    override init(with name: SQLiteName?, from scanner: Scanner) throws {
         guard scanner.scanString("unique", into: nil) else {
             throw ParserError.unexpectedError("Expected Unique column constraint!")
         }

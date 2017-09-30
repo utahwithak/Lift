@@ -9,10 +9,10 @@
 import Foundation
 
 class UniqueTableConstraint: IndexedTableConstraint {
-    override init(from scanner: Scanner,named  name: String) throws {
+    override init(with name: SQLiteName?,from scanner: Scanner) throws {
         if !scanner.scanString("unique", into: nil) || !scanner.scanString("(", into: nil) {
             throw ParserError.unexpectedError("Invalid table Unique key")
         }
-        try super.init(from: scanner, named: name)
+        try super.init(with: name, from: scanner)
     }
 }

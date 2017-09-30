@@ -14,7 +14,7 @@ class ForeignKeyTableConstraint: TableConstraint {
 
     var clause: ForeignKeyClause
 
-    init(from scanner: Scanner, named name: String) throws {
+    init(with name: SQLiteName?, from scanner: Scanner) throws {
         if !scanner.scanString("foreign", into: nil) || !scanner.scanString("key", into: nil) || !scanner.scanString("(", into: nil) {
             throw ParserError.unexpectedError("Invalid table check")
         }
@@ -24,7 +24,7 @@ class ForeignKeyTableConstraint: TableConstraint {
             guard !name.isEmpty else {
                 throw ParserError.unexpectedError("Invalid foreign key ")
             }
-            fromColumns.append(SQLiteName(rawValue: name))
+            fromColumns.append(name)
 
         } while (scanner.scanString(",", into: nil))
 
@@ -38,15 +38,15 @@ class ForeignKeyTableConstraint: TableConstraint {
 
         clause = try ForeignKeyClause(from: scanner)
 
-        super.init(named: name)
+        super.init(name: name)
 
     }
 
 
-    init(name: String, columns: [String], clause: ForeignKeyClause) {
+    init(name: SQLiteName?, columns: [String], clause: ForeignKeyClause) {
         fromColumns = columns.map({ SQLiteName(rawValue: $0)})
         self.clause = clause
-        super.init(named: name)
+        super.init(name: name)
     }
 
 }

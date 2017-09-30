@@ -19,7 +19,7 @@ class PrimaryKeyColumnConstraint: ConflictColumnConstraint {
     var autoincrement = false
     var sortOrder: PrimaryKeySortOrder
 
-    override init(with name: String, from scanner: Scanner) throws {
+    override init(with name: SQLiteName?, from scanner: Scanner) throws {
         guard scanner.scanString("primary", into: nil) else {
             throw ParserError.unexpectedError("Expected primary in primary key constraint!")
         }

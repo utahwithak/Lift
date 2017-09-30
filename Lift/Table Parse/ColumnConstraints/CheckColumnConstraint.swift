@@ -12,7 +12,7 @@ class CheckColumnConstraint: ColumnConstraint {
 
     var checkExpression: String
 
-    init(with name:String, from scanner: Scanner) throws {
+    init(with name: SQLiteName?, from scanner: Scanner) throws {
 
         if !scanner.scanString("check", into: nil) {
             throw ParserError.unexpectedError("Invalid table check")

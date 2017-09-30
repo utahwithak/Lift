@@ -12,7 +12,7 @@ class ConflictColumnConstraint: ColumnConstraint {
 
     var conflictClause: ConflictClause?
 
-    init(with name: String, from scanner: Scanner) throws {
+    init(with name: SQLiteName?, from scanner: Scanner) throws {
         conflictClause = try ConflictClause(from: scanner)
 
         super.init(name: name)

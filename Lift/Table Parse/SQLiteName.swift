@@ -11,6 +11,9 @@ import Foundation
 struct SQLiteName: Equatable {
     let rawValue: String
 
+    var isEmpty: Bool {
+        return rawValue.isEmpty
+    }
 
 }
 

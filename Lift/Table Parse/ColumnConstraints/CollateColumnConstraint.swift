@@ -12,14 +12,14 @@ class CollateColumnConstraint: ColumnConstraint {
 
     let collationName: SQLiteName
 
-    init(with name: String, from scanner: Scanner) throws {
+    init(with name: SQLiteName?, from scanner: Scanner) throws {
 
         guard scanner.scanString("COLLATE", into: nil) else {
             throw ParserError.unexpectedError("Expecting to parse default col const")
         }
 
-        let rawName = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
-        collationName = SQLiteName(rawValue: rawName)
+        collationName = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
+        
         super.init(name: name)
     }
 }

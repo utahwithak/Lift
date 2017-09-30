@@ -12,7 +12,7 @@ class CheckTableConstraint: TableConstraint {
 
     var checkExpression: String
 
-    init(from scanner: Scanner,named name: String) throws {
+    init(with name: SQLiteName?, from scanner: Scanner) throws {
 
         if !scanner.scanString("check", into: nil) {
             throw ParserError.unexpectedError("Invalid table check")
@@ -20,6 +20,6 @@ class CheckTableConstraint: TableConstraint {
        
         checkExpression = try SQLiteCreateTableParser.parseExp(from: scanner)
 
-        super.init(named: name)
+        super.init(name: name)
     }
 }

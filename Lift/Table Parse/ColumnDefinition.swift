@@ -13,18 +13,22 @@ class ColumnDefinition {
 
     public var name: SQLiteName
 
-    public var type = ""
+    public var type: SQLiteName?
 
     public var columnConstraints = [ColumnConstraint]()
 
     init?(from scanner: Scanner) throws {
 
-        let colName = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
-        if colName.isEmpty {
+        name = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
+        if name.rawValue.isEmpty {
             return nil
         }
-        name = SQLiteName(rawValue: colName)
-        type = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
+        if let constraint = try ColumnConstraint.parseConstraint(from: scanner) {
+            type = nil
+            columnConstraints.append(constraint)
+        } else {
+            type = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
+        }
 
         while let constraint = try ColumnConstraint.parseConstraint(from: scanner) {
             columnConstraints.append(constraint)

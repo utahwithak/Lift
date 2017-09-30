@@ -16,21 +16,21 @@ enum IndexColumnSortOrder {
 
 class IndexedColumn {
     var columnName: SQLiteName
-    var collationName: String
+    var collationName: SQLiteName?
     var sortOrder: IndexColumnSortOrder
 
 
     init?(from scanner: Scanner) throws {
 
-        let name = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
-        if name.isEmpty {
+        columnName = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
+        if columnName.isEmpty {
             return nil
         }
-        columnName = SQLiteName(rawValue: name)
+
         if scanner.scanString("COLLATE", into: nil) {
             collationName = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
         } else {
-            collationName = ""
+            collationName = nil
         }
 
         if scanner.scanString("ASC", into: nil) {

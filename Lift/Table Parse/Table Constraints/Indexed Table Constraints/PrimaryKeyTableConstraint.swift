@@ -10,12 +10,12 @@ import Foundation
 
 class PrimaryKeyTableConstraint: IndexedTableConstraint {
 
-    override init(from scanner: Scanner,named name: String) throws {
+    override init(with name: SQLiteName?, from scanner: Scanner) throws {
         if !scanner.scanString("primary", into: nil) || !scanner.scanString("key", into: nil) || !scanner.scanString("(", into: nil) {
             throw ParserError.unexpectedError("Invalid table primary key")
         }
 
-        try super.init(from: scanner, named: name)
+        try super.init(with: name, from: scanner)
 
     }
 }

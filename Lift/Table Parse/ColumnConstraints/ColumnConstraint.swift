@@ -9,14 +9,14 @@
 import Foundation
 
 class ColumnConstraint {
-    var constraintName: String
+    var constraintName: SQLiteName?
 
-    init(name: String) {
+    init(name: SQLiteName?) {
         constraintName = name
     }
 
     static func parseConstraint(from scanner: Scanner) throws -> ColumnConstraint? {
-        var name = ""
+        var name: SQLiteName?
 
         if scanner.scanString("constraint", into: nil) {
             name = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
@@ -25,7 +25,7 @@ class ColumnConstraint {
         let curIndex = scanner.scanLocation
         let nextPart = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
         scanner.scanLocation = curIndex
-        switch nextPart.lowercased() {
+        switch nextPart.rawValue.lowercased() {
         case "primary":
             return try PrimaryKeyColumnConstraint(with: name, from: scanner)
         case "not":

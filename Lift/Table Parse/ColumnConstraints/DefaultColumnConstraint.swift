@@ -13,7 +13,7 @@ enum DefaultValue {
     case current_time
     case current_date
     case current_timestamp
-    case literal(String)
+    case literal(SQLiteName)
     case expression(String)
 }
 
@@ -22,7 +22,7 @@ class DefaultColumnConstraint: ColumnConstraint {
 
     var value: DefaultValue
 
-    init(with name: String, from scanner: Scanner) throws {
+    init(with name: SQLiteName?, from scanner: Scanner) throws {
 
         guard scanner.scanString("DEFAULT", into: nil) else {
             throw ParserError.unexpectedError("Expecting to parse default col const")

@@ -32,8 +32,7 @@ class ForeignKeyClause {
             throw ParserError.unexpectedError("Expected references for FK clause!?")
         }
 
-        let tableName = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
-        foreignTable = SQLiteName(rawValue: tableName)
+        foreignTable = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
 
         if scanner.scanString("(", into: nil) {
             repeat {
@@ -42,7 +41,7 @@ class ForeignKeyClause {
                 guard !name.isEmpty else {
                     throw ParserError.unexpectedError("Empty foreign key column name!")
                 }
-                toColumns.append(SQLiteName(rawValue: name))
+                toColumns.append(name)
 
 
             } while (scanner.scanString(",", into: nil))
