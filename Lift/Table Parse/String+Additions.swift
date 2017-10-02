@@ -58,4 +58,40 @@ extension String {
         }
         return charStack.isEmpty
     }
+
+
+    /// Checks if the first char matches the last. allows for doulbe quotes
+    ///
+    /// - Returns: if it is balanced
+    func balancedQoutedString() -> Bool {
+        guard let first = first else {
+            return false
+        }
+
+        guard last == first else {
+            return false
+        }
+
+        if count == 2 {
+            return true
+        }
+
+        var sawQuote = false
+        for char in self.dropFirst().dropLast() {
+
+            if char == first {
+                if sawQuote {
+                    sawQuote = false
+                } else {
+                    sawQuote = true
+                }
+            } else {
+                if sawQuote {
+                    return false
+                }
+            }
+        }
+
+        return true
+    }
 }

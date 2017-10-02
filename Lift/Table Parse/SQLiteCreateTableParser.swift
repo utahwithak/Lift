@@ -46,8 +46,7 @@ class SQLiteCreateTableParser {
             throw ParserError.notATableStatement
         }
 
-
-        try currentTable.parseTableName(from: stringScanner)
+        currentTable.tableName = try SQLiteCreateTableParser.parseStringOrName(from: stringScanner)
 
         guard stringScanner.scanString("(", into: nil) else {
             throw ParserError.noDefinitions
@@ -100,6 +99,8 @@ class SQLiteCreateTableParser {
         return currentTable
     }
 
+    private static let qouteCharacters = CharacterSet(charactersIn: "\"'`")
+
     public static func parseStringOrName(from scanner: Scanner) throws -> SQLiteName {
         let skipChars = scanner.charactersToBeSkipped
         scanner.charactersToBeSkipped = nil
@@ -115,30 +116,58 @@ class SQLiteCreateTableParser {
         var name = ""
 
         // scanned off the start portion of start
-        if scanner.scanString("\"", into: nil) {
+
+
+        if scanner.scanCharacters(from: qouteCharacters, into: &buffer) {
+
+            guard let openingChars = buffer as String?, let firstChar = openingChars.first else {
+                throw ParserError.unexpectedError("unexpectedly unable to get first part of string")
+            }
+            let quoteChar = String(firstChar)
+
+            name = openingChars
+            if name.count > 1 && name.balancedQoutedString() {
+               return SQLiteName(rawValue: name)
+            }
+
             // scan till the end of "
             while !scanner.isAtEnd {
-                let scannedPart = scanner.scanUpTo("\"", into: &buffer)
+                let scannedPart = scanner.scanUpTo(quoteChar, into: &buffer)
 
                 if !scannedPart {
-                    // try double qoutes
-                    if !scanner.scanString("\"\"", into: &buffer) {
-                        guard scanner.scanString("\"", into: &buffer) else {
-                            throw ParserError.unexpectedError("Unable to parse column name with double qoutes!")
+                    var quoteCount = 0
+
+                    while scanner.scanString(quoteChar, into: &buffer) {
+
+                        quoteCount += 1
+
+                        guard let str = buffer as String? else {
+                            throw ParserError.unexpectedError("Unable to parse column name!")
                         }
+
+                        name += str
+
                     }
+
+                    guard quoteCount >= 1 else {
+                        throw ParserError.unexpectedError("Unable to parse column name with double qoutes!")
+                    }
+
+                    // we finished
+                    if quoteCount % 2 == 1 {
+                        return SQLiteName(rawValue: name)
+                    }
+
+                } else {
+
+                    guard let str = buffer as String? else {
+                        throw ParserError.unexpectedError("Unable to parse column name!")
+                    }
+
+                    name += str
+
                 }
 
-                guard let str = buffer as String? else {
-                    throw ParserError.unexpectedError("Unable to parse column name!")
-                }
-
-                name += str
-
-                if name.count > 1 && name.hasSuffix("\"") && (!name.hasSuffix("\"\"") || name.hasSuffix("\"\"\"")) {
-
-                    return SQLiteName(rawValue: "\"\(name)")
-                }
 
             }
         }
@@ -150,7 +179,7 @@ class SQLiteCreateTableParser {
 
             let scannedPortions = scanner.scanCharacters(from: validChars , into: &buffer)
 
-            if !scannedPortions && !scanner.scanString("\"\"", into: &buffer) {
+            if !scannedPortions {
                 return SQLiteName(rawValue: name)
             }
 

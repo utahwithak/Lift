@@ -20,10 +20,48 @@ class LiftTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
+
+    func testColumnTypeTricky() {
+        do {
+            var tab = try SQLiteCreateTableParser.parseSQL("Create TABLE t1(col ty1 ty2 ty3 \"asdf fwqer\" UNIQUE)")
+
+            XCTAssert(tab.columns[0].name == "col")
+            XCTAssert(tab.columns[0].type?.rawValue ?? "" == "ty1 ty2 ty3 \"asdf fwqer\"")
+            XCTAssert(tab.columns[0].columnConstraints[0] is UniqueColumnConstraint)
+
+
+            tab = try SQLiteCreateTableParser.parseSQL("Create TABLE something(col type (1234, 4321))")
+            XCTAssert(tab.columns[0].type?.rawValue ?? "" == "type (1234, 4321)")
+
+
+            tab = try SQLiteCreateTableParser.parseSQL("Create TABLE sometabl(\"collumn \"\" with quote\" \"crazy type\" with lots of names(14243)")
+            XCTAssert(tab.columns[0].type?.rawValue ?? "" == "\"crazy type\" with lots of names(14243)")
+            
+        } catch {
+            XCTFail("Should have thrown")
+        }
+
+    }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testEvilQuotes() {
+        do {
+            var tab = try SQLiteCreateTableParser.parseSQL("Create TABLE `back ``ticks`(\"evil \"\"``'\"\"\")")
+            XCTAssert(tab.tableName == "`back ``ticks`")
+            XCTAssert(tab.columns[0].name == "\"evil \"\"``'\"\"\"")
+            tab = try SQLiteCreateTableParser.parseSQL("Create TABLE 'bac\"k ''tick`][s'('evi''l \"\"``''\"\"\"')")
+            XCTAssert(tab.tableName == "'bac\"k ''tick`][s'")
+            XCTAssert(tab.columns[0].name == "'evi''l \"\"``''\"\"\"'")
+            tab = try SQLiteCreateTableParser.parseSQL("Create TABLE `''\"`( failer)")
+            XCTAssert(tab.tableName == "`''\"`")
+            tab = try SQLiteCreateTableParser.parseSQL("Create TABLE \"\"\"\"\"\"\"\"(booya)")
+            XCTAssert(tab.tableName == "\"\"\"\"\"\"\"\"")
+            tab = try SQLiteCreateTableParser.parseSQL("Create TABLE \"a\"\"\"\"b\"\"\"(booya)")
+            XCTAssert(tab.tableName == "\"a\"\"\"\"b\"\"\"")
+
+        } catch {
+            XCTFail("Should have thrown")
+        }
+
     }
 
     func testFails() {
@@ -92,22 +130,22 @@ class LiftTests: XCTestCase {
         do {
             let def = try SQLiteCreateTableParser.parseSQL("CREATE TEMPorary tAbLe \"Sasdf\"\"asdtable\"( column1)")
             XCTAssert(def.isTemp)
-            XCTAssert(def.tableName == "Sasdf\"\"asdtable")
+            XCTAssert(def.tableName == "\"Sasdf\"\"asdtable\"")
         } catch {
             XCTFail("Should have created def")
         }
         do {
             let horriblName = try SQLiteCreateTableParser.parseSQL("CREATE TABLE \"(((((horrible\"\"name\"\"to\"\"parse)\"(pure, evil)")
-            XCTAssert(horriblName.tableName == "(((((horrible\"\"name\"\"to\"\"parse)")
+            XCTAssert(horriblName.tableName == "\"(((((horrible\"\"name\"\"to\"\"parse)\"")
             let def = try SQLiteCreateTableParser.parseSQL("create table \"   \"\"( ( ( ( (( ( (\"\"\"(pure, evil);")
-            XCTAssert(def.tableName == "   \"\"( ( ( ( (( ( (\"\"")
+            XCTAssert(def.tableName == "\"   \"\"( ( ( ( (( ( (\"\"\"")
 
             let simplTab = try SQLiteCreateTableParser.parseSQL("create table \" Simple Table With Spaces \"(pure, evil);")
-            XCTAssert(simplTab.tableName == " Simple Table With Spaces ")
+            XCTAssert(simplTab.tableName == "\" Simple Table With Spaces \"")
 
 
-            let badTab = try SQLiteCreateTableParser.parseSQL("create table \"  Table With ( \"\"( \\(\" )) \"\")\"\"\"\"(pure, evil);")
-            XCTAssert(badTab.tableName == "  Table With ( \"\"( \\(\" )) \"\")\"\"\"")
+            let badTab = try SQLiteCreateTableParser.parseSQL("create table \"  Table With ( \"\"( \\( )) \"\")\"\"\"\"\"(pure, evil);")
+            XCTAssert(badTab.tableName == "\"  Table With ( \"\"( \\( )) \"\")\"\"\"\"\"")
 
 
 
@@ -133,7 +171,7 @@ class LiftTests: XCTestCase {
             XCTAssert(def.columns[0].name == "simpleName")
 
             def = try SQLiteCreateTableParser.parseSQL("CREATE TABLE t1(simple\"\"Na_me, evil)")
-            XCTAssert(def.columns[0].name == "simple\"\"Na_me")
+            XCTAssert(def.columns[0].name == "simple")
 
 
         } catch {
@@ -155,7 +193,7 @@ class LiftTests: XCTestCase {
 
             def = try SQLiteCreateTableParser.parseSQL("CREATE TABLE t1(nothingElse)")
             XCTAssert(def.columns[0].name == "nothingElse")
-            XCTAssert(def.columns[0].type?.isEmpty ?? false)
+            XCTAssertNil(def.columns[0].type)
 
             def = try SQLiteCreateTableParser.parseSQL("CREATE TABLE t1(\"pureasdf _ asdf\\();.\"\"\", evil)")
             XCTAssert(def.columns[0].name == "\"pureasdf _ asdf\\();.\"\"\"")
@@ -166,7 +204,7 @@ class LiftTests: XCTestCase {
             XCTAssert(def.columns[0].name == "simpleName")
 
             def = try SQLiteCreateTableParser.parseSQL("CREATE TABLE t1(simple\"\"Na_me, evil)")
-            XCTAssert(def.columns[0].name == "simple\"\"Na_me")
+            XCTAssert(def.columns[0].name == "simple")
 
             def = try SQLiteCreateTableParser.parseSQL("CREATE TABLE t1(name0 type, name2 type2, name3 type3, name4 type4)")
             XCTAssert(def.columns.count == 4)

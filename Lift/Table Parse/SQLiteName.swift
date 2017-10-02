@@ -17,6 +17,14 @@ struct SQLiteName: Equatable {
 
 }
 
+func +(lhs: SQLiteName, rhs: SQLiteName) -> SQLiteName {
+    return SQLiteName(rawValue: lhs.rawValue + rhs.rawValue)
+}
+
+func +(lhs: SQLiteName, rhs: String) -> SQLiteName {
+    return SQLiteName(rawValue: lhs.rawValue + rhs)
+}
+
 func == (lhs: SQLiteName, rhs: String) -> Bool {
     return lhs.rawValue == rhs
 }
