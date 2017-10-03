@@ -7,7 +7,7 @@
 //
 
 import Foundation
-class TableConstraint {
+class TableConstraint: NSObject {
 
     var name: SQLiteName?
 

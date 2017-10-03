@@ -8,8 +8,13 @@
 
 import Foundation
 
-struct SQLiteName: Equatable {
+class SQLiteName: NSObject {
+
     let rawValue: String
+
+    init(rawValue: String) {
+        self.rawValue = rawValue
+    }
 
     var isEmpty: Bool {
         return rawValue.isEmpty

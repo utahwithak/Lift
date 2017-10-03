@@ -8,15 +8,29 @@
 
 import Foundation
 
-class TableDefinition {
-    public var isTemp = false
-    public var withoutRowID = false
-    public var databaseName: SQLiteName?
-    public var tableName = SQLiteName(rawValue: "")
+class TableDefinition: NSObject {
+    @objc dynamic public var isTemp = false {
+        didSet {
+            if isTemp {
+                databaseName = SQLiteName(rawValue: "temp")
+            } else {
+                databaseName = nil
+            }
+        }
+    }
+    @objc dynamic public var withoutRowID = false
+    @objc dynamic public var databaseName: SQLiteName? {
+        didSet {
+            if isTemp && databaseName?.rawValue != "temp" {
+                isTemp = false
+            }
+        }
+    }
+    @objc dynamic public var tableName = SQLiteName(rawValue: "")
 
     
-    public var columns = [ColumnDefinition]()
+    @objc dynamic public var columns = [ColumnDefinition]()
 
-    public var tableConstraints = [TableConstraint]()
+     @objc dynamic public var tableConstraints = [TableConstraint]()
 
 }

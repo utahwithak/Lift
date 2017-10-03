@@ -9,7 +9,7 @@
 import Foundation
 
 
-class ColumnDefinition {
+class ColumnDefinition: NSObject {
 
     public var name: SQLiteName
 

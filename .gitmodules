@@ -1,0 +1,3 @@
+[submodule "External/swiftxlsx"]
+	path = External/swiftxlsx
+	url = https://utahwithak@github.com/utahwithak/SwiftXLSX

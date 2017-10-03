@@ -18,7 +18,10 @@ class LiftSplitViewController: NSSplitViewController {
 
     override var representedObject: Any? {
         didSet {
-        // Update the view, if already loaded.
+            for item in splitViewItems {
+                item.viewController.representedObject = representedObject
+            }
+
         }
     }
 

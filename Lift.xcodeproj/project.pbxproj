@@ -9,8 +9,18 @@
 /* Begin PBXBuildFile section */
 		8F11B7911F83D2A9008E19D7 /* LiftWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F11B7901F83D2A9008E19D7 /* LiftWindowController.swift */; };
 		8F11B7951F83DC1C008E19D7 /* SQLiteDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F11B7941F83DC1C008E19D7 /* SQLiteDatabase.swift */; };
-		8F11B79A1F83DC58008E19D7 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = 8F11B7991F83DC58008E19D7 /* sqlite3.c */; };
+		8F11B79A1F83DC58008E19D7 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = 8F11B7991F83DC58008E19D7 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		8F11B79C1F83DC79008E19D7 /* SQLiteDocumentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F11B79B1F83DC79008E19D7 /* SQLiteDocumentPresenter.swift */; };
+		8F11B7A81F83DDEE008E19D7 /* SwiftXLSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F11B7A51F83DDBE008E19D7 /* SwiftXLSX.framework */; };
+		8F11B7A91F83DDEE008E19D7 /* SwiftXLSX.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8F11B7A51F83DDBE008E19D7 /* SwiftXLSX.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8F72E3A11F83DED9006C88F5 /* Zip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F72E3A01F83DED9006C88F5 /* Zip.framework */; };
+		8F72E3A21F83DED9006C88F5 /* Zip.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8F72E3A01F83DED9006C88F5 /* Zip.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8F72E3A51F83E0D0006C88F5 /* SideBarBrowseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F72E3A41F83E0D0006C88F5 /* SideBarBrowseViewController.swift */; };
+		8F72E3AC1F83F415006C88F5 /* SQLiteError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F72E3AB1F83F415006C88F5 /* SQLiteError.swift */; };
+		8F72E3B51F83FBE9006C88F5 /* CreateTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F72E3B41F83FBE9006C88F5 /* CreateTableViewController.swift */; };
+		8F72E3B71F83FDE3006C88F5 /* SQLiteStringValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F72E3B61F83FDE3006C88F5 /* SQLiteStringValueFormatter.swift */; };
+		8F72E3BC1F840AFD006C88F5 /* LineNumberScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F72E3BB1F840AFD006C88F5 /* LineNumberScrollView.swift */; };
+		8F72E3C21F840B4D006C88F5 /* LineNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F72E3C11F840B4D006C88F5 /* LineNumberView.swift */; };
 		8F7C522D1F7D39E5004A91BC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C522C1F7D39E5004A91BC /* AppDelegate.swift */; };
 		8F7C522F1F7D39E5004A91BC /* LiftSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C522E1F7D39E5004A91BC /* LiftSplitViewController.swift */; };
 		8F7C52311F7D39E5004A91BC /* LiftDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C52301F7D39E5004A91BC /* LiftDocument.swift */; };
@@ -47,6 +57,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		8F11B7A41F83DDBE008E19D7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8F11B79E1F83DDBE008E19D7 /* SwiftXLSX.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8FF9E83F1EB3A5B3003B2DB0;
+			remoteInfo = SwiftXLSX;
+		};
+		8F11B7A61F83DDBE008E19D7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8F11B79E1F83DDBE008E19D7 /* SwiftXLSX.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8FF9E8481EB3A5B3003B2DB0;
+			remoteInfo = SwiftXLSXTests;
+		};
+		8F11B7AA1F83DDEE008E19D7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8F11B79E1F83DDBE008E19D7 /* SwiftXLSX.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8FF9E83E1EB3A5B3003B2DB0;
+			remoteInfo = SwiftXLSX;
+		};
 		8F7C523E1F7D39E5004A91BC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8F7C52211F7D39E4004A91BC /* Project object */;
@@ -63,6 +94,21 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		8F11B7AC1F83DDEE008E19D7 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				8F72E3A21F83DED9006C88F5 /* Zip.framework in Embed Frameworks */,
+				8F11B7A91F83DDEE008E19D7 /* SwiftXLSX.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		8F11B7901F83D2A9008E19D7 /* LiftWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiftWindowController.swift; sourceTree = "<group>"; };
 		8F11B7941F83DC1C008E19D7 /* SQLiteDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteDatabase.swift; sourceTree = "<group>"; };
@@ -70,6 +116,14 @@
 		8F11B7981F83DC58008E19D7 /* sqlite3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sqlite3.h; sourceTree = "<group>"; };
 		8F11B7991F83DC58008E19D7 /* sqlite3.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = sqlite3.c; sourceTree = "<group>"; };
 		8F11B79B1F83DC79008E19D7 /* SQLiteDocumentPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteDocumentPresenter.swift; sourceTree = "<group>"; };
+		8F11B79E1F83DDBE008E19D7 /* SwiftXLSX.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftXLSX.xcodeproj; path = External/swiftxlsx/SwiftXLSX.xcodeproj; sourceTree = SOURCE_ROOT; };
+		8F72E3A01F83DED9006C88F5 /* Zip.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Zip.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F72E3A41F83E0D0006C88F5 /* SideBarBrowseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarBrowseViewController.swift; sourceTree = "<group>"; };
+		8F72E3AB1F83F415006C88F5 /* SQLiteError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteError.swift; sourceTree = "<group>"; };
+		8F72E3B41F83FBE9006C88F5 /* CreateTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTableViewController.swift; sourceTree = "<group>"; };
+		8F72E3B61F83FDE3006C88F5 /* SQLiteStringValueFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteStringValueFormatter.swift; sourceTree = "<group>"; };
+		8F72E3BB1F840AFD006C88F5 /* LineNumberScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineNumberScrollView.swift; sourceTree = "<group>"; };
+		8F72E3C11F840B4D006C88F5 /* LineNumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineNumberView.swift; sourceTree = "<group>"; };
 		8F7C52291F7D39E4004A91BC /* Lift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F7C522C1F7D39E5004A91BC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8F7C522E1F7D39E5004A91BC /* LiftSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiftSplitViewController.swift; sourceTree = "<group>"; };
@@ -117,6 +171,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8F72E3A11F83DED9006C88F5 /* Zip.framework in Frameworks */,
+				8F11B7A81F83DDEE008E19D7 /* SwiftXLSX.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,8 +196,9 @@
 		8F11B7961F83DC3E008E19D7 /* SQLite */ = {
 			isa = PBXGroup;
 			children = (
-				8F11B7941F83DC1C008E19D7 /* SQLiteDatabase.swift */,
 				8F11B79B1F83DC79008E19D7 /* SQLiteDocumentPresenter.swift */,
+				8F11B7941F83DC1C008E19D7 /* SQLiteDatabase.swift */,
+				8F72E3AB1F83F415006C88F5 /* SQLiteError.swift */,
 				8F11B7991F83DC58008E19D7 /* sqlite3.c */,
 				8F11B7981F83DC58008E19D7 /* sqlite3.h */,
 				8F7C525F1F7D3A69004A91BC /* Table Parse */,
@@ -149,9 +206,37 @@
 			path = SQLite;
 			sourceTree = "<group>";
 		};
+		8F11B79F1F83DDBE008E19D7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8F11B7A51F83DDBE008E19D7 /* SwiftXLSX.framework */,
+				8F11B7A71F83DDBE008E19D7 /* SwiftXLSXTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8F72E3BD1F840B17006C88F5 /* View Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				8F72E3B61F83FDE3006C88F5 /* SQLiteStringValueFormatter.swift */,
+				8F72E3C01F840B3D006C88F5 /* Line Numers */,
+			);
+			path = "View Helpers";
+			sourceTree = "<group>";
+		};
+		8F72E3C01F840B3D006C88F5 /* Line Numers */ = {
+			isa = PBXGroup;
+			children = (
+				8F72E3BB1F840AFD006C88F5 /* LineNumberScrollView.swift */,
+				8F72E3C11F840B4D006C88F5 /* LineNumberView.swift */,
+			);
+			path = "Line Numers";
+			sourceTree = "<group>";
+		};
 		8F7C52201F7D39E4004A91BC = {
 			isa = PBXGroup;
 			children = (
+				8F72E3A01F83DED9006C88F5 /* Zip.framework */,
 				8F7C522B1F7D39E4004A91BC /* Lift */,
 				8F7C52401F7D39E5004A91BC /* LiftTests */,
 				8F7C524B1F7D39E5004A91BC /* LiftUITests */,
@@ -177,10 +262,14 @@
 				8F7C522E1F7D39E5004A91BC /* LiftSplitViewController.swift */,
 				8F7C52341F7D39E5004A91BC /* Main.storyboard */,
 				8F7C52301F7D39E5004A91BC /* LiftDocument.swift */,
+				8F72E3A41F83E0D0006C88F5 /* SideBarBrowseViewController.swift */,
+				8F72E3B41F83FBE9006C88F5 /* CreateTableViewController.swift */,
+				8F72E3BD1F840B17006C88F5 /* View Helpers */,
 				8F11B7961F83DC3E008E19D7 /* SQLite */,
 				8F7C52321F7D39E5004A91BC /* Assets.xcassets */,
 				8F7C52371F7D39E5004A91BC /* Info.plist */,
 				8F11B7971F83DC57008E19D7 /* Lift-Bridging-Header.h */,
+				8F11B79E1F83DDBE008E19D7 /* SwiftXLSX.xcodeproj */,
 				8F7C52381F7D39E5004A91BC /* Lift.entitlements */,
 			);
 			path = Lift;
@@ -287,10 +376,12 @@
 				8F7C52251F7D39E4004A91BC /* Sources */,
 				8F7C52261F7D39E4004A91BC /* Frameworks */,
 				8F7C52271F7D39E4004A91BC /* Resources */,
+				8F11B7AC1F83DDEE008E19D7 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				8F11B7AB1F83DDEE008E19D7 /* PBXTargetDependency */,
 			);
 			name = Lift;
 			productName = Lift;
@@ -371,6 +462,12 @@
 			mainGroup = 8F7C52201F7D39E4004A91BC;
 			productRefGroup = 8F7C522A1F7D39E4004A91BC /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 8F11B79F1F83DDBE008E19D7 /* Products */;
+					ProjectRef = 8F11B79E1F83DDBE008E19D7 /* SwiftXLSX.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				8F7C52281F7D39E4004A91BC /* Lift */,
@@ -379,6 +476,23 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		8F11B7A51F83DDBE008E19D7 /* SwiftXLSX.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = SwiftXLSX.framework;
+			remoteRef = 8F11B7A41F83DDBE008E19D7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		8F11B7A71F83DDBE008E19D7 /* SwiftXLSXTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SwiftXLSXTests.xctest;
+			remoteRef = 8F11B7A61F83DDBE008E19D7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8F7C52271F7D39E4004A91BC /* Resources */ = {
@@ -418,6 +532,8 @@
 				8FB9F14D1F7D72220090FA53 /* ColumnDefinition.swift in Sources */,
 				8FB9F15F1F7EA50A0090FA53 /* UniqueTableConstraint.swift in Sources */,
 				8FB9F1531F7E7FCE0090FA53 /* SQLiteName.swift in Sources */,
+				8F72E3B71F83FDE3006C88F5 /* SQLiteStringValueFormatter.swift in Sources */,
+				8F72E3BC1F840AFD006C88F5 /* LineNumberScrollView.swift in Sources */,
 				8F7C522F1F7D39E5004A91BC /* LiftSplitViewController.swift in Sources */,
 				8F921DBD1F7ECE7800464D27 /* CollateColumnConstraint.swift in Sources */,
 				8F805CCA1F7ED3560074FE6B /* ConflictColumnConstraint.swift in Sources */,
@@ -428,10 +544,12 @@
 				8FB9F1651F7EB5C40090FA53 /* ForeignKeyClause.swift in Sources */,
 				8F7C522D1F7D39E5004A91BC /* AppDelegate.swift in Sources */,
 				8F7C52311F7D39E5004A91BC /* LiftDocument.swift in Sources */,
+				8F72E3C21F840B4D006C88F5 /* LineNumberView.swift in Sources */,
 				8F805CC81F7ED2B30074FE6B /* UniqueColumnConstraint.swift in Sources */,
 				8F921DB61F7EB85000464D27 /* ForeignKeyDeferStatement.swift in Sources */,
 				8FB9F1551F7E83230090FA53 /* ConflictClause.swift in Sources */,
 				8FB9F1631F7EA5990090FA53 /* ForeignKeyTableConstraint.swift in Sources */,
+				8F72E3A51F83E0D0006C88F5 /* SideBarBrowseViewController.swift in Sources */,
 				8F921DBF1F7ECECB00464D27 /* DefaultColumnConstraint.swift in Sources */,
 				8FB9F16A1F7EB66C0090FA53 /* ForeignKeyMatchStatement.swift in Sources */,
 				8FB9F1511F7E7FA40090FA53 /* IndexedColumn.swift in Sources */,
@@ -440,7 +558,9 @@
 				8F11B7911F83D2A9008E19D7 /* LiftWindowController.swift in Sources */,
 				8F805CCF1F7ED4240074FE6B /* PrimaryKeyColumnConstraint.swift in Sources */,
 				8F7C525D1F7D3A51004A91BC /* TableDefinition.swift in Sources */,
+				8F72E3AC1F83F415006C88F5 /* SQLiteError.swift in Sources */,
 				8F7C525B1F7D39F5004A91BC /* SQLiteCreateTableParser.swift in Sources */,
+				8F72E3B51F83FBE9006C88F5 /* CreateTableViewController.swift in Sources */,
 				8FB9F1571F7EA3C80090FA53 /* String+Additions.swift in Sources */,
 				8FB9F1611F7EA5690090FA53 /* CheckTableConstraint.swift in Sources */,
 				8F11B79A1F83DC58008E19D7 /* sqlite3.c in Sources */,
@@ -466,6 +586,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		8F11B7AB1F83DDEE008E19D7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SwiftXLSX;
+			targetProxy = 8F11B7AA1F83DDEE008E19D7 /* PBXContainerItemProxy */;
+		};
 		8F7C523F1F7D39E5004A91BC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8F7C52281F7D39E4004A91BC /* Lift */;
@@ -599,6 +724,7 @@
 		8F7C52521F7D39E5004A91BC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Lift/Lift.entitlements;
@@ -611,7 +737,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.datumapps.Lift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "Lift/SQLite/Lift-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Lift/Lift-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 			};
@@ -620,6 +746,7 @@
 		8F7C52531F7D39E5004A91BC /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Lift/Lift.entitlements;
@@ -632,7 +759,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.datumapps.Lift;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "Lift/SQLite/Lift-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "Lift/Lift-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;
