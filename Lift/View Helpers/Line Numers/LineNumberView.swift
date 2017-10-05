@@ -43,6 +43,7 @@ class LineNumberView: NSRulerView {
     private var defaultTextColor: NSColor {
         return NSColor.init(calibratedWhite: 0.42, alpha: 1)
     }
+
     private var defaultAlternateTextColor: NSColor {
         return NSColor.white
     }
@@ -127,7 +128,7 @@ class LineNumberView: NSRulerView {
         let count = lineIndices.count
 
         var charIndex = 0;
-        var lineIndex = lineNumber(for: invalidCharacterIndex, inText: text)
+        var lineIndex = lineNumber(for: invalidCharacterIndex, in: text)
         if count > 0 {
             charIndex = lineIndices[lineIndex]
         }
@@ -171,7 +172,7 @@ class LineNumberView: NSRulerView {
 
     }
 
-    private func lineNumber(for charIndex: Int, inText text: String) -> Int {
+    private func lineNumber(for charIndex: Int, in text: String) -> Int {
 
         // Binary search
         var left = 0;
@@ -191,6 +192,8 @@ class LineNumberView: NSRulerView {
         return left;
     }
 
+    private let nullRange = NSMakeRange(NSNotFound, 0);
+
     override func drawHashMarksAndLabels(in rect: NSRect) {
 
 
@@ -209,7 +212,6 @@ class LineNumberView: NSRulerView {
         }
 
         let text = textView.string
-        let nullRange = NSMakeRange(NSNotFound, 0);
 
         let yinset = textView.textContainerInset.height
 
@@ -228,20 +230,23 @@ class LineNumberView: NSRulerView {
         range.length += 1
 
         let count = lines.count
-        let start = lineNumber(for: range.location, inText: text)
+        let start = lineNumber(for: range.location, in: text)
         guard start < count else {
             return
         }
 
         let context = NSStringDrawingContext()
-
+        let textAttributes = self.textAttributes
         for line in start..<count {
 
             let index = lines[line]
 
             if NSLocationInRange(index, range) {
                 var rectCount = 0
-                let rects = layoutManager.rectArray(forCharacterRange: NSRange(location: index, length: 0), withinSelectedCharacterRange: nullRange, in: container, rectCount: &rectCount)
+                let rects = layoutManager.rectArray(forCharacterRange: NSRange(location: index, length: 0),
+                                                    withinSelectedCharacterRange: nullRange,
+                                                    in: container,
+                                                    rectCount: &rectCount)
 
                 if let rects = rects, rectCount > 0 {
                     // Note that the ruler view is only as tall as the visible
@@ -258,7 +263,7 @@ class LineNumberView: NSRulerView {
                                           y: ypos + (NSHeight(rects[0]) - stringSize.height) / 2.0,
                                       width: NSWidth(bounds) - RULER_MARGIN * 2.0,
                                      height: NSHeight(rects[0]))
-                    labelText.draw(with: textRect, options: [], attributes: textAttributes, context: context)
+                    labelText.draw(with: textRect, options: [.usesLineFragmentOrigin], attributes: textAttributes, context: context)
                 }
             }
             if index > NSMaxRange(range) {

@@ -8,12 +8,9 @@
 
 import Cocoa
 
-class CreateTableViewController: NSViewController {
+class CreateTableViewController: LiftViewController {
     @objc dynamic var table = TableDefinition()
 
-    var document: LiftDocument {
-        return representedObject as! LiftDocument
-    }
 
     @objc dynamic var databases: [String] {
         return document.database.allDatabases.map( { $0.name })

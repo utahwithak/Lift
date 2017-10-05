@@ -10,7 +10,7 @@ import Foundation
 
 class SQLiteName: NSObject {
 
-    let rawValue: String
+    @objc dynamic public private(set) var rawValue: String
 
     init(rawValue: String) {
         self.rawValue = rawValue
