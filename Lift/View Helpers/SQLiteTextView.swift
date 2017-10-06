@@ -17,6 +17,13 @@ class SQLiteTextView: NSTextView {
             highlighter = SQLiteSyntaxHighlighter(for: self)
         }
         isAutomaticQuoteSubstitutionEnabled = false
+        isAutomaticDataDetectionEnabled = false
+        isAutomaticLinkDetectionEnabled = false
+        isAutomaticTextCompletionEnabled = false
+        isAutomaticDashSubstitutionEnabled = false
+        isAutomaticSpellingCorrectionEnabled = false
+        isAutomaticTextReplacementEnabled = false
+        font = NSFont(name: "SF Mono", size: 11) ?? NSFont(name: "Menlo", size: 11)
         
     }
     

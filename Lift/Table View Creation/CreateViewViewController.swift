@@ -19,8 +19,24 @@ class CreateViewViewController: LiftViewController {
 
     @IBOutlet weak var tableView: NSTableView!
 
-    @objc dynamic var showColumns: Bool = false
+    override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
+        if let waitingView = segue.destinationController as? StatementWaitingViewController {
+            waitingView.representedObject = representedObject
+            waitingView.statement = viewDefinition.createStatement
+            waitingView.delegate = self
+        }
+    }
 
+}
+
+extension CreateViewViewController: StatementWaitingViewDelegate {
+    func waitingView(_ view: StatementWaitingViewController, finishedSuccessfully: Bool) {
+        dismissViewController(view)
+
+        if finishedSuccessfully {
+            dismissViewController(self)
+        }
+    }
 }
 
 
@@ -28,8 +44,7 @@ class CreateViewArrayController: NSArrayController {
      // overridden to add a new object to the content objects and to the arranged objects
     override func newObject() -> Any {
         let count = (arrangedObjects as? NSArray)?.count
-
         return SQLiteName(rawValue:"Column \( (count ?? 0) + 1)")
-
     }
 }
+

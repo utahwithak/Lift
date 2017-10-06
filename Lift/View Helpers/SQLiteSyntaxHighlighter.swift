@@ -15,7 +15,7 @@ class SQLiteSyntaxHighlighter {
 
     private let firstString = "'"
     private let secondString = "\""
-    private let firstSingleLineComment = "--"
+    private let singleLineComment = "--"
     private let beginFirstMultiLineComment = "/*"
     private let endFirstMultiLineComment = "*/"
     private let keywords = Set<String>(SQLiteSyntaxHighlighter.SQLiteKeywords)
@@ -25,14 +25,6 @@ class SQLiteSyntaxHighlighter {
     private let letterCharacterSet = CharacterSet.letters
     private let nameCharacterSet: CharacterSet = {
         return CharacterSet.letters.union(CharacterSet(charactersIn: "_"))
-    }()
-
-    private let keywordStartCharacterSet: CharacterSet = {
-        let firsts = SQLiteSyntaxHighlighter.SQLiteKeywords.flatMap { $0.first }.map{ String($0) }
-        var uniques = Set<String>(firsts)
-        uniques.formUnion(firsts.map { $0.lowercased() })
-        let joined = uniques.sorted().joined()
-        return CharacterSet(charactersIn: joined)
     }()
 
     private let keywordEndCharacterSet: CharacterSet = {
@@ -74,10 +66,20 @@ class SQLiteSyntaxHighlighter {
 
     private var highlightString: NSMutableAttributedString?
 
+    private let secondStringMatcher: NSRegularExpression?
+    private let firstStringMatcher: NSRegularExpression?
+
 
     init(for textView: NSTextView) {
         layoutManager = textView.layoutManager
+
+        secondStringMatcher = try? NSRegularExpression(pattern: String(format:"%@[^%@\\\\\\r\\n]*+(?:\\\\(?:.|$)[^%@\\\\]*+)*+%@", secondString, secondString, secondString, secondString) , options: [])
+        firstStringMatcher = try? NSRegularExpression(pattern: String(format:"%@[^%@\\\\\\r\\n]*+(?:\\\\(?:.|$)[^%@\\\\\\r\\n]*+)*+%@", firstString, self.firstString, firstString, firstString), options:[])
+
         NotificationCenter.default.addObserver(self, selector: #selector(textDidChange), name: NSText.didChangeNotification, object: textView)
+
+
+
     }
 
     @objc dynamic func textDidChange(notification: NSNotification) {
@@ -125,34 +127,14 @@ class SQLiteSyntaxHighlighter {
         // setup
         let documentString =  completeString as NSString
         let documentStringLength = documentString.length
-        var effectiveRange = range;
-        var rangeOfLine = NSRange(location: 0, length:0);
-        var searchRange = NSRange(location: 0, length: 0);
+        let effectiveRange = range;
         var searchSyntaxLength = 0;
         var colorStartLocation = 0, colorEndLocation = 0, endOfLine = 0;
-        var colorLength = 0
-        var endLocationInMultiLine = 0
-        var beginLocationInMultiLine = 0
         var queryLocation = 0
-        var testCharacter = unichar(0)
 
-        // trace
-        //NSLog(@"rangeToRecolor location %i length %i", rangeToReColor.location, rangeToReColor.length);
-
-        // adjust effective range
-        //
-        // When multiline strings are Colored we need to scan backwards to
-        // find where the string might have started if it's "above" the top of the screen.
-        //
-        let beginFirstStringInMultiLine = documentString.range(of: firstString, options: .backwards, range: NSRange(location:0, length: effectiveRange.location)).location
-
-//        if beginFirstStringInMultiLine != NSNotFound && [[firstLayoutManager temporaryAttributesAtCharacterIndex:beginFirstStringInMultiLine effectiveRange:NULL] isEqualToDictionary:stringsColor]) {
-//            NSInteger startOfLine = [documentString lineRangeForRange:NSMakeRange(beginFirstStringInMultiLine, 0)].location;
-//            effectiveRange = NSMakeRange(startOfLine, rangeToReColor.length + (rangeToReColor.location - startOfLine));
-//        }
         // setup working locations based on the effective range
-        var rangeLocation = effectiveRange.location
-        var maxRangeLocation = NSMaxRange(effectiveRange);
+        let rangeLocation = effectiveRange.location
+        let maxRangeLocation = NSMaxRange(effectiveRange);
 
         // assign range string
         let rangeString = documentString.substring(with: effectiveRange)
@@ -173,16 +155,16 @@ class SQLiteSyntaxHighlighter {
         // unColor the range
         removeColors(from: effectiveRange)
 
-            rangeScanner.scanLocation = 0
+        rangeScanner.scanLocation = 0
 
-            // scan range to end
+        // scan range to end
         while !rangeScanner.isAtEnd {
 
-                // scan up to a number character
+            // scan up to a number character
             rangeScanner.scanUpToCharacters(from: numberCharacterSet, into: nil)
             colorStartLocation = rangeScanner.scanLocation
 
-                // scan to number end
+            // scan to number end
             rangeScanner.scanCharacters(from: numberCharacterSet, into: nil)
             colorEndLocation = rangeScanner.scanLocation
 
@@ -203,265 +185,165 @@ class SQLiteSyntaxHighlighter {
                 }
             }
 
-                // don't Color a trailing decimal point as some languages may use it as a line terminator
-                if colorEndLocation > 0 {
-                    queryLocation = colorEndLocation - 1;
+            // don't Color a trailing decimal point as some languages may use it as a line terminator
+            if colorEndLocation > 0 {
+                queryLocation = colorEndLocation - 1;
 
-                    if (rangeString as NSString).character(at: queryLocation) == decimalPoint {
-                        colorEndLocation -= 1
-                    }
+                if (rangeString as NSString).character(at: queryLocation) == decimalPoint {
+                    colorEndLocation -= 1
                 }
-
-                setColor(numbersColor, for: NSRange(location: colorStartLocation + rangeLocation, length: colorEndLocation - colorStartLocation))
             }
 
-            //
-            // Keywords
-            //
+            setColor(numbersColor, for: NSRange(location: colorStartLocation + rangeLocation, length: colorEndLocation - colorStartLocation))
+        }
 
-            if !keywords.isEmpty {
+        //
+        // Keywords
+        //
+
+        if !keywords.isEmpty {
+
+            // reset scanner
+            rangeScanner.scanLocation = 0
+
+            // scan range to end
+            while !rangeScanner.isAtEnd {
+                rangeScanner.scanUpToCharacters(from: letterCharacterSet, into: nil)
+                colorStartLocation = rangeScanner.scanLocation
+                if (colorStartLocation + 1) < rangeStringLength {
+                    rangeScanner.scanLocation = colorStartLocation + 1
+                }
+                rangeScanner.scanUpToCharacters(from: keywordEndCharacterSet, into: nil)
+                colorEndLocation = rangeScanner.scanLocation
+
+                if colorEndLocation > rangeStringLength || colorStartLocation == colorEndLocation {
+                    break;
+                }
+
+                let keywordTestString = documentString.substring(with: NSRange(location: colorStartLocation + rangeLocation, length: colorEndLocation - colorStartLocation)).uppercased()
+
+                if keywords.contains(keywordTestString) {
+                    setColor(keywordsColor, for: NSRange(location: colorStartLocation + rangeLocation, length: rangeScanner.scanLocation - colorStartLocation));
+                }
+            }
+
+        }
+
+
+        //
+        // Autocomplete
+        //
+        if !autocompleteWords.isEmpty {
+
+            rangeScanner.scanLocation = 0
+
+            while !rangeScanner.isAtEnd {
+                rangeScanner.scanUpToCharacters(from: letterCharacterSet, into: nil)
+                colorStartLocation = rangeScanner.scanLocation
+                if (colorStartLocation + 1) < rangeStringLength {
+                    rangeScanner.scanLocation = colorStartLocation + 1
+                }
+                rangeScanner.scanUpToCharacters(from: keywordEndCharacterSet, into: nil)
+                colorEndLocation = rangeScanner.scanLocation
+
+                if colorEndLocation > rangeStringLength || colorStartLocation == colorEndLocation {
+                    break;
+                }
+
+                let autocompleteTestString = documentString.substring(with: NSRange(location: colorStartLocation + rangeLocation, length: colorEndLocation - colorStartLocation))
+
+                if autocompleteWords.contains(autocompleteTestString) {
+                    setColor(autocompleteWordsColor, for: NSRange(location: colorStartLocation + rangeLocation, length: rangeScanner.scanLocation - colorStartLocation))
+                }
+            }
+
+
+        }
+
+        //
+        //
+        // Second string, first pass
+        //
+
+        if let matcher = secondStringMatcher {
+            matcher.enumerateMatches(in: rangeString, options: .reportProgress, range: NSRange(location: 0, length: (rangeString as NSString).length - 1), using: { (result, flags, stop) in
+                guard let foundRange = result?.range, foundRange.location != NSNotFound && foundRange.length > 0 else {
+                    return
+                }
+
+                self.setColor(stringsColor, for: NSRange(location: foundRange.location + rangeLocation, length: foundRange.length))
+            })
+        }
+
+
+        //
+        // First string
+        //
+
+        if let matcher = firstStringMatcher {
+            matcher.enumerateMatches(in: rangeString, options: .reportProgress, range: NSRange(location: 0, length: (rangeString as NSString).length - 1), using: { (result, flags, stop) in
+                guard let foundRange = result?.range, foundRange.location != NSNotFound && foundRange.length > 0 else {
+                    return
+                }
+
+                self.setColor(stringsColor, for: NSRange(location: foundRange.location + rangeLocation, length: foundRange.length))
+            })
+        }
+
+                    //
+                    // Color single-line comments
+
 
                 // reset scanner
                 rangeScanner.scanLocation = 0
+                searchSyntaxLength = (singleLineComment as NSString).length
 
                 // scan range to end
                 while !rangeScanner.isAtEnd {
-                    rangeScanner.scanUpToCharacters(from: keywordStartCharacterSet, into: nil)
+
+                    // scan for comment
+                    rangeScanner.scanUpTo(singleLineComment, into: nil)
                     colorStartLocation = rangeScanner.scanLocation
-                    if (colorStartLocation + 1) < rangeStringLength {
-                        rangeScanner.scanLocation = colorStartLocation + 1
+
+                    var colorize = true
+                    // If the comment is within an already Colored string then disregard it
+                    if (colorStartLocation + rangeLocation + searchSyntaxLength < documentStringLength) {
+                        if let attributes = layoutManager?.temporaryAttributes(atCharacterIndex: colorStartLocation + rangeLocation, effectiveRange: nil), (stringsColor as NSDictionary).isEqual(attributes) {
+                            if colorStartLocation < maxRangeLocation {
+                                rangeScanner.scanLocation = colorStartLocation + 1
+
+                            }
+                            colorize = false
+                        }
                     }
-                    rangeScanner.scanUpToCharacters(from: keywordEndCharacterSet, into: nil)
-                    colorEndLocation = rangeScanner.scanLocation
 
-                    if colorEndLocation > rangeStringLength || colorStartLocation == colorEndLocation {
-                        break;
-                    }
-
-                    let keywordTestString = documentString.substring(with: NSRange(location: colorStartLocation + rangeLocation, length: colorEndLocation - colorStartLocation)).uppercased()
-
-                    if keywords.contains(keywordTestString) {
-                        setColor(keywordsColor, for: NSRange(location: colorStartLocation + rangeLocation, length: rangeScanner.scanLocation - colorStartLocation));
+                    // this is a single line comment so we can scan to the end of the line
+                    endOfLine = NSMaxRange((rangeString as NSString).lineRange(for: NSRange(location: colorStartLocation, length: 0)))
+                    rangeScanner.scanLocation = endOfLine
+                    if colorize {
+                        // Color the comment
+                        setColor(commentsColor, for: NSRange(location: colorStartLocation + rangeLocation, length: rangeScanner.scanLocation - colorStartLocation))
                     }
                 }
 
-            }
-//
-//
-//            //
-//            // Autocomplete
-//            //
-//            if ([self.autocompleteWords count] > 0) {
-//
-//                // reset scanner
-//                [rangeScanner mgs_setScanLocation:0];
-//
-//                // scan range to end
-//                while (![rangeScanner isAtEnd]) {
-//                    [rangeScanner scanUpToCharactersFromSet:self.keywordStartCharacterSet intoString:nil];
-//                    colorStartLocation = [rangeScanner scanLocation];
-//                    if ((colorStartLocation + 1) < rangeStringLength) {
-//                        [rangeScanner mgs_setScanLocation:(colorStartLocation + 1)];
-//                    }
-//                    [rangeScanner scanUpToCharactersFromSet:self.keywordEndCharacterSet intoString:nil];
-//
-//                    colorEndLocation = [rangeScanner scanLocation];
-//                    if (colorEndLocation > rangeStringLength || colorStartLocation == colorEndLocation) {
-//                        break;
-//                    }
-//
-//                    NSString *autocompleteTestString = nil;
-//                    if (!keywordsCaseSensitive) {
-//                        autocompleteTestString = [[documentString substringWithRange:NSMakeRange(colorStartLocation + rangeLocation, colorEndLocation - colorStartLocation)] lowercaseString];
-//                    } else {
-//                        autocompleteTestString = [documentString substringWithRange:NSMakeRange(colorStartLocation + rangeLocation, colorEndLocation - colorStartLocation)];
-//                    }
-//                    if ([self.autocompleteWords containsObject:autocompleteTestString]) {
-//                        if (!reColorKeywordIfAlreadyColored) {
-//                            if ([[firstLayoutManager temporaryAttributesAtCharacterIndex:colorStartLocation + rangeLocation effectiveRange:NULL] isEqualToDictionary:commandsColor]) {
-//                                continue;
-//                            }
-//                        }
-//
-//                        [self setColor:autocompleteWordsColor range:NSMakeRange(colorStartLocation + rangeLocation, [rangeScanner scanLocation] - colorStartLocation)];
-//                    }
-//                }
-//
-//            }
-//
-//
-//            //
-//            // Second string, first pass
-//            //
-//
-//            if (![self.secondString isEqualToString:@""]) {
-//
-//                NSError* error= nil;
-//                secondStringMatcher = [[NSRegularExpression alloc]initWithPattern:[NSString stringWithFormat:@"%@[^%@\\\\\\r\\n]*+(?:\\\\(?:.|$)[^%@\\\\]*+)*+%@", self.secondString, self.secondString, self.secondString, self.secondString] options:0 error:&error];
-//                if(error == nil){
-//                    [secondStringMatcher enumerateMatchesInString:rangeString options:NSMatchingReportProgress range:NSMakeRange(0, rangeString.length-1) usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
-//                        if(result != nil){
-//                        NSRange foundRange = result.range;
-//                        if(foundRange.location != NSNotFound && foundRange.length > 0){
-//                        [self setColor:stringsColor range:NSMakeRange(foundRange.location + rangeLocation + 1, foundRange.length - 1)];
-//                        }
-//                        }
-//
-//                        }];
-//                }
-//                else{
-//                    return;
-//                }
-//
-//            }
-//
-//
-//            //
-//            // First string
-//            //
-//
-//            if (![self.firstString isEqualToString:@""]) {
-//                NSError* error = nil;
-//                firstStringMatcher = [[NSRegularExpression alloc] initWithPattern:[NSString stringWithFormat:@"%@[^%@\\\\\\r\\n]*+(?:\\\\(?:.|$)[^%@\\\\\\r\\n]*+)*+%@", self.firstString, self.firstString, self.firstString, self.firstString] options:0 error:&error];
-//                if(error == nil){
-//                    [firstStringMatcher enumerateMatchesInString:rangeString options:NSMatchingReportProgress range:NSMakeRange(0, rangeString.length-1)  usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
-//                        if(result != nil){
-//                        NSRange foundRange = result.range;
-//                        if(foundRange.location != NSNotFound){
-//                        //                                if (![[firstLayoutManager temporaryAttributesAtCharacterIndex:foundRange.location + rangeLocation effectiveRange:NULL] isEqualToDictionary:stringsColor]) {
-//                        [self setColor:stringsColor range:NSMakeRange(foundRange.location + rangeLocation + 1, foundRange.length - 1)];
-//                        //                                }
-//                        }
-//                        }
-//                        }];
-//                }
-//                else{
-//                    NSLog(@"String error:%@",error);
-//                    return;
-//                }
-//
-//            }
-//
-//
-//            //
-//            // Attributes
-//            //
-//
-//            // reset scanner
-//            [rangeScanner mgs_setScanLocation:0];
-//
-//            // scan range to end
-//            while (![rangeScanner isAtEnd]) {
-//                [rangeScanner scanUpToString:@" " intoString:nil];
-//                colorStartLocation = [rangeScanner scanLocation];
-//                if (colorStartLocation + 1 < rangeStringLength) {
-//                    [rangeScanner mgs_setScanLocation:colorStartLocation + 1];
-//                } else {
-//                    break;
-//                }
-//                if (![[firstLayoutManager temporaryAttributesAtCharacterIndex:(colorStartLocation + rangeLocation) effectiveRange:NULL] isEqualToDictionary:commandsColor]) {
-//                    continue;
-//                }
-//
-//                [rangeScanner scanCharactersFromSet:self.attributesCharacterSet intoString:nil];
-//                colorEndLocation = [rangeScanner scanLocation];
-//
-//                if (colorEndLocation + 1 < rangeStringLength) {
-//                    [rangeScanner mgs_setScanLocation:[rangeScanner scanLocation] + 1];
-//                }
-//
-//                if ([documentString characterAtIndex:colorEndLocation + rangeLocation] == '=') {
-//                    [self setColor:attributesColor range:NSMakeRange(colorStartLocation + rangeLocation, colorEndLocation - colorStartLocation)];
-//                }
-//            }
-//
-//
-//
-//            //
-//            // Color single-line comments
-//            //
-//
-//            for (NSString *singleLineComment in self.singleLineComments) {
-//                if (![singleLineComment isEqualToString:@""]) {
-//
-//                    // reset scanner
-//                    [rangeScanner mgs_setScanLocation:0];
-//                    searchSyntaxLength = [singleLineComment length];
-//
-//                    // scan range to end
-//                    while (![rangeScanner isAtEnd]) {
-//
-//                        // scan for comment
-//                        [rangeScanner scanUpToString:singleLineComment intoString:nil];
-//                        colorStartLocation = [rangeScanner scanLocation];
-//
-//                        // common case handling
-//                        if ([singleLineComment isEqualToString:@"//"]) {
-//                            if (colorStartLocation > 0 && [rangeString characterAtIndex:colorStartLocation - 1] == ':') {
-//                                [rangeScanner mgs_setScanLocation:colorStartLocation + 1];
-//                                continue; // To avoid http:// ftp:// file:// etc.
-//                            }
-//                        } else if ([singleLineComment isEqualToString:@"#"]) {
-//                            if (rangeStringLength > 1) {
-//                                rangeOfLine = [rangeString lineRangeForRange:NSMakeRange(colorStartLocation, 0)];
-//                                if ([rangeString rangeOfString:@"#!" options:NSLiteralSearch range:rangeOfLine].location != NSNotFound) {
-//                                    [rangeScanner mgs_setScanLocation:NSMaxRange(rangeOfLine)];
-//                                    continue; // Don't treat the line as a comment if it begins with #!
-//                                } else if (colorStartLocation > 0 && [rangeString characterAtIndex:colorStartLocation - 1] == '$') {
-//                                    [rangeScanner mgs_setScanLocation:colorStartLocation + 1];
-//                                    continue; // To avoid $#
-//                                } else if (colorStartLocation > 0 && [rangeString characterAtIndex:colorStartLocation - 1] == '&') {
-//                                    [rangeScanner mgs_setScanLocation:colorStartLocation + 1];
-//                                    continue; // To avoid &#
-//                                }
-//                            }
-//                        } else if ([singleLineComment isEqualToString:@"%"]) {
-//                            if (rangeStringLength > 1) {
-//                                if (colorStartLocation > 0 && [rangeString characterAtIndex:colorStartLocation - 1] == '\\') {
-//                                    [rangeScanner mgs_setScanLocation:colorStartLocation + 1];
-//                                    continue; // To avoid \% in LaTex
-//                                }
-//                            }
-//                        }
-//
-//                        // If the comment is within an already Colored string then disregard it
-//                        if (colorStartLocation + rangeLocation + searchSyntaxLength < documentStringLength) {
-//                            if ([[firstLayoutManager temporaryAttributesAtCharacterIndex:colorStartLocation + rangeLocation effectiveRange:NULL] isEqualToDictionary:stringsColor]) {
-//                                [rangeScanner mgs_setScanLocation:colorStartLocation + 1];
-//                                continue;
-//                            }
-//                        }
-//
-//                        // this is a single line comment so we can scan to the end of the line
-//                        endOfLine = NSMaxRange([rangeString lineRangeForRange:NSMakeRange(colorStartLocation, 0)]);
-//                        [rangeScanner mgs_setScanLocation:endOfLine];
-//
-//                        // Color the comment
-//                        [self setColor:commentsColor range:NSMakeRange(colorStartLocation + rangeLocation, [rangeScanner scanLocation] - colorStartLocation)];
-//                    }
-//                }
-//            } // end for
-//
-//            //
-//            // Second string, second pass
-//            //
-//
-//            if (![self.secondString isEqualToString:@""]) {
-//
-//                [secondStringMatcher enumerateMatchesInString:rangeString options:NSMatchingReportProgress range:NSMakeRange(0, rangeString.length-1) usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
-//                    if(result != nil){
-//                    NSRange foundRange = result.range;
-//                    if(foundRange.location != NSNotFound && foundRange.length > 0){
-//                    if ([[firstLayoutManager temporaryAttributesAtCharacterIndex:foundRange.location + rangeLocation effectiveRange:NULL] isEqualToDictionary:stringsColor] || [[firstLayoutManager temporaryAttributesAtCharacterIndex:foundRange.location + rangeLocation effectiveRange:NULL] isEqualToDictionary:commentsColor]) {
-//                    return;
-//                    }
-//
-//                    [self setColor:stringsColor range:NSMakeRange(foundRange.location + rangeLocation + 1, foundRange.length - 1)];
-//                    }
-//                    }
-//
-//                    }];
-//            }
+
+                    //
+                    // Second string, second pass
+                    //
+        if let matcher = secondStringMatcher {
+            matcher.enumerateMatches(in: rangeString, options: .reportProgress, range: NSRange(location: 0, length: (rangeString as NSString).length), using: { (result, flags, stop) in
+                guard let foundRange = result?.range, foundRange.location != NSNotFound && foundRange.length > 0 else {
+                    return
+                }
+
+                if let attributes = layoutManager?.temporaryAttributes(atCharacterIndex: foundRange.location + rangeLocation, effectiveRange: nil), (attributes as NSDictionary).isEqual(commentsColor) || (attributes as NSDictionary).isEqual(stringsColor) {
+                    return;
+                }
+
+                self.setColor(stringsColor, for: NSRange(location: foundRange.location + rangeLocation, length: foundRange.length))
+            })
+
+        }
 
     }
 }

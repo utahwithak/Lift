@@ -8,14 +8,21 @@
 
 /* Begin PBXBuildFile section */
 		8F11B7911F83D2A9008E19D7 /* LiftWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F11B7901F83D2A9008E19D7 /* LiftWindowController.swift */; };
-		8F11B7951F83DC1C008E19D7 /* SQLiteDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F11B7941F83DC1C008E19D7 /* SQLiteDatabase.swift */; };
+		8F11B7951F83DC1C008E19D7 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F11B7941F83DC1C008E19D7 /* Database.swift */; };
 		8F11B79A1F83DC58008E19D7 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = 8F11B7991F83DC58008E19D7 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
 		8F11B79C1F83DC79008E19D7 /* SQLiteDocumentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F11B79B1F83DC79008E19D7 /* SQLiteDocumentPresenter.swift */; };
 		8F11B7A81F83DDEE008E19D7 /* SwiftXLSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F11B7A51F83DDBE008E19D7 /* SwiftXLSX.framework */; };
 		8F11B7A91F83DDEE008E19D7 /* SwiftXLSX.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8F11B7A51F83DDBE008E19D7 /* SwiftXLSX.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8F2521701F855A2A00B438CC /* CreateViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25216F1F855A2A00B438CC /* CreateViewViewController.swift */; };
-		8F2521731F855A3D00B438CC /* LiftViewControllerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2521721F855A3D00B438CC /* LiftViewControllerBase.swift */; };
+		8F2521731F855A3D00B438CC /* LiftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2521721F855A3D00B438CC /* LiftViewController.swift */; };
 		8F2521761F855B0800B438CC /* ViewDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2521751F855B0800B438CC /* ViewDefinition.swift */; };
+		8F30777F1F87F26A005AFE4E /* BrowseViewNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F30777E1F87F26A005AFE4E /* BrowseViewNode.swift */; };
+		8F374B911F87DF9400BB4F63 /* Column.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F374B8E1F87DF9400BB4F63 /* Column.swift */; };
+		8F374B921F87DF9400BB4F63 /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F374B901F87DF9400BB4F63 /* Table.swift */; };
+		8F374B941F87E03C00BB4F63 /* SQLiteData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F374B931F87E03C00BB4F63 /* SQLiteData.swift */; };
+		8F374B961F87E5C700BB4F63 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F374B951F87E5C700BB4F63 /* View.swift */; };
+		8F4C40DA1F87B3CE003BF006 /* StatementWaitingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4C40D91F87B3CE003BF006 /* StatementWaitingViewController.swift */; };
+		8F4C40DD1F87B657003BF006 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4C40DC1F87B657003BF006 /* Result.swift */; };
 		8F6273E21F85C291007055D9 /* SQLiteTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6273E11F85C291007055D9 /* SQLiteTextView.swift */; };
 		8F6273E51F85C2C0007055D9 /* SQLiteSyntaxHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6273E41F85C2C0007055D9 /* SQLiteSyntaxHighlighter.swift */; };
 		8F72E3A11F83DED9006C88F5 /* Zip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F72E3A01F83DED9006C88F5 /* Zip.framework */; };
@@ -26,6 +33,10 @@
 		8F72E3B71F83FDE3006C88F5 /* SQLiteStringValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F72E3B61F83FDE3006C88F5 /* SQLiteStringValueFormatter.swift */; };
 		8F72E3BC1F840AFD006C88F5 /* LineNumberScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F72E3BB1F840AFD006C88F5 /* LineNumberScrollView.swift */; };
 		8F72E3C21F840B4D006C88F5 /* LineNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F72E3C11F840B4D006C88F5 /* LineNumberView.swift */; };
+		8F74A7491F869C3B0069721E /* LiftMainEditorTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F74A7481F869C3B0069721E /* LiftMainEditorTabViewController.swift */; };
+		8F74A74C1F86A0E50069721E /* SideBarDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F74A74B1F86A0E50069721E /* SideBarDetailsViewController.swift */; };
+		8F74A7521F871C560069721E /* Statement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F74A7511F871C560069721E /* Statement.swift */; };
+		8F74A7591F87AD350069721E /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F74A7541F8721470069721E /* Query.swift */; };
 		8F7C522D1F7D39E5004A91BC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C522C1F7D39E5004A91BC /* AppDelegate.swift */; };
 		8F7C522F1F7D39E5004A91BC /* LiftSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C522E1F7D39E5004A91BC /* LiftSplitViewController.swift */; };
 		8F7C52311F7D39E5004A91BC /* LiftDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C52301F7D39E5004A91BC /* LiftDocument.swift */; };
@@ -116,15 +127,22 @@
 
 /* Begin PBXFileReference section */
 		8F11B7901F83D2A9008E19D7 /* LiftWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiftWindowController.swift; sourceTree = "<group>"; };
-		8F11B7941F83DC1C008E19D7 /* SQLiteDatabase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteDatabase.swift; sourceTree = "<group>"; };
+		8F11B7941F83DC1C008E19D7 /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		8F11B7971F83DC57008E19D7 /* Lift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Lift-Bridging-Header.h"; sourceTree = "<group>"; };
 		8F11B7981F83DC58008E19D7 /* sqlite3.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = sqlite3.h; sourceTree = "<group>"; };
 		8F11B7991F83DC58008E19D7 /* sqlite3.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = sqlite3.c; sourceTree = "<group>"; };
 		8F11B79B1F83DC79008E19D7 /* SQLiteDocumentPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteDocumentPresenter.swift; sourceTree = "<group>"; };
 		8F11B79E1F83DDBE008E19D7 /* SwiftXLSX.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftXLSX.xcodeproj; path = External/swiftxlsx/SwiftXLSX.xcodeproj; sourceTree = SOURCE_ROOT; };
 		8F25216F1F855A2A00B438CC /* CreateViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateViewViewController.swift; sourceTree = "<group>"; };
-		8F2521721F855A3D00B438CC /* LiftViewControllerBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiftViewControllerBase.swift; sourceTree = "<group>"; };
+		8F2521721F855A3D00B438CC /* LiftViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiftViewController.swift; sourceTree = "<group>"; };
 		8F2521751F855B0800B438CC /* ViewDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDefinition.swift; sourceTree = "<group>"; };
+		8F30777E1F87F26A005AFE4E /* BrowseViewNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseViewNode.swift; sourceTree = "<group>"; };
+		8F374B8E1F87DF9400BB4F63 /* Column.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Column.swift; sourceTree = "<group>"; };
+		8F374B901F87DF9400BB4F63 /* Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
+		8F374B931F87E03C00BB4F63 /* SQLiteData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteData.swift; sourceTree = "<group>"; };
+		8F374B951F87E5C700BB4F63 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
+		8F4C40D91F87B3CE003BF006 /* StatementWaitingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatementWaitingViewController.swift; sourceTree = "<group>"; };
+		8F4C40DC1F87B657003BF006 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		8F6273E11F85C291007055D9 /* SQLiteTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteTextView.swift; sourceTree = "<group>"; };
 		8F6273E41F85C2C0007055D9 /* SQLiteSyntaxHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteSyntaxHighlighter.swift; sourceTree = "<group>"; };
 		8F72E3A01F83DED9006C88F5 /* Zip.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Zip.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -134,6 +152,10 @@
 		8F72E3B61F83FDE3006C88F5 /* SQLiteStringValueFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteStringValueFormatter.swift; sourceTree = "<group>"; };
 		8F72E3BB1F840AFD006C88F5 /* LineNumberScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineNumberScrollView.swift; sourceTree = "<group>"; };
 		8F72E3C11F840B4D006C88F5 /* LineNumberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineNumberView.swift; sourceTree = "<group>"; };
+		8F74A7481F869C3B0069721E /* LiftMainEditorTabViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiftMainEditorTabViewController.swift; sourceTree = "<group>"; };
+		8F74A74B1F86A0E50069721E /* SideBarDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarDetailsViewController.swift; sourceTree = "<group>"; };
+		8F74A7511F871C560069721E /* Statement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statement.swift; sourceTree = "<group>"; };
+		8F74A7541F8721470069721E /* Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
 		8F7C52291F7D39E4004A91BC /* Lift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F7C522C1F7D39E5004A91BC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8F7C522E1F7D39E5004A91BC /* LiftSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiftSplitViewController.swift; sourceTree = "<group>"; };
@@ -207,8 +229,14 @@
 			isa = PBXGroup;
 			children = (
 				8F11B79B1F83DC79008E19D7 /* SQLiteDocumentPresenter.swift */,
-				8F11B7941F83DC1C008E19D7 /* SQLiteDatabase.swift */,
+				8F11B7941F83DC1C008E19D7 /* Database.swift */,
+				8F374B8E1F87DF9400BB4F63 /* Column.swift */,
+				8F374B901F87DF9400BB4F63 /* Table.swift */,
+				8F374B951F87E5C700BB4F63 /* View.swift */,
+				8F374B931F87E03C00BB4F63 /* SQLiteData.swift */,
 				8F72E3AB1F83F415006C88F5 /* SQLiteError.swift */,
+				8F74A7511F871C560069721E /* Statement.swift */,
+				8F74A7541F8721470069721E /* Query.swift */,
 				8F11B7991F83DC58008E19D7 /* sqlite3.c */,
 				8F11B7981F83DC58008E19D7 /* sqlite3.h */,
 				8F7C525F1F7D3A69004A91BC /* Table Parse */,
@@ -233,6 +261,15 @@
 				8F2521751F855B0800B438CC /* ViewDefinition.swift */,
 			);
 			path = "Table View Creation";
+			sourceTree = "<group>";
+		};
+		8F30777C1F87F252005AFE4E /* Side Bar Browse */ = {
+			isa = PBXGroup;
+			children = (
+				8F72E3A41F83E0D0006C88F5 /* SideBarBrowseViewController.swift */,
+				8F30777E1F87F26A005AFE4E /* BrowseViewNode.swift */,
+			);
+			path = "Side Bar Browse";
 			sourceTree = "<group>";
 		};
 		8F72E3BD1F840B17006C88F5 /* View Helpers */ = {
@@ -282,10 +319,14 @@
 				8F7C522C1F7D39E5004A91BC /* AppDelegate.swift */,
 				8F11B7901F83D2A9008E19D7 /* LiftWindowController.swift */,
 				8F7C522E1F7D39E5004A91BC /* LiftSplitViewController.swift */,
+				8F74A7481F869C3B0069721E /* LiftMainEditorTabViewController.swift */,
 				8F7C52341F7D39E5004A91BC /* Main.storyboard */,
 				8F7C52301F7D39E5004A91BC /* LiftDocument.swift */,
-				8F72E3A41F83E0D0006C88F5 /* SideBarBrowseViewController.swift */,
-				8F2521721F855A3D00B438CC /* LiftViewControllerBase.swift */,
+				8F30777C1F87F252005AFE4E /* Side Bar Browse */,
+				8F74A74B1F86A0E50069721E /* SideBarDetailsViewController.swift */,
+				8F2521721F855A3D00B438CC /* LiftViewController.swift */,
+				8F4C40D91F87B3CE003BF006 /* StatementWaitingViewController.swift */,
+				8F4C40DC1F87B657003BF006 /* Result.swift */,
 				8F2521741F855AD900B438CC /* Table View Creation */,
 				8F72E3BD1F840B17006C88F5 /* View Helpers */,
 				8F11B7961F83DC3E008E19D7 /* SQLite */,
@@ -552,19 +593,28 @@
 				8F11B79C1F83DC79008E19D7 /* SQLiteDocumentPresenter.swift in Sources */,
 				8FB9F15A1F7EA4D40090FA53 /* PrimaryKeyTableConstraint.swift in Sources */,
 				8F921DBB1F7ECD7100464D27 /* ForeignKeyColumnConstraint.swift in Sources */,
+				8F4C40DA1F87B3CE003BF006 /* StatementWaitingViewController.swift in Sources */,
 				8FB9F14D1F7D72220090FA53 /* ColumnDefinition.swift in Sources */,
+				8F4C40DD1F87B657003BF006 /* Result.swift in Sources */,
 				8FB9F15F1F7EA50A0090FA53 /* UniqueTableConstraint.swift in Sources */,
 				8FB9F1531F7E7FCE0090FA53 /* SQLiteName.swift in Sources */,
 				8F72E3B71F83FDE3006C88F5 /* SQLiteStringValueFormatter.swift in Sources */,
 				8F72E3BC1F840AFD006C88F5 /* LineNumberScrollView.swift in Sources */,
 				8F7C522F1F7D39E5004A91BC /* LiftSplitViewController.swift in Sources */,
+				8F374B941F87E03C00BB4F63 /* SQLiteData.swift in Sources */,
+				8F74A7491F869C3B0069721E /* LiftMainEditorTabViewController.swift in Sources */,
+				8F374B961F87E5C700BB4F63 /* View.swift in Sources */,
 				8F921DBD1F7ECE7800464D27 /* CollateColumnConstraint.swift in Sources */,
+				8F30777F1F87F26A005AFE4E /* BrowseViewNode.swift in Sources */,
 				8F805CCA1F7ED3560074FE6B /* ConflictColumnConstraint.swift in Sources */,
 				8FB9F14F1F7DC6EA0090FA53 /* TableConstraint.swift in Sources */,
+				8F74A74C1F86A0E50069721E /* SideBarDetailsViewController.swift in Sources */,
 				8FB9F15C1F7EA4EB0090FA53 /* IndexedTableConstraint.swift in Sources */,
+				8F74A7521F871C560069721E /* Statement.swift in Sources */,
 				8F805CCD1F7ED3EF0074FE6B /* NotNullColumnConstraint.swift in Sources */,
-				8F11B7951F83DC1C008E19D7 /* SQLiteDatabase.swift in Sources */,
+				8F11B7951F83DC1C008E19D7 /* Database.swift in Sources */,
 				8FB9F1651F7EB5C40090FA53 /* ForeignKeyClause.swift in Sources */,
+				8F374B921F87DF9400BB4F63 /* Table.swift in Sources */,
 				8F7C522D1F7D39E5004A91BC /* AppDelegate.swift in Sources */,
 				8F7C52311F7D39E5004A91BC /* LiftDocument.swift in Sources */,
 				8F72E3C21F840B4D006C88F5 /* LineNumberView.swift in Sources */,
@@ -573,12 +623,14 @@
 				8F921DB61F7EB85000464D27 /* ForeignKeyDeferStatement.swift in Sources */,
 				8FB9F1551F7E83230090FA53 /* ConflictClause.swift in Sources */,
 				8F2521701F855A2A00B438CC /* CreateViewViewController.swift in Sources */,
+				8F74A7591F87AD350069721E /* Query.swift in Sources */,
 				8FB9F1631F7EA5990090FA53 /* ForeignKeyTableConstraint.swift in Sources */,
+				8F374B911F87DF9400BB4F63 /* Column.swift in Sources */,
 				8F72E3A51F83E0D0006C88F5 /* SideBarBrowseViewController.swift in Sources */,
 				8F921DBF1F7ECECB00464D27 /* DefaultColumnConstraint.swift in Sources */,
 				8F6273E21F85C291007055D9 /* SQLiteTextView.swift in Sources */,
 				8FB9F16A1F7EB66C0090FA53 /* ForeignKeyMatchStatement.swift in Sources */,
-				8F2521731F855A3D00B438CC /* LiftViewControllerBase.swift in Sources */,
+				8F2521731F855A3D00B438CC /* LiftViewController.swift in Sources */,
 				8FB9F1511F7E7FA40090FA53 /* IndexedColumn.swift in Sources */,
 				8F921DB91F7ECD4500464D27 /* ColumnConstraint.swift in Sources */,
 				8F921DC11F7ED0FB00464D27 /* CheckColumnConstraint.swift in Sources */,

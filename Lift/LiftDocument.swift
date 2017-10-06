@@ -10,10 +10,10 @@ import Cocoa
 
 class LiftDocument: NSDocument {
 
-    let database: SQLiteDatabase
+    let database: Database
 
     override init() {
-        database = try! SQLiteDatabase(type: .inMemory(name: "main"))
+        database = try! Database(type: .inMemory(name: "main"))
         super.init()
 
     }
@@ -21,7 +21,7 @@ class LiftDocument: NSDocument {
     init(contentsOf url: URL, ofType typeName: String) throws {
         SQLiteDocumentPresenter.addPresenters(for: url)
 
-        database = try SQLiteDatabase(type: .disk(path: url, name: "main"))
+        database = try Database(type: .disk(path: url, name: "main"))
 
         super.init()
         fileURL = url

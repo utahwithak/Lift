@@ -20,6 +20,30 @@ class SQLiteName: NSObject {
         return rawValue.isEmpty
     }
 
+    static let invalidChars: CharacterSet = {
+        var set = CharacterSet.alphanumerics.inverted
+        set.remove(charactersIn: "_")
+        return set
+    }()
+
+    var sql: String {
+        if (rawValue.first == "\"" || rawValue.first == "'" || rawValue.first == "`") && rawValue.balancedQoutedString() {
+            return rawValue
+        }
+
+        if rawValue.rangeOfCharacter(from: SQLiteName.invalidChars) != nil {
+            var returnVal = rawValue
+            if rawValue.contains("\"") {
+                returnVal = rawValue.replacingOccurrences(of: "\"", with: "\"\"")
+            }
+            return "\"\(returnVal)\""
+
+        } else {
+            return rawValue
+        }
+    }
+
+
 }
 
 func +(lhs: SQLiteName, rhs: SQLiteName) -> SQLiteName {
