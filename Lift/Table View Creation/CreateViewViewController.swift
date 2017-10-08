@@ -14,7 +14,7 @@ class CreateViewViewController: LiftViewController {
     
 
     @objc dynamic var databases: [String] {
-        return document.database.allDatabases.map( { $0.name })
+        return document?.database.allDatabases.map( { $0.name }) ?? []
     }
 
     @IBOutlet weak var tableView: NSTableView!

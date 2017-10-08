@@ -50,6 +50,7 @@
 		8F805CCA1F7ED3560074FE6B /* ConflictColumnConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F805CC91F7ED3560074FE6B /* ConflictColumnConstraint.swift */; };
 		8F805CCD1F7ED3EF0074FE6B /* NotNullColumnConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F805CCC1F7ED3EF0074FE6B /* NotNullColumnConstraint.swift */; };
 		8F805CCF1F7ED4240074FE6B /* PrimaryKeyColumnConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F805CCE1F7ED4240074FE6B /* PrimaryKeyColumnConstraint.swift */; };
+		8F84D2371F89AE4E00CF4B08 /* BrowseHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F84D2361F89AE4E00CF4B08 /* BrowseHeaderCell.swift */; };
 		8F921DB61F7EB85000464D27 /* ForeignKeyDeferStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F921DB51F7EB85000464D27 /* ForeignKeyDeferStatement.swift */; };
 		8F921DB91F7ECD4500464D27 /* ColumnConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F921DB81F7ECD4500464D27 /* ColumnConstraint.swift */; };
 		8F921DBB1F7ECD7100464D27 /* ForeignKeyColumnConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F921DBA1F7ECD7100464D27 /* ForeignKeyColumnConstraint.swift */; };
@@ -176,6 +177,7 @@
 		8F805CC91F7ED3560074FE6B /* ConflictColumnConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConflictColumnConstraint.swift; sourceTree = "<group>"; };
 		8F805CCC1F7ED3EF0074FE6B /* NotNullColumnConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotNullColumnConstraint.swift; sourceTree = "<group>"; };
 		8F805CCE1F7ED4240074FE6B /* PrimaryKeyColumnConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryKeyColumnConstraint.swift; sourceTree = "<group>"; };
+		8F84D2361F89AE4E00CF4B08 /* BrowseHeaderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseHeaderCell.swift; sourceTree = "<group>"; };
 		8F921DB51F7EB85000464D27 /* ForeignKeyDeferStatement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForeignKeyDeferStatement.swift; sourceTree = "<group>"; };
 		8F921DB81F7ECD4500464D27 /* ColumnConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnConstraint.swift; sourceTree = "<group>"; };
 		8F921DBA1F7ECD7100464D27 /* ForeignKeyColumnConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForeignKeyColumnConstraint.swift; sourceTree = "<group>"; };
@@ -268,6 +270,7 @@
 			children = (
 				8F72E3A41F83E0D0006C88F5 /* SideBarBrowseViewController.swift */,
 				8F30777E1F87F26A005AFE4E /* BrowseViewNode.swift */,
+				8F84D2361F89AE4E00CF4B08 /* BrowseHeaderCell.swift */,
 			);
 			path = "Side Bar Browse";
 			sourceTree = "<group>";
@@ -625,6 +628,7 @@
 				8F2521701F855A2A00B438CC /* CreateViewViewController.swift in Sources */,
 				8F74A7591F87AD350069721E /* Query.swift in Sources */,
 				8FB9F1631F7EA5990090FA53 /* ForeignKeyTableConstraint.swift in Sources */,
+				8F84D2371F89AE4E00CF4B08 /* BrowseHeaderCell.swift in Sources */,
 				8F374B911F87DF9400BB4F63 /* Column.swift in Sources */,
 				8F72E3A51F83E0D0006C88F5 /* SideBarBrowseViewController.swift in Sources */,
 				8F921DBF1F7ECECB00464D27 /* DefaultColumnConstraint.swift in Sources */,

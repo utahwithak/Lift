@@ -11,9 +11,11 @@ import Cocoa
 class LiftSplitViewController: NSSplitViewController {
 
     override func viewDidLoad() {
+    
+        splitView.delegate = self
+        
         super.viewDidLoad()
 
-        splitView.delegate = self
     }
 
     override var representedObject: Any? {

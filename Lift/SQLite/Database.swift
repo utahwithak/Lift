@@ -118,7 +118,13 @@ class Database {
     var attachedDatabases = [Database]()
 
     var allDatabases: [Database] {
-        return attachedDatabases + [self]
+        guard name == "main" else {
+            return []
+        }
+        
+        var dbs = attachedDatabases
+        dbs.insert(self, at: 0)
+        return dbs
     }
 
     public func execute(statement: String) throws -> Bool {

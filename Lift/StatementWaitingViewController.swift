@@ -31,7 +31,7 @@ class StatementWaitingViewController: LiftViewController {
 
         activityIndicator.startAnimation(nil)
 
-        document.database.executeStatementInBackground(statement) {[weak self] (error) in
+        document?.database.executeStatementInBackground(statement) {[weak self] (error) in
             self?.activityIndicator.stopAnimation(self)
             self?.indicatorHeight.constant = 0
             if let error = error {

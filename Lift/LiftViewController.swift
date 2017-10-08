@@ -8,8 +8,8 @@
 
 import Cocoa
 class LiftViewController: NSViewController {
-    var document: LiftDocument {
-        return representedObject as! LiftDocument
+    var document: LiftDocument? {
+        return representedObject as? LiftDocument
     }
 
 }
