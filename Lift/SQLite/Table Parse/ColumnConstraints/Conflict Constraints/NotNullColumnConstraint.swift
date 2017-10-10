@@ -11,7 +11,7 @@ import Foundation
 class NotNullColumnConstraint: ConflictColumnConstraint {
 
     override init(with name: SQLiteName?, from scanner: Scanner) throws {
-        guard scanner.scanString("Not", into: nil) else {
+        guard scanner.scanString("NOT", into: nil) else {
             throw ParserError.unexpectedError("Expected not in not null constraint!")
         }
         guard scanner.scanString("NULL", into: nil) else {

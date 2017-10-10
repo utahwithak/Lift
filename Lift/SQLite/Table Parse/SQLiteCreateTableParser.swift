@@ -63,7 +63,7 @@ class SQLiteCreateTableParser {
         var parsingColumns = stringScanner.scanString(",", into: nil)
         while parsingColumns {
 
-            stringScanner.scanCharacters(from: CharacterSet.whitespaces, into: nil)
+            stringScanner.scanCharacters(from: CharacterSet.whitespacesAndNewlines, into: nil)
 
             let currentLocation = stringScanner.scanLocation
 
@@ -94,6 +94,10 @@ class SQLiteCreateTableParser {
         }
 
 
+        guard stringScanner.scanString(")", into: nil) else {
+            throw ParserError.unexpectedError("Expected end of definitions, not found!:\(String(statement.characters.dropFirst(stringScanner.scanLocation)))")
+        }
+
         currentTable.withoutRowID = stringScanner.scanString("WITHOUT ROWID", into: nil)
 
         return currentTable
@@ -109,7 +113,7 @@ class SQLiteCreateTableParser {
             scanner.charactersToBeSkipped = skipChars
         }
 
-        scanner.scanCharacters(from:CharacterSet.whitespaces, into: nil)
+        scanner.scanCharacters(from:CharacterSet.whitespacesAndNewlines, into: nil)
 
         var buffer: NSString?
 
@@ -170,6 +174,24 @@ class SQLiteCreateTableParser {
 
 
             }
+        } else if scanner.scanString("[", into: &buffer) {
+            guard let openingChars = buffer as String? else {
+                throw ParserError.unexpectedError("unexpectedly unable to get first part of string")
+            }
+            name = openingChars
+
+            scanner.scanUpTo("]", into: &buffer)
+            guard let remaining = buffer as String? else {
+                throw ParserError.unexpectedError("unexpectedly unable to get first part of string")
+            }
+            name += remaining
+            guard scanner.scanString("]", into: &buffer), let endchar = buffer as String? else {
+                throw ParserError.unexpectedError("unexpectedly unable to get end of string")
+            }
+            name += endchar
+            return SQLiteName(rawValue:name)
+
+
         }
 
         var validChars = CharacterSet.alphanumerics

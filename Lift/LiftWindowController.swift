@@ -8,14 +8,20 @@
 
 import Cocoa
 
+extension  NSStoryboard.SceneIdentifier {
+    static let attachDatabase = NSStoryboard.SceneIdentifier("attachDatabase")
+    static let detachDatabase =  NSStoryboard.SceneIdentifier("detachDatabase")
+}
+
 class LiftWindowController: NSWindowController {
 
     @IBOutlet weak var panelSegmentedControl: NSSegmentedControl!
 
-    
+    @IBOutlet weak var attachDetachSegmentedControl: NSSegmentedControl!
+
     override func windowDidLoad() {
         window?.titleVisibility = .hidden
-
+        attachDetachSegmentedControl.setEnabled(false, forSegment: 1)
     }
 
     @IBAction func unwindFromAttachingDatabase(_ sender: Any? ) {
@@ -32,6 +38,27 @@ class LiftWindowController: NSWindowController {
     }
 
     @IBAction func showAttachDetach(_ sender: NSSegmentedControl) {
+        let identifier: NSStoryboard.SceneIdentifier
+
+        switch sender.selectedSegment {
+        case 0:
+            identifier = .attachDatabase
+        default:
+            guard !((document as? LiftDocument)?.database.attachedDatabases.isEmpty ?? false) else {
+                return
+            }
+            identifier = .detachDatabase
+        }
+
+        if let viewcontroller = storyboard?.instantiateController(withIdentifier: identifier) as? LiftViewController {
+            viewcontroller.representedObject = document
+            contentViewController?.presentViewControllerAsSheet(viewcontroller)
+        }
+
+    }
+
+
+    @IBAction func reloadDatabase(_ sender: NSButton) {
         
     }
 
@@ -42,6 +69,10 @@ class LiftWindowController: NSWindowController {
     override var document: AnyObject? {
         didSet {
             contentViewController?.representedObject = document
+
+            if let document = document as? LiftDocument {
+                NotificationCenter.default.addObserver(self, selector: #selector(attachedDatabasesChanged), name: .AttachedDatabasesChanged, object: document.database)
+            }
         }
     }
 
@@ -49,5 +80,13 @@ class LiftWindowController: NSWindowController {
         didSet {
             contentViewController?.representedObject = document
         }
+    }
+
+    @objc private func attachedDatabasesChanged(_ notification: Notification) {
+        guard let database = notification.object as? Database else {
+            return
+        }
+        attachDetachSegmentedControl.setEnabled(!database.attachedDatabases.isEmpty, forSegment: 1)
+
     }
 }

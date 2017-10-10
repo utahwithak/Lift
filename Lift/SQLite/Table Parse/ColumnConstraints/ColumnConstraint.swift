@@ -22,6 +22,8 @@ class ColumnConstraint {
             name = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
         }
 
+        scanner.scanCharacters(from: CharacterSet.whitespacesAndNewlines, into: nil)
+        
         let curIndex = scanner.scanLocation
         let nextPart = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
         scanner.scanLocation = curIndex

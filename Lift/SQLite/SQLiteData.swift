@@ -29,4 +29,19 @@ enum SQLiteData {
             return nil
         }
     }
+
+    var forWhereClause: String {
+        switch self {
+        case .null:
+            return "NULL"
+        case .float(let dbl):
+            return "\(dbl)"
+        case .integer(let intVal):
+            return "\(intVal)"
+        case .text(let str):
+            return str.sqliteSafeString()
+        case .blob(let data):
+             return "X'\(data.hexEncodedString())'"
+        }
+    }
 }

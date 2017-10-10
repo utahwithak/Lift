@@ -13,8 +13,13 @@ enum DatabaseType {
     case disk(path: URL, name: String)
 }
 
-typealias sqlite3 = OpaquePointer
+extension Notification.Name {
+    static let MainDatabaseReloaded = Notification.Name("MainDatabaseReloaded")
+    static let AttachedDatabasesChanged = Notification.Name("AttachedDatabasesChanged")
+    
+}
 
+typealias sqlite3 = OpaquePointer
 
 class Database {
     private static var inMemoryCount = 0
@@ -48,6 +53,7 @@ class Database {
     public private(set) var tables = [Table]()
     public private(set) var views = [View]()
 
+    private var tempDatabase: Database?
 
     private init(connection: sqlite3, name: String) {
         self.connection = connection
@@ -74,7 +80,7 @@ class Database {
                 }
 
                 if type  == "table" {
-                    tables.append(try Table(name: name, connection: connection))
+                    tables.append(try Table(database: self, data: data, connection: connection))
                 } else {
                     views.append(try View(name: name, connection: connection))
                 }
@@ -85,6 +91,9 @@ class Database {
             print("Failed to refresh:\(error)")
         }
 
+        if name == "main" {
+            NotificationCenter.default.post(name: .MainDatabaseReloaded, object: self)
+        }
     }
 
     public func refreshAttachedDatabases() {
@@ -93,8 +102,7 @@ class Database {
         }
 
         attachedDatabases.removeAll()
-        attachedDatabases.append(Database(connection: connection, name: "temp"))
-
+        tempDatabase = Database(connection: connection, name: "temp")
         do {
             let query = try Query(connection: connection, query: "PRAGMA database_list")
             try query.processRows(handler: { row in
@@ -115,15 +123,25 @@ class Database {
         }
     }
 
-    var attachedDatabases = [Database]()
+    var attachedDatabases = [Database]() {
+        didSet {
+            NotificationCenter.default.post(name: .AttachedDatabasesChanged, object: self)
+        }
+    }
 
     var allDatabases: [Database] {
+
         guard name == "main" else {
             return []
         }
         
         var dbs = attachedDatabases
         dbs.insert(self, at: 0)
+        if let tempDB = tempDatabase {
+            dbs.insert(tempDB, at: 1)
+        }
+
+
         return dbs
     }
 
@@ -157,10 +175,15 @@ class Database {
 
 
     public func attachDatabase(at path: URL, with name: String, completion:  @escaping (Error?) -> Void) {
-        let cleanedName = SQLiteName(rawValue: name)
-        let cleanedPath = path.path.replacingOccurrences(of: "\"", with: "\"\"")
-        let sql = "ATTACH DATABASE \(cleanedPath) AS \(cleanedName.sql)"
-        executeStatementInBackground(sql, completion: completion)
+
+        let cleanedPath = path.path.sqliteSafeString()
+        let sql = "ATTACH DATABASE \(cleanedPath) AS \(name.sqliteSafeString())"
+        executeStatementInBackground(sql) {[weak self] error in
+            if error == nil {
+                self?.refreshAttachedDatabases()
+            }
+            completion(error)
+        }
 
     }
 

@@ -27,23 +27,24 @@ class SQLiteName: NSObject {
     }()
 
     var sql: String {
+        return rawValue.sqliteSafeString()
+    }
+
+    var copy: SQLiteName {
+        return SQLiteName(rawValue: rawValue)
+    }
+
+    var cleanedVersion: String {
         if (rawValue.first == "\"" || rawValue.first == "'" || rawValue.first == "`") && rawValue.balancedQoutedString() {
-            return rawValue
-        }
-
-        if rawValue.rangeOfCharacter(from: SQLiteName.invalidChars) != nil {
-            var returnVal = rawValue
-            if rawValue.contains("\"") {
-                returnVal = rawValue.replacingOccurrences(of: "\"", with: "\"\"")
-            }
-            return "\"\(returnVal)\""
-
+            return String(rawValue.dropFirst().dropLast())
+        } else if rawValue.first == "[" && rawValue.last == "]" {
+            return String(rawValue.dropFirst().dropLast())
         } else {
             return rawValue
         }
     }
 
-
+    
 }
 
 func +(lhs: SQLiteName, rhs: SQLiteName) -> SQLiteName {

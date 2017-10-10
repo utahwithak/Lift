@@ -42,7 +42,7 @@ class ColumnDefinition: NSObject {
 
         var buffer: NSString?
 
-        let openParenChars = CharacterSet.whitespaces.union(CharacterSet(charactersIn: "("))
+        let openParenChars = CharacterSet.whitespacesAndNewlines.union(CharacterSet(charactersIn: "("))
         while !scanner.isAtEnd {
 
             let curIndex = scanner.scanLocation
@@ -86,7 +86,7 @@ class ColumnDefinition: NSObject {
                 if !scanner.scanString(")", into: &buffer) {
                     throw ParserError.unexpectedError("No close paren")
                 }
-
+                scanner.charactersToBeSkipped = prev
                 return name + (buffer as String? ?? "")
 
 

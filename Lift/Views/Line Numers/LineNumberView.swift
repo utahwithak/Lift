@@ -10,8 +10,8 @@ import Cocoa
 
 class LineNumberView: NSRulerView {
 
-    private let DEFAULT_THICKNESS: CGFloat = 22.0
-    private let RULER_MARGIN: CGFloat = 5.0
+    public static let DEFAULT_THICKNESS: CGFloat = 22.0
+    public static let RULER_MARGIN: CGFloat = 5.0
 
     private var backgroundColor = NSColor.white
 
@@ -21,9 +21,9 @@ class LineNumberView: NSRulerView {
 
     var textColor: NSColor?
 
-    override init(scrollView: NSScrollView?, orientation: NSRulerView.Orientation) {
-        super.init(scrollView: scrollView, orientation: orientation)
-        clientView = scrollView?.documentView
+    init(scrollView: NSScrollView) {
+        super.init(scrollView: scrollView, orientation: .verticalRuler)
+        clientView = scrollView.documentView
     }
 
     required init(coder: NSCoder) {
@@ -102,14 +102,14 @@ class LineNumberView: NSRulerView {
         
         // Round up the value. There is a bug on 10.4 where the display gets all wonky when scrolling if you don't
         // return an integral value here.
-        return ceil(max(DEFAULT_THICKNESS, stringSize.width + RULER_MARGIN * 2));
+        return ceil(max(LineNumberView.DEFAULT_THICKNESS, stringSize.width + LineNumberView.RULER_MARGIN * 2));
     }
 
-    var textAttributes: [NSAttributedStringKey: Any] {
+    lazy var textAttributes: [NSAttributedStringKey: Any] = {
         let font = self.font ?? defaultFont
         let color = textColor ?? defaultTextColor
         return [.font: font, .foregroundColor: color]
-    }
+    }()
 
 
 
@@ -194,9 +194,7 @@ class LineNumberView: NSRulerView {
 
     private let nullRange = NSMakeRange(NSNotFound, 0);
 
-    override func drawHashMarksAndLabels(in rect: NSRect) {
-
-
+    func drawBackground() {
         let bounds = self.bounds
 
         backgroundColor.set()
@@ -204,6 +202,14 @@ class LineNumberView: NSRulerView {
         __NSRectFill(bounds);
         NSColor(calibratedWhite: 0.58, alpha: 1).set()
         NSBezierPath.strokeLine(from: NSPoint(x: bounds.maxX - 0.5, y:bounds.minY), to: NSPoint(x: bounds.maxX - 0.5, y: bounds.maxY))
+
+    }
+
+    override func drawHashMarksAndLabels(in rect: NSRect) {
+
+        let boundWidth = NSWidth(bounds)
+
+        drawBackground()
 
 
         guard let textView = clientView as? NSTextView, let layoutManager = textView.layoutManager, let container = textView.textContainer, let visibleRect = scrollView?.contentView.bounds else {
@@ -259,9 +265,9 @@ class LineNumberView: NSRulerView {
                     let stringSize = labelText.size(withAttributes: textAttributes)
 
                     // Draw string flush right, centered vertically within the line
-                    let textRect = NSRect(x: NSWidth(bounds) - stringSize.width - RULER_MARGIN,
+                    let textRect = NSRect(x: boundWidth - stringSize.width - LineNumberView.RULER_MARGIN,
                                           y: ypos + (NSHeight(rects[0]) - stringSize.height) / 2.0,
-                                      width: NSWidth(bounds) - RULER_MARGIN * 2.0,
+                                      width: boundWidth - LineNumberView.RULER_MARGIN * 2.0,
                                      height: NSHeight(rects[0]))
                     labelText.draw(with: textRect, options: [.usesLineFragmentOrigin], attributes: textAttributes, context: context)
                 }

@@ -15,6 +15,14 @@ enum MainEditorType {
 
 class LiftMainEditorTabViewController: NSTabViewController {
 
+    override var representedObject: Any? {
+        didSet {
+            for item in tabViewItems {
+                item.viewController?.representedObject = representedObject
+            }
+
+        }
+    }
     
     func switchMainView( to editorType: MainEditorType) {
         switch editorType {

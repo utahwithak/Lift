@@ -10,6 +10,27 @@ import Foundation
 
 
 extension String {
+
+    func sqliteSafeString() -> String {
+        if (first == "\"" || first == "'" || first == "`") && balancedQoutedString() {
+            return self
+        }
+        if first == "[" && last == "]" {
+            return self
+        }
+
+        if rangeOfCharacter(from: SQLiteName.invalidChars) != nil {
+            var returnVal = self
+            if contains("\"") {
+                returnVal = self.replacingOccurrences(of: "\"", with: "\"\"")
+            }
+            return "\"\(returnVal)\""
+
+        } else {
+            return self
+        }
+    }
+
     //checks starting with ( and ending with ) can have internal () and qoutes, with sqlite style double qoutes
     func isBalanced() -> Bool {
         //check if we are balanced

@@ -13,7 +13,7 @@ class LineNumberScrollView: NSScrollView {
     var lineNumberView: LineNumberView?
 
     override func awakeFromNib() {
-        lineNumberView = LineNumberView(scrollView: self, orientation: .verticalRuler)
+        lineNumberView = LineNumberView(scrollView: self)
         self.verticalRulerView = lineNumberView
         self.rulersVisible = true
 

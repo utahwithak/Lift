@@ -25,6 +25,18 @@ class Query {
         self.statement = statement
     }
 
+    func allRows() throws -> [[SQLiteData]] {
+        var results = [[SQLiteData]]()
+        var rowData = [SQLiteData](repeating: .null, count: statement.columnCount)
+
+        while try !statement.step() {
+            
+            statement.fill(&rowData)
+            results.append(rowData)
+        }
+        return results
+    }
+
     func processQuery( handler: () throws -> Void) throws {
         while try !statement.step() {
             try handler()
@@ -38,6 +50,21 @@ class Query {
         while try !statement.step() {
             statement.fill(&rowData)
             try handler(rowData)
+        }
+    }
+
+    func loadInBackground(completion: @escaping (Result<[[SQLiteData]],Error>) -> Void ) {
+        DispatchQueue.global(qos: .userInteractive).async {
+            do {
+                let data = try self.allRows()
+                DispatchQueue.main.async {
+                    completion(.success(data))
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    completion(.failure(error))
+                }
+            }
         }
 
     }
