@@ -51,5 +51,9 @@ class LiftDocument: NSDocument {
     }
 
 
+    func refresh() {
+        database.refresh()
+    }
+
 }
 

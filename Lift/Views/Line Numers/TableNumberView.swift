@@ -8,10 +8,21 @@
 
 import Cocoa
 
-class TableNumberView: LineNumberView {
+class TableNumberView: NSRulerView {
+
+    private static let DEFAULT_THICKNESS: CGFloat = 22.0
+    private static let RULER_MARGIN: CGFloat = 5.0
+
+    private var backgroundColor = NSColor.white
+
 
     var rowCount: Int = 0 {
         didSet {
+            if rowCount > rows.count {
+                let additional = (rows.count...rowCount).map { NSString(format:"%jd", $0 + 1) }
+                rows.append(contentsOf: additional)
+            }
+
             ruleThickness = requiredThickness
 
             invalidateHashMarks()
@@ -20,7 +31,7 @@ class TableNumberView: LineNumberView {
         }
     }
 
-    override var count: Int {
+    var count: Int {
         return rowCount
     }
 
@@ -28,15 +39,63 @@ class TableNumberView: LineNumberView {
         return clientView as? NSTableView
     }
 
+    init(scrollView: NSScrollView) {
+        let font = NSFont(name: "Menlo", size: NSFont.systemFontSize(for: .mini))!
 
-    override init(scrollView: NSScrollView) {
-        super.init(scrollView: scrollView)
+        halfLineHeight = ceil(font.ascender + abs(font.descender) + font.leading) / 2
 
+        super.init(scrollView: scrollView, orientation: .verticalRuler)
+        clientView = scrollView.documentView
     }
 
+    let halfLineHeight: CGFloat
     required init(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    private var defaultAlternateTextColor: NSColor {
+        return NSColor.white
+    }
+
+    func drawBackground() {
+        let bounds = self.bounds
+
+        backgroundColor.set()
+
+        __NSRectFill(bounds);
+        NSColor(calibratedWhite: 0.58, alpha: 1).set()
+        NSBezierPath.strokeLine(from: NSPoint(x: bounds.maxX - 0.5, y: bounds.minY), to: NSPoint(x: bounds.maxX - 0.5, y: bounds.maxY))
+
+    }
+
+
+    override var requiredThickness: CGFloat {
+
+        let lineCount = count
+        var digits = 1;
+        if lineCount > 0 {
+            digits = Int(log10(Double(lineCount)) + 1)
+        }
+
+        let sampleString = [String](repeating:"8", count: digits).joined()
+
+        let stringSize = (sampleString as NSString).size(withAttributes:  textAttributes)
+
+        // Round up the value. There is a bug on 10.4 where the display gets all wonky when scrolling if you don't
+        // return an integral value here.
+        return ceil(max(TableNumberView.DEFAULT_THICKNESS, stringSize.width + TableNumberView.RULER_MARGIN * 2));
+    }
+
+   let textAttributes: [NSAttributedStringKey: Any] = {
+        let paraStyle = NSMutableParagraphStyle()
+        paraStyle.alignment = .right
+        return [.font: NSFont(name: "Menlo", size: NSFont.systemFontSize(for: .mini))!, .foregroundColor: NSColor(calibratedWhite: 0.42, alpha: 1), .paragraphStyle: paraStyle]
+    }()
+
+    let context = NSStringDrawingContext()
+
+
+    var rows = [NSString]()
 
 
     override func drawHashMarksAndLabels(in rect: NSRect) {
@@ -46,12 +105,11 @@ class TableNumberView: LineNumberView {
             return
         }
 
-        let boundWidth = NSWidth(bounds)
+        let boundWidth = NSWidth(bounds) - TableNumberView.RULER_MARGIN
 
         let visibleRowRange = tableView.rows(in: tableView.visibleRect)
 
         var row = visibleRowRange.location
-        let context = NSStringDrawingContext()
 
         while NSLocationInRange(row, visibleRowRange) {
 
@@ -59,19 +117,15 @@ class TableNumberView: LineNumberView {
 
             let ypos = NSMinY(rowRect) - NSMinY(visibleRect)
 
-            // Line numbers are internally stored starting at 0
-            let labelText = NSString(format:"%jd", row + 1)
+            let labelText = rows[row]
 
-            let stringSize = labelText.size(withAttributes: textAttributes)
+            let textRect = NSRect(x: 0, y: ypos + halfLineHeight, width: boundWidth, height: NSHeight(rowRect))
 
-            // Draw string flush right, centered vertically within the line
-            let textRect = NSRect(x: boundWidth - stringSize.width - LineNumberView.RULER_MARGIN,
-                                  y: ypos + (NSHeight(rowRect) - stringSize.height) / 2.0,
-                                  width: boundWidth - LineNumberView.RULER_MARGIN * 2.0,
-                                  height: NSHeight(rowRect))
             labelText.draw(with: textRect, options: [.usesLineFragmentOrigin], attributes: textAttributes, context: context)
 
             row += 1
         }
+    
     }
 }
+

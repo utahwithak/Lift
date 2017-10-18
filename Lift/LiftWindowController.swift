@@ -19,18 +19,60 @@ class LiftWindowController: NSWindowController {
 
     @IBOutlet weak var attachDetachSegmentedControl: NSSegmentedControl!
 
+    @objc dynamic weak var selectedTable: Table? {
+        didSet {
+            window?.title = selectedTable?.name ?? document?.displayName ?? ""
+        }
+    }
+    @IBAction func changeSplitViewPanels(_ sender: Any) {
+        guard let splitView = contentViewController as? LiftMainSplitViewController else {
+            return
+        }
+
+        splitView.setLocation(.left, collapsed: !panelSegmentedControl.isSelected(forSegment: 0))
+        splitView.setLocation(.bottom, collapsed: !panelSegmentedControl.isSelected(forSegment: 1))
+        splitView.setLocation(.right, collapsed: !panelSegmentedControl.isSelected(forSegment: 2))
+
+    }
+
     override func windowDidLoad() {
+
         window?.titleVisibility = .hidden
         attachDetachSegmentedControl.setEnabled(false, forSegment: 1)
+
+        if let splitView = contentViewController as? LiftMainSplitViewController {
+            splitView.splitDelegate = self
+        }
     }
 
     @IBAction func unwindFromAttachingDatabase(_ sender: Any? ) {
 
     }
 
+    @IBAction override func newWindowForTab(_ sender: Any?) {
+        guard let document = document as? LiftDocument else {
+            return
+        }
+
+        guard let otherWindowController = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("Document Window Controller")) as? NSWindowController, let window = otherWindowController.window else {
+            return
+        }
+        self.window?.addTabbedWindow(window, ordered: .above)
+        document.addWindowController(otherWindowController)
+
+        otherWindowController.window?.orderFront(self.window)
+        otherWindowController.window?.makeKey()
+
+
+    }
+
+    @IBAction func refreshDatabase( _ sender: NSSegmentedControl) {
+        (document as? LiftDocument)?.refresh()
+    }
+
     @IBAction func switchMainEditor(_ sender: NSSegmentedControl) {
 
-        guard let splitView = contentViewController as? LiftSplitViewController, let tabController = splitView.mainEditor else {
+        guard let splitView = contentViewController as? LiftMainSplitViewController, let tabController = splitView.mainEditor else {
             return
         }
 
@@ -57,9 +99,31 @@ class LiftWindowController: NSWindowController {
 
     }
 
+    @IBAction func loadExtension(_ sender: Any) {
+        guard let database = (document as? LiftDocument)?.database else {
+            return
+        }
 
-    @IBAction func reloadDatabase(_ sender: NSButton) {
+        let openFile = NSOpenPanel()
+        openFile.canChooseDirectories = false
+        openFile.canChooseFiles = true
+        let auxView = NSView(frame: NSRect(x: 0, y: 0, width: 500, height: 22))
+        let label = NSTextField(labelWithString: "Entry Point:")
+        auxView.addSubview(label)
+        let field = NSTextField(frame: NSRect(x: label.frame.width, y: 0, width: 450, height: 22))
+        auxView.addSubview(field)
+
+        openFile.accessoryView = auxView
+
         
+        if openFile.runModal() == .OK, let url = openFile.url {
+            do {
+                try database.loadExtension(at: url, entryPoint: field.stringValue.isEmpty ? nil : field.stringValue )
+            } catch {
+                print("Failed to attach db:\(error)")
+                presentError(error)
+            }
+        }
     }
 
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
@@ -90,3 +154,19 @@ class LiftWindowController: NSWindowController {
 
     }
 }
+
+extension LiftWindowController: LiftSplitViewDelegate {
+    func didUpdateState(for location: SplitViewLocation, collapsed: Bool) {
+
+        switch location {
+        case .left:
+            panelSegmentedControl.setSelected(!collapsed, forSegment: 0)
+        case .bottom:
+            panelSegmentedControl.setSelected(!collapsed, forSegment: 1)
+        case .right:
+            panelSegmentedControl.setSelected(!collapsed, forSegment: 2)
+        }
+
+    }
+}
+

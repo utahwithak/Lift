@@ -13,6 +13,10 @@ class SQLiteTextView: NSTextView {
     private var highlighter: SQLiteSyntaxHighlighter!
 
     override func awakeFromNib() {
+        setup()
+    }
+
+    func setup() {
         if highlighter == nil {
             highlighter = SQLiteSyntaxHighlighter(for: self)
         }
@@ -24,7 +28,11 @@ class SQLiteTextView: NSTextView {
         isAutomaticSpellingCorrectionEnabled = false
         isAutomaticTextReplacementEnabled = false
         font = NSFont(name: "SF Mono", size: 11) ?? NSFont(name: "Menlo", size: 11)
-        
+
+    }
+
+    func refresh() {
+        highlighter.highlight(self)
     }
     
 }

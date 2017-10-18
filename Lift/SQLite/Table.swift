@@ -17,11 +17,13 @@ extension Notification.Name {
 
 }
 
-class Table {
+class Table: NSObject {
 
     let connection: sqlite3
 
     let name: String
+
+    @objc dynamic let sql: String
 
     let columns: [Column]
 
@@ -53,6 +55,7 @@ class Table {
             case .text(let name) = data[1] else {
             throw NSError(domain: "com.dataumapps.lift", code: -3, userInfo: [NSLocalizedDescriptionKey:"INAVALID table data row!"])
         }
+        self.sql = sql
         self.name = name
 
         let definition = try SQLiteCreateTableParser.parseSQL(sql)
@@ -113,6 +116,8 @@ class Table {
         
         foreignKeys = connections
 
+        super.init()
+
         columns.forEach{ $0.table = self }
 
 
@@ -120,6 +125,9 @@ class Table {
 
     }
 
+    func foreignKeys(from columnName: String) -> [ForeignKeyConnection] {
+        return foreignKeys.filter { $0.fromColumns.contains(columnName) }
+    }
 
     private func refreshTableCount() {
 

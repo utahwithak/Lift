@@ -8,16 +8,13 @@
 
 import Cocoa
 
-extension Notification.Name {
-    static let SelectionDataChanged = Notification.Name("SelectionDataChanged")
-}
-
 class SideBarBrowseViewController: LiftViewController {
 
     override var representedObject: Any? {
         didSet {
             refreshNodes()
-            if let database = document?.database {
+            if let document = document {
+                let database = document.database
                 NotificationCenter.default.addObserver(self, selector: #selector(attachedDatabasesChanged), name: .AttachedDatabasesChanged, object: database)
             }
         }
@@ -31,16 +28,39 @@ class SideBarBrowseViewController: LiftViewController {
             nodes = []
             return
         }
-        
+        nodes.removeAll(keepingCapacity: true)
         for database in document.database.allDatabases {
             nodes.append(DatabaseViewNode(database: database))
         }
     }
 
-    var selectedTable: Table? {
+    override var selectedTable: Table? {
         didSet {
-            NotificationCenter.default.post(name: .SelectionDataChanged, object: self, userInfo: ["selection":selectedTable as Any])
+            if treeControllerSelectedTable != selectedTable {
+                // try and select the new table
+                if let newTable = selectedTable {
+                    treeController.setSelectionIndexPath(treeController.index(of: newTable))
+
+                } else {
+                    treeController.setSelectionIndexPath(nil)
+                }
+            }
         }
+    }
+
+    var treeControllerSelectedTable: Table? {
+        guard let selectedObject = treeController.selectedObjects.first as? BrowseViewNode else {
+            return nil
+        }
+
+        if let dbNode = selectedObject as? DatabaseViewNode {
+            return dbNode.database?.tables.first
+        } else if let tableNode = selectedObject as? TableViewNode {
+            return tableNode.table
+        } else if let colNode = selectedObject as? ColumnViewNode {
+            return colNode.column?.table
+        }
+        return nil
     }
 
     @objc private func attachedDatabasesChanged(_ notification: Notification) {
@@ -49,21 +69,17 @@ class SideBarBrowseViewController: LiftViewController {
 
     @objc dynamic var selectedIndexes = [IndexPath]() {
         didSet {
-            guard let selectedObject = treeController.selectedObjects.first as? BrowseViewNode else {
-                selectedTable = nil
-                return
+            if windowController?.selectedTable != treeControllerSelectedTable {
+                windowController?.selectedTable = treeControllerSelectedTable
             }
 
-            if let dbNode = selectedObject as? DatabaseViewNode {
-                selectedTable = dbNode.database?.tables.first
-            } else if let tableNode = selectedObject as? TableViewNode {
-                selectedTable = tableNode.table
-            } else if let colNode = selectedObject as? ColumnViewNode {
-                selectedTable = colNode.column?.table
-            }
         }
     }
 
+    override func mouseDown(with event: NSEvent) {
+        print("Mouse down!")
+        super.mouseDown(with: event)
+    }
 
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         (segue.destinationController as? NSViewController)?.representedObject = representedObject
@@ -76,12 +92,6 @@ class SideBarBrowseViewController: LiftViewController {
 
     @IBAction func showCreateTable(_ sender: Any?) {
         performSegue(withIdentifier: NSStoryboardSegue.Identifier("createTable"), sender: sender)
-    }
-
-    @IBAction func showMenu(_ sender: NSButton) {
-        if let menu = sender.menu, let event = NSApplication.shared.currentEvent {
-            NSMenu.popUpContextMenu(menu, with: event, for: sender)
-        }
     }
 }
 

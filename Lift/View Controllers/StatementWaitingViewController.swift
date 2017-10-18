@@ -8,38 +8,71 @@
 
 import Cocoa
 
+enum OperationType {
+    case statement(String)
+    case customCall( () throws -> Bool )
+}
+
 protocol StatementWaitingViewDelegate: class {
     func waitingView(_ view: StatementWaitingViewController, finishedSuccessfully: Bool)
 }
 
 class StatementWaitingViewController: LiftViewController {
 
-    var statement: String!
+    var operation: OperationType!
 
     @IBOutlet weak var activityIndicator: NSProgressIndicator!
 
     @IBOutlet weak var indicatorHeight: NSLayoutConstraint!
 
     @IBOutlet weak var errorViewHeightConstraint: NSLayoutConstraint!
+
     weak var delegate: StatementWaitingViewDelegate?
+
     @IBOutlet weak var errorLabelHeight: NSLayoutConstraint!
 
     @IBOutlet weak var errorLabel: NSTextField!
 
     override func viewDidLoad() {
+        super.viewDidLoad()
+
         errorViewHeightConstraint.constant = 0
 
         activityIndicator.startAnimation(nil)
 
-        document?.database.executeStatementInBackground(statement) {[weak self] (error) in
-            self?.activityIndicator.stopAnimation(self)
-            self?.indicatorHeight.constant = 0
-            if let error = error {
-                self?.handleError(error)
-            } else {
-                self?.handleSuccess()
+        switch operation! {
+        case .statement(let statement):
+            document?.database.executeStatementInBackground(statement) {[weak self] (error) in
+                self?.activityIndicator.stopAnimation(self)
+                self?.indicatorHeight.constant = 0
+                if let error = error {
+                    self?.handleError(error)
+                } else {
+                    self?.handleSuccess()
+                }
             }
+        case .customCall(let operation):
+            DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+                do {
+                    let success = try operation()
+                    if success {
+                        DispatchQueue.main.async {
+                            self?.handleSuccess()
+                        }
+                    } else {
+                        DispatchQueue.main.async {
+                            self?.handleError(NSError(domain: "com.datumapps.lift", code: -6, userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Operation Failed, unknown error occurred", comment: " Unknown error description")]))
+                        }
+                    }
+                } catch {
+                    DispatchQueue.main.async {
+                        self?.handleError(error)
+                    }
+                }
+            }
+
         }
+
 
     }
 

@@ -61,6 +61,12 @@ class Database {
 
         refresh()
 
+        var success: Int32 = 0
+        let rc = sqlite3_db_extension(connection, 1, &success)
+        if rc != SQLITE_OK || success != 1 {
+            print("Failed to enable extension!")
+        }
+
     }
 
 
@@ -145,6 +151,10 @@ class Database {
         return dbs
     }
 
+    public func table(named name: String) -> Table? {
+        return tables.first(where: { $0.name == name })
+    }
+
     public func execute(statement: String) throws -> Bool {
         let statement = try Statement(connection: connection, text: statement)
         return try statement.step()
@@ -174,17 +184,43 @@ class Database {
     }
 
 
-    public func attachDatabase(at path: URL, with name: String, completion:  @escaping (Error?) -> Void) {
+    public func attachDatabase(at path: URL, with name: String) throws -> Bool {
 
         let cleanedPath = path.path.sqliteSafeString()
         let sql = "ATTACH DATABASE \(cleanedPath) AS \(name.sqliteSafeString())"
-        executeStatementInBackground(sql) {[weak self] error in
-            if error == nil {
+        let success = try execute(statement: sql)
+        if success {
+            DispatchQueue.main.async { [weak self] in
                 self?.refreshAttachedDatabases()
             }
-            completion(error)
+
         }
+        return success
 
     }
 
+    public func detachDatabase(named name: String) throws -> Bool {
+        let sql = "DETACH DATABASE \(name.sqliteSafeString())"
+        let success = try execute(statement: sql)
+        if success {
+            DispatchQueue.main.async { [weak self] in
+                self?.refreshAttachedDatabases()
+            }
+
+        }
+        return success
+    }
+
+    public func loadExtension(at path: URL, entryPoint: String? ) throws {
+        let zFile = path.path
+        var errorMsg: UnsafeMutablePointer<Int8>?
+        let rc = sqlite3_load_extension(connection, zFile, entryPoint, &errorMsg)
+        guard rc == SQLITE_OK else {
+            if let msg = errorMsg {
+                let str = String(cString: msg)
+                print("Failed to load extension:\(str)")
+            }
+            throw SQLiteError(connection: connection, code: rc, sql: "sqlite3_load_extension(connection, zFile, entryPoint, &errorMsg)")
+        }
+    }
 }

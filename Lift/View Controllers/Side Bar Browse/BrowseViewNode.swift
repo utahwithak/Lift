@@ -58,6 +58,10 @@ class TableViewNode: BrowseViewNode {
 
         super.init(name: table.name)
 
+        if let curCount =  table.rowCount {
+            rowCount = NSNumber(integerLiteral: curCount)
+        }
+
         for column in table.columns {
             children.append( ColumnViewNode(column: column))
         }

@@ -23,6 +23,8 @@ class AttachDatabaseViewController: LiftViewController {
     }
 
     override func viewDidLoad() {
+        super.viewDidLoad()
+
         destinationView.delegate = self
     }
 
@@ -36,19 +38,29 @@ class AttachDatabaseViewController: LiftViewController {
         path = openPanel.url
 
     }
-    @IBAction func attachDatabase(_ sender: Any) {
 
-        guard let database = document?.database, let path = path else {
-            print("No database to attach to!")
-            return
+
+
+    override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
+        if let waitingView = segue.destinationController as? StatementWaitingViewController {
+
+            let operation: () throws -> Bool = { [weak self] in
+                guard let database = self?.document?.database, let path = self?.path, let name = self?.name else {
+                    print("No database to attach to!")
+                    return false
+                }
+
+                return try database.attachDatabase(at: path, with: name)
+            }
+
+            waitingView.delegate = self
+
+            waitingView.operation = .customCall(operation)
+
+            waitingView.representedObject = representedObject
         }
-
-        database.attachDatabase(at: path, with: name.sqliteSafeString()) { (error) in
-            print("Error:\(error)")
-            
-        }
-
     }
+
 }
 
 
@@ -56,5 +68,15 @@ extension AttachDatabaseViewController: DestinationViewDelegate {
 
     func processURLs(_ urls: [URL], center: NSPoint) {
         path = urls.first
+    }
+}
+
+extension AttachDatabaseViewController: StatementWaitingViewDelegate {
+    func waitingView(_ view: StatementWaitingViewController, finishedSuccessfully: Bool) {
+        dismissViewController(view)
+
+        if finishedSuccessfully {
+            dismissViewController(self)
+        }
     }
 }

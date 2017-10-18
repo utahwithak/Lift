@@ -10,8 +10,8 @@ import Cocoa
 
 class LineNumberView: NSRulerView {
 
-    public static let DEFAULT_THICKNESS: CGFloat = 22.0
-    public static let RULER_MARGIN: CGFloat = 5.0
+    private static let DEFAULT_THICKNESS: CGFloat = 22.0
+    private static let RULER_MARGIN: CGFloat = 5.0
 
     private var backgroundColor = NSColor.white
 
@@ -201,7 +201,7 @@ class LineNumberView: NSRulerView {
 
         __NSRectFill(bounds);
         NSColor(calibratedWhite: 0.58, alpha: 1).set()
-        NSBezierPath.strokeLine(from: NSPoint(x: bounds.maxX - 0.5, y:bounds.minY), to: NSPoint(x: bounds.maxX - 0.5, y: bounds.maxY))
+        NSBezierPath.strokeLine(from: NSPoint(x: bounds.maxX - 0.5, y: bounds.minY), to: NSPoint(x: bounds.maxX - 0.5, y: bounds.maxY))
 
     }
 

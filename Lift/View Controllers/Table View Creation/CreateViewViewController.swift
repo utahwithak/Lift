@@ -21,9 +21,10 @@ class CreateViewViewController: LiftViewController {
 
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         if let waitingView = segue.destinationController as? StatementWaitingViewController {
-            waitingView.representedObject = representedObject
-            waitingView.statement = viewDefinition.createStatement
             waitingView.delegate = self
+            waitingView.operation = .statement(viewDefinition.createStatement)
+            waitingView.representedObject = representedObject
+
         }
     }
 

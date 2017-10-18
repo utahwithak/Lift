@@ -22,6 +22,8 @@ class GraphTableView: NSViewController {
     var isCollapsed = false
 
     override func viewDidLoad() {
+        super.viewDidLoad()
+
         nameLabel.stringValue = table.name
         subtitleLabel.stringValue = table.database?.name ?? ""
 

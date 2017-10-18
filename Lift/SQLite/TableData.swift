@@ -9,14 +9,21 @@
 import Foundation
 
 protocol TableDataDelegate: class {
-    func tableDataDidChange(_ data: TableData)
+    func tableDataDidPageNextIn(_ data: TableData, count: Int)
+    func tableDataDidPagePreviousIn(_ data: TableData, count: Int)
 
 
+}
+
+struct CustomTableStart {
+    let query: String
+    let args: [SQLiteData]
 }
 
 class TableData: NSObject {
 
     private var lastValue: SQLiteData?
+    private var firstValue: SQLiteData?
 
     private let baseQuery: String
 
@@ -24,13 +31,11 @@ class TableData: NSObject {
 
     public var pageSize = 1000
 
-    public private(set) var finishedLoading = false
+    public private(set) var finishedLoadingAfter = false
 
-    private var data = [[SQLiteData]]() {
-        didSet {
-            delegate?.tableDataDidChange(self)
-        }
-    }
+    public private(set) var finishedLoadingPrevious = false
+
+    private var data = [[SQLiteData]]()
 
     private var currentQuery: Query?
 
@@ -39,6 +44,7 @@ class TableData: NSObject {
     private let table: Table
 
     private var loadingNextPage = false
+    private var loadingPreviousPage = false
 
     public private(set) var columnNames: [String]?
 
@@ -69,57 +75,82 @@ class TableData: NSObject {
     }
 
 
-    private func buildQuery(customLimit: Int? = nil) -> String {
-
-
-        let pageSize = customLimit ?? self.pageSize
+    private func buildNextQuery() -> String {
 
         var builder = baseQuery
 
         if let lastValue = lastValue {
             builder += " WHERE \(sortColumn) > \(lastValue.forWhereClause)"
         }
+
         builder += " ORDER BY \(sortColumn) LIMIT \(pageSize)"
 
         return builder
 
     }
 
+    private func buildPreviousQuery() -> String {
+        var builder = baseQuery
 
-    public func loadInitial() throws {
+        if let firstVal = firstValue {
+            builder += " WHERE \(sortColumn) < \(firstVal.forWhereClause)"
+        }
 
-        let query = try Query(connection: table.connection, query: buildQuery())
+        builder += " ORDER BY \(sortColumn) DESC LIMIT \(pageSize)"
+
+        return builder
+    }
+
+    private func buildInitialQuery(customQuery: String?) -> String {
+        if let custom = customQuery {
+            var builder = baseQuery
+            builder += " " + custom
+            return builder
+
+        } else {
+            return buildNextQuery()
+        }
+    }
+
+
+
+    public func loadInitial(customStart: CustomTableStart? = nil) throws {
+
+        let query = try Query(connection: table.connection, query: buildInitialQuery(customQuery: customStart?.query))
+
+        if let args = customStart?.args {
+            try query.bindArguments(args)
+        }
 
         columnNames = query.statement.columnNames
 
         data = try query.allRows()
+
+        delegate?.tableDataDidPageNextIn(self, count: data.count)
+
         lastValue = data.last?.last
+        firstValue = data.first?.last
 
-        if count < pageSize {
-            finishedLoading = true
+        if customStart == nil {
+            finishedLoadingPrevious = true
+            if count < pageSize {
+                finishedLoadingAfter = true
+            }
         }
-
     }
 
-    public func loadNextPage(to row: Int? = nil) {
-
-        guard !loadingNextPage && !finishedLoading else {
+    public func loadPreviousPage() {
+        guard !loadingPreviousPage && !finishedLoadingPrevious else {
             return
         }
 
-        loadingNextPage = true
-
+        loadingPreviousPage = true
+        print("load previous page")
         do {
-            let expectedSize: Int
-            if let passedIn = row {
-                expectedSize = passedIn - count
-            } else {
-                expectedSize = pageSize
-            }
-            let query = try Query(connection: table.connection, query: buildQuery(customLimit: expectedSize))
+            let query = try Query(connection: table.connection, query: buildPreviousQuery())
 
             query.loadInBackground { [weak self] result in
-                self?.handleResult(result, expectedSize: expectedSize)
+                self?.handlePreviousResult(result)
             }
 
 
@@ -128,21 +159,66 @@ class TableData: NSObject {
         }
     }
 
-    private func handleResult(_ result: Result<[[SQLiteData]], Error>, expectedSize: Int) {
-        loadingNextPage = false
+    public func loadNextPage() {
+
+        guard !loadingNextPage && !finishedLoadingAfter else {
+            return
+        }
+
+        loadingNextPage = true
+        print("Load next page")
+        do {
+            let query = try Query(connection: table.connection, query: buildNextQuery())
+
+            query.loadInBackground { [weak self] result in
+                self?.handleNextResult(result)
+            }
+
+
+        } catch {
+            print("Failed to create query:\(error)")
+        }
+    }
+
+    private func handleNextResult(_ result: Result<[[SQLiteData]], Error>) {
 
         switch result {
         case .success(let data):
-            if data.count < expectedSize {
-                finishedLoading = true
+            if data.count < pageSize {
+                finishedLoadingAfter = true
             }
             lastValue = data.last?.last
 
             self.data.append(contentsOf: data)
+            delegate?.tableDataDidPageNextIn(self, count: data.count)
 
         case .failure(let error):
             print("Failed to load next page: \(error)")
         }
+
+        loadingNextPage = false
+
+    }
+
+
+    private func handlePreviousResult(_ result: Result<[[SQLiteData]], Error>) {
+
+        switch result {
+        case .success(let data):
+            if data.count < pageSize {
+                finishedLoadingPrevious = true
+            }
+            firstValue = data.last?.last
+
+            self.data.insert(contentsOf: data.reversed(), at: 0)
+            delegate?.tableDataDidPagePreviousIn(self, count: data.count)
+
+        case .failure(let error):
+            print("Failed to load previous page: \(error)")
+        }
+
+        loadingPreviousPage = false
+
     }
 
 

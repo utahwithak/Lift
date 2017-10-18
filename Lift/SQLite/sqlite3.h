@@ -1464,6 +1464,8 @@ SQLITE_API int sqlite3_config(int, ...);
 */
 SQLITE_API int sqlite3_db_config(sqlite3*, int op, ...);
 
+SQLITE_API int sqlite3_db_extension(sqlite3 *db, int onoff, int* pRes);
+
 /*
 ** CAPI3REF: Memory Allocation Routines
 **
