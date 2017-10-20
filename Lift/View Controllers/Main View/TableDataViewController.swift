@@ -20,7 +20,7 @@ class TableDataViewController: LiftViewController {
 
     let numberColor = NSColor(calibratedRed:0.2, green:0.403, blue:0.507, alpha:1)
 
-    override var selectedTable: Table? {
+    override var selectedTable: DataProvider? {
         didSet {
             clearTable()
 
@@ -75,7 +75,7 @@ class TableDataViewController: LiftViewController {
                 fatalError("Missing column!")
             }
 
-            args.append(data.object(at: selection, column: colIndex))
+            args.append(data.rawData(at: selection, column: colIndex))
         }
 
         var customStartQuery = " WHERE "
@@ -105,7 +105,7 @@ class TableDataViewController: LiftViewController {
 
     private func resetTableView() {
 
-        guard let newData = data, let table = selectedTable else {
+        guard let newData = data else {
             return
         }
 
@@ -120,7 +120,13 @@ class TableDataViewController: LiftViewController {
             return
         }
 
-        let fromColumns = Set<String>(table.foreignKeys.flatMap { $0.fromColumns })
+        let fromColumns: Set<String>
+        if let table = selectedTable as? Table {
+            fromColumns = Set<String>(table.foreignKeys.flatMap { $0.fromColumns })
+        } else {
+            fromColumns = Set<String>()
+        }
+
 
         for (index,name) in columns.dropLast().enumerated() {
             let identifier = NSUserInterfaceItemIdentifier("\(index)")
@@ -207,27 +213,26 @@ extension TableDataViewController: NSTableViewDataSource {
             return nil
         }
 
-        let object = data.object(at: row, column: column)
+        guard let textField = cell.textField else {
+            return nil
+        }
 
+        let object = data.object(at: row, column: column)
+        textField.stringValue = object.displayValue
         let justification: NSTextAlignment
         var color: NSColor?
-        switch object {
-        case .text(let strVal):
-            cell.textField?.stringValue = strVal
+        switch object.type {
+        case .text:
             justification = .left
-        case .blob(_):
-            cell.textField?.stringValue = "<blob>"
+        case .blob:
             justification = .left
         case .null:
-            cell.textField?.stringValue = "<null>"
             justification = .center
             color = NSColor.lightGray
-        case .integer(let int):
-            cell.textField?.stringValue = "\(int)"
+        case .integer:
             justification = .right
             color = numberColor
-        case .float(let dbl):
-            cell.textField?.stringValue = "\(dbl)"
+        case .float:
             justification = .right
             color = numberColor
         }
@@ -238,11 +243,11 @@ extension TableDataViewController: NSTableViewDataSource {
             cell.layer?.backgroundColor = nil
         }
 
-        if cell.textField?.alignment != justification {
-            cell.textField?.alignment = justification
+        if textField.alignment != justification {
+           textField.alignment = justification
         }
-        if cell.textField?.textColor != color {
-            cell.textField?.textColor = color
+        if textField.textColor != color {
+            textField.textColor = color
         }
 
         return cell
@@ -284,7 +289,7 @@ extension TableDataViewController: NSMenuDelegate {
             let columnIndex = selectionBox.startColumn
             let tableColumn = tableView.tableColumns[columnIndex]
 
-            if let index = Int(tableColumn.identifier.rawValue), foreignKeyIdentifiers.contains(index), let columns = data?.columnNames, let table = selectedTable {
+            if let table = selectedTable as? Table, let index = Int(tableColumn.identifier.rawValue), foreignKeyIdentifiers.contains(index), let columns = data?.columnNames {
                 let columnName = columns[index]
 
                 let connections = table.foreignKeys(from: columnName)

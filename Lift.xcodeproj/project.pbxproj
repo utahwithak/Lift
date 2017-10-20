@@ -13,6 +13,7 @@
 		8F11B79C1F83DC79008E19D7 /* SQLiteDocumentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F11B79B1F83DC79008E19D7 /* SQLiteDocumentPresenter.swift */; };
 		8F11B7A81F83DDEE008E19D7 /* SwiftXLSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F11B7A51F83DDBE008E19D7 /* SwiftXLSX.framework */; };
 		8F11B7A91F83DDEE008E19D7 /* SwiftXLSX.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8F11B7A51F83DDBE008E19D7 /* SwiftXLSX.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8F1C4F001F9905D300DE12BF /* PassThroughScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1C4EFF1F9905D300DE12BF /* PassThroughScrollView.swift */; };
 		8F2521701F855A2A00B438CC /* CreateViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25216F1F855A2A00B438CC /* CreateViewViewController.swift */; };
 		8F2521731F855A3D00B438CC /* LiftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2521721F855A3D00B438CC /* LiftViewController.swift */; };
 		8F2521761F855B0800B438CC /* ViewDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2521751F855B0800B438CC /* ViewDefinition.swift */; };
@@ -40,6 +41,7 @@
 		8F74A74C1F86A0E50069721E /* SideBarDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F74A74B1F86A0E50069721E /* SideBarDetailsViewController.swift */; };
 		8F74A7521F871C560069721E /* Statement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F74A7511F871C560069721E /* Statement.swift */; };
 		8F74A7591F87AD350069721E /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F74A7541F8721470069721E /* Query.swift */; };
+		8F754B1A1F98D92600BC5312 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F754B191F98D92600BC5312 /* DataProvider.swift */; };
 		8F7C522D1F7D39E5004A91BC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C522C1F7D39E5004A91BC /* AppDelegate.swift */; };
 		8F7C522F1F7D39E5004A91BC /* LiftSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C522E1F7D39E5004A91BC /* LiftSplitViewController.swift */; };
 		8F7C52311F7D39E5004A91BC /* LiftDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C52301F7D39E5004A91BC /* LiftDocument.swift */; };
@@ -92,6 +94,7 @@
 		8FD4FEA11F8BFEDA0008D8DA /* ArrowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD4FEA01F8BFEDA0008D8DA /* ArrowView.swift */; };
 		8FD4FEA31F8BFEF70008D8DA /* GraphTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD4FEA21F8BFEF70008D8DA /* GraphTableView.swift */; };
 		8FD4FEA51F8C01420008D8DA /* CGPoint+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD4FEA41F8C01420008D8DA /* CGPoint+Additions.swift */; };
+		8FD6D92D1F981A510033E512 /* RowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD6D92C1F981A510033E512 /* RowData.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -155,6 +158,7 @@
 		8F11B7991F83DC58008E19D7 /* sqlite3.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = sqlite3.c; sourceTree = "<group>"; };
 		8F11B79B1F83DC79008E19D7 /* SQLiteDocumentPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteDocumentPresenter.swift; sourceTree = "<group>"; };
 		8F11B79E1F83DDBE008E19D7 /* SwiftXLSX.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftXLSX.xcodeproj; path = External/swiftxlsx/SwiftXLSX.xcodeproj; sourceTree = SOURCE_ROOT; };
+		8F1C4EFF1F9905D300DE12BF /* PassThroughScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassThroughScrollView.swift; sourceTree = "<group>"; };
 		8F25216F1F855A2A00B438CC /* CreateViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateViewViewController.swift; sourceTree = "<group>"; };
 		8F2521721F855A3D00B438CC /* LiftViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiftViewController.swift; sourceTree = "<group>"; };
 		8F2521751F855B0800B438CC /* ViewDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDefinition.swift; sourceTree = "<group>"; };
@@ -181,6 +185,7 @@
 		8F74A74B1F86A0E50069721E /* SideBarDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarDetailsViewController.swift; sourceTree = "<group>"; };
 		8F74A7511F871C560069721E /* Statement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statement.swift; sourceTree = "<group>"; };
 		8F74A7541F8721470069721E /* Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
+		8F754B191F98D92600BC5312 /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
 		8F7C52291F7D39E4004A91BC /* Lift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F7C522C1F7D39E5004A91BC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8F7C522E1F7D39E5004A91BC /* LiftSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiftSplitViewController.swift; sourceTree = "<group>"; };
@@ -240,6 +245,7 @@
 		8FD4FEA01F8BFEDA0008D8DA /* ArrowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArrowView.swift; sourceTree = "<group>"; };
 		8FD4FEA21F8BFEF70008D8DA /* GraphTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphTableView.swift; sourceTree = "<group>"; };
 		8FD4FEA41F8C01420008D8DA /* CGPoint+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Additions.swift"; sourceTree = "<group>"; };
+		8FD6D92C1F981A510033E512 /* RowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowData.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -274,11 +280,7 @@
 			children = (
 				8F11B79B1F83DC79008E19D7 /* SQLiteDocumentPresenter.swift */,
 				8F11B7941F83DC1C008E19D7 /* Database.swift */,
-				8F374B8E1F87DF9400BB4F63 /* Column.swift */,
-				8F374B901F87DF9400BB4F63 /* Table.swift */,
-				8F84D23A1F8A9B4900CF4B08 /* TableData.swift */,
-				8FA148D71F8D038D00644638 /* ForiegnKeyConnection.swift */,
-				8F374B951F87E5C700BB4F63 /* View.swift */,
+				8F754B1B1F98DAEE00BC5312 /* Data Providers */,
 				8F374B931F87E03C00BB4F63 /* SQLiteData.swift */,
 				8F72E3AB1F83F415006C88F5 /* SQLiteError.swift */,
 				8F74A7511F871C560069721E /* Statement.swift */,
@@ -352,6 +354,7 @@
 				8FA148E11F8D352900644638 /* DestinationView.swift */,
 				8F391B7B1F967429002D3AFE /* LongPressButton.swift */,
 				8FD4FEA01F8BFEDA0008D8DA /* ArrowView.swift */,
+				8F1C4EFF1F9905D300DE12BF /* PassThroughScrollView.swift */,
 				8FD4FE9E1F8BFE7E0008D8DA /* GraphViewsContainer.swift */,
 				8FD4FEA21F8BFEF70008D8DA /* GraphTableView.swift */,
 				8F72E3B61F83FDE3006C88F5 /* SQLiteStringValueFormatter.swift */,
@@ -374,6 +377,19 @@
 				8F7D84321F8BA3810053137B /* TableNumberView.swift */,
 			);
 			path = "Line Numers";
+			sourceTree = "<group>";
+		};
+		8F754B1B1F98DAEE00BC5312 /* Data Providers */ = {
+			isa = PBXGroup;
+			children = (
+				8F754B191F98D92600BC5312 /* DataProvider.swift */,
+				8F374B901F87DF9400BB4F63 /* Table.swift */,
+				8F374B951F87E5C700BB4F63 /* View.swift */,
+				8F374B8E1F87DF9400BB4F63 /* Column.swift */,
+				8FA148D71F8D038D00644638 /* ForiegnKeyConnection.swift */,
+				8FD6D92A1F981A350033E512 /* Data */,
+			);
+			path = "Data Providers";
 			sourceTree = "<group>";
 		};
 		8F7C52201F7D39E4004A91BC = {
@@ -552,6 +568,15 @@
 			path = "Foreign Key";
 			sourceTree = "<group>";
 		};
+		8FD6D92A1F981A350033E512 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				8F84D23A1F8A9B4900CF4B08 /* TableData.swift */,
+				8FD6D92C1F981A510033E512 /* RowData.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -713,6 +738,7 @@
 			files = (
 				8FB9F1681F7EB62C0090FA53 /* ForeignKeyActionStatement.swift in Sources */,
 				8F11B79C1F83DC79008E19D7 /* SQLiteDocumentPresenter.swift in Sources */,
+				8F754B1A1F98D92600BC5312 /* DataProvider.swift in Sources */,
 				8FB9F15A1F7EA4D40090FA53 /* PrimaryKeyTableConstraint.swift in Sources */,
 				8F921DBB1F7ECD7100464D27 /* ForeignKeyColumnConstraint.swift in Sources */,
 				8F4C40DA1F87B3CE003BF006 /* StatementWaitingViewController.swift in Sources */,
@@ -751,6 +777,7 @@
 				8F72E3C21F840B4D006C88F5 /* LineNumberView.swift in Sources */,
 				8F6273E51F85C2C0007055D9 /* SQLiteSyntaxHighlighter.swift in Sources */,
 				8F805CC81F7ED2B30074FE6B /* UniqueColumnConstraint.swift in Sources */,
+				8FD6D92D1F981A510033E512 /* RowData.swift in Sources */,
 				8F921DB61F7EB85000464D27 /* ForeignKeyDeferStatement.swift in Sources */,
 				8FB9F1551F7E83230090FA53 /* ConflictClause.swift in Sources */,
 				8F391B7C1F967429002D3AFE /* LongPressButton.swift in Sources */,
@@ -781,6 +808,7 @@
 				8FCBA6501F90EAC800B87DEA /* TableView.swift in Sources */,
 				8F7C525D1F7D3A51004A91BC /* TableDefinition.swift in Sources */,
 				8F72E3AC1F83F415006C88F5 /* SQLiteError.swift in Sources */,
+				8F1C4F001F9905D300DE12BF /* PassThroughScrollView.swift in Sources */,
 				8F7C525B1F7D39F5004A91BC /* SQLiteCreateTableParser.swift in Sources */,
 				8F72E3B51F83FBE9006C88F5 /* CreateTableViewController.swift in Sources */,
 				8FB9F1571F7EA3C80090FA53 /* String+Additions.swift in Sources */,

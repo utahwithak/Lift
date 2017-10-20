@@ -14,7 +14,7 @@ enum DatabaseType {
 }
 
 extension Notification.Name {
-    static let MainDatabaseReloaded = Notification.Name("MainDatabaseReloaded")
+    static let DatabaseReloaded = Notification.Name("DatabaseReloaded")
     static let AttachedDatabasesChanged = Notification.Name("AttachedDatabasesChanged")
     
 }
@@ -51,6 +51,8 @@ class Database {
     public let name: String
 
     public private(set) var tables = [Table]()
+    public private(set) var systemTables = [Table]()
+
     public private(set) var views = [View]()
 
     private var tempDatabase: Database?
@@ -73,36 +75,47 @@ class Database {
     func refresh() {
 
         refreshAttachedDatabases()
+        refreshTables()
+    }
 
+    private func refreshTables() {
         do {
+            tables.removeAll(keepingCapacity: true)
+            systemTables.removeAll(keepingCapacity: true)
+            views.removeAll(keepingCapacity: true)
             let clearedName = SQLiteName(rawValue: name)
-            let refreshDBQuery = try Query(connection: self.connection, query: "SELECT * from \(clearedName.rawValue).sqlite_master where type in ('table', 'view');")
+            let refreshDBQuery = try Query(connection: self.connection, query: "SELECT * from \(clearedName.rawValue).sqlite_master where type in ('table', 'view') ORDER BY name;")
 
             try refreshDBQuery.processRows { (data) in
                 //type|name|tbl_name|rootpage|sql
-                guard case .text(let type) = data[0],
-                      case .text(let name) = data[1] else {
+                guard case .text(let type) = data[0] else {
                     return
                 }
 
                 if type  == "table" {
-                    tables.append(try Table(database: self, data: data, connection: connection))
+                    let table = try Table(database: self, data: data, connection: connection)
+                    if table.name.hasPrefix("sqlite_") {
+                        systemTables.append(table)
+                    } else {
+                        tables.append(table)
+                    }
                 } else {
-                    views.append(try View(name: name, connection: connection))
+                    views.append(try View(database: self, data: data, connection: connection))
                 }
 
             }
 
+            systemTables.append(try Table(database: self, data: [.text("table"), .text("sqlite_master"),.text("sqlite_master"), .integer(0), .text("CREATE TABLE sqlite_master(type text,name text,tbl_name text, rootpage integer,sql text)")], connection: connection))
         } catch {
             print("Failed to refresh:\(error)")
         }
 
-        if name == "main" {
-            NotificationCenter.default.post(name: .MainDatabaseReloaded, object: self)
-        }
+
+
+        NotificationCenter.default.post(name: .DatabaseReloaded, object: self)
     }
 
-    public func refreshAttachedDatabases() {
+    private func refreshAttachedDatabases() {
         guard name == "main" else {
             return
         }

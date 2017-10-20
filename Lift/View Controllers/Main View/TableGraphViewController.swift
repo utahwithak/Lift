@@ -22,7 +22,7 @@ class TableGraphViewController: LiftViewController {
         scrollView.hasHorizontalScroller = true
         scrollView.hasVerticalScroller = true
 
-        NotificationCenter.default.addObserver(self, selector: #selector(databaseRefreshed), name: .MainDatabaseReloaded, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(databaseRefreshed), name: .DatabaseReloaded, object: nil)
 
         if document?.database != nil {
             reloadView()
@@ -35,17 +35,17 @@ class TableGraphViewController: LiftViewController {
     }
 
     @objc func databaseRefreshed(_ noti: Notification) {
-        if let database = noti.object as? Database, database === document?.database {
+        if let database = noti.object as? Database, document?.database.allDatabases.contains(where: { database  === $0 }) ?? false {
             reloadView()
         }
     }
     @IBAction func zoomChange(_ sender: NSSegmentedControl) {
         switch sender.selectedSegment {
         case 1:
-            scrollView.magnification =  scrollView.magnification + 0.05
+            scrollView.animator().magnification = scrollView.magnification + 0.05
 
         default:
-            scrollView.magnification =  scrollView.magnification - 0.05
+            scrollView.animator().magnification = scrollView.magnification - 0.05
         }
 
     }
@@ -54,6 +54,8 @@ class TableGraphViewController: LiftViewController {
         for view in container.subviews {
             view.removeFromSuperview()
         }
+        childViewControllers.removeAll(keepingCapacity: true)
+
         container.arrowViews.removeAll(keepingCapacity: true)
 
         guard let db = document?.database else {
@@ -62,7 +64,7 @@ class TableGraphViewController: LiftViewController {
 
 
         var maxHeight: CGFloat = 0
-        // FIXME test with multiple databases refreshing
+
         for database in db.allDatabases {
 
             for table in database.tables {
@@ -99,7 +101,7 @@ class TableGraphViewController: LiftViewController {
 
         }
 
-        container.frame = CGRect(x: 0, y: 0, width: width * 400, height: width * 400)
+        container.frame = CGRect(x: 0, y: 0, width: viewNum * 400, height: viewNum * 400)
 
         //Foreign key hookup
         for database in db.allDatabases {

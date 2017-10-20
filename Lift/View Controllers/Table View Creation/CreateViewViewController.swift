@@ -36,6 +36,7 @@ extension CreateViewViewController: StatementWaitingViewDelegate {
 
         if finishedSuccessfully {
             dismissViewController(self)
+            document?.database.refresh()
         }
     }
 }

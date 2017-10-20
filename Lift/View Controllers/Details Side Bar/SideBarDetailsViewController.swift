@@ -16,7 +16,7 @@ class SideBarDetailsViewController: LiftViewController {
         sqlView.isEditable = false
     }
 
-    override var selectedTable: Table? {
+    override var selectedTable: DataProvider? {
         didSet {
             sqlView.string = selectedTable?.sql ?? ""
             sqlView.refresh()

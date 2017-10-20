@@ -6,7 +6,7 @@
 //  Copyright © 2017 Datum Apps. All rights reserved.
 //
 
-import Foundation
+import Cocoa
 
 class BrowseViewNode: NSObject {
 
@@ -24,6 +24,13 @@ class BrowseViewNode: NSObject {
 
 }
 
+class HeaderViewNode: BrowseViewNode {
+
+}
+
+class GroupViewNode: BrowseViewNode {
+    @objc dynamic var image: NSImage?
+}
 
 class DatabaseViewNode: BrowseViewNode {
 
@@ -34,14 +41,26 @@ class DatabaseViewNode: BrowseViewNode {
 
         super.init(name: database.name)
 
-        for table in database.tables {
-            children.append( TableViewNode(table: table))
+        let tableGroup = GroupViewNode(name: NSLocalizedString("Tables", comment: "Table group header name"))
+        children.append(tableGroup)
+        tableGroup.image = NSImage(named: NSImage.Name.listViewTemplate)
+        for table in database.tables.sorted(by: { $0.name < $1.name }) {
+            tableGroup.children.append( TableViewNode(provider: table))
         }
 
+        let viewGroup = GroupViewNode(name: NSLocalizedString("Views", comment: "View group header name"))
+        viewGroup.image = NSImage(named: NSImage.Name.quickLookTemplate)
+        children.append(viewGroup)
         for view in database.views {
-            children.append( ViewViewNode(view: view))
+            viewGroup.children.append( TableViewNode(provider: view))
         }
 
+        let systemTableGroup = GroupViewNode(name: NSLocalizedString("System Tables", comment: "System Table group header name"))
+        children.append(systemTableGroup)
+        systemTableGroup.image = NSImage(named: NSImage.Name.actionTemplate)
+        for table in database.systemTables.sorted(by: { $0.name < $1.name }) {
+            systemTableGroup.children.append( TableViewNode(provider: table))
+        }
 
     }
 }
@@ -51,30 +70,30 @@ class TableViewNode: BrowseViewNode {
     @objc dynamic var refreshingCount = false
     @objc dynamic var rowCount: NSNumber?
 
-    weak var table: Table?
+    weak var provider: DataProvider?
 
-    init(table: Table) {
-        self.table = table
+    init(provider: DataProvider) {
+        self.provider = provider
 
-        super.init(name: table.name)
+        super.init(name: provider.name)
 
-        if let curCount =  table.rowCount {
+        if let curCount =  provider.rowCount {
             rowCount = NSNumber(integerLiteral: curCount)
         }
 
-        for column in table.columns {
-            children.append( ColumnViewNode(column: column))
+        for column in provider.columns {
+            children.append( ColumnNode(parent: provider, name: column.name, type: column.type))
         }
-        NotificationCenter.default.addObserver(forName: .TableDidBeginRefreshingRowCount, object: table, queue: nil) { [weak self] _ in
+        NotificationCenter.default.addObserver(forName: .TableDidBeginRefreshingRowCount, object: provider, queue: nil) { [weak self] _ in
             self?.refreshingCount = true
         }
 
-        NotificationCenter.default.addObserver(forName: .TableDidEndRefreshingRowCount, object: table, queue: nil) { [weak self] _ in
+        NotificationCenter.default.addObserver(forName: .TableDidEndRefreshingRowCount, object: provider, queue: nil) { [weak self] _ in
             self?.refreshingCount = false
         }
 
-        NotificationCenter.default.addObserver(forName: .TableDidChangeRowCount, object: table, queue: nil) { [weak self, weak table] _ in
-            guard let table = table, let mySelf = self else {
+        NotificationCenter.default.addObserver(forName: .TableDidChangeRowCount, object: provider, queue: nil) { [weak self, weak provider] _ in
+            guard let table = provider, let mySelf = self else {
                 return
             }
 
@@ -88,25 +107,16 @@ class TableViewNode: BrowseViewNode {
     }
 }
 
-class ColumnViewNode: BrowseViewNode {
+class ColumnNode: BrowseViewNode {
 
-    weak var column: Column?
+    weak var provider: DataProvider?
 
-    init(column: Column) {
-        self.column = column
-        type = column.type
-        super.init(name: column.name)
+    init(parent: DataProvider, name: String, type: String) {
+        provider = parent
+        self.type = type
+        super.init(name: name)
     }
 
     @objc dynamic let type: String
-}
-
-class ViewViewNode: BrowseViewNode {
-    init(view: View) {
-        type = "View"
-        super.init(name: view.name)
-    }
-    @objc dynamic let type: String
-
 }
 

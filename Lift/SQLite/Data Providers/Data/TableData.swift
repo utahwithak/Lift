@@ -35,22 +35,26 @@ class TableData: NSObject {
 
     public private(set) var finishedLoadingPrevious = false
 
-    private var data = [[SQLiteData]]()
+    private var data = [RowData]()
 
     private var currentQuery: Query?
 
     public var delegate: TableDataDelegate?
 
-    private let table: Table
+    private let provider: DataProvider
 
     private var loadingNextPage = false
     private var loadingPreviousPage = false
+    public let allowsPaging: Bool
 
     public private(set) var columnNames: [String]?
 
-    init(table: Table) {
-        self.table = table
-        if table.definition.withoutRowID {
+    init(provider: DataProvider) {
+        self.provider = provider
+
+        allowsPaging =  provider is Table
+
+        if let table = provider as? Table, table.definition.withoutRowID {
             guard let pkColumn = table.columns.first( where: { $0.primaryKey}) else {
                 fatalError("No primary key on without row id table!")
             }
@@ -60,7 +64,7 @@ class TableData: NSObject {
             sortColumn = "rowid"
         }
 
-        let name = table.qualifiedNameForQuery
+        let name = provider.qualifiedNameForQuery
 
         baseQuery = "SELECT *,\(sortColumn) FROM \(name)"
 
@@ -70,8 +74,12 @@ class TableData: NSObject {
         return data.count
     }
 
-    public func object(at row: Int, column: Int) -> SQLiteData {
+    public func object(at row: Int, column: Int) -> CellData {
         return data[row][column]
+    }
+
+    public func rawData(at row: Int, column: Int) -> SQLiteData {
+        return data[row].data[column]
     }
 
 
@@ -116,7 +124,7 @@ class TableData: NSObject {
 
     public func loadInitial(customStart: CustomTableStart? = nil) throws {
 
-        let query = try Query(connection: table.connection, query: buildInitialQuery(customQuery: customStart?.query))
+        let query = try Query(connection: provider.connection, query: buildInitialQuery(customQuery: customStart?.query))
 
         if let args = customStart?.args {
             try query.bindArguments(args)
@@ -124,7 +132,7 @@ class TableData: NSObject {
 
         columnNames = query.statement.columnNames
 
-        data = try query.allRows()
+        data = try query.allRows().map { RowData(row: $0) }
 
         delegate?.tableDataDidPageNextIn(self, count: data.count)
 
@@ -147,7 +155,7 @@ class TableData: NSObject {
         loadingPreviousPage = true
         print("load previous page")
         do {
-            let query = try Query(connection: table.connection, query: buildPreviousQuery())
+            let query = try Query(connection: provider.connection, query: buildPreviousQuery())
 
             query.loadInBackground { [weak self] result in
                 self?.handlePreviousResult(result)
@@ -168,13 +176,11 @@ class TableData: NSObject {
         loadingNextPage = true
         print("Load next page")
         do {
-            let query = try Query(connection: table.connection, query: buildNextQuery())
+            let query = try Query(connection: provider.connection, query: buildNextQuery())
 
             query.loadInBackground { [weak self] result in
                 self?.handleNextResult(result)
             }
-
-
         } catch {
             print("Failed to create query:\(error)")
         }
@@ -189,7 +195,7 @@ class TableData: NSObject {
             }
             lastValue = data.last?.last
 
-            self.data.append(contentsOf: data)
+            self.data.append(contentsOf: data.map { RowData(row: $0) })
             delegate?.tableDataDidPageNextIn(self, count: data.count)
 
         case .failure(let error):
@@ -210,7 +216,7 @@ class TableData: NSObject {
             }
             firstValue = data.last?.last
 
-            self.data.insert(contentsOf: data.reversed(), at: 0)
+            self.data.insert(contentsOf: data.reversed().map { RowData(row: $0) }, at: 0)
             delegate?.tableDataDidPagePreviousIn(self, count: data.count)
 
         case .failure(let error):

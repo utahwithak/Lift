@@ -31,20 +31,25 @@ extension NSTreeController {
         return nil
     }
 
-     func index(of table: Table) -> IndexPath? {
+     func index(of provider: DataProvider) -> IndexPath? {
         guard let nodes = arrangedObjects.children else {
             return nil
         }
+        return index(of: provider, in: nodes)
+    }
 
-        guard let dbNode = nodes.first(where: { ($0.representedObject as? DatabaseViewNode)?.database?.tables.contains(table) ?? false }) else {
-            return nil
+    private func index(of provider: DataProvider, in nodes: [NSTreeNode]) -> IndexPath? {
+
+        for node in nodes {
+            if let tableNode = node.representedObject as? TableViewNode, tableNode.provider === provider {
+                return node.indexPath
+            }
+
+            if let children = node.children, let indexPath = index(of: provider, in: children) {
+                return indexPath
+            }
         }
 
-        guard let tableNode = dbNode.children?.first( where: { ($0.representedObject as? TableViewNode)?.table == table}) else {
-            return nil
-        }
-
-        return tableNode.indexPath
-
+        return nil
     }
 }

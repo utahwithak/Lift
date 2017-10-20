@@ -11,7 +11,9 @@ import Foundation
 class Column {
 
     let connection: sqlite3
-    let definition: ColumnDefinition
+
+    /// Definition if there. Will be nil on views
+    var definition: ColumnDefinition?
 
     weak var table: Table?
 
@@ -28,9 +30,8 @@ class Column {
      - 4 : "dflt_value"
      - 5 : "pk"
      */
-    init(rowInfo: [SQLiteData], definition: ColumnDefinition, connection: sqlite3) throws {
-        self.definition = definition
-
+    init(rowInfo: [SQLiteData], connection: sqlite3) throws {
+        
         self.connection = connection
 
         guard case .text(let name) = rowInfo[1],

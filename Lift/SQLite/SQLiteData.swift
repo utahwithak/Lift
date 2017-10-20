@@ -8,6 +8,15 @@
 
 import Foundation
 
+enum SQLiteDataType {
+    case null
+    case integer
+    case float
+    case text
+    case blob
+}
+
+
 enum SQLiteData {
     case null
     case integer(Int)
@@ -42,6 +51,21 @@ enum SQLiteData {
             return str.sqliteSafeString()
         case .blob(let data):
              return "X'\(data.hexEncodedString())'"
+        }
+    }
+
+    var type: SQLiteDataType {
+        switch self {
+        case .null:
+            return .null
+        case .float:
+            return .float
+        case .integer:
+            return .integer
+        case .text:
+            return .text
+        case .blob:
+            return .blob
         }
     }
 }

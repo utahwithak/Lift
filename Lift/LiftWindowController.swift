@@ -19,7 +19,7 @@ class LiftWindowController: NSWindowController {
 
     @IBOutlet weak var attachDetachSegmentedControl: NSSegmentedControl!
 
-    @objc dynamic weak var selectedTable: Table? {
+    @objc dynamic weak var selectedTable: DataProvider? {
         didSet {
             window?.title = selectedTable?.name ?? document?.displayName ?? ""
         }

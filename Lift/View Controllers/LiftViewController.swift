@@ -16,7 +16,7 @@ class LiftViewController: NSViewController {
         return view.window?.windowController as? LiftWindowController
     }
 
-    @objc dynamic weak var selectedTable: Table?
+    @objc dynamic weak var selectedTable: DataProvider?
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == #keyPath(LiftWindowController.selectedTable) {
