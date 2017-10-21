@@ -33,8 +33,8 @@ struct RowData {
         }
     }()
 
-    func last(_ x: Int) -> ArraySlice<SQLiteData> {
-        return data.dropFirst(data.count - x)
+    func first(_ x: Int) -> ArraySlice<SQLiteData> {
+        return data[0..<x]
     }
 
 

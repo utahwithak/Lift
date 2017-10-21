@@ -163,8 +163,8 @@ class TableData: NSObject {
         delegate?.tableDataDidPageNextIn(self, count: data.count)
 
         if smartPaging {
-            lastValues = data.last?.last(sortCount) ?? []
-            firstValues = data.first?.last(sortCount) ?? []
+            lastValues = data.last?.first(sortCount) ?? []
+            firstValues = data.first?.first(sortCount) ?? []
         }
 
         if customStart == nil {
@@ -230,7 +230,7 @@ class TableData: NSObject {
             }
 
             if smartPaging, let last = data.last {
-                lastValues = last.dropFirst(last.count - sortCount)
+                lastValues = last[0..<sortCount]
             }
 
 
@@ -254,7 +254,7 @@ class TableData: NSObject {
                 finishedLoadingPrevious = true
             }
             if smartPaging, let last = data.last {
-                firstValues = last.dropFirst(last.count - sortCount)
+                firstValues = last[0..<sortCount]
             }
 
             self.data.insert(contentsOf: data.reversed().map { RowData(row: $0) }, at: 0)
