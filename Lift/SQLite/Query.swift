@@ -72,5 +72,9 @@ class Query {
     func bindArguments(_ args: [SQLiteData]) throws {
         try statement.bind(args)
     }
-    
+
+    func bindArguments(_ args: ArraySlice<SQLiteData>) throws {
+        try statement.bind(args)
+    }
+
 }

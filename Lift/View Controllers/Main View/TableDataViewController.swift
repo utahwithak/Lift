@@ -128,7 +128,8 @@ class TableDataViewController: LiftViewController {
         }
 
 
-        for (index,name) in columns.dropLast().enumerated() {
+        for (index,name) in columns.enumerated() where index > (newData.sortCount - 1) {
+
             let identifier = NSUserInterfaceItemIdentifier("\(index)")
             TableDataViewController.identifierMap[identifier] = index
             let newColumn = NSTableColumn(identifier: identifier)

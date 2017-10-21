@@ -244,6 +244,11 @@ class Statement {
             try bind(data: value)
         }
     }
+    func bind(_ values: ArraySlice<SQLiteData>) throws {
+        for value in values {
+            try bind(data: value)
+        }
+    }
 
     func bind(_ values: [String: SQLiteData], areColumns: Bool = false) throws {
         for (key, value) in values {
