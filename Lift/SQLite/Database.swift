@@ -6,7 +6,7 @@
 //  Copyright © 2017 Datum Apps. All rights reserved.
 //
 
-import Foundation
+import Cocoa
 
 enum DatabaseType {
     case inMemory(name: String)
@@ -24,12 +24,15 @@ typealias sqlite3 = OpaquePointer
 class Database {
     private static var inMemoryCount = 0
 
+
     convenience init(type: DatabaseType) throws {
+        
+
         switch  type {
         case .inMemory(name: let name):
             let dbName = "file:memdb\(Database.inMemoryCount)?mode=memory&cache=shared"
             var db: sqlite3?
-            let ret = sqlite3_open(dbName, &db)
+            let ret = sqlite3_open_v2(dbName, &db, SQLITE_OPEN_URI | SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE, nil)
             guard ret == SQLITE_OK, let connection = db else {
                 throw SQLiteError(connection: db, code: ret, sql: "Opening with: \(dbName)")
             }
@@ -50,25 +53,31 @@ class Database {
     public let connection: sqlite3
     public let name: String
 
+    public private(set) var path: String = "In Memory"
+
     public private(set) var tables = [Table]()
     public private(set) var systemTables = [Table]()
 
     public private(set) var views = [View]()
 
-    private var tempDatabase: Database?
+    public private(set) var tempDatabase: Database?
+    public private(set) var mainDB: Database?
+
+    public let extensionsAllowed: Bool
 
     private init(connection: sqlite3, name: String) {
         self.connection = connection
         self.name = name
 
-        refresh()
 
-        var success: Int32 = 0
-        let rc = sqlite3_db_extension(connection, 1, &success)
-        if rc != SQLITE_OK || success != 1 {
-            print("Failed to enable extension!")
+        extensionsAllowed = SQLite3ConfigHelper.enableExtensions(for: connection)
+
+        // return asap and refresh on the next go around
+        DispatchQueue.global(qos: .background).async {
+            DispatchQueue.main.async {
+                self.refresh()
+            }
         }
-
     }
 
 
@@ -91,16 +100,20 @@ class Database {
                 guard case .text(let type) = data[0] else {
                     return
                 }
-
-                if type  == "table" {
-                    let table = try Table(database: self, data: data, connection: connection)
-                    if table.name.hasPrefix("sqlite_") {
-                        systemTables.append(table)
+                do {
+                    if type  == "table" {
+                        let table = try Table(database: self, data: data, connection: connection)
+                        if table.name.hasPrefix("sqlite_") {
+                            systemTables.append(table)
+                        } else {
+                            tables.append(table)
+                        }
                     } else {
-                        tables.append(table)
+                        views.append(try View(database: self, data: data, connection: connection))
                     }
-                } else {
-                    views.append(try View(database: self, data: data, connection: connection))
+                } catch {
+                    print("Error!:\(error)")
+                    NSApp.presentError(error)
                 }
 
             }
@@ -122,18 +135,36 @@ class Database {
 
         attachedDatabases.removeAll()
         tempDatabase = Database(connection: connection, name: "temp")
+        tempDatabase?.mainDB = self
         do {
             let query = try Query(connection: connection, query: "PRAGMA database_list")
             try query.processRows(handler: { row in
-                if (row[0].intValue ?? 0) <= 1 { //skip the main and temp databases
+                var path = "In Memory"
+
+                if case .text(let fullPath) = row[2], !fullPath.isEmpty {
+                    path = fullPath
+                }
+
+                guard case .integer( let num) = row[0] else { //skip the main and temp databases
                     return
                 }
 
-                guard case .text(let name) = row[1] else {
-                    return
-                }
+                if num == 0 {
+                    self.path = path
+                } else if num == 1 {
+                    tempDatabase?.path = path
+                } else {
 
-                attachedDatabases.append(Database(connection: self.connection, name: name))
+                    guard case .text(let name) = row[1] else {
+                        return
+                    }
+
+
+                    let childDB = Database(connection: self.connection, name: name)
+                    childDB.mainDB = self
+                    childDB.path = path
+                    attachedDatabases.append(childDB)
+                }
 
             })
 

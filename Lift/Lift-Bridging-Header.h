@@ -3,3 +3,4 @@
 //
 
 #import "sqlite3.h"
+#import "SQLite3ConfigHelper.h"

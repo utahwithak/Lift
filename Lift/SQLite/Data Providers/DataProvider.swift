@@ -13,6 +13,8 @@ class DataProvider: NSObject {
 
     let name: String
 
+    let type: String
+
     @objc dynamic let sql: String
 
     weak var database: Database?
@@ -34,16 +36,18 @@ class DataProvider: NSObject {
         }
     }
 
-
     init(database: Database, data: [SQLiteData], connection: sqlite3) throws {
         self.database = database
 
         //type|name|tbl_name|rootpage|sql
-        guard case .text(let sql) = data[4],
+        guard case .text(let type) = data[0],
+            case .text(let sql) = data[4],
             case .text(let name) = data[1] else {
                 throw NSError(domain: "com.dataumapps.lift", code: -3, userInfo: [NSLocalizedDescriptionKey:"INAVALID table data row!"])
         }
 
+        self.type = type
+        
         let query = try Query(connection: connection, query:  "PRAGMA \(database.name.sqliteSafeString()).table_info(\(name.sqliteSafeString()))")
         let columnData = try query.allRows()
 
@@ -105,5 +109,78 @@ class DataProvider: NSObject {
         return TableData(provider: self)
     }
 
+    func drop() throws -> Bool {
+        guard let database = database else {
+            throw NSError(domain: "com.datumapps.lift", code: -7, userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("No Database!", comment: "No database to drop")])
+        }
+
+        let statement = "DROP \(type) \(qualifiedNameForQuery);"
+        let success = try database.execute(statement: statement)
+
+        if success {
+           database.refresh()
+        } else {
+            print("Failed to refersh")
+        }
+
+        return success
+    }
+
+    enum CloneType {
+        case toTemp
+        case toMain
+    }
+
+    func cloneToDB(_ cloneType: CloneType, keepGoing: ()-> Bool) throws {
+        
+        guard let database = database else {
+            throw NSError(domain: "com.datumapps.lift", code: -7, userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("No Database!", comment: "No database error")])
+        }
+
+        var success = try database.execute(statement: "SAVEPOINT CLONEDB")
+
+        do {
+            var sql = self.sql
+            if cloneType == .toTemp {
+                guard let createRange = sql.range(of: "CREATE ") else {
+                    return
+                }
+
+                sql.replaceSubrange(createRange, with: "CREATE TEMP ")
+            }
+
+            // sqlite_master strips out the tmp bit.
+            success = try database.execute(statement: sql)
+
+            if self.type == "table" {
+                let intoName = cloneType == .toMain ? "main" : "temp"
+                let selectStatement = "SELECT rowID, * FROM \(qualifiedNameForQuery)"
+                let query = try Query(connection: connection, query: selectStatement)
+                let colNames = ["rowID"] + columns.map { $0.name.sqliteSafeString() }
+                let argStatements = (0..<colNames.count).map { "$\($0)" }.joined(separator: ", ")
+                let valueStats = colNames.joined(separator: ", ")
+                let insertStatement = "INSERT INTO \(intoName).\(name.sqliteSafeString())(\(valueStats)) VALUES (\(argStatements));"
+                let insertQuery = try Query(connection: connection, query: insertStatement)
+                try insertQuery.processData(from: query, keepGoing: keepGoing)
+            }
+            if keepGoing() {
+                success = try database.execute(statement: "RELEASE SAVEPOINT CLONEDB")
+            } else {
+                success = try database.execute(statement: "ROLLBACK TRANSACTION TO SAVEPOINT CLONEDB")
+            }
+        } catch {
+            success = try database.execute(statement: "ROLLBACK TRANSACTION TO SAVEPOINT CLONEDB")
+            throw error
+        }
+
+
+        if success {
+            DispatchQueue.main.async {
+                (database.mainDB ?? database).refresh()
+            }
+        } else {
+            print("Failed to clone")
+        }
+    }
 
 }

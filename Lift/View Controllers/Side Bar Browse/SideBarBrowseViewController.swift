@@ -194,6 +194,94 @@ extension SideBarBrowseViewController: NSMenuDelegate {
         performSegue(withIdentifier: NSStoryboardSegue.Identifier("showDetach"), sender: self)
     }
 
+    @objc private func dropProvider(_ item: NSMenuItem) {
+        guard let provider = item.representedObject as? DataProvider else {
+            return
+        }
+
+        let alert = NSAlert()
+        let format = NSLocalizedString("Drop %@?", comment: "title for drop alert")
+        alert.messageText = String(format: format, provider.type)
+        let messageFormat = NSLocalizedString("Are you sure you want to drop %@ \"%@\"?\nThis cannot be undone.", comment: "Confirmation text")
+        alert.informativeText = String(format: messageFormat, provider.type, provider.name)
+        alert.addButton(withTitle: "Drop")
+        alert.addButton(withTitle: "Cancel")
+        let response = alert.runModal()
+        if response == .alertFirstButtonReturn {
+            do {
+                _ = try provider.drop()
+            } catch {
+                presentError(error)
+            }
+        }
+    }
+
+    private func clone(provider: DataProvider, to type: Table.CloneType) {
+        guard let waitingView = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("waitingOperationView")) as? WaitingOperationViewController else {
+            return
+        }
+        var validOp = true
+        let keepGoing: () -> Bool = {
+            return validOp
+        }
+
+        let cancelOp: () -> Void = {
+            validOp = false
+        }
+
+        waitingView.cancelHandler = cancelOp
+
+        presentViewControllerAsSheet(waitingView)
+
+        DispatchQueue.global(qos: .userInteractive).async {
+            do {
+                try provider.cloneToDB(type, keepGoing: keepGoing)
+                DispatchQueue.main.async {
+                    self.dismissViewController(waitingView)
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    self.dismissViewController(waitingView)
+                    self.presentError(error)
+                }
+
+            }
+        }
+
+    }
+
+    @objc private func createTempClone(_ item: NSMenuItem) {
+
+        guard let provider = item.representedObject as? DataProvider else {
+            return
+        }
+
+        clone(provider: provider, to: .toTemp)
+    }
+
+    @objc private func cloneToMain(_ item: NSMenuItem) {
+
+        guard let provider = item.representedObject as? DataProvider else {
+            return
+        }
+
+        clone(provider: provider, to: .toMain)
+    }
+
+    @objc private func showInFinder(_ item: NSMenuItem) {
+        guard let url = item.representedObject as? URL else {
+            return
+        }
+        NSWorkspace.shared.activateFileViewerSelecting([url])
+    }
+
+    @objc private func renameProvider(_ item: NSMenuItem) {
+        guard let provider = item.representedObject as? DataProvider else {
+            return
+        }
+
+    }
+
     func menuNeedsUpdate(_ menu: NSMenu) {
         print("update")
         menu.removeAllItems()
@@ -217,17 +305,47 @@ extension SideBarBrowseViewController: NSMenuDelegate {
             menu.addItem(withTitle: "Attach Database", action: #selector(showAttachDatabase), keyEquivalent: "")
             if !(document?.database.attachedDatabases.isEmpty ?? true) {
                 menu.addItem(withTitle: "Detach Database", action: #selector(showDetachDatabase), keyEquivalent: "")
-
             }
+
         case let dbNode as DatabaseViewNode:
             if let database = dbNode.database, let document = document {
                 if document.database.attachedDatabases.contains(where: { database === $0 }) {
                     let detatch = NSMenuItem(title: "Detach \(database.name)", action: #selector(detatchDatabase), keyEquivalent: "")
                     detatch.representedObject = database
                     menu.addItem(detatch)
+                }
 
+                if URL(string: database.path) != nil {
+                    let detatch = NSMenuItem(title: "Show in Finder", action: #selector(showInFinder), keyEquivalent: "")
+                    detatch.representedObject = URL(fileURLWithPath: database.path)
+                    menu.addItem(detatch)
+                }
+            }
+        case let tableNode as TableViewNode:
+            if !tableNode.name.hasPrefix("sqlite") {
 
+                if let provider = tableNode.provider {
+                    let dropFormat = NSLocalizedString("Drop %@", comment: "Drop table or view menu item, with %@ replaced with the name")
+                    let dropObject = NSMenuItem(title: String(format: dropFormat,provider.type), action: #selector(dropProvider), keyEquivalent: "")
+                    dropObject.representedObject = tableNode.provider
+                    menu.addItem(dropObject)
 
+                    if provider.database?.name != "temp" {
+                        let cloneTemp = NSMenuItem(title:  NSLocalizedString("Clone to temp", comment: "clone to temp db menu item"), action: #selector(createTempClone), keyEquivalent: "")
+                        cloneTemp.representedObject = tableNode.provider
+                        menu.addItem(cloneTemp)
+                    }
+
+                    if provider.database?.name != "main" {
+                        let cloneTemp = NSMenuItem(title: NSLocalizedString("Clone to main", comment: "clone to main menu item"), action: #selector(cloneToMain), keyEquivalent: "")
+                        cloneTemp.representedObject = tableNode.provider
+                        menu.addItem(cloneTemp)
+
+                    }
+
+                    let renameObject = NSMenuItem(title: NSLocalizedString("Rename", comment: "Rename menu item"), action: #selector(renameProvider), keyEquivalent: "")
+                    renameObject.representedObject = tableNode.provider
+                    menu.addItem(renameObject)
                 }
             }
         default:

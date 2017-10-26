@@ -43,6 +43,12 @@ class Query {
         }
     }
 
+    func processQuery( handler: () throws -> Void, keepGoing: () -> Bool ) throws {
+        while keepGoing(), try !statement.step() {
+            try handler()
+        }
+    }
+
     func processRows( handler: ([SQLiteData]) throws -> Void) throws {
 
         var rowData = [SQLiteData](repeating: .null, count: statement.columnCount)
@@ -69,6 +75,29 @@ class Query {
 
     }
 
+    func processInBackground(completion: @escaping ([[SQLiteData]],Error?) -> Void , keepGoing: @escaping () -> Bool ) {
+        DispatchQueue.global(qos: .userInteractive).async {
+
+            var data = [[SQLiteData]]()
+            var rowData = [SQLiteData](repeating: .null, count: self.statement.columnCount)
+            do {
+                while keepGoing(), try !self.statement.step() {
+                    self.statement.fill(&rowData)
+                    data.append(rowData)
+                }
+
+                DispatchQueue.main.async {
+                    completion(data, nil)
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    completion(data, error)
+                }
+            }
+        }
+
+    }
+
     func bindArguments(_ args: [SQLiteData]) throws {
         try statement.bind(args)
     }
@@ -76,5 +105,18 @@ class Query {
     func bindArguments(_ args: ArraySlice<SQLiteData>) throws {
         try statement.bind(args)
     }
+
+    func processData(from query: Query, keepGoing: (()-> Bool)) throws {
+        var rowData = [SQLiteData](repeating: .null, count: query.statement.columnCount)
+
+        try query.processQuery(handler: {
+            query.statement.fill(&rowData)
+            try statement.bind(rowData)
+            _ = try statement.step()
+
+            statement.reset()
+        }, keepGoing: keepGoing)
+    }
+
 
 }

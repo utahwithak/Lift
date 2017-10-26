@@ -17,6 +17,7 @@ class LiftDocument: NSDocument {
         super.init()
 
     }
+    
 
     init(contentsOf url: URL, ofType typeName: String) throws {
         SQLiteDocumentPresenter.addPresenters(for: url)

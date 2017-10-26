@@ -8,13 +8,15 @@
 
 import Cocoa
 
-class TableGraphViewController: LiftViewController {
+class TableGraphViewController: LiftMainViewController {
+    
     @IBOutlet weak var scrollView: NSScrollView!
     @IBOutlet weak var container: GraphViewsContainer!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        container.delegate = self
         container.wantsLayer = true
         container.layer?.backgroundColor = NSColor.lightGray.cgColor
         scrollView.documentView = container
@@ -50,7 +52,16 @@ class TableGraphViewController: LiftViewController {
 
     }
 
+
     func reloadView() {
+        var frameMap = [String: CGRect]()
+        for childController in childViewControllers {
+
+            if let graphView = childController as? GraphTableView {
+                frameMap[graphView.table.qualifiedNameForQuery] = graphView.view.frame
+            }
+        }
+
         for view in container.subviews {
             view.removeFromSuperview()
         }
@@ -101,6 +112,12 @@ class TableGraphViewController: LiftViewController {
 
         }
 
+        for childController in childViewControllers {
+            if let graphView = childController as? GraphTableView, let pastRect = frameMap[graphView.table.qualifiedNameForQuery] {
+                graphView.view.frame = pastRect
+            }
+        }
+
         container.frame = CGRect(x: 0, y: 0, width: viewNum * 400, height: viewNum * 400)
 
         //Foreign key hookup
@@ -125,3 +142,17 @@ class TableGraphViewController: LiftViewController {
         }
     }
 }
+
+
+extension TableGraphViewController: GraphContainerViewDelegate {
+    func containerView(_ containerView: GraphViewsContainer, didSelect view: NSView?) {
+        if let view = view {
+            if let vcIndex = childViewControllers.index(where: { $0.view == view}), let graphView = childViewControllers[vcIndex] as? GraphTableView {
+                windowController?.selectedTable = graphView.table
+            }
+        } else {
+            windowController?.selectedTable = nil
+        }
+    }
+}
+

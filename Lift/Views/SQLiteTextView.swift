@@ -16,6 +16,14 @@ class SQLiteTextView: NSTextView {
         setup()
     }
 
+    public func setIdentifiers(_ ids: Set<String>) {
+        if highlighter == nil {
+            setup()
+        }
+
+        highlighter.autocompleteWords = ids
+    }
+
     func setup() {
         if highlighter == nil {
             highlighter = SQLiteSyntaxHighlighter(for: self)
@@ -32,7 +40,7 @@ class SQLiteTextView: NSTextView {
     }
 
     func refresh() {
-        highlighter.highlight(self)
+        highlighter.recolorAll()
     }
     
 }

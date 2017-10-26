@@ -32,7 +32,12 @@ class Table: DataProvider {
             throw NSError(domain: "com.dataumapps.lift", code: -3, userInfo: [NSLocalizedDescriptionKey:"INAVALID table data row!"])
         }
 
-        definition = try SQLiteCreateTableParser.parseSQL(sql)
+        do {
+            definition = try SQLiteCreateTableParser.parseSQL(sql)
+        } catch {
+            print("Failed to parse sql!:\(error)")
+            definition = TableDefinition()
+        }
 
         // Foreign Keys
 

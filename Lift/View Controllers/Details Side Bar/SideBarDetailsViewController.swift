@@ -8,19 +8,26 @@
 
 import Cocoa
 
+protocol DetailsContentProvider: class {
+    var preferredSections: [DetailSection] { get }
+}
+
+enum DetailSection {
+    case database
+    case table
+
+    
+}
+
+
 class SideBarDetailsViewController: LiftViewController {
 
-    @IBOutlet var sqlView: SQLiteTextView!
-    override func viewDidLoad() {
-        sqlView.setup()
-        sqlView.isEditable = false
-    }
-
-    override var selectedTable: DataProvider? {
+    weak var contentProvider: DetailsContentProvider? {
         didSet {
-            sqlView.string = selectedTable?.sql ?? ""
-            sqlView.refresh()
+            sections = contentProvider?.preferredSections ?? [.database]
         }
     }
+
+    var sections: [DetailSection] = [.database, .table]
 
 }

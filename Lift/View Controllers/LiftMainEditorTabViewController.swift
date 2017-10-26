@@ -10,7 +10,8 @@ import Cocoa
 
 enum MainEditorType {
     case table
-    case canvas
+    case graph
+    case query
 }
 
 class LiftMainEditorTabViewController: NSTabViewController {
@@ -23,14 +24,26 @@ class LiftMainEditorTabViewController: NSTabViewController {
 
         }
     }
+
+
+    var sideBarViewController: SideBarDetailsViewController?
+
     
     func switchMainView( to editorType: MainEditorType) {
         switch editorType {
         case .table:
             selectedTabViewItemIndex = 0
-        case .canvas:
+        case .graph:
             selectedTabViewItemIndex = 1
+        case .query:
+            selectedTabViewItemIndex = 2
         }
 
+    }
+
+    override var selectedTabViewItemIndex: Int {
+        didSet {
+            sideBarViewController?.contentProvider = tabViewItems[selectedTabViewItemIndex].viewController as? DetailsContentProvider
+        }
     }
 }

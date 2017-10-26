@@ -68,4 +68,6 @@ enum SQLiteData {
             return .blob
         }
     }
+
+
 }

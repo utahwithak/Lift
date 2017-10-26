@@ -36,10 +36,18 @@ class DatabaseViewNode: BrowseViewNode {
 
     weak var database: Database?
 
+    @objc dynamic var path: String?
+
     init(database: Database) {
         self.database = database
 
         super.init(name: database.name)
+
+        if let url = URL(string: database.path) {
+            path = url.lastPathComponent
+        } else {
+            path = database.path
+        }
 
         let tableGroup = GroupViewNode(name: NSLocalizedString("Tables", comment: "Table group header name"))
         children.append(tableGroup)

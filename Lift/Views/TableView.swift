@@ -48,6 +48,9 @@ class TableView: NSTableView {
             selectionViews.forEach { addSubview($0, positioned: .above, relativeTo: nil) }
         }
     }
+    override func selectAll(_ sender: Any?) {
+        selectionBoxes = [SelectionBox(startRow: 0, endRow: numberOfRows - 1, startColumn: 0, endColumn: numberOfColumns - 1)]
+    }
 
     private var selectionRects = [NSRect]() {
         didSet {
@@ -55,6 +58,16 @@ class TableView: NSTableView {
 
             for rect in selectionRects {
                 let selection = PassthroughView(frame: rect.insetBy(dx: -4, dy: -4))
+                if selection.frame.origin.x < 0 {
+                    selection.frame.size.width += selection.frame.origin.x
+                    selection.frame.origin.x = 0
+                }
+
+                if selection.frame.origin.y < 0 {
+                    selection.frame.size.height += selection.frame.origin.y
+                    selection.frame.origin.y = 0
+                }
+
                 selection.wantsLayer = true
                 selection.layer?.backgroundColor = CGColor.clear
                 selection.layer?.borderColor = NSColor.systemBlue.cgColor
@@ -76,6 +89,9 @@ class TableView: NSTableView {
 
     }
 
+    @IBAction func copy(sender: Any) {
+
+    }
 
     private func refreshSelection() {
 

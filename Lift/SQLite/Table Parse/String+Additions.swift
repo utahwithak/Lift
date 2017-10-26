@@ -11,6 +11,22 @@ import Foundation
 
 extension String {
 
+    func CSVFormattedString(qouted: Bool, separator: String) -> String {
+
+
+        let safeQoute = qouted || self.rangeOfCharacter(from: CharacterSet.newlines) != nil ||  self.contains(separator)
+
+        let content: String
+        if self.contains("\"") {
+            content = self.replacingOccurrences(of: "\"", with: "\"\"")
+            return safeQoute ? String(format: "\"%@\"", content) : content
+        } else {
+            return safeQoute ? String(format: "\"%@\"", self) : self
+        }
+
+
+    }
+
     func sqliteSafeString() -> String {
         if (first == "\"" || first == "'" || first == "`") && balancedQoutedString() {
             return self

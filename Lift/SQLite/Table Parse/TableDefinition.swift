@@ -33,4 +33,17 @@ class TableDefinition: NSObject {
 
      @objc dynamic public var tableConstraints = [TableConstraint]()
 
+
+    var qualifiedNameForQuery: String {
+        if let schemaName = databaseName {
+            return "\(schemaName.sql).\(tableName.sql)"
+        } else {
+            return tableName.sql
+        }
+    }
+
+    var createStatment: String {
+        return ""
+    }
+
 }

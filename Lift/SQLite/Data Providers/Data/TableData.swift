@@ -11,8 +11,6 @@ import Foundation
 protocol TableDataDelegate: class {
     func tableDataDidPageNextIn(_ data: TableData, count: Int)
     func tableDataDidPagePreviousIn(_ data: TableData, count: Int)
-
-
 }
 
 struct CustomTableStart {
@@ -176,6 +174,69 @@ class TableData: NSObject {
 
     }
 
+    public func loadToRowVisible(_ row: Int, completion: @escaping () -> Void, keepGoing: @escaping()-> Bool ) -> Bool {
+        guard !loadingNextPage && !finishedLoadingAfter else {
+            return false
+        }
+
+        if row < data.count {
+            return false
+        }
+
+        var queryString = baseQuery
+        let loadSize = row - data.count
+        if smartPaging {
+
+            if lastValues != nil {
+                queryString += " WHERE (\(sortColumns)) > (\(argString))"
+            }
+
+            queryString += " ORDER BY \(sortColumns) LIMIT \(loadSize)"
+
+        } else {
+            queryString  += " LIMIT \(loadSize) OFFSET \(data.count)"
+        }
+
+        loadingNextPage = true
+        do {
+            let query = try Query(connection: provider.connection, query: queryString)
+
+            if let args = lastValues {
+                try query.bindArguments(args)
+            }
+            query.processInBackground(completion: { (rowData, error) in
+
+                if rowData.count < loadSize && keepGoing() {
+                    self.finishedLoadingAfter = true
+                }
+
+
+
+                if self.smartPaging, let last = rowData.last {
+                    self.lastValues = last[0..<self.sortCount]
+                }
+
+
+                self.data.append(contentsOf: rowData.map { RowData(row: $0) })
+                completion()
+
+                self.loadingNextPage = false
+
+
+            }, keepGoing: keepGoing)
+
+
+
+        } catch {
+            print("Failed to create query:\(error)")
+            return false
+        }
+
+
+        return true
+
+    }
+
     public func loadPreviousPage() {
         guard !loadingPreviousPage && !finishedLoadingPrevious else {
             return
@@ -247,7 +308,7 @@ class TableData: NSObject {
 
 
     private func handlePreviousResult(_ result: Result<[[SQLiteData]], Error>) {
-
+        
         switch result {
         case .success(let data):
             if data.count < pageSize {
@@ -266,6 +327,94 @@ class TableData: NSObject {
 
         loadingPreviousPage = false
 
+    }
+
+
+    func json(inSelection sel: SelectionBox, keepGoingCheck: (() -> Bool)? = nil) -> String? {
+
+        guard let names = columnNames else {
+            return nil
+        }
+
+        var holder = [Any]()
+        for row in sel.startColumn...sel.endRow {
+            var curRow = [String: Any]()
+            for rawCol in sel.startColumn...sel.endColumn {
+                let col = rawCol + sortCount
+                switch data[row].data[col] {
+                case .text(let text):
+                    curRow[names[col]] = text
+                case .integer(let intVal):
+                    curRow[names[col]] = intVal
+                case .float(let dVal):
+                    curRow[names[col]] = dVal
+                case .null:
+                    break
+                case .blob(let data):
+                   curRow[names[col]] = data.hexEncodedString()
+                }
+
+                if let check = keepGoingCheck, !check() {
+                    return nil
+                }
+
+            }
+            holder.append(curRow)
+        }
+
+        let objForJSON: Any
+        if holder.count == 1 {
+            objForJSON = holder[0]
+        } else {
+            objForJSON = holder
+        }
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: objForJSON, options: .prettyPrinted)
+            return String(data: jsonData, encoding: .utf8)
+        } catch {
+            print("Failed to conver to JSON")
+            return nil
+        }
+
+    }
+
+    func csv(inSelection sel: SelectionBox, keepGoingCheck: (() -> Bool)? = nil ) -> String? {
+
+        var writer = ""
+        let separator = ","
+        let lineEnding = "\n"
+
+        for row in sel.startRow...sel.endRow {
+            for rawCol in sel.startColumn...sel.endColumn {
+                let col = rawCol + sortCount
+
+                let rawData = data[row].data[col]
+                switch rawData {
+                case .text(let text):
+                    writer.append(text.CSVFormattedString(qouted: false, separator: separator))
+                case .integer(let intVal):
+                    writer.append(intVal.description)
+                case .float(let dVal):
+                    writer.append(dVal.description)
+                case .null:
+                    break
+                case .blob(let data):
+                    writer.write("<\(data.hexEncodedString())>")
+                }
+                if rawCol < sel.endColumn {
+                    writer.write(separator)
+                }
+
+                if let check = keepGoingCheck, !check() {
+                    return nil
+                }
+            }
+            if row < sel.endRow {
+                writer.write(lineEnding)
+            }
+
+        }
+        return writer
     }
 
 

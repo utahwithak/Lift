@@ -43,13 +43,15 @@ class LiftWindowController: NSWindowController {
         if let splitView = contentViewController as? LiftMainSplitViewController {
             splitView.splitDelegate = self
         }
-    }
 
-    @IBAction func unwindFromAttachingDatabase(_ sender: Any? ) {
-
+        window?.registerForDraggedTypes([NSPasteboard.PasteboardType.fileURL])
     }
 
     @IBAction override func newWindowForTab(_ sender: Any?) {
+        guard window?.sheets.isEmpty ?? false else {
+            nextResponder?.newWindowForTab(sender)
+            return
+        }
         guard let document = document as? LiftDocument else {
             return
         }
@@ -76,7 +78,16 @@ class LiftWindowController: NSWindowController {
             return
         }
 
-        tabController.switchMainView(to: sender.selectedSegment == 0 ? .table : .canvas)
+        let view: MainEditorType
+        switch sender.selectedSegment {
+        case 0:
+            view = .table
+        case 1:
+            view = .graph
+        default:
+            view = .query
+        }
+        tabController.switchMainView(to: view)
     }
 
     @IBAction func showAttachDetach(_ sender: NSSegmentedControl) {
@@ -151,8 +162,27 @@ class LiftWindowController: NSWindowController {
             return
         }
         attachDetachSegmentedControl.setEnabled(!database.attachedDatabases.isEmpty, forSegment: 1)
-
     }
+
+
+    @IBAction func showImportExport(_ sender: NSSegmentedControl) {
+        switch sender.selectedSegment {
+        case 0:
+
+            guard let windowController = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("importWindow")) as? NSWindowController, let window = windowController.window else {
+                return
+            }
+            self.window?.beginSheet(window, completionHandler: { _ in
+                print("Completion")
+            })
+        default:
+            print("export")
+        }
+    }
+
+
+
+
 }
 
 extension LiftWindowController: LiftSplitViewDelegate {
@@ -170,3 +200,39 @@ extension LiftWindowController: LiftSplitViewDelegate {
     }
 }
 
+
+extension LiftWindowController: NSDraggingDestination {
+
+    func shouldAllowDrag(_ draggingInfo: NSDraggingInfo) -> Bool {
+        return draggingInfo.draggingPasteboard().canReadObject(forClasses: [NSURL.self], options:nil)
+    }
+
+    func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
+        return shouldAllowDrag(sender) ? .copy : NSDragOperation()
+    }
+
+    func prepareForDragOperation(_ sender: NSDraggingInfo) -> Bool {
+        return shouldAllowDrag(sender)
+    }
+
+    func performDragOperation(_ draggingInfo: NSDraggingInfo) -> Bool {
+
+        let pasteBoard = draggingInfo.draggingPasteboard()
+
+        if let urls = pasteBoard.readObjects(forClasses: [NSURL.self], options:nil) as? [URL], let url = urls.first {
+
+            if let viewcontroller = storyboard?.instantiateController(withIdentifier: .attachDatabase) as? AttachDatabaseViewController {
+                viewcontroller.representedObject = document
+                contentViewController?.presentViewControllerAsSheet(viewcontroller)
+                viewcontroller.path = url
+            }
+
+            return true
+        }
+
+        return false
+
+    }
+
+
+}

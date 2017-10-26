@@ -8,11 +8,21 @@
 
 import Cocoa
 
+protocol GraphContainerViewDelegate: class {
+    func containerView(_ containerView: GraphViewsContainer, didSelect view: NSView?)
+}
+
 class GraphViewsContainer: NSView {
 
     var arrowViews = [ArrowView]()
 
-    var selectedView: NSView?
+    weak var delegate: GraphContainerViewDelegate?
+
+    var selectedView: NSView? {
+        didSet {
+            delegate?.containerView(self, didSelect: selectedView)
+        }
+    }
 
     override func mouseDown(with event: NSEvent) {
         let location = convert(event.locationInWindow, from: nil)
@@ -54,11 +64,35 @@ class GraphViewsContainer: NSView {
                 isMoving = true
             }
             if isMoving {
+                var allNeedRefresh = false
+
                 if !NSEqualPoints(lastPoint, curPoint) {
                     selectedView.frame = NSOffsetRect(selectedView.frame, (curPoint.x - lastPoint.x), (curPoint.y - lastPoint.y))
+                    if selectedView.frame.minX < 0 {
+                        frame.size.width -= selectedView.frame.minX
+                        for view in subviews {
+                            view.frame = NSOffsetRect(view.frame, -1 * selectedView.frame.minX, 0)
+                        }
+                        allNeedRefresh = true
+
+                    }
+
+                    if selectedView.frame.minY < 0 {
+                        frame.size.height -= selectedView.frame.minY
+                        for view in subviews {
+                            view.frame = NSOffsetRect(view.frame, 0, -1 * selectedView.frame.minY)
+                        }
+                        allNeedRefresh = true
+                    }
                 }
                 lastPoint = curPoint;
-                movingArrows.forEach({ $0.refreshPath()})
+
+                if allNeedRefresh {
+                    arrowViews.forEach({ $0.refreshPath() })
+                } else {
+                    movingArrows.forEach({ $0.refreshPath()})
+                }
+
                 self.setNeedsDisplay(self.bounds)
 
             }

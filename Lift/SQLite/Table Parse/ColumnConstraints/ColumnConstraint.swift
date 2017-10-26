@@ -40,7 +40,7 @@ class ColumnConstraint {
             return try DefaultColumnConstraint(with: name, from: scanner)
         case "collate":
             return try CollateColumnConstraint(with: name, from: scanner)
-        case "foreign":
+        case "references":
             return try ForeignKeyColumnConstraint(with: name, from: scanner)
         default:
             return nil

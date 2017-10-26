@@ -8,6 +8,8 @@
 
 import Foundation
 
+let SQLITE_STATIC = unsafeBitCast(0, to: sqlite3_destructor_type.self)
+let SQLITE_TRANSIENT = unsafeBitCast(-1, to: sqlite3_destructor_type.self)
 
 class Statement {
     let statement: OpaquePointer!
@@ -21,6 +23,8 @@ class Statement {
     let connection : sqlite3
 
     var bindIndex: Int32 = 1
+
+    let parameterCount: Int
 
     init(connection: sqlite3, text: String) throws {
 
@@ -41,7 +45,7 @@ class Statement {
         columnCount = Int(sqlite3_column_count( statement ))
 
         columnNames = (0..<columnCount).map { String(cString: sqlite3_column_name(stmt, Int32($0))) }
-
+        parameterCount = Int(sqlite3_bind_parameter_count(statement))
     }
 
     deinit {
@@ -180,7 +184,7 @@ class Statement {
 
         }
 
-        assert(sqlite3_bind_parameter_count(statement) >= index, "Bind index out of bounds!")
+        assert(parameterCount >= index, "Bind index out of bounds!")
 
         return index
     }
@@ -195,20 +199,32 @@ class Statement {
     }
 
     func bind(text: String, at i: Int? = nil) throws {
-        try checkedOperation(on: connection) { sqlite3_bind_text( statement, bindIndex(for: i), text, -1, nil ) }
+        try checkedOperation(on: connection) {
+            sqlite3_bind_text( statement, bindIndex(for: i), text, -1, SQLITE_TRANSIENT )
+
+        }
     }
 
     func bind(float: Double, at i: Int? = nil) throws {
-        try checkedOperation(on: connection) { sqlite3_bind_double( statement, bindIndex(for: i), float )}
+        try checkedOperation(on: connection) {
+            sqlite3_bind_double( statement, bindIndex(for: i), float )
+
+        }
     }
 
     func bind(integer: Int, at i: Int? = nil) throws {
-        try checkedOperation(on: connection) { sqlite3_bind_int64( statement, bindIndex(for: i), sqlite_int64(integer)) }
+        try checkedOperation(on: connection) {
+            sqlite3_bind_int64( statement, bindIndex(for: i), sqlite_int64(integer))
+
+        }
     }
 
     func bind(blob: Data, at i: Int? = nil) throws {
         try blob.withUnsafeBytes { ptr in
-            try checkedOperation(on: connection) { sqlite3_bind_blob( statement, bindIndex(for: i), ptr, Int32(blob.count), nil) }
+            try checkedOperation(on: connection) {
+                sqlite3_bind_blob( statement, bindIndex(for: i), ptr, Int32(blob.count), SQLITE_TRANSIENT)
+
+            }
         }
     }
 

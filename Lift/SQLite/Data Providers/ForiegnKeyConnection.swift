@@ -17,3 +17,9 @@ struct ForeignKeyConnection {
     let toTable: String
     let toColumns: [String]
 }
+
+struct ForeignKeyJump {
+
+    let connection: ForeignKeyConnection
+    let source: DataProvider
+}

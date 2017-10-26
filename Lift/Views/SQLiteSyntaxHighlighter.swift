@@ -121,6 +121,10 @@ class SQLiteSyntaxHighlighter {
         highlightString?.setAttributes(colorDict, range: range)
     }
 
+    func recolorAll() {
+        let wholeRange = NSRange(location: 0, length: (completeString as NSString).length)
+        recolor(range: wholeRange)
+    }
 
     func recolor(range: NSRange) {
 

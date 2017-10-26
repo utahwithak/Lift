@@ -17,8 +17,16 @@ class RowCountFormatter: ValueTransformer {
         if rowCount == 1 {
             return NSLocalizedString("1 row", comment: "Subtitle for single row")
         } else {
-            return NSLocalizedString("\(rowCount) rows", comment: "subititle for lots of rows")
+            let format = NSLocalizedString("%@ rows", comment: "subititle for lots of rows. %@ repaced with a formatted number")
+
+            return String(format: format, RowCountFormatter.numberFormatter.string(for: rowCount) ?? "Lots of")
         }
     }
+
+    static let numberFormatter: NumberFormatter = {
+        var formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        return formatter
+    }()
 
 }
