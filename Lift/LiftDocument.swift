@@ -56,5 +56,17 @@ class LiftDocument: NSDocument {
         database.refresh()
     }
 
+    func cleanDatabase() throws {
+        try database.cleanDatabase()
+    }
+
+    func checkDatabaseIntegrity() throws -> Bool {
+        return try database.checkDatabaseIntegrity()
+    }
+
+    func checkForeignKeys() throws -> Bool {
+        return try database.checkForeignKeyIntegrity()
+    }
+
 }
 

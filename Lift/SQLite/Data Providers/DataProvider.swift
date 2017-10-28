@@ -11,9 +11,9 @@ import Foundation
 class DataProvider: NSObject {
     let connection: sqlite3
 
-    let name: String
+    @objc dynamic let name: String
 
-    let type: String
+    @objc dynamic let type: String
 
     @objc dynamic let sql: String
 

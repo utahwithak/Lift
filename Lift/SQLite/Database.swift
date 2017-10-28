@@ -63,19 +63,80 @@ class Database {
     public private(set) var tempDatabase: Database?
     public private(set) var mainDB: Database?
 
-    public let extensionsAllowed: Bool
+    public private(set) var extensionsAllowed = false
+
+    public private(set) var history = [String]()
+
+    public var foreignKeysEnabled: Bool {
+        get {
+            do {
+                let query = try Query(connection: connection, query: "PRAGMA foreign_keys")
+                let allRows = try query.allRows()
+                guard let result = allRows.first?.first else {
+                    return false
+                }
+                return result.intValue == 1
+            } catch {
+                print("Failed to get f key support")
+                return false
+            }
+        }
+        set {
+            do {
+                let value = newValue ? "ON":"OFF"
+                _ = try execute(statement: "PRAGMA foreign_keys=\(value)")
+            } catch {
+                print("Failed to update foreign key status!")
+            }
+        }
+    }
 
     private init(connection: sqlite3, name: String) {
         self.connection = connection
         self.name = name
 
-
-        extensionsAllowed = SQLite3ConfigHelper.enableExtensions(for: connection)
-
+        enableExtensions()
+        foreignKeysEnabled = true
         // return asap and refresh on the next go around
         DispatchQueue.global(qos: .background).async {
             DispatchQueue.main.async {
                 self.refresh()
+            }
+        }
+
+        if name == "main" {
+
+            // enable tracing
+            let tmpSelf = self
+            let rc = sqlite3_trace_v2(connection, UInt32(SQLITE_TRACE_STMT), { (type, context, preparedStatement, expandedText) -> Int32 in
+                guard type == UInt32(SQLITE_TRACE_STMT) else {
+                    return 0
+                }
+
+                guard let intPtr = expandedText?.assumingMemoryBound(to: Int8.self) else {
+                    return 0
+                }
+
+                let db = unsafeBitCast(context, to: Database.self)
+                let str = String(cString: intPtr)
+                if str.hasPrefix("--") {
+                    db.history.append(str)
+                } else {
+                    if let expandedSQL = sqlite3_expanded_sql(OpaquePointer(preparedStatement)) {
+                        let expanded = String(cString: expandedSQL)
+                        db.history.append(expanded)
+                        sqlite3_free(expandedSQL)
+                        print(expanded)
+
+                    }
+                }
+
+                return 0
+
+            }, unsafeBitCast(tmpSelf, to: UnsafeMutableRawPointer.self))
+
+            if rc != SQLITE_OK {
+                history.append("Failed to enable trace!")
             }
         }
     }
@@ -267,4 +328,49 @@ class Database {
             throw SQLiteError(connection: connection, code: rc, sql: "sqlite3_load_extension(connection, zFile, entryPoint, &errorMsg)")
         }
     }
+
+    public func clearHistory() {
+        history.removeAll(keepingCapacity: true)
+    }
+
+    public func cleanDatabase() throws {
+
+        _ = try execute(statement: "VACUUM \(name.sqliteSafeString())")
+
+        DispatchQueue.main.async { [weak self] in
+            self?.refresh()
+        }
+    }
+
+    public func checkDatabaseIntegrity() throws -> Bool {
+        let integrityQuery = try Query(connection: connection, query: "PRAGMA integrity_check")
+        let allRows = try integrityQuery.allRows()
+        guard allRows.count == 1, allRows[0].count == 1, case .text(let okStr) = allRows[0][0] else {
+            throw NSError(domain: "com.datumapps.lift", code: -8, userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Invalid return from Integrity check!", comment: "Message when the inetrigty check returns something unexpected!")])
+        }
+        return okStr == "ok"
+
+    }
+
+    public func checkForeignKeyIntegrity() throws -> Bool {
+        return try execute(statement: "PRAGMA foreign_key_check")
+    }
+
+    public func enableExtensions() {
+        guard name == "main" else {
+            return
+        }
+        extensionsAllowed = SQLite3ConfigHelper.enableExtensions(for: connection)
+    }
+
+    public func disableExtensions() {
+        guard name == "main" else {
+            return
+        }
+
+        if SQLite3ConfigHelper.disableExtensions(for: connection) {
+            extensionsAllowed = false
+        }
+    }
+
 }

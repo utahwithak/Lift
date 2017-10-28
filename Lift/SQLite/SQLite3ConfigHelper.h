@@ -12,4 +12,5 @@
 @interface SQLite3ConfigHelper : NSObject
 
 + (BOOL) enableExtensionsFor:(struct sqlite3 *)connection;
++ (BOOL) disableExtensionsFor:(struct sqlite3 *)connection;
 @end

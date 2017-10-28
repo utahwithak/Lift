@@ -18,21 +18,21 @@ class LiftViewController: NSViewController {
 
     @objc dynamic weak var selectedTable: DataProvider?
 
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
-        if keyPath == #keyPath(LiftWindowController.selectedTable) {
-            selectedTable = (object as? LiftWindowController)?.selectedTable
-        } else {
-            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
-        }
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        NotificationCenter.default.addObserver(self, selector: #selector(selectedTableChanged), name: .selectedTableChanged, object: nil)
     }
 
+    @objc private func selectedTableChanged(_ notification: Notification) {
+        if windowController == (notification.object as? LiftWindowController) {
+            selectedTable = windowController?.selectedTable
+        }
+    }
 
     override var representedObject: Any? {
         didSet {
 
-            if let documentController = windowController {
-                documentController.addObserver(self, forKeyPath: #keyPath(LiftWindowController.selectedTable), options: [], context: nil)
-            }
+
         }
     }
 }

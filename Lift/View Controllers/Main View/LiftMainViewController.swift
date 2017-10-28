@@ -16,7 +16,7 @@ class LiftMainViewController: LiftViewController {
 
 extension LiftMainViewController: DetailsContentProvider {
     var preferredSections: [DetailSection] {
-        return [.database]
+        return [.database, .table]
 
     }
 }

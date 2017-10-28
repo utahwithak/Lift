@@ -8,6 +8,16 @@
 
 import Cocoa
 
+class HiddenSegmentedControl: NSSegmentedControl {
+    override class var cellClass: Swift.AnyClass? {
+        get {
+            return HiddenSegmentedCell.self
+        }
+        set { }
+    }
+}
+
+
 class HiddenSegmentedCell: NSSegmentedCell {
 
     var frames = [Int: NSRect]()

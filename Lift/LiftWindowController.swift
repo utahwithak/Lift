@@ -8,10 +8,15 @@
 
 import Cocoa
 
-extension  NSStoryboard.SceneIdentifier {
+extension NSStoryboard.SceneIdentifier {
     static let attachDatabase = NSStoryboard.SceneIdentifier("attachDatabase")
     static let detachDatabase =  NSStoryboard.SceneIdentifier("detachDatabase")
 }
+
+extension Notification.Name {
+    static let selectedTableChanged = Notification.Name("selectedTableChanged")
+}
+
 
 class LiftWindowController: NSWindowController {
 
@@ -22,6 +27,7 @@ class LiftWindowController: NSWindowController {
     @objc dynamic weak var selectedTable: DataProvider? {
         didSet {
             window?.title = selectedTable?.name ?? document?.displayName ?? ""
+            NotificationCenter.default.post(name: .selectedTableChanged, object: self)
         }
     }
     @IBAction func changeSplitViewPanels(_ sender: Any) {
@@ -45,6 +51,8 @@ class LiftWindowController: NSWindowController {
         }
 
         window?.registerForDraggedTypes([NSPasteboard.PasteboardType.fileURL])
+
+        mainEditor?.sideBarViewController = sideDetails
     }
 
     @IBAction override func newWindowForTab(_ sender: Any?) {
@@ -72,9 +80,24 @@ class LiftWindowController: NSWindowController {
         (document as? LiftDocument)?.refresh()
     }
 
+
+    private var mainEditor: LiftMainEditorTabViewController? {
+        guard let splitView = contentViewController as? LiftMainSplitViewController, let tabController = splitView.mainEditor else {
+            return nil
+        }
+        return tabController
+    }
+
+    private var sideDetails: SideBarDetailsViewController? {
+        guard let splitView = contentViewController as? LiftMainSplitViewController, let tabController = splitView.detailsViewController else {
+            return nil
+        }
+        return tabController
+    }
+
     @IBAction func switchMainEditor(_ sender: NSSegmentedControl) {
 
-        guard let splitView = contentViewController as? LiftMainSplitViewController, let tabController = splitView.mainEditor else {
+        guard let tabController = mainEditor else {
             return
         }
 
@@ -164,6 +187,75 @@ class LiftWindowController: NSWindowController {
         attachDetachSegmentedControl.setEnabled(!database.attachedDatabases.isEmpty, forSegment: 1)
     }
 
+    @IBAction func showDatabaseLog( _ sender: Any) {
+        guard let logViewController = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("logView")) as? LogViewController else {
+            return
+        }
+        logViewController.representedObject = document
+
+        contentViewController?.presentViewControllerAsSheet(logViewController)
+    }
+
+    @IBAction func checkDatabase( _ sender: Any) {
+
+        guard let waitingView = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("statementWaitingView")) as? StatementWaitingViewController else {
+            return
+        }
+
+        let operation: () throws -> Bool = { [weak self] in
+            guard let document = self?.document as? LiftDocument else {
+                return true
+            }
+
+            let integrity = try document.checkDatabaseIntegrity()
+            let fKey = try document.checkForeignKeys()
+
+            let message: String
+            if integrity && fKey {
+                message = NSLocalizedString("Integrity and foreign key checks passed", comment: "message when both checks succeeded")
+            } else {
+                if !fKey && !integrity {
+                    message = NSLocalizedString("Both integrity and foreign key checks failed", comment: "message when both checks Fail")
+                } else if !fKey {
+                    message = NSLocalizedString("Integrity check passed but and foreign key checks failed", comment: "message when integrity pass but fkey fails")
+                } else {
+                    message = NSLocalizedString("Foreign key checks passed but integrity check failed", comment: "message when fKey passes but integrity fails")
+                }
+            }
+            DispatchQueue.main.async {
+                let alert = NSAlert()
+                alert.messageText = NSLocalizedString("Check Results", comment: "Results alert title")
+                alert.informativeText = message
+                alert.runModal()
+            }
+
+            return integrity && fKey
+
+
+        }
+        waitingView.delegate = self
+        waitingView.operation = .customCall(operation)
+        waitingView.representedObject = document
+        contentViewController?.presentViewControllerAsSheet(waitingView)
+    }
+
+    @IBAction func cleanDatabase( _ sender: Any) {
+
+        guard let waitingView = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("statementWaitingView")) as? StatementWaitingViewController else {
+            return
+        }
+
+        let operation: () throws -> Bool = { [weak self] in
+            try (self?.document as? LiftDocument)?.cleanDatabase()
+            return true
+
+        }
+        waitingView.delegate = self
+        waitingView.operation = .customCall(operation)
+        waitingView.representedObject = document
+        contentViewController?.presentViewControllerAsSheet(waitingView)
+
+    }
 
     @IBAction func showImportExport(_ sender: NSSegmentedControl) {
         switch sender.selectedSegment {
@@ -180,7 +272,12 @@ class LiftWindowController: NSWindowController {
         }
     }
 
+}
 
+extension LiftWindowController: StatementWaitingViewDelegate {
+    func waitingView(_ view: StatementWaitingViewController, finishedSuccessfully: Bool) {
+        contentViewController?.dismissViewController(view)
+    }
 
 
 }
