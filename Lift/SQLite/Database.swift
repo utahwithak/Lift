@@ -126,8 +126,6 @@ class Database {
                         let expanded = String(cString: expandedSQL)
                         db.history.append(expanded)
                         sqlite3_free(expandedSQL)
-                        print(expanded)
-
                     }
                 }
 

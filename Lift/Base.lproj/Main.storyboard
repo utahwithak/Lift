@@ -406,9 +406,9 @@
                                     </items>
                                 </menu>
                             </menuItem>
-                            <menuItem title="Extensions" id="ZGQ-pP-Ttp" userLabel="Extensions">
+                            <menuItem title="Tools" id="wHW-tJ-mSU" userLabel="Tools">
                                 <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="Extensions" id="Sau-hm-R5w">
+                                <menu key="submenu" title="Tools" id="Eoj-tH-5HA" userLabel="Tools">
                                     <items>
                                         <menuItem title="Load Extension" id="Spw-Na-FOU">
                                             <modifierMask key="keyEquivalentModifierMask"/>
@@ -416,13 +416,6 @@
                                                 <action selector="loadExtension:" target="Ady-hI-5gd" id="Jqw-l4-GeK"/>
                                             </connections>
                                         </menuItem>
-                                    </items>
-                                </menu>
-                            </menuItem>
-                            <menuItem title="Tools" id="wHW-tJ-mSU" userLabel="Tools">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <menu key="submenu" title="Tools" id="Eoj-tH-5HA" userLabel="Tools">
-                                    <items>
                                         <menuItem title="Check Database" id="Iqh-mt-8zY">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
@@ -1742,22 +1735,19 @@ Gw
                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                 </textField>
-                                                <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="475-xB-Igj" customClass="LineNumberScrollView" customModule="Lift" customModuleProvider="target">
+                                                <scrollView autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="475-xB-Igj" customClass="LineNumberScrollView" customModule="Lift" customModuleProvider="target">
                                                     <rect key="frame" x="6" y="85" width="205" height="135"/>
-                                                    <clipView key="contentView" id="RMz-Ai-ekY">
+                                                    <clipView key="contentView" copiesOnScroll="NO" id="RMz-Ai-ekY">
                                                         <rect key="frame" x="1" y="1" width="203" height="133"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
-                                                            <textView importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="kdb-tx-rDV" customClass="SQLiteTextView" customModule="Lift" customModuleProvider="target">
+                                                            <textView editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" findStyle="panel" allowsNonContiguousLayout="YES" id="kdb-tx-rDV" customClass="SQLiteTextView" customModule="Lift" customModuleProvider="target">
                                                                 <rect key="frame" x="0.0" y="0.0" width="203" height="133"/>
                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                                 <size key="minSize" width="203" height="133"/>
                                                                 <size key="maxSize" width="463" height="10000000"/>
                                                                 <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                                                <connections>
-                                                                    <binding destination="2WB-cA-ZJn" name="attributedString" keyPath="self.selectedTable.sql" id="S8e-9M-xzC"/>
-                                                                </connections>
                                                             </textView>
                                                         </subviews>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1766,16 +1756,16 @@ Gw
                                                         <constraint firstAttribute="height" constant="135" id="EwP-I4-p1W"/>
                                                     </constraints>
                                                     <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="3Zg-pr-xNY">
-                                                        <rect key="frame" x="-100" y="-100" width="87" height="18"/>
+                                                        <rect key="frame" x="1" y="118" width="203" height="16"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                     </scroller>
-                                                    <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="nfU-dt-XHg">
+                                                    <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="nfU-dt-XHg">
                                                         <rect key="frame" x="188" y="1" width="16" height="133"/>
                                                         <autoresizingMask key="autoresizingMask"/>
                                                     </scroller>
                                                 </scrollView>
                                                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="usR-bd-JgH">
-                                                    <rect key="frame" x="187" y="270" width="30" height="30"/>
+                                                    <rect key="frame" x="187" y="268" width="30" height="30"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="30" id="BOF-bR-7cq"/>
                                                         <constraint firstAttribute="width" constant="30" id="Ekr-qc-yib"/>
@@ -1788,7 +1778,7 @@ Gw
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="475-xB-Igj" firstAttribute="leading" secondItem="oyx-p7-FFq" secondAttribute="leading" constant="6" id="6Ii-SA-HYm"/>
-                                                <constraint firstItem="usR-bd-JgH" firstAttribute="top" secondItem="oyx-p7-FFq" secondAttribute="top" id="DfT-Pb-n2a"/>
+                                                <constraint firstItem="usR-bd-JgH" firstAttribute="centerY" secondItem="Uii-b6-SAA" secondAttribute="centerY" id="Ge6-8X-CwX"/>
                                                 <constraint firstItem="kK3-ms-Pk0" firstAttribute="centerX" secondItem="Uii-b6-SAA" secondAttribute="centerX" id="I2Y-RR-rnY"/>
                                                 <constraint firstItem="vQ6-Lb-zTD" firstAttribute="leading" secondItem="oyx-p7-FFq" secondAttribute="leading" constant="6" id="JFM-bC-1sz"/>
                                                 <constraint firstAttribute="trailing" secondItem="475-xB-Igj" secondAttribute="trailing" constant="6" id="LhU-LD-PaS"/>
@@ -1820,6 +1810,7 @@ Gw
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="alterButton" destination="usR-bd-JgH" id="2bs-j5-xKF"/>
                         <outlet property="contentTabView" destination="C5l-eN-sbm" id="bYV-6b-bV0"/>
                         <outlet property="sqlTextView" destination="kdb-tx-rDV" id="qOZ-UR-eyp"/>
                         <outlet property="sqlViewHeightConstraint" destination="EwP-I4-p1W" id="3iP-gK-m6k"/>
@@ -2087,9 +2078,25 @@ Gw
                                     <action selector="showDatabaseLog:" target="GvY-qj-OVb" id="s8R-PT-ZKH"/>
                                 </connections>
                             </button>
+                            <button toolTip="Load Extension" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7Ko-Wx-YKr">
+                                <rect key="frame" x="108" y="0.0" width="36" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="iEc-fv-76J"/>
+                                    <constraint firstAttribute="width" constant="36" id="yZJ-AA-ch9"/>
+                                </constraints>
+                                <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="loadExtension" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="FvJ-gZ-vb4">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <accessibility description="Choose Extension Button" identifier="loadExtension"/>
+                                <connections>
+                                    <action selector="loadExtension:" target="GvY-qj-OVb" id="Q0C-Cw-697"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="h6w-K1-YP7" secondAttribute="trailing" constant="20" symbolic="YES" id="1Ri-gL-hgo"/>
+                            <constraint firstItem="7Ko-Wx-YKr" firstAttribute="leading" secondItem="Wdj-Gh-AMV" secondAttribute="trailing" id="1l2-GU-cMP"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="6G9-i2-hrI" secondAttribute="trailing" constant="20" symbolic="YES" id="2Tw-yt-fC2"/>
                             <constraint firstItem="Wdj-Gh-AMV" firstAttribute="centerY" secondItem="YfH-6E-rnZ" secondAttribute="centerY" id="6sI-h6-1wb"/>
                             <constraint firstItem="lTq-ie-IN1" firstAttribute="leading" secondItem="zIk-KK-jlp" secondAttribute="leading" id="70X-qS-6nS"/>
@@ -2100,6 +2107,7 @@ Gw
                             <constraint firstItem="h6w-K1-YP7" firstAttribute="leading" secondItem="j0L-37-fq2" secondAttribute="leading" id="EG4-xQ-eFB"/>
                             <constraint firstItem="6G9-i2-hrI" firstAttribute="top" secondItem="zIk-KK-jlp" secondAttribute="top" constant="20" id="FaH-94-wWa"/>
                             <constraint firstItem="EOE-6U-uzn" firstAttribute="top" secondItem="h6w-K1-YP7" secondAttribute="bottom" constant="8" id="IYI-y9-JuY"/>
+                            <constraint firstItem="7Ko-Wx-YKr" firstAttribute="centerY" secondItem="Wdj-Gh-AMV" secondAttribute="centerY" id="JGs-dY-y4p"/>
                             <constraint firstItem="EOE-6U-uzn" firstAttribute="leading" secondItem="zIk-KK-jlp" secondAttribute="leading" constant="22" id="KBw-eb-SsI"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="j0L-37-fq2" secondAttribute="trailing" constant="20" symbolic="YES" id="MVr-5j-oNs"/>
                             <constraint firstAttribute="bottom" secondItem="hb2-az-Mxl" secondAttribute="bottom" id="QBE-4T-UzN"/>
@@ -3111,6 +3119,7 @@ DQ
         <image name="addDatabaseIcon" width="32" height="32"/>
         <image name="attachDatabaseDropArea" width="310" height="125"/>
         <image name="database" width="32" height="32"/>
+        <image name="loadExtension" width="20" height="20"/>
         <image name="log" width="20" height="20"/>
         <image name="removeDatabaseIcon" width="32" height="32"/>
         <image name="sideBarBottom" width="32" height="32"/>

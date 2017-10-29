@@ -22,6 +22,8 @@ class Column {
     let name: String
 
     let primaryKey: Bool
+
+    let defaultValue: String?
     /*
      - 0 : "cid"
      - 1 : "name"
@@ -39,7 +41,11 @@ class Column {
         case .integer(let pk) = rowInfo[5] else {
             throw NSError(domain: "SQLite", code: 2, userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Invalid column info", comment: "Error message when there is invalid format for pragma table_info")])
         }
-
+        if case .text(let dflVal) = rowInfo[4] {
+            defaultValue = dflVal
+        } else {
+            defaultValue = nil
+        }
         self.name = name
         self.type = type
         self.primaryKey = pk == 1

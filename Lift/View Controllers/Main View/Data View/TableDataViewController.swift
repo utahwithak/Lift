@@ -28,6 +28,15 @@ class TableDataViewController: LiftMainViewController {
     private var currentForeignKey: ForeignKeyJump?
     private var customStart: CustomTableStart?
 
+    /// Selection box columns -> TableDataColumn
+    var columnMap: [Int: Int] {
+        var colMap = [Int: Int]()
+        for tCol in 0..<tableView.numberOfColumns {
+            let identifier = tableView.tableColumns[tCol].identifier
+            colMap[tCol] = TableDataViewController.identifierMap[identifier]!
+        }
+        return colMap
+    }
 
     override var selectedTable: DataProvider? {
         didSet {
@@ -57,10 +66,10 @@ class TableDataViewController: LiftMainViewController {
             return
         }
 
-        copySelection(selectionBox, fromData: data, asJson: false)
+        copySelection(selectionBox, fromData: data, asJson: false, columnMap: columnMap)
     }
 
-    private func copySelection(_ selection: SelectionBox, fromData: TableData, asJson copyAsJSON: Bool) {
+    private func copySelection(_ selection: SelectionBox, fromData: TableData, asJson copyAsJSON: Bool, columnMap: [Int: Int]) {
 
         guard let waitingVC = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("waitingOperationView")) as? WaitingOperationViewController else {
             return
@@ -83,9 +92,9 @@ class TableDataViewController: LiftMainViewController {
             var pasteBoardString: String?
 
             if copyAsJSON {
-                pasteBoardString = fromData.json(inSelection: selection, keepGoingCheck: keepGoing)
+                pasteBoardString = fromData.json(inSelection: selection, map: columnMap, keepGoingCheck: keepGoing)
             } else {
-                pasteBoardString = fromData.csv(inSelection: selection, keepGoingCheck: keepGoing)
+                pasteBoardString = fromData.csv(inSelection: selection, map: columnMap, keepGoingCheck: keepGoing)
             }
             DispatchQueue.main.async {
                 self.dismissViewController(waitingVC)
@@ -281,7 +290,7 @@ extension TableDataViewController: NSTableViewDataSource {
         return data?.count ?? 0
     }
     private static let cellIdentifier = NSUserInterfaceItemIdentifier("defaultCell")
-    private static var identifierMap = [NSUserInterfaceItemIdentifier: Int]()
+    fileprivate static var identifierMap = [NSUserInterfaceItemIdentifier: Int]()
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         guard let tableColumn = tableColumn, let cell = tableView.makeView(withIdentifier: TableDataViewController.cellIdentifier, owner: self) as? TableViewCell,
             let data = data, let column = TableDataViewController.identifierMap[tableColumn.identifier] else {
@@ -364,30 +373,44 @@ extension TableDataViewController: NSMenuDelegate {
             let columnIndex = selectionBox.startColumn
             let tableColumn = tableView.tableColumns[columnIndex]
 
-            if let table = selectedTable as? Table, let index = Int(tableColumn.identifier.rawValue), foreignKeyIdentifiers.contains(index), let columns = data?.columnNames {
-                let columnName = columns[index]
+            if let table = selectedTable as? Table {
+                if let index = Int(tableColumn.identifier.rawValue), foreignKeyIdentifiers.contains(index), let columns = data?.columnNames {
+                    let columnName = columns[index]
 
-                let connections = table.foreignKeys(from: columnName)
-                if connections.count == 1 {
-                    let fKeyMenuItem = NSMenuItem(title: NSLocalizedString("Jump To Related", comment: "Jump to foreign key menu item"), action: #selector(jumpToForeignKey), keyEquivalent: "")
-                    fKeyMenuItem.representedObject = ForeignKeyJump(connection: connections[0], source: table)
-                    menu.addItem(fKeyMenuItem)
+                    let connections = table.foreignKeys(from: columnName)
+                    if connections.count == 1 {
+                        let fKeyMenuItem = NSMenuItem(title: NSLocalizedString("Jump To Related", comment: "Jump to foreign key menu item"), action: #selector(jumpToForeignKey), keyEquivalent: "")
+                        fKeyMenuItem.representedObject = ForeignKeyJump(connection: connections[0], source: table)
+                        menu.addItem(fKeyMenuItem)
 
-                } else {
+                    } else {
 
-                    let jumpToMenu = NSMenuItem(title: NSLocalizedString("Jump To...", comment: "Jump to menu item title, opens to show other jumps"), action: nil, keyEquivalent: "")
-                    let subMenu = NSMenu()
-                    jumpToMenu.submenu = subMenu
-                    for connection in connections {
-                        let jumpFormat = NSLocalizedString("Jump to %@, (%@)", comment: "Jump foreign key with multiple, first %@ will be table name, second is columns in the foreign key")
-                        let fKeyMenuItem = NSMenuItem(title: String(format: jumpFormat, connection.toTable, connection.toColumns.joined(separator: ", ")), action: #selector(jumpToForeignKey), keyEquivalent: "")
-                        fKeyMenuItem.representedObject = ForeignKeyJump(connection: connection, source: table)
-                        subMenu.addItem(fKeyMenuItem)
+                        let jumpToMenu = NSMenuItem(title: NSLocalizedString("Jump To...", comment: "Jump to menu item title, opens to show other jumps"), action: nil, keyEquivalent: "")
+                        let subMenu = NSMenu()
+                        jumpToMenu.submenu = subMenu
+                        for connection in connections {
+                            let jumpFormat = NSLocalizedString("Jump to %@, (%@)", comment: "Jump foreign key with multiple, first %@ will be table name, second is columns in the foreign key")
+                            let fKeyMenuItem = NSMenuItem(title: String(format: jumpFormat, connection.toTable, connection.toColumns.joined(separator: ", ")), action: #selector(jumpToForeignKey), keyEquivalent: "")
+                            fKeyMenuItem.representedObject = ForeignKeyJump(connection: connection, source: table)
+                            subMenu.addItem(fKeyMenuItem)
+                        }
+
+                        menu.addItem(jumpToMenu)
+
                     }
-
-                    menu.addItem(jumpToMenu)
-
                 }
+
+                let setToMenu = NSMenuItem(title: NSLocalizedString("Set To...", comment: "set to menu item title, opens to show default values"), action: nil, keyEquivalent: "")
+                let subMenu = NSMenu()
+                setToMenu.submenu = subMenu
+                for type in SimpleUpdateType.allVals {
+                    let updateItem = NSMenuItem(title: type.title, action: #selector(setToType), keyEquivalent: "")
+                    updateItem .representedObject = type
+                    subMenu.addItem(updateItem )
+                }
+                menu.addItem(setToMenu)
+
+
             }
 
         } else {
@@ -397,11 +420,35 @@ extension TableDataViewController: NSMenuDelegate {
         }
     }
 
+    @objc private func setToType(_ sender: NSMenuItem) {
+        guard let data = data, let selectionBox = tableView.selectionBoxes.first, let type = sender.representedObject as? SimpleUpdateType else {
+            return
+        }
+
+        guard selectionBox.singleCell else {
+            return
+        }
+
+        guard let realColumn = TableDataViewController.identifierMap[tableView.tableColumns[selectionBox.startColumn].identifier] else {
+            return
+        }
+
+        do {
+            if try data.set(row: selectionBox.startRow, column: realColumn, to: type) {
+                tableView.reloadData(forRowIndexes: IndexSet([selectionBox.startRow]), columnIndexes: IndexSet([selectionBox.startColumn]))
+            }
+        } catch {
+            presentError(error)
+        }
+
+
+    }
+
     @objc private func copyAsCSV(_ sender: Any) {
         guard let data = data, let selectionBox = tableView.selectionBoxes.first else {
             return
         }
-        copySelection(selectionBox, fromData: data, asJson: false)
+        copySelection(selectionBox, fromData: data, asJson: false, columnMap: columnMap)
     }
 
     @objc private func copyAsJSON(_ sender: Any) {
@@ -409,7 +456,7 @@ extension TableDataViewController: NSMenuDelegate {
             return
         }
         
-        copySelection(selectionBox, fromData: data, asJson: true)
+        copySelection(selectionBox, fromData: data, asJson: true, columnMap: columnMap)
 
     }
 }

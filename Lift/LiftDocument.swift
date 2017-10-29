@@ -51,6 +51,19 @@ class LiftDocument: NSDocument {
 
     }
 
+    func keywords() -> Set<String> {
+        var keywords = Set<String>()
+
+        for database in database.allDatabases {
+            keywords.insert(database.name)
+            for table in database.tables {
+                keywords.insert(table.name)
+                keywords.formUnion(table.columns.map({ $0.name }))
+            }
+        }
+
+        return keywords
+    }
 
     func refresh() {
         database.refresh()

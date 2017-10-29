@@ -18,6 +18,31 @@ struct CustomTableStart {
     let args: [SQLiteData]
 }
 
+enum SimpleUpdateType {
+    case null
+    case current_time
+    case current_date
+    case current_timestamp
+    case defaultValue
+
+    static let allVals: [SimpleUpdateType] = [.null,.current_time, .current_date, .current_timestamp, .defaultValue]
+
+    var title: String {
+        switch  self {
+        case .null:
+            return NSLocalizedString("NULL", comment: "set to null")
+        case .current_time:
+            return NSLocalizedString("Current Time", comment: "set to current time")
+        case .current_date:
+            return NSLocalizedString("Current Date", comment: "set to current date")
+        case .current_timestamp:
+            return NSLocalizedString("Current Timestamp", comment: "set to current timestamp")
+        case .defaultValue:
+            return NSLocalizedString("Default Value", comment: "set to default value")
+        }
+    }
+}
+
 class TableData: NSObject {
 
     private let baseQuery: String
@@ -64,7 +89,7 @@ class TableData: NSObject {
                 let primaryKeys =  table.columns.filter { $0.primaryKey }
                 sortCount = primaryKeys.count
                 sortColumns = primaryKeys.map { $0.name.sqliteSafeString() }.joined(separator: ", ")
-                argString = (0..<sortColumns.count).map { "$\($0)"}.joined(separator: ", ")
+                argString = (0..<primaryKeys.count).map { "$\($0)"}.joined(separator: ", ")
 
             } else {
                 sortColumns = "rowid"
@@ -329,8 +354,51 @@ class TableData: NSObject {
 
     }
 
+    func set(row: Int, column: Int, to value: SimpleUpdateType) throws -> Bool {
+        guard let columnName = columnNames?[column] else {
+            return false
+        }
+        var query = "UPDATE \(provider.qualifiedNameForQuery) SET \(columnName.sqliteSafeString())="
+        switch value {
+        case .null:
+            query += "NULL"
+        case .current_date:
+            query += "CURRENT_DATE"
+        case .current_time:
+            query += "CURRENT_TIME"
+        case .current_timestamp:
+            query += "CURRENT_TIMESTAMP"
+        case .defaultValue:
+            query += provider.columns[column - sortCount].defaultValue ?? "NULL"
 
-    func json(inSelection sel: SelectionBox, keepGoingCheck: (() -> Bool)? = nil) -> String? {
+        }
+
+        let rowData = data[row]
+        query += " WHERE (\(sortColumns)) = (\(argString))"
+
+        let updateStatement = try Statement(connection: provider.connection, text: query)
+        try updateStatement.bind(rowData.data[0..<sortCount])
+        guard try updateStatement.step() else {
+            return false
+        }
+
+        let rowQuery = baseQuery + " WHERE (\(sortColumns)) = (\(argString))"
+        let selectQuery = try Query(connection: provider.connection, query: rowQuery)
+        try selectQuery.bindArguments(rowData.data[0..<sortCount])
+        let allRows = try selectQuery.allRows()
+        guard allRows.count == 1 else {
+            print("Getting more rows back!?")
+            return false
+        }
+
+        data[row] = RowData(row: allRows[0])
+
+        return true
+
+    }
+
+
+    func json(inSelection sel: SelectionBox, map: [Int: Int], keepGoingCheck: (() -> Bool)? = nil) -> String? {
 
         guard let names = columnNames else {
             return nil
@@ -340,7 +408,7 @@ class TableData: NSObject {
         for row in sel.startColumn...sel.endRow {
             var curRow = [String: Any]()
             for rawCol in sel.startColumn...sel.endColumn {
-                let col = rawCol + sortCount
+                let col = map[rawCol]!
                 switch data[row].data[col] {
                 case .text(let text):
                     curRow[names[col]] = text
@@ -378,7 +446,7 @@ class TableData: NSObject {
 
     }
 
-    func csv(inSelection sel: SelectionBox, keepGoingCheck: (() -> Bool)? = nil ) -> String? {
+    func csv(inSelection sel: SelectionBox, map: [Int: Int], keepGoingCheck: (() -> Bool)? = nil ) -> String? {
 
         var writer = ""
         let separator = ","
@@ -386,7 +454,7 @@ class TableData: NSObject {
 
         for row in sel.startRow...sel.endRow {
             for rawCol in sel.startColumn...sel.endColumn {
-                let col = rawCol + sortCount
+                let col = map[rawCol]!
 
                 let rawData = data[row].data[col]
                 switch rawData {

@@ -20,19 +20,21 @@ class LiftViewController: NSViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(selectedTableChanged), name: .selectedTableChanged, object: nil)
     }
 
-    @objc private func selectedTableChanged(_ notification: Notification) {
-        if windowController == (notification.object as? LiftWindowController) {
+    @objc public func selectedTableChanged(_ notification: Notification) {
+        if windowController == nil && (notification.object as? LiftWindowController)?.document === document {
+            selectedTable = (notification.object as? LiftWindowController)?.selectedTable
+        } else if windowController == (notification.object as? LiftWindowController) {
             selectedTable = windowController?.selectedTable
         }
     }
 
     override var representedObject: Any? {
         didSet {
-
-
+            if representedObject != nil {
+                NotificationCenter.default.addObserver(self, selector: #selector(selectedTableChanged), name: .selectedTableChanged, object: nil)
+            }
         }
     }
 }
