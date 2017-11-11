@@ -21,4 +21,17 @@ class NotNullColumnConstraint: ConflictColumnConstraint {
         try super.init(with: name,from: scanner)
 
     }
+
+    override var sql: String {
+        var builder = ""
+        if let name = constraintName?.sql{
+            builder += "CONSTRAINT \(name) "
+        }
+        builder += "NOT NULL "
+        if let conflictClause = conflictClause {
+            builder += conflictClause.sql
+        }
+        return builder
+    }
+
 }

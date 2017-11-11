@@ -40,4 +40,31 @@ class PrimaryKeyColumnConstraint: ConflictColumnConstraint {
 
         autoincrement = scanner.scanString("AUTOINCREMENT", into: nil)
     }
+
+    override var sql: String {
+        var builder = ""
+        if let name = constraintName?.sql{
+            builder += "CONSTRAINT \(name) "
+        }
+        builder += "PRIMARY KEY "
+        switch sortOrder {
+        case .ASC:
+            builder += "ASC "
+        case .DESC:
+            builder += "DESC "
+        case .notSpecified:
+            break
+        }
+
+        if let conflictClause = conflictClause {
+            builder += conflictClause.sql
+        }
+
+        if autoincrement {
+            builder += "AUTOINCREMENT "
+        }
+
+        return builder
+    }
+
 }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ForeignKeyClause {
+struct ForeignKeyClause {
 
     var foreignTable: SQLiteName
     var actionStatements = [ForeignKeyActionStatement]()
@@ -76,10 +76,22 @@ class ForeignKeyClause {
                 deferStatement = try ForeignKeyDeferStatement(from: scanner)
                 finished = true
             }
+        }
+    }
 
-
+    var sql: String {
+        var builder = "REFERENCES \(foreignTable.sql) "
+        if !toColumns.isEmpty {
+            builder += "(" + toColumns.map({ $0.sql }).joined(separator: ", ") + ") "
         }
 
+        builder += actionStatements.map({ $0.sql }).joined(separator:" ")
+        builder += matchStatements.map({ $0.sql }).joined(separator:" ")
+        if let defStat = deferStatement {
+            builder += defStat.sql
+        }
+
+        return builder
 
     }
 }

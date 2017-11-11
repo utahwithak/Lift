@@ -105,6 +105,18 @@ class ColumnDefinition: NSObject {
         return type
     }
 
+
+    var creationStatement: String {
+        var builder = "\(name.sql) "
+        if let includedType = type {
+            builder += "\(includedType.rawValue) "
+        }
+
+        builder += columnConstraints.map({ $0.sql}).joined(separator: " ")
+
+        return builder
+    }
+
 }
 
 

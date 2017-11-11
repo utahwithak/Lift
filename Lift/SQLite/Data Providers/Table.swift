@@ -21,7 +21,7 @@ class Table: DataProvider {
 
     let foreignKeys: [ForeignKeyConnection]
 
-    let definition: TableDefinition
+    let definition: TableDefinition?
 
 
     override init(database: Database, data: [SQLiteData], connection: sqlite3) throws {
@@ -36,7 +36,7 @@ class Table: DataProvider {
             definition = try SQLiteCreateTableParser.parseSQL(sql)
         } catch {
             print("Failed to parse sql!:\(error)")
-            definition = TableDefinition()
+            definition = nil
         }
 
         // Foreign Keys
@@ -80,7 +80,7 @@ class Table: DataProvider {
 
         columns.forEach{ $0.table = self }
         for column in columns {
-            column.definition = definition.columns.first(where: { $0.name.cleanedVersion == column.name })
+            column.definition = definition?.columns.first(where: { $0.name.cleanedVersion == column.name })
         }
 
     }
@@ -89,5 +89,281 @@ class Table: DataProvider {
         return foreignKeys.filter { $0.fromColumns.contains(columnName) }
     }
 
-  
+    func addDefaultValues() throws -> Bool {
+        let statement = try Statement(connection: connection, text: "INSERT INTO \(qualifiedNameForQuery) DEFAULT VALUES")
+        let success = try statement.step()
+
+        if success {
+            refreshTableCount()
+        }
+
+        return success
+    }
+
+    func exportQuery(for columns: [Column]) throws -> Query {
+
+        let builder = "SELECT \( columns.map({ $0.name.sqliteSafeString() }).joined(separator: ", ")) FROM \(qualifiedNameForQuery)"
+
+        return try Query(connection: connection, query: builder)
+
+    }
+
+
+    func tableCreationStatement(with columns: [Column]) -> String {
+
+        if let definition = definition {
+            return definition.createStatement(with: columns.map({ $0.name }), checkExisting: true)
+        } else {
+            let columnCreation = columns.map({ $0.simpleColumnCreationStatement } ).joined(separator: ", ")
+            return "CREATE TABLE IF NOT EXISTS \(name.sqliteSafeString()) (\(columnCreation));"
+        }
+
+    }
+
+    func importStatement(for columns: [Column], using exportQuery: Query) -> String? {
+        guard !columns.isEmpty else {
+            return nil
+        }
+
+        let mappedArgs = exportQuery.numericArguments.joined(separator: ", ")
+        return "INSERT INTO \(name.sqliteSafeString())(\(columns.map({ $0.name.sqliteSafeString() }).joined(separator: ", "))) VALUES (\(mappedArgs));"
+    }
+
+    func exportCSV( columns: [Column], writer: Writer, with options: CSVExportOptions) throws {
+        let query = try exportQuery(for: columns)
+
+        if options.includeColumnNames {
+            //write out the included column names
+            let names = columns.map({ $0.name.CSVFormattedString(qouted: options.shouldQuoteFields, separator: options.separator) })
+            let header = names.joined(separator: options.separator)
+            writer.write("\(header)\(options.lineEnding)")
+        }
+        let separator = options.separator
+        let lineEnding = options.lineEnding
+        let blobPlaceholder = options.blobDataPlaceHolder.CSVFormattedString(qouted: options.shouldQuoteFields, separator: options.separator)
+        try query.processRows(handler: { row in
+            for (index, data) in row.enumerated() {
+                switch data {
+                case .text(let text):
+                    writer.write(text.CSVFormattedString(qouted: options.shouldQuoteFields, separator: options.separator))
+                case .integer(let intVal):
+                    writer.write(intVal.description)
+                case .float(let dVal):
+                    writer.write(dVal.description)
+                case .null:
+                    writer.write(options.nullPlaceHolder)
+                case .blob(let data):
+                    if options.exportRawBlobData {
+                        writer.write("<\(data.hexEncodedString())>")
+                    } else {
+                        writer.write(blobPlaceholder)
+                    }
+
+                }
+                if index < row.count - 1 {
+                    writer.write(separator)
+                } else {
+                    writer.write(lineEnding)
+                }
+            }
+
+        })
+
+    }
+
+
+    func export(to worksheet: Worksheet, columns: [Column], with options: XLSXExportOptions) throws {
+
+
+        let query = try exportQuery(for: columns)
+
+        if options.includeColumnNames {
+            let row = worksheet.addRow()
+            let rowValues: [XLSXExpressible] = columns.map({ return $0.name})
+            row.setColumnData(rowValues)
+        }
+
+        try query.processRows(handler: { row in
+
+            let nextRow = worksheet.addRow()
+
+            let xlsValues = row.map({ (data) -> XLSXExpressible in
+                switch data {
+                case .integer(let intVal):
+                    return intVal
+                case .float(let double):
+                    return double
+                case .text(let strVal):
+                    return strVal
+                case .null:
+
+                    if !options.nullPlaceHolder.isEmpty {
+                        return options.nullPlaceHolder
+                    } else {
+                        return ""
+                    }
+
+                case .blob(let data):
+                    if options.exportRawBlobData {
+                        return data.hexEncodedString()
+                    } else {
+                        return options.blobDataPlaceHolder
+                    }
+                }
+
+            })
+
+            nextRow.setColumnData(xlsValues)
+        })
+    }
+
+
+
+    func exportToXML(columns: [Column], with options: XMLExportOptions) throws -> XMLElement {
+
+        let query = try exportQuery(for: columns)
+        let tableElementName = ((name.isValidXMLElementName || options.allowInvalidXML) && options.useNamesForElements) ? name : "table"
+        let tableElement = XMLElement(name: tableElementName)
+
+        if options.alwaysIncludeProperties || (!name.isValidXMLElementName && !options.allowInvalidXML) || !options.useNamesForElements {
+            let tableProperties = XMLElement(name: "properities")
+            tableElement.addChild(tableProperties)
+            tableProperties.addChild(XMLElement(name: "name", stringValue: name))
+            let columnElements = XMLElement(name: "columns")
+            tableProperties.addChild(columnElements)
+            for column in columns {
+                let colElement = XMLElement(name: "column")
+                colElement.addAttribute(name: "name", value:column.name)
+                columnElements.addChild(colElement)
+            }
+        }
+
+        let names = columns.enumerated().map({
+            return (($0.1.name.isValidXMLElementName || options.allowInvalidXML) && options.useNamesForElements) ? $0.1.name : "column\($0.0)"
+        })
+        try query.processRows(handler: { row in
+
+            let rowElement = XMLElement(name: options.rowName)
+
+
+            let converter: (SQLiteData) -> String  = { data in
+                switch data {
+                case .null:
+                    return options.nullPlaceHolder
+                case .integer(let val):
+                    return "\(val)"
+                case .float(let doub):
+                    return "\(doub)"
+                case .text(let str):
+                    return str
+                case .blob(let data):
+                    if options.exportRawBlobData {
+                        return data.hexEncodedString()
+                    } else {
+                        return options.blobDataPlaceHolder
+                    }
+                }
+            }
+
+            for (i, name) in names.enumerated() {
+
+                if options.useAttributes {
+
+                    let attribute = XMLNode(kind: .attribute)
+                    attribute.name = name
+                    attribute.stringValue = converter(row[i])
+                    rowElement.addAttribute(attribute)
+
+
+                } else {
+                    let columnElement = XMLElement(name: name, stringValue: converter(row[i]))
+                    rowElement.addChild(columnElement)
+                }
+            }
+
+            tableElement.addChild(rowElement)
+        })
+
+        return tableElement
+    }
+
+
+    func exportToJSON(columns: [Column], with options: JSONExportOptions) throws -> [String: Any] {
+
+        let query = try exportQuery(for: columns)
+
+        var tableData = [String: Any]()
+
+        if options.includeProperties {
+            var tableProperties = [String: Any]()
+            tableProperties["name"] = name
+            var columnElements = [[String: Any]]()
+
+            for column in columns {
+                var options = [String: Any]()
+                options["name"] = column.name
+                options["type"] = column.type
+                columnElements.append(options)
+            }
+
+            tableProperties["columns"] = columnElements
+            tableData["properities"] = tableProperties
+        }
+
+        let names = columns.map { $0.name }
+        var rows = [Any]()
+        try query.processRows(handler: { row in
+
+            var arrayElements = [Any?]()
+            var dictElements = [String: Any?]()
+
+
+            for (i, name) in names.enumerated() {
+
+                let data = row[i]
+
+                switch data {
+                case .null:
+                    if options.useNullLiterals {
+                        arrayElements.append(nil)
+                        dictElements[name] = nil
+                    } else {
+                        arrayElements.append( options.nullPlaceHolder)
+                        dictElements[name] = options.nullPlaceHolder
+                    }
+
+                case .integer(let val):
+                    arrayElements.append(val)
+                    dictElements[name] = val
+                case .float(let val):
+                    arrayElements.append(val)
+                    dictElements[name] = val
+                case .text(let str):
+                    arrayElements.append(str)
+                    dictElements[name] = str
+                case .blob(let data):
+                    let value: String = {
+                        if options.exportRawBlobData {
+                            return data.hexEncodedString()
+                        } else {
+                            return options.blobDataPlaceHolder
+                        }
+                    }()
+                    arrayElements.append(value)
+                    dictElements[name] = value
+                }
+
+            }
+
+            if options.rowsAsDictionaries {
+                rows.append(dictElements)
+            } else {
+                rows.append(arrayElements)
+            }
+        })
+        tableData[options.rowName] = rows
+        return tableData
+
+    }
+    
 }

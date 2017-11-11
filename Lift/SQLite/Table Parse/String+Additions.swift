@@ -11,6 +11,12 @@ import Foundation
 
 extension String {
 
+    public var isValidXMLElementName: Bool {
+
+        let set = CharacterSet(charactersIn: "&<>\"\n\t ")
+        return rangeOfCharacter(from: set) == nil
+    }
+
     func CSVFormattedString(qouted: Bool, separator: String) -> String {
 
 

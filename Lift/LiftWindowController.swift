@@ -258,18 +258,22 @@ class LiftWindowController: NSWindowController {
     }
 
     @IBAction func showImportExport(_ sender: NSSegmentedControl) {
+        let identifier: NSStoryboard.SceneIdentifier
         switch sender.selectedSegment {
         case 0:
 
-            guard let windowController = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("importWindow")) as? NSWindowController, let window = windowController.window else {
-                return
-            }
-            self.window?.beginSheet(window, completionHandler: { _ in
-                print("Completion")
-            })
+            identifier = NSStoryboard.SceneIdentifier("importViewController")
+
+
         default:
-            print("export")
+            identifier = NSStoryboard.SceneIdentifier("exportViewController")
         }
+
+        guard let vc = storyboard?.instantiateController(withIdentifier: identifier) as? LiftViewController else {
+            return
+        }
+        vc.representedObject = document
+        contentViewController?.presentViewControllerAsSheet(vc)
     }
 
 }

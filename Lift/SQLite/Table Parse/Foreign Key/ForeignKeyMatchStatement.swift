@@ -19,7 +19,10 @@ class ForeignKeyMatchStatement: Equatable {
     init(name: String) {
         self.name = SQLiteName(rawValue: name)
     }
-    
+
+    var sql: String {
+        return "MATCH \(name.sql) "
+    }
 }
 
 func ==(lhs: ForeignKeyMatchStatement, rhs: ForeignKeyMatchStatement) -> Bool {

@@ -66,7 +66,7 @@ class DataProvider: NSObject {
     }
 
 
-    private func refreshTableCount() {
+    public func refreshTableCount() {
 
         guard !refreshingRowCount else {
             return

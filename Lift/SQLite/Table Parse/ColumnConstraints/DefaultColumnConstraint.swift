@@ -15,12 +15,29 @@ enum DefaultValue {
     case current_timestamp
     case literal(SQLiteName)
     case expression(String)
+
+    var sql: String {
+        switch self {
+        case .null:
+            return "NULL"
+        case .current_date:
+            return "CURRENT_DATE"
+        case .current_time:
+            return "CURRENT_TIME"
+        case .current_timestamp:
+            return "CURRENT_TIMESTAMP"
+        case .literal(let val):
+            return val.rawValue
+        case .expression(let expr):
+            return expr
+        }
+    }
 }
 
 
 class DefaultColumnConstraint: ColumnConstraint {
 
-    var value: DefaultValue
+    let value: DefaultValue
 
     init(with name: SQLiteName?, from scanner: Scanner) throws {
 
@@ -46,5 +63,14 @@ class DefaultColumnConstraint: ColumnConstraint {
 
 
         super.init(name: name)
+    }
+
+    override var sql: String {
+        var builder = ""
+        if let name = constraintName {
+            builder += "CONSTRAINT \(name) "
+        }
+
+        return builder + "DEFAULT \(value.sql)"
     }
 }

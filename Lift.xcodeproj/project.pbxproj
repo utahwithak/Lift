@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8F09DB061FB5D84100A19894 /* Database+Dump.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F09DB041FB5D84100A19894 /* Database+Dump.swift */; };
 		8F11B7911F83D2A9008E19D7 /* LiftWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F11B7901F83D2A9008E19D7 /* LiftWindowController.swift */; };
 		8F11B7951F83DC1C008E19D7 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F11B7941F83DC1C008E19D7 /* Database.swift */; };
 		8F11B79A1F83DC58008E19D7 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = 8F11B7991F83DC58008E19D7 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w"; }; };
@@ -72,6 +73,21 @@
 		8F921DBD1F7ECE7800464D27 /* CollateColumnConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F921DBC1F7ECE7800464D27 /* CollateColumnConstraint.swift */; };
 		8F921DBF1F7ECECB00464D27 /* DefaultColumnConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F921DBE1F7ECECB00464D27 /* DefaultColumnConstraint.swift */; };
 		8F921DC11F7ED0FB00464D27 /* CheckColumnConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F921DC01F7ED0FB00464D27 /* CheckColumnConstraint.swift */; };
+		8F9565C81FB36EFC008FE038 /* ExportOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565BA1FB36EFA008FE038 /* ExportOptions.swift */; };
+		8F9565CA1FB36EFC008FE038 /* ExportViewController+sqlite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565BC1FB36EFA008FE038 /* ExportViewController+sqlite.swift */; };
+		8F9565CB1FB36EFC008FE038 /* XMLExportOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565BD1FB36EFA008FE038 /* XMLExportOptions.swift */; };
+		8F9565CC1FB36EFC008FE038 /* XLSXExportOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565BE1FB36EFB008FE038 /* XLSXExportOptions.swift */; };
+		8F9565CD1FB36EFC008FE038 /* JSONExportOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565BF1FB36EFB008FE038 /* JSONExportOptions.swift */; };
+		8F9565CE1FB36EFC008FE038 /* CSVExportOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565C01FB36EFB008FE038 /* CSVExportOptions.swift */; };
+		8F9565D01FB36EFC008FE038 /* ExportNodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565C21FB36EFB008FE038 /* ExportNodes.swift */; };
+		8F9565D11FB36EFC008FE038 /* ExportViewController+XML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565C31FB36EFB008FE038 /* ExportViewController+XML.swift */; };
+		8F9565D21FB36EFC008FE038 /* ExportViewController+csv.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565C41FB36EFB008FE038 /* ExportViewController+csv.swift */; };
+		8F9565D31FB36EFC008FE038 /* ExportViewController+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565C51FB36EFC008FE038 /* ExportViewController+JSON.swift */; };
+		8F9565D41FB36EFC008FE038 /* SQLiteExportOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565C61FB36EFC008FE038 /* SQLiteExportOptions.swift */; };
+		8F9565D51FB36EFC008FE038 /* ExportViewController+xlsx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565C71FB36EFC008FE038 /* ExportViewController+xlsx.swift */; };
+		8F9565D81FB36F45008FE038 /* Writer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565D61FB36F45008FE038 /* Writer.swift */; };
+		8F9565D91FB36F45008FE038 /* XMLElement+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565D71FB36F45008FE038 /* XMLElement+Additions.swift */; };
+		8F9565DB1FB37136008FE038 /* ProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565DA1FB37136008FE038 /* ProgressViewController.swift */; };
 		8FA148D81F8D038D00644638 /* ForiegnKeyConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA148D71F8D038D00644638 /* ForiegnKeyConnection.swift */; };
 		8FA148DE1F8D2FD500644638 /* AttachDatabaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA148DD1F8D2FD500644638 /* AttachDatabaseViewController.swift */; };
 		8FA148E01F8D312500644638 /* DetachDatabaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA148DF1F8D312500644638 /* DetachDatabaseViewController.swift */; };
@@ -104,8 +120,8 @@
 		8FD4FEA31F8BFEF70008D8DA /* GraphTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD4FEA21F8BFEF70008D8DA /* GraphTableView.swift */; };
 		8FD4FEA51F8C01420008D8DA /* CGPoint+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD4FEA41F8C01420008D8DA /* CGPoint+Additions.swift */; };
 		8FD6D92D1F981A510033E512 /* RowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD6D92C1F981A510033E512 /* RowData.swift */; };
-		8FEFD4BF1F9F7AD900C6C75A /* ExportWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEFD4BE1F9F7AD900C6C75A /* ExportWindowController.swift */; };
-		8FEFD4C11F9F7B4200C6C75A /* ImportWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEFD4C01F9F7B4200C6C75A /* ImportWindowController.swift */; };
+		8FEFD4BF1F9F7AD900C6C75A /* ExportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEFD4BE1F9F7AD900C6C75A /* ExportViewController.swift */; };
+		8FEFD4C11F9F7B4200C6C75A /* ImportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEFD4C01F9F7B4200C6C75A /* ImportViewController.swift */; };
 		8FEFD4C31F9F7FB000C6C75A /* LiftDocumentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEFD4C21F9F7FB000C6C75A /* LiftDocumentController.swift */; };
 		8FF56AD31F9C094900C5F447 /* WaitingOperationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF56AD21F9C094900C5F447 /* WaitingOperationViewController.swift */; };
 /* End PBXBuildFile section */
@@ -164,6 +180,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8F09DB041FB5D84100A19894 /* Database+Dump.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Database+Dump.swift"; sourceTree = "<group>"; };
 		8F11B7901F83D2A9008E19D7 /* LiftWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiftWindowController.swift; sourceTree = "<group>"; };
 		8F11B7941F83DC1C008E19D7 /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		8F11B7971F83DC57008E19D7 /* Lift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Lift-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -236,6 +253,21 @@
 		8F921DBC1F7ECE7800464D27 /* CollateColumnConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollateColumnConstraint.swift; sourceTree = "<group>"; };
 		8F921DBE1F7ECECB00464D27 /* DefaultColumnConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultColumnConstraint.swift; sourceTree = "<group>"; };
 		8F921DC01F7ED0FB00464D27 /* CheckColumnConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckColumnConstraint.swift; sourceTree = "<group>"; };
+		8F9565BA1FB36EFA008FE038 /* ExportOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExportOptions.swift; sourceTree = "<group>"; };
+		8F9565BC1FB36EFA008FE038 /* ExportViewController+sqlite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ExportViewController+sqlite.swift"; sourceTree = "<group>"; };
+		8F9565BD1FB36EFA008FE038 /* XMLExportOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XMLExportOptions.swift; sourceTree = "<group>"; };
+		8F9565BE1FB36EFB008FE038 /* XLSXExportOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = XLSXExportOptions.swift; sourceTree = "<group>"; };
+		8F9565BF1FB36EFB008FE038 /* JSONExportOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JSONExportOptions.swift; sourceTree = "<group>"; };
+		8F9565C01FB36EFB008FE038 /* CSVExportOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CSVExportOptions.swift; sourceTree = "<group>"; };
+		8F9565C21FB36EFB008FE038 /* ExportNodes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExportNodes.swift; sourceTree = "<group>"; };
+		8F9565C31FB36EFB008FE038 /* ExportViewController+XML.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ExportViewController+XML.swift"; sourceTree = "<group>"; };
+		8F9565C41FB36EFB008FE038 /* ExportViewController+csv.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ExportViewController+csv.swift"; sourceTree = "<group>"; };
+		8F9565C51FB36EFC008FE038 /* ExportViewController+JSON.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ExportViewController+JSON.swift"; sourceTree = "<group>"; };
+		8F9565C61FB36EFC008FE038 /* SQLiteExportOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SQLiteExportOptions.swift; sourceTree = "<group>"; };
+		8F9565C71FB36EFC008FE038 /* ExportViewController+xlsx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ExportViewController+xlsx.swift"; sourceTree = "<group>"; };
+		8F9565D61FB36F45008FE038 /* Writer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Writer.swift; sourceTree = "<group>"; };
+		8F9565D71FB36F45008FE038 /* XMLElement+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XMLElement+Additions.swift"; sourceTree = "<group>"; };
+		8F9565DA1FB37136008FE038 /* ProgressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressViewController.swift; sourceTree = "<group>"; };
 		8FA148D71F8D038D00644638 /* ForiegnKeyConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForiegnKeyConnection.swift; sourceTree = "<group>"; };
 		8FA148DD1F8D2FD500644638 /* AttachDatabaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachDatabaseViewController.swift; sourceTree = "<group>"; };
 		8FA148DF1F8D312500644638 /* DetachDatabaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetachDatabaseViewController.swift; sourceTree = "<group>"; };
@@ -269,8 +301,8 @@
 		8FD4FEA21F8BFEF70008D8DA /* GraphTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphTableView.swift; sourceTree = "<group>"; };
 		8FD4FEA41F8C01420008D8DA /* CGPoint+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Additions.swift"; sourceTree = "<group>"; };
 		8FD6D92C1F981A510033E512 /* RowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowData.swift; sourceTree = "<group>"; };
-		8FEFD4BE1F9F7AD900C6C75A /* ExportWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportWindowController.swift; sourceTree = "<group>"; };
-		8FEFD4C01F9F7B4200C6C75A /* ImportWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportWindowController.swift; sourceTree = "<group>"; };
+		8FEFD4BE1F9F7AD900C6C75A /* ExportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportViewController.swift; sourceTree = "<group>"; };
+		8FEFD4C01F9F7B4200C6C75A /* ImportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportViewController.swift; sourceTree = "<group>"; };
 		8FEFD4C21F9F7FB000C6C75A /* LiftDocumentController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiftDocumentController.swift; sourceTree = "<group>"; };
 		8FF56AD21F9C094900C5F447 /* WaitingOperationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaitingOperationViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -307,6 +339,7 @@
 			children = (
 				8F11B79B1F83DC79008E19D7 /* SQLiteDocumentPresenter.swift */,
 				8F11B7941F83DC1C008E19D7 /* Database.swift */,
+				8F09DB041FB5D84100A19894 /* Database+Dump.swift */,
 				8F754B1B1F98DAEE00BC5312 /* Data Providers */,
 				8F374B931F87E03C00BB4F63 /* SQLiteData.swift */,
 				8F72E3AB1F83F415006C88F5 /* SQLiteError.swift */,
@@ -526,10 +559,10 @@
 		8F805CCB1F7ED3680074FE6B /* Conflict Constraints */ = {
 			isa = PBXGroup;
 			children = (
+				8F805CC91F7ED3560074FE6B /* ConflictColumnConstraint.swift */,
 				8F805CC71F7ED2B30074FE6B /* UniqueColumnConstraint.swift */,
 				8F805CCE1F7ED4240074FE6B /* PrimaryKeyColumnConstraint.swift */,
 				8F805CCC1F7ED3EF0074FE6B /* NotNullColumnConstraint.swift */,
-				8F805CC91F7ED3560074FE6B /* ConflictColumnConstraint.swift */,
 			);
 			path = "Conflict Constraints";
 			sourceTree = "<group>";
@@ -545,6 +578,29 @@
 				8F805CCB1F7ED3680074FE6B /* Conflict Constraints */,
 			);
 			path = ColumnConstraints;
+			sourceTree = "<group>";
+		};
+		8F9565B81FB36EE5008FE038 /* Export */ = {
+			isa = PBXGroup;
+			children = (
+				8F9565DA1FB37136008FE038 /* ProgressViewController.swift */,
+				8FEFD4BE1F9F7AD900C6C75A /* ExportViewController.swift */,
+				8F9565D71FB36F45008FE038 /* XMLElement+Additions.swift */,
+				8F9565D61FB36F45008FE038 /* Writer.swift */,
+				8F9565C01FB36EFB008FE038 /* CSVExportOptions.swift */,
+				8F9565C21FB36EFB008FE038 /* ExportNodes.swift */,
+				8F9565BA1FB36EFA008FE038 /* ExportOptions.swift */,
+				8F9565C41FB36EFB008FE038 /* ExportViewController+csv.swift */,
+				8F9565C51FB36EFC008FE038 /* ExportViewController+JSON.swift */,
+				8F9565BC1FB36EFA008FE038 /* ExportViewController+sqlite.swift */,
+				8F9565C71FB36EFC008FE038 /* ExportViewController+xlsx.swift */,
+				8F9565C31FB36EFB008FE038 /* ExportViewController+XML.swift */,
+				8F9565BF1FB36EFB008FE038 /* JSONExportOptions.swift */,
+				8F9565C61FB36EFC008FE038 /* SQLiteExportOptions.swift */,
+				8F9565BE1FB36EFB008FE038 /* XLSXExportOptions.swift */,
+				8F9565BD1FB36EFA008FE038 /* XMLExportOptions.swift */,
+			);
+			path = Export;
 			sourceTree = "<group>";
 		};
 		8FA148DA1F8D2F3E00644638 /* Attach Detach */ = {
@@ -636,8 +692,8 @@
 		8FEFD4BC1F9F7AC300C6C75A /* Import Export */ = {
 			isa = PBXGroup;
 			children = (
-				8FEFD4BE1F9F7AD900C6C75A /* ExportWindowController.swift */,
-				8FEFD4C01F9F7B4200C6C75A /* ImportWindowController.swift */,
+				8F9565B81FB36EE5008FE038 /* Export */,
+				8FEFD4C01F9F7B4200C6C75A /* ImportViewController.swift */,
 			);
 			path = "Import Export";
 			sourceTree = "<group>";
@@ -804,6 +860,8 @@
 				8FAF33521FA2AF5D003ACFC7 /* DatabaseDetailsViewController.swift in Sources */,
 				8FB9F1681F7EB62C0090FA53 /* ForeignKeyActionStatement.swift in Sources */,
 				8F11B79C1F83DC79008E19D7 /* SQLiteDocumentPresenter.swift in Sources */,
+				8F9565CE1FB36EFC008FE038 /* CSVExportOptions.swift in Sources */,
+				8F9565D41FB36EFC008FE038 /* SQLiteExportOptions.swift in Sources */,
 				8FF56AD31F9C094900C5F447 /* WaitingOperationViewController.swift in Sources */,
 				8F754B1A1F98D92600BC5312 /* DataProvider.swift in Sources */,
 				8FB9F15A1F7EA4D40090FA53 /* PrimaryKeyTableConstraint.swift in Sources */,
@@ -813,15 +871,19 @@
 				8FA148DE1F8D2FD500644638 /* AttachDatabaseViewController.swift in Sources */,
 				8FAF33501FA2AE6A003ACFC7 /* NSTabView+Additions.swift in Sources */,
 				8FBFF3541FA0BFAD00317830 /* QueryViewController.swift in Sources */,
+				8F09DB061FB5D84100A19894 /* Database+Dump.swift in Sources */,
 				8F4C40DD1F87B657003BF006 /* Result.swift in Sources */,
 				8F6B42BB1F94EAD200110EC6 /* NSTreeController+Additions.swift in Sources */,
+				8F9565CA1FB36EFC008FE038 /* ExportViewController+sqlite.swift in Sources */,
 				8F7A8E651FA2654A00A80FD2 /* HiddenBackgroundSegmentedControl.swift in Sources */,
 				8FB9F15F1F7EA50A0090FA53 /* UniqueTableConstraint.swift in Sources */,
+				8F9565CB1FB36EFC008FE038 /* XMLExportOptions.swift in Sources */,
 				8FB9F1531F7E7FCE0090FA53 /* SQLiteName.swift in Sources */,
 				8F72E3B71F83FDE3006C88F5 /* SQLiteStringValueFormatter.swift in Sources */,
 				8F72E3BC1F840AFD006C88F5 /* LineNumberScrollView.swift in Sources */,
 				8F178CA11FA0DB790057387A /* JumpToRowViewController.swift in Sources */,
 				8F7C522F1F7D39E5004A91BC /* LiftSplitViewController.swift in Sources */,
+				8F9565DB1FB37136008FE038 /* ProgressViewController.swift in Sources */,
 				8F374B941F87E03C00BB4F63 /* SQLiteData.swift in Sources */,
 				8F74A7491F869C3B0069721E /* LiftMainEditorTabViewController.swift in Sources */,
 				8FC63CD81FA227F000005591 /* SQLite3ConfigHelper.m in Sources */,
@@ -831,26 +893,33 @@
 				8F805CCA1F7ED3560074FE6B /* ConflictColumnConstraint.swift in Sources */,
 				8FB9F14F1F7DC6EA0090FA53 /* TableConstraint.swift in Sources */,
 				8F391B3C1F965850002D3AFE /* LiftMainSplitViewController.swift in Sources */,
+				8F9565D31FB36EFC008FE038 /* ExportViewController+JSON.swift in Sources */,
+				8F9565D91FB36F45008FE038 /* XMLElement+Additions.swift in Sources */,
 				8F74A74C1F86A0E50069721E /* SideBarDetailsViewController.swift in Sources */,
 				8FD4FEA51F8C01420008D8DA /* CGPoint+Additions.swift in Sources */,
 				8FB9F15C1F7EA4EB0090FA53 /* IndexedTableConstraint.swift in Sources */,
 				8F74A7521F871C560069721E /* Statement.swift in Sources */,
 				8F805CCD1F7ED3EF0074FE6B /* NotNullColumnConstraint.swift in Sources */,
 				8F7D84361F8BA3AC0053137B /* TableScrollView.swift in Sources */,
-				8FEFD4BF1F9F7AD900C6C75A /* ExportWindowController.swift in Sources */,
+				8FEFD4BF1F9F7AD900C6C75A /* ExportViewController.swift in Sources */,
 				8FC63CDB1FA2492000005591 /* LiftMainViewController.swift in Sources */,
 				8F11B7951F83DC1C008E19D7 /* Database.swift in Sources */,
 				8F84D24E1F8B04FA00CF4B08 /* TableDataViewController.swift in Sources */,
 				8F7D84381F8BAF1D0053137B /* TableViewCell.swift in Sources */,
+				8F9565CC1FB36EFC008FE038 /* XLSXExportOptions.swift in Sources */,
 				8FB9F1651F7EB5C40090FA53 /* ForeignKeyClause.swift in Sources */,
+				8F9565D81FB36F45008FE038 /* Writer.swift in Sources */,
+				8F9565D51FB36EFC008FE038 /* ExportViewController+xlsx.swift in Sources */,
 				8F8FA7311F92CE8500783C5C /* PassthroughView.swift in Sources */,
 				8F374B921F87DF9400BB4F63 /* Table.swift in Sources */,
 				8F7C522D1F7D39E5004A91BC /* AppDelegate.swift in Sources */,
+				8F9565D21FB36EFC008FE038 /* ExportViewController+csv.swift in Sources */,
 				8FA148E01F8D312500644638 /* DetachDatabaseViewController.swift in Sources */,
 				8F7C52311F7D39E5004A91BC /* LiftDocument.swift in Sources */,
 				8F72E3C21F840B4D006C88F5 /* LineNumberView.swift in Sources */,
 				8F6273E51F85C2C0007055D9 /* SQLiteSyntaxHighlighter.swift in Sources */,
 				8F805CC81F7ED2B30074FE6B /* UniqueColumnConstraint.swift in Sources */,
+				8F9565C81FB36EFC008FE038 /* ExportOptions.swift in Sources */,
 				8FD6D92D1F981A510033E512 /* RowData.swift in Sources */,
 				8F5891E51FA392960076C86D /* LogViewController.swift in Sources */,
 				8F921DB61F7EB85000464D27 /* ForeignKeyDeferStatement.swift in Sources */,
@@ -872,10 +941,13 @@
 				8F921DBF1F7ECECB00464D27 /* DefaultColumnConstraint.swift in Sources */,
 				8F6273E21F85C291007055D9 /* SQLiteTextView.swift in Sources */,
 				8FB9F16A1F7EB66C0090FA53 /* ForeignKeyMatchStatement.swift in Sources */,
+				8F9565D11FB36EFC008FE038 /* ExportViewController+XML.swift in Sources */,
+				8F9565D01FB36EFC008FE038 /* ExportNodes.swift in Sources */,
 				8F2521731F855A3D00B438CC /* LiftViewController.swift in Sources */,
-				8FEFD4C11F9F7B4200C6C75A /* ImportWindowController.swift in Sources */,
+				8FEFD4C11F9F7B4200C6C75A /* ImportViewController.swift in Sources */,
 				8FD4FEA11F8BFEDA0008D8DA /* ArrowView.swift in Sources */,
 				8FA148D81F8D038D00644638 /* ForiegnKeyConnection.swift in Sources */,
+				8F9565CD1FB36EFC008FE038 /* JSONExportOptions.swift in Sources */,
 				8FB9F1511F7E7FA40090FA53 /* IndexedColumn.swift in Sources */,
 				8F921DB91F7ECD4500464D27 /* ColumnConstraint.swift in Sources */,
 				8F921DC11F7ED0FB00464D27 /* CheckColumnConstraint.swift in Sources */,

@@ -11,6 +11,14 @@ import Foundation
 enum ActionType {
     case delete
     case update
+    var sql: String {
+        switch  self {
+        case .delete:
+            return "DELETE"
+        case .update:
+            return "UPDATE"
+        }
+    }
 }
 
 enum ActionResult {
@@ -19,6 +27,21 @@ enum ActionResult {
     case cascade
     case restrict
     case noAction
+
+    var sql: String {
+        switch self {
+        case .setNull:
+            return "SET NULL"
+        case .setDefault:
+            return "SET DEFAULT"
+        case .cascade:
+            return "CASCADE"
+        case .restrict:
+            return "RESTRICT"
+        case .noAction:
+            return "NO ACTION"
+        }
+    }
 }
 
 class ForeignKeyActionStatement: Equatable {
@@ -60,6 +83,10 @@ class ForeignKeyActionStatement: Equatable {
         } else {
             throw ParserError.unexpectedError("Unable to parse result, got No but not action!")
         }
+    }
+
+    var sql: String {
+        return "ON \(type.sql) \(result.sql) "
     }
 }
 

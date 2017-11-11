@@ -18,4 +18,18 @@ class UniqueColumnConstraint: ConflictColumnConstraint {
         try super.init(with: name,from: scanner)
         
     }
+    override var sql: String {
+        var builder = ""
+        if let name = constraintName?.sql{
+            builder += "CONSTRAINT \(name) "
+        }
+        builder += "UNIQUE "
+
+        if let conflictClause = conflictClause {
+            builder += conflictClause.sql
+        }
+
+        return builder
+    }
+    
 }

@@ -48,5 +48,8 @@ class ColumnConstraint {
 
     }
     
+    var sql: String {
+        return ""
+    }
     
 }

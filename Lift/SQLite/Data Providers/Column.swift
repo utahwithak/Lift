@@ -50,4 +50,9 @@ class Column {
         self.type = type
         self.primaryKey = pk == 1
     }
+
+    var simpleColumnCreationStatement: String {
+        return "\(name.sqliteSafeString()) \(type)"
+    }
+
 }

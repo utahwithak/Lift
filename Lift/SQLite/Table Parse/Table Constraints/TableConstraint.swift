@@ -40,4 +40,11 @@ class TableConstraint: NSObject {
 
     }
 
+    var sql: String {
+        return ""
+    }
+
+    func sql(with columns: [String]) -> String? {
+        return sql
+    }
 }

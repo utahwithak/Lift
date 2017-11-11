@@ -45,6 +45,19 @@ class ForeignKeyDeferStatement: Equatable {
         }
         
     }
+    var sql: String {
+        var builder = isDeferrable ? "DEFERRABLE" : "NOT DEFERRABLE"
+        switch type {
+        case .initiallyDeferred:
+            builder += " INITIALLY DEFERRED"
+        case .initiallyImmediate:
+            builder += " INITIALLY IMMEDIATE"
+        case .notSpecified:
+            break
+        }
+
+        return builder
+    }
 }
 
 func ==(lhs: ForeignKeyDeferStatement, rhs: ForeignKeyDeferStatement) -> Bool {

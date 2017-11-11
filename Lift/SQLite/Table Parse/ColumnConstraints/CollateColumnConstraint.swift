@@ -22,4 +22,13 @@ class CollateColumnConstraint: ColumnConstraint {
         
         super.init(name: name)
     }
+
+    override var sql: String {
+        var builder = ""
+        if let name = constraintName {
+            builder += "CONSTRAINT \(name) "
+        }
+
+        return builder + "COLLATE \(collationName.sql)"
+    }
 }

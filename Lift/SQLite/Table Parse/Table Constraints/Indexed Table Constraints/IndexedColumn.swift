@@ -41,4 +41,25 @@ class IndexedColumn {
             sortOrder = .notSpecified
         }
     }
+
+    var sql: String {
+        var builder = "\(columnName.sql) "
+        if let name = collationName {
+            builder += "COLLATE \(name.sql) "
+        }
+
+        switch sortOrder {
+        case .ASC:
+            builder += "ASC "
+        case .DESC:
+            builder += "DESC "
+        case .notSpecified:
+            break
+        }
+
+        return builder
+
+
+
+    }
 }

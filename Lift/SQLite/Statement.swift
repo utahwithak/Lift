@@ -48,6 +48,24 @@ class Statement {
         parameterCount = Int(sqlite3_bind_parameter_count(statement))
     }
 
+    init(connection: sqlite3, statement: OpaquePointer) {
+
+        self.connection = connection
+        self.statement = statement
+
+        if let val = sqlite3_sql(statement) {
+            sql = String(cString: val)
+        } else {
+            print("Unable to get actual SQL!")
+            sql = ""
+        }
+
+        columnCount = Int(sqlite3_column_count( statement ))
+        columnNames = (0..<columnCount).map { String(cString: sqlite3_column_name(statement, Int32($0))) }
+        parameterCount = Int(sqlite3_bind_parameter_count(statement))
+
+    }
+
     deinit {
         finalize()
     }

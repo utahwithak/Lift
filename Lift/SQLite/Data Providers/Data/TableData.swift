@@ -24,6 +24,7 @@ enum SimpleUpdateType {
     case current_date
     case current_timestamp
     case defaultValue
+    case argument(String)
 
     static let allVals: [SimpleUpdateType] = [.null,.current_time, .current_date, .current_timestamp, .defaultValue]
 
@@ -39,6 +40,9 @@ enum SimpleUpdateType {
             return NSLocalizedString("Current Timestamp", comment: "set to current timestamp")
         case .defaultValue:
             return NSLocalizedString("Default Value", comment: "set to default value")
+        case .argument(_):
+            return NSLocalizedString("Custom Value", comment: "set to a Custom value")
+
         }
     }
 }
@@ -85,7 +89,7 @@ class TableData: NSObject {
 
         if let table = provider as? Table {
             smartPaging =  provider is Table
-            if table.definition.withoutRowID {
+            if table.definition?.withoutRowID ?? false{
                 let primaryKeys =  table.columns.filter { $0.primaryKey }
                 sortCount = primaryKeys.count
                 sortColumns = primaryKeys.map { $0.name.sqliteSafeString() }.joined(separator: ", ")
@@ -354,10 +358,19 @@ class TableData: NSObject {
 
     }
 
-    func set(row: Int, column: Int, to value: SimpleUpdateType) throws -> Bool {
+    enum UpdateResult {
+        case updated
+        case removed
+        case failed
+    }
+
+    func set(row: Int, column: Int, to value: SimpleUpdateType) throws -> UpdateResult {
         guard let columnName = columnNames?[column] else {
-            return false
+            return .failed
         }
+
+        var args = [String: SQLiteData]()
+
         var query = "UPDATE \(provider.qualifiedNameForQuery) SET \(columnName.sqliteSafeString())="
         switch value {
         case .null:
@@ -370,6 +383,9 @@ class TableData: NSObject {
             query += "CURRENT_TIMESTAMP"
         case .defaultValue:
             query += provider.columns[column - sortCount].defaultValue ?? "NULL"
+        case .argument(let argVal):
+            query += "$arg"
+            args["$arg"] = .text(argVal)
 
         }
 
@@ -377,26 +393,34 @@ class TableData: NSObject {
         query += " WHERE (\(sortColumns)) = (\(argString))"
 
         let updateStatement = try Statement(connection: provider.connection, text: query)
-        try updateStatement.bind(rowData.data[0..<sortCount])
+
+        for i in 0..<sortCount {
+            args["$\(i)"] = rowData.data[i]
+        }
+        try updateStatement.bind(args)
+
         guard try updateStatement.step() else {
-            return false
+            return .failed
         }
 
         let rowQuery = baseQuery + " WHERE (\(sortColumns)) = (\(argString))"
+
         let selectQuery = try Query(connection: provider.connection, query: rowQuery)
         try selectQuery.bindArguments(rowData.data[0..<sortCount])
+
         let allRows = try selectQuery.allRows()
-        guard allRows.count == 1 else {
-            print("Getting more rows back!?")
-            return false
+
+        if allRows.count == 1 {
+            data[row] = RowData(row: allRows[0])
+            return .updated
+        } else if allRows.count == 0 {
+            data.remove(at: row)
+            return .removed
+        } else {
+            print("Got more than 1 rows back!?")
+            return .failed
         }
-
-        data[row] = RowData(row: allRows[0])
-
-        return true
-
     }
-
 
     func json(inSelection sel: SelectionBox, map: [Int: Int], keepGoingCheck: (() -> Bool)? = nil) -> String? {
 
@@ -485,5 +509,20 @@ class TableData: NSObject {
         return writer
     }
 
+
+    func addDefaultValues() throws -> Bool {
+        guard let table = provider as? Table else {
+            return false
+        }
+
+        let success = try table.addDefaultValues()
+
+        if success && finishedLoadingAfter {
+            finishedLoadingAfter = false
+            loadNextPage()
+        }
+
+        return success
+    }
 
 }

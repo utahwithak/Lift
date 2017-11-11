@@ -118,5 +118,32 @@ class Query {
         }, keepGoing: keepGoing)
     }
 
+    func processData(from query: Query) throws {
+        var rowData = [SQLiteData](repeating: .null, count: query.statement.columnCount)
+
+        try query.processQuery(handler: {
+            query.statement.fill(&rowData)
+            try statement.bind(rowData)
+            _ = try statement.step()
+
+            statement.reset()
+        })
+    }
+
+    func argumentName(for index: Int) -> String {
+        return statement.argumentName(for: index)
+    }
+
+    func argumentName(for column: String) -> String {
+        return statement.argumentName(for: column)
+    }
+
+    var columnsAsArguments: [String] {
+        return statement.columnsAsArguments
+    }
+
+    var numericArguments: [String] {
+        return statement.numericArguments
+    }
 
 }

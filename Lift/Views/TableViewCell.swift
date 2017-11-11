@@ -9,4 +9,13 @@
 import Cocoa
 
 class TableViewCell: NSTableCellView {
+    override var acceptsFirstResponder: Bool {
+        return true
+    }
+
+    override func becomeFirstResponder() -> Bool {
+        textField?.isEditable = true
+        return textField?.becomeFirstResponder() ?? false
+    }
+
 }

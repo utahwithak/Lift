@@ -43,7 +43,56 @@ class TableDefinition: NSObject {
     }
 
     var createStatment: String {
-        return ""
+        var builder = "CREATE TABLE "
+
+        if let dbName = databaseName {
+            builder += dbName.sql + "." + tableName.sql
+        } else {
+            builder += tableName.sql
+        }
+        builder += "("
+
+        builder += columns.map({ $0.creationStatement}).joined(separator: ", ")
+
+        builder += tableConstraints.flatMap({ $0.sql }).joined(separator: ", ")
+
+        builder += ") "
+
+        if withoutRowID {
+            builder += "WITHOUT ROWID"
+        }
+
+        return builder
+
+    }
+
+    func createStatement(with includedColumnNames: [String], checkExisting: Bool) -> String {
+
+        var builder = "CREATE TABLE "
+        if checkExisting {
+            builder += "IF NOT EXISTS "
+        }
+        if let dbName = databaseName {
+            builder += dbName.sql + "." + tableName.sql
+        } else {
+            builder += tableName.sql
+        }
+        builder += "("
+
+        let includedColumns = columns.filter({includedColumnNames.contains($0.name.cleanedVersion) })
+        builder += includedColumns.map({ $0.creationStatement}).joined(separator: ", ")
+
+        let tabConstraints = tableConstraints.flatMap({ $0.sql(with: includedColumnNames )})
+        if !tabConstraints.isEmpty {
+            builder += "," + tabConstraints.joined(separator: ", ")
+        }
+
+        builder += ") "
+        if withoutRowID {
+            builder += "WITHOUT ROWID"
+        }
+
+        return builder
     }
 
 }

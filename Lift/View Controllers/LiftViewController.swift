@@ -8,6 +8,7 @@
 
 import Cocoa
 class LiftViewController: NSViewController {
+
     var document: LiftDocument? {
         return representedObject as? LiftDocument
     }
@@ -16,7 +17,18 @@ class LiftViewController: NSViewController {
         return view.window?.windowController as? LiftWindowController
     }
 
-    @objc dynamic weak var selectedTable: DataProvider?
+    @objc dynamic weak var selectedTable: DataProvider? {
+        didSet {
+            guard let provider = selectedTable else {
+                isEditingEnabled = false
+                return
+            }
+
+            isEditingEnabled = provider.type == "table" && !provider.name.hasPrefix("sqlite")
+        }
+    }
+
+    @objc dynamic var isEditingEnabled = false
 
     override func viewDidLoad() {
         super.viewDidLoad()

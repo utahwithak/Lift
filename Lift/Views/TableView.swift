@@ -15,7 +15,7 @@ struct SelectionBox {
     let startColumn: Int
     let endColumn: Int
 
-    var singleCell: Bool {
+    var isSingleCell: Bool {
         return startRow == endRow && startColumn == endColumn
     }
 }
@@ -33,6 +33,10 @@ extension CGRect {
 
 
 class TableView: NSTableView {
+
+    override var selectedRow: Int {
+        return selectionBoxes.first?.startRow ?? -1
+    }
 
     func selectRow(_ row: Int, column: Int? = nil) {
         if let column = column {
@@ -138,8 +142,17 @@ class TableView: NSTableView {
     @objc private func columnMoved(_ notification: Notification) {
         selectionBoxes = []
     }
-    
+    override func mouseUp(with event: NSEvent) {
+        if event.clickCount == 2 {
+            if let doubleAction = doubleAction, let target = target {
+                _ = target.perform(doubleAction, with: self)
+            }
+        }
+    }
     override func mouseDown(with event: NSEvent) {
+        guard event.clickCount == 1 else {
+            return
+        }
         allowsColumnReordering = true
 
         let converted: CGPoint

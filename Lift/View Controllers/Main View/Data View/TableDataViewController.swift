@@ -12,6 +12,8 @@ import Cocoa
 
 class TableDataViewController: LiftMainViewController {
 
+    fileprivate static var identifierMap = [NSUserInterfaceItemIdentifier: Int]()
+
     @IBOutlet weak var tableView: TableView!
     @IBOutlet weak var tableScrollView: TableScrollView!
 
@@ -57,6 +59,22 @@ class TableDataViewController: LiftMainViewController {
         }
     }
 
+    @objc private func doubleClickTable(_ sender: Any) {
+        startEditingSelection()
+    }
+
+    fileprivate func startEditingSelection() {
+        guard let selectionBox = tableView.selectionBoxes.first, selectionBox.isSingleCell else {
+            return
+        }
+
+        guard let cell = tableView.view(atColumn: selectionBox.startColumn, row: selectionBox.startRow, makeIfNecessary: false) as? NSTableCellView else {
+            return
+        }
+
+        view.window?.makeFirstResponder(cell)
+    }
+
     @IBAction func copy(_ sender: Any) {
         guard let selectionBox = tableView.selectionBoxes.first else {
             return
@@ -70,15 +88,30 @@ class TableDataViewController: LiftMainViewController {
     }
 
     private func copySelection(_ selection: SelectionBox, fromData: TableData, asJson copyAsJSON: Bool, columnMap: [Int: Int]) {
+        var validOp = true
+        let keepGoing: () -> Bool = {
+            return validOp
+        }
+
+        if selection.isSingleCell {
+            var pasteBoardString = ""
+
+            if copyAsJSON {
+                pasteBoardString = fromData.json(inSelection: selection, map: columnMap, keepGoingCheck: keepGoing) ?? ""
+            } else {
+                pasteBoardString = fromData.csv(inSelection: selection, map: columnMap, keepGoingCheck: keepGoing) ?? ""
+
+            }
+            NSPasteboard.general.declareTypes([.string], owner: nil)
+            NSPasteboard.general.setString(pasteBoardString, forType: .string)
+            return
+        }
+
 
         guard let waitingVC = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("waitingOperationView")) as? WaitingOperationViewController else {
             return
         }
 
-        var validOp = true
-        let keepGoing: () -> Bool = {
-            return validOp
-        }
 
         let cancelOp: () -> Void = {
             validOp = false
@@ -118,6 +151,9 @@ class TableDataViewController: LiftMainViewController {
         super.viewDidLoad()
         visibleRowCountBuffer = tableView.rows(in: tableView.visibleRect).length * 4
         clearTable()
+        tableView.doubleAction = #selector(doubleClickTable)
+        tableView.target = self
+
         view.postsFrameChangedNotifications = true
         NotificationCenter.default.addObserver(forName: NSView.frameDidChangeNotification , object: view, queue: nil) { [weak self] _ in
             guard let mySelf = self else {
@@ -241,6 +277,49 @@ class TableDataViewController: LiftMainViewController {
 
     }
 
+    fileprivate func set(row: Int, rawCol: Int, to value: SimpleUpdateType) {
+        guard let data = data else {
+            return
+        }
+
+        guard let realColumn = TableDataViewController.identifierMap[tableView.tableColumns[rawCol].identifier] else {
+            return
+        }
+
+        do {
+            switch try data.set(row: row, column: realColumn, to: value) {
+            case .updated:
+                tableView.reloadData(forRowIndexes: IndexSet([row]), columnIndexes: IndexSet([rawCol]))
+            case .removed:
+                print("removed")
+            case .failed:
+                print("failed!")
+            }
+        } catch {
+            presentError(error)
+        }
+    }
+
+    @IBAction func addDefaultValues(_ sender: NSButton) {
+
+        guard isEditingEnabled, let data = data else {
+            return
+        }
+
+        do {
+            _ = try data.addDefaultValues()
+        } catch {
+            presentError(error)
+        }
+    }
+
+    @IBAction func addCustomValues(_ sender: NSButton) {
+        guard let table = selectedTable as? Table, isEditingEnabled else {
+            return
+        }
+
+    }
+
 }
 
 extension TableDataViewController: TableDataDelegate {
@@ -279,18 +358,25 @@ extension TableDataViewController: TableDataDelegate {
 }
 
 extension TableDataViewController: NSTableViewDelegate {
+
     func tableView(_ tableView: NSTableView, shouldSelectRow row: Int) -> Bool {
         return true
     }
-
+    func tableView(_ tableView: NSTableView, shouldEdit tableColumn: NSTableColumn?, row: Int) -> Bool {
+        return true
+    }
 }
 
 extension TableDataViewController: NSTableViewDataSource {
+
     func numberOfRows(in tableView: NSTableView) -> Int {
         return data?.count ?? 0
     }
+
     private static let cellIdentifier = NSUserInterfaceItemIdentifier("defaultCell")
-    fileprivate static var identifierMap = [NSUserInterfaceItemIdentifier: Int]()
+
+
+
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         guard let tableColumn = tableColumn, let cell = tableView.makeView(withIdentifier: TableDataViewController.cellIdentifier, owner: self) as? TableViewCell,
             let data = data, let column = TableDataViewController.identifierMap[tableColumn.identifier] else {
@@ -300,6 +386,8 @@ extension TableDataViewController: NSTableViewDataSource {
         guard let textField = cell.textField else {
             return nil
         }
+
+        textField.delegate = self
 
         let object = data.object(at: row, column: column)
         textField.stringValue = object.displayValue
@@ -333,6 +421,8 @@ extension TableDataViewController: NSTableViewDataSource {
         if textField.textColor != color {
             textField.textColor = color
         }
+
+        textField.layout()
 
         return cell
     }
@@ -369,7 +459,7 @@ extension TableDataViewController: NSMenuDelegate {
         guard let selectionBox = tableView.selectionBoxes.first else {
             return
         }
-        if selectionBox.singleCell {
+        if selectionBox.isSingleCell {
             let columnIndex = selectionBox.startColumn
             let tableColumn = tableView.tableColumns[columnIndex]
 
@@ -421,27 +511,11 @@ extension TableDataViewController: NSMenuDelegate {
     }
 
     @objc private func setToType(_ sender: NSMenuItem) {
-        guard let data = data, let selectionBox = tableView.selectionBoxes.first, let type = sender.representedObject as? SimpleUpdateType else {
+        guard let selectionBox = tableView.selectionBoxes.first, selectionBox.isSingleCell, let type = sender.representedObject as? SimpleUpdateType else {
             return
         }
 
-        guard selectionBox.singleCell else {
-            return
-        }
-
-        guard let realColumn = TableDataViewController.identifierMap[tableView.tableColumns[selectionBox.startColumn].identifier] else {
-            return
-        }
-
-        do {
-            if try data.set(row: selectionBox.startRow, column: realColumn, to: type) {
-                tableView.reloadData(forRowIndexes: IndexSet([selectionBox.startRow]), columnIndexes: IndexSet([selectionBox.startColumn]))
-            }
-        } catch {
-            presentError(error)
-        }
-
-
+        set(row: selectionBox.startRow, rawCol: selectionBox.startColumn, to: type)
     }
 
     @objc private func copyAsCSV(_ sender: Any) {
@@ -523,5 +597,57 @@ extension TableDataViewController: JumpDelegate {
 
         }
 
+    }
+}
+
+
+extension TableDataViewController: NSTextFieldDelegate {
+    override func controlTextDidBeginEditing(_ obj: Notification) {
+        guard let selectionBox = tableView.selectionBoxes.first, selectionBox.isSingleCell else {
+            return
+        }
+
+        guard let textField = obj.object as? NSTextField else {
+            return
+        }
+
+        textField.textColor = NSColor.black
+    }
+
+    override func controlTextDidEndEditing(_ obj: Notification) {
+        guard let selectionBox = tableView.selectionBoxes.first, selectionBox.isSingleCell else {
+            return
+        }
+
+        guard let textField = obj.object as? NSTextField else {
+            return
+        }
+
+
+        set(row: selectionBox.startRow, rawCol: selectionBox.startColumn, to: .argument(textField.stringValue))
+        textField.isEditable = false
+
+        if let rawMovement = obj.userInfo?["NSTextMovement"] as? Int, let movement = NSTextMovement(rawValue: rawMovement)  {
+
+
+            switch movement {
+            case .down, .return:
+                self.tableView.selectRow(min(selectionBox.startRow + 1, tableView.numberOfRows - 1), column: selectionBox.startColumn)
+                DispatchQueue.main.async {
+                    self.startEditingSelection()
+                }
+            case .tab, .right:
+                self.tableView.selectRow(selectionBox.startRow, column: min(selectionBox.startColumn + 1, tableView.numberOfColumns - 1))
+            case .backtab, .left:
+                self.tableView.selectRow(selectionBox.startRow, column: max(0,selectionBox.startColumn - 1))
+                DispatchQueue.main.async {
+                    self.startEditingSelection()
+                }
+            case .up:
+                self.tableView.selectRow(max(0,selectionBox.startRow - 1), column: selectionBox.startColumn)
+            default:
+                break
+            }
+        }
     }
 }

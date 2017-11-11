@@ -49,6 +49,41 @@ class ForeignKeyTableConstraint: TableConstraint {
         super.init(name: name)
     }
 
+    override var sql: String {
+        var builder = "FOREIGN KEY ("
+        builder += fromColumns.map({ $0.sql}).joined(separator: ", ")
+        builder += ") " + clause.sql
+        return builder
+    }
+
+    override func sql(with columns: [String]) -> String? {
+
+        var clauseCopy = clause
+
+        var cleanedFrom = [SQLiteName]()
+
+        for i in (0..<fromColumns.count).reversed() {
+            if !columns.contains(fromColumns[i].cleanedVersion) {
+                clauseCopy.toColumns.remove(at: i)
+            } else {
+                cleanedFrom.insert(fromColumns[i], at: 0)
+            }
+        }
+        if fromColumns.isEmpty {
+            return nil
+        }
+
+        var builder = ""
+        if let name = name?.sql {
+            builder += "CONSTRAINT \(name) "
+        }
+        builder += "FOREIGN KEY ("
+
+        builder += cleanedFrom.map({ $0.sql}).joined(separator: ", ")
+        builder += ") " + clauseCopy.sql
+        return builder
+
+    }
 }
 
 func ==(lhs: ForeignKeyTableConstraint, rhs: ForeignKeyTableConstraint) -> Bool {

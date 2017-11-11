@@ -22,4 +22,11 @@ class CheckTableConstraint: TableConstraint {
 
         super.init(name: name)
     }
+    override var sql: String {
+        var builder = ""
+        if let name = name?.sql{
+            builder += "CONSTRAINT \(name) "
+        }
+        return builder + "CHECK \(checkExpression) "
+    }
 }

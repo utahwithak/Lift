@@ -16,6 +16,44 @@ class PrimaryKeyTableConstraint: IndexedTableConstraint {
         }
 
         try super.init(with: name, from: scanner)
+    }
+
+    override var sql: String {
+        var builder = ""
+        if let name = name?.sql {
+            builder += "CONSTRAINT \(name) "
+        }
+        builder += "PRIMARY KEY ("
+        builder += indexedColumns.map({ $0.sql}).joined(separator: ", ")
+        builder += ") "
+        if let conflict = conflictClause {
+            builder += conflict.sql
+        }
+        return builder
+    }
+
+    override func sql(with columns: [String]) -> String? {
+
+
+        let cleanedIndexed = indexedColumns.filter { (index) -> Bool in
+            return columns.contains(index.columnName.cleanedVersion)
+        }
+
+        if cleanedIndexed.isEmpty {
+            return nil
+        }
+
+        var builder = ""
+        if let name = name?.sql {
+            builder += "CONSTRAINT \(name) "
+        }
+        builder += "PRIMARY KEY ("
+        builder += cleanedIndexed.map({ $0.sql}).joined(separator: ", ")
+        builder += ") "
+        if let conflict = conflictClause {
+            builder += conflict.sql
+        }
+        return builder
 
     }
 }

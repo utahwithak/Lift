@@ -11,6 +11,7 @@ import Cocoa
 enum DatabaseType {
     case inMemory(name: String)
     case disk(path: URL, name: String)
+    case aux(path: URL)
 }
 
 extension Notification.Name {
@@ -36,7 +37,7 @@ class Database {
             guard ret == SQLITE_OK, let connection = db else {
                 throw SQLiteError(connection: db, code: ret, sql: "Opening with: \(dbName)")
             }
-            self.init(connection: connection, name: name)
+            self.init(connection: connection, name: name, refresh: false)
             Database.inMemoryCount += 1
         case .disk(path:let path, name:let name):
             var db: sqlite3?
@@ -46,6 +47,14 @@ class Database {
             }
 
             self.init(connection: connection, name: name)
+        case .aux(path: let path):
+            var db: sqlite3?
+            let ret = sqlite3_open(path.path, &db)
+            guard ret == SQLITE_OK, let connection = db else {
+                throw SQLiteError(connection: db, code: ret, sql: "Opening path:\(path.path)")
+            }
+
+            self.init(connection: connection, name: "main", refresh: false)
         }
 
     }
@@ -91,16 +100,18 @@ class Database {
         }
     }
 
-    private init(connection: sqlite3, name: String) {
+    private init(connection: sqlite3, name: String, refresh: Bool = true) {
         self.connection = connection
         self.name = name
 
         enableExtensions()
         foreignKeysEnabled = true
-        // return asap and refresh on the next go around
-        DispatchQueue.global(qos: .background).async {
-            DispatchQueue.main.async {
-                self.refresh()
+        if refresh {
+            // return asap and refresh on the next go around
+            DispatchQueue.global(qos: .background).async {
+                DispatchQueue.main.async {
+                    self.refresh()
+                }
             }
         }
 
@@ -139,6 +150,9 @@ class Database {
         }
     }
 
+    deinit {
+        sqlite3_close_v2(connection)
+    }
 
     func refresh() {
 
@@ -370,5 +384,45 @@ class Database {
             extensionsAllowed = false
         }
     }
+
+
+    // MARK: - Transactions
+    public func exec(_ statement: String) throws  {
+        let rc = sqlite3_exec(connection, statement, nil, nil, nil)
+        guard rc == SQLITE_OK else {
+            throw SQLiteError(connection: connection, code: rc, sql: statement)
+        }
+    }
+
+    public func beginTransaction() throws {
+        try exec("BEGIN TRANSACTION;")
+    }
+
+    public func endTransaction() throws {
+        try exec("COMMIT;")
+
+    }
+    
+    public func rollback() {
+        do {
+            try exec("ROLLBACK;")
+        } catch {
+            print("FAILED TO ROLLBACK!!!:\(error)")
+        }
+    }
+
+    // MARK: - Save points
+
+    public func beginSavepoint(named name: String) throws {
+        try exec("SAVEPOINT \(name);")
+    }
+
+    public func releaseSavepoint(named name: String) throws {
+        try exec("RELEASE \(name);")
+    }
+    public func rollbackSavepoint(named name: String) throws {
+        try exec("ROLLBACK TO \(name);")
+    }
+
 
 }

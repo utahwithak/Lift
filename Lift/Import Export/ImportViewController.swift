@@ -1,5 +1,5 @@
 //
-//  ImportExportWindowController.swift
+//  ImportWindowController.swift
 //  Lift
 //
 //  Created by Carl Wieland on 10/24/17.
@@ -8,6 +8,7 @@
 
 import Cocoa
 
-class ExportWindowController: NSWindowController {
-    
+class ImportViewController: LiftViewController {
+
+
 }

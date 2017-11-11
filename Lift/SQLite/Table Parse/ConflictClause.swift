@@ -14,13 +14,26 @@ enum ConflictResolution {
     case fail
     case ignore
     case replace
+    var sql: String {
+        switch self {
+        case .rollback:
+            return "ROLLBACK"
+        case .abort:
+            return "ABORT"
+        case .fail:
+            return "FAIL"
+        case .ignore:
+            return "IGNORE"
+        case .replace:
+            return "REPLACE"
+        }
+    }
 }
 
 
 class ConflictClause {
 
-    var resolution: ConflictResolution
-
+    let resolution: ConflictResolution
 
     init?(from scanner: Scanner) throws {
         if !scanner.scanString("ON", into: nil) {
@@ -46,4 +59,7 @@ class ConflictClause {
         }
     }
 
+    var sql: String {
+        return "ON CONFLICT \(resolution.sql) "
+    }
 }
