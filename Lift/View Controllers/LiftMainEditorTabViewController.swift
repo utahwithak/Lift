@@ -25,10 +25,18 @@ class LiftMainEditorTabViewController: NSTabViewController {
         }
     }
 
+    var sideBarViewController: SideBarDetailsViewController? {
+        didSet {
+            updateSideContainer()
+        }
+    }
 
-    var sideBarViewController: SideBarDetailsViewController?
+    var bottomBarContainer: BottomEditorContainer? {
+        didSet {
+            updateBottomContainer()
+        }
+    }
 
-    
     func switchMainView( to editorType: MainEditorType) {
         switch editorType {
         case .table:
@@ -40,10 +48,19 @@ class LiftMainEditorTabViewController: NSTabViewController {
         }
 
     }
+    private func updateBottomContainer() {
+        bottomBarContainer?.provider = tabViewItems[selectedTabViewItemIndex].viewController as? BottomEditorContentProvider
+    }
+
+    private func updateSideContainer() {
+        sideBarViewController?.contentProvider = tabViewItems[selectedTabViewItemIndex].viewController as? DetailsContentProvider
+    }
 
     override var selectedTabViewItemIndex: Int {
         didSet {
-            sideBarViewController?.contentProvider = tabViewItems[selectedTabViewItemIndex].viewController as? DetailsContentProvider
+            updateSideContainer()
+            updateBottomContainer()
+
         }
     }
 }

@@ -24,6 +24,7 @@ class LiftWindowController: NSWindowController {
 
     @IBOutlet weak var attachDetachSegmentedControl: NSSegmentedControl!
 
+    @IBOutlet weak var autocommitSegmentedControl: NSSegmentedCell!
     @objc dynamic weak var selectedTable: DataProvider? {
         didSet {
             window?.title = selectedTable?.name ?? document?.displayName ?? ""
@@ -53,6 +54,7 @@ class LiftWindowController: NSWindowController {
         window?.registerForDraggedTypes([NSPasteboard.PasteboardType.fileURL])
 
         mainEditor?.sideBarViewController = sideDetails
+        mainEditor?.bottomBarContainer = bottomContainer
     }
 
     @IBAction override func newWindowForTab(_ sender: Any?) {
@@ -76,10 +78,38 @@ class LiftWindowController: NSWindowController {
 
     }
 
+    func showBottomBar() {
+        guard let splitView = contentViewController as? LiftMainSplitViewController else {
+            return
+        }
+
+        splitView.setLocation(.bottom, collapsed: false)
+
+    }
+
     @IBAction func refreshDatabase( _ sender: NSSegmentedControl) {
         (document as? LiftDocument)?.refresh()
     }
 
+    @IBAction func toggleAutoCommitStatus(_ sender: NSSegmentedControl) {
+        guard let database = (document as? LiftDocument)?.database else {
+            return
+        }
+        defer {
+            database.refreshAutoCommit()
+        }
+        do {
+            switch database.autocommitStatus {
+            case .inTransaction:
+                try database.endTransaction()
+            case .autocommit:
+                try database.beginTransaction()
+            }
+        } catch {
+            presentError(error)
+        }
+
+    }
 
     private var mainEditor: LiftMainEditorTabViewController? {
         guard let splitView = contentViewController as? LiftMainSplitViewController, let tabController = splitView.mainEditor else {
@@ -89,10 +119,11 @@ class LiftWindowController: NSWindowController {
     }
 
     private var sideDetails: SideBarDetailsViewController? {
-        guard let splitView = contentViewController as? LiftMainSplitViewController, let tabController = splitView.detailsViewController else {
-            return nil
-        }
-        return tabController
+        return (contentViewController as? LiftMainSplitViewController)?.detailsViewController
+    }
+
+    private var bottomContainer: BottomEditorContainer? {
+        return (contentViewController as? LiftMainSplitViewController)?.bottomEditorContainer
     }
 
     @IBAction func switchMainEditor(_ sender: NSSegmentedControl) {
@@ -170,6 +201,7 @@ class LiftWindowController: NSWindowController {
 
             if let document = document as? LiftDocument {
                 NotificationCenter.default.addObserver(self, selector: #selector(attachedDatabasesChanged), name: .AttachedDatabasesChanged, object: document.database)
+                NotificationCenter.default.addObserver(self, selector: #selector(autocommitStatusChanged), name: .AutocommitStatusChanged, object: document.database)
             }
         }
     }
@@ -178,6 +210,21 @@ class LiftWindowController: NSWindowController {
         didSet {
             contentViewController?.representedObject = document
         }
+    }
+
+    @objc private func autocommitStatusChanged(_ notification: Notification) {
+        guard let database = notification.object as? Database else {
+            return
+        }
+        let image: NSImage?
+        switch database.autocommitStatus {
+        case .autocommit:
+            image = NSImage(named: NSImage.Name("branch"))
+        case .inTransaction:
+            image = NSImage(named: NSImage.Name("commit"))
+        }
+        autocommitSegmentedControl.setImage(image, forSegment: 0)
+
     }
 
     @objc private func attachedDatabasesChanged(_ notification: Notification) {

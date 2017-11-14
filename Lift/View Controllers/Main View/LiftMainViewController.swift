@@ -10,13 +10,13 @@ import Cocoa
 
 class LiftMainViewController: LiftViewController {
 
-
-}
-
-
-extension LiftMainViewController: DetailsContentProvider {
     var preferredSections: [DetailSection] {
         return [.database, .table]
 
     }
+}
+
+
+extension LiftMainViewController: DetailsContentProvider {
+
 }

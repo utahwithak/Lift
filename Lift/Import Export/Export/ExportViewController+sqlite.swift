@@ -136,7 +136,13 @@ extension ExportViewController {
                 var errorCount = 0
                 try intoDatabase.beginTransaction()
                 let count = self.tablesToExport.count
+                var databases = Set<Database>()
+                
                 for (index,tableNode) in self.tablesToExport.enumerated() {
+
+                    if let database = tableNode.table.database {
+                        databases.insert(database)
+                    }
                     DispatchQueue.main.async {
                         progressViewController.setOperationText(to:String(format: NSLocalizedString("Creating Table: %@", comment: "Create Table step %@ replaced with table name"), tableNode.name))
                         progressViewController.updateProgress(to: Double(index) / Double(count))
@@ -188,6 +194,30 @@ extension ExportViewController {
 
                 }
 
+                for db in databases {
+                    do {
+                        let allOtherSQLQuery = try Query(connection: db.connection, query: "Select sql from \(db.name.sqliteSafeString()).sqlite_master where type NOT IN ('table', 'view')")
+                        try allOtherSQLQuery.processRows { row in
+                            guard let data = row.first else {
+                                return
+                            }
+
+                            guard case .text(let sql) = data else {
+                                return
+                            }
+
+                            if try !intoDatabase.execute(statement: sql) {
+                                errorCount += 1
+                                print("Failed to execute sqlite_master query")
+                            }
+
+                        }
+                    } catch {
+                        errorCount += 1
+                        print("Failed to create sqlite_master sql:\(error)")
+                    }
+                }
+                
 
                 if errorCount == 0 {
                     do {

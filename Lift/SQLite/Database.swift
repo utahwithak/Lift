@@ -14,10 +14,16 @@ enum DatabaseType {
     case aux(path: URL)
 }
 
+enum AutocommitStatus {
+    case autocommit
+    case inTransaction
+}
+
 extension Notification.Name {
     static let DatabaseReloaded = Notification.Name("DatabaseReloaded")
     static let AttachedDatabasesChanged = Notification.Name("AttachedDatabasesChanged")
-    
+    static let AutocommitStatusChanged = Notification.Name("AutocommitStatusChanged")
+
 }
 
 typealias sqlite3 = OpaquePointer
@@ -27,7 +33,6 @@ class Database {
 
 
     convenience init(type: DatabaseType) throws {
-        
 
         switch  type {
         case .inMemory(name: let name):
@@ -76,6 +81,17 @@ class Database {
 
     public private(set) var history = [String]()
 
+    public private(set) var autocommitStatus = AutocommitStatus.autocommit {
+        didSet {
+            if autocommitStatus != oldValue {
+                DispatchQueue.main.async {
+                    NotificationCenter.default.post(name: .AutocommitStatusChanged, object: self)
+                }
+            }
+        }
+    }
+
+
     public var foreignKeysEnabled: Bool {
         get {
             do {
@@ -104,8 +120,6 @@ class Database {
         self.connection = connection
         self.name = name
 
-        enableExtensions()
-        foreignKeysEnabled = true
         if refresh {
             // return asap and refresh on the next go around
             DispatchQueue.global(qos: .background).async {
@@ -116,6 +130,8 @@ class Database {
         }
 
         if name == "main" {
+            enableExtensions()
+            foreignKeysEnabled = true
 
             // enable tracing
             let tmpSelf = self
@@ -151,13 +167,19 @@ class Database {
     }
 
     deinit {
-        sqlite3_close_v2(connection)
+        if name == "main" {
+            sqlite3_close_v2(connection)
+        }
     }
 
     func refresh() {
-
+        refreshAutoCommit()
         refreshAttachedDatabases()
         refreshTables()
+    }
+
+    func refreshAutoCommit() {
+        autocommitStatus = sqlite3_get_autocommit(connection) != 0 ? .autocommit : .inTransaction
     }
 
     private func refreshTables() {
@@ -207,10 +229,9 @@ class Database {
         }
 
         attachedDatabases.removeAll()
-        tempDatabase = Database(connection: connection, name: "temp")
-        tempDatabase?.mainDB = self
+        tempDatabase = nil
         do {
-            let query = try Query(connection: connection, query: "PRAGMA database_list")
+            let query = try Query(connection: connection, query: "PRAGMA main.database_list")
             try query.processRows(handler: { row in
                 var path = "In Memory"
 
@@ -222,17 +243,17 @@ class Database {
                     return
                 }
 
-                if num == 0 {
+                guard case .text(let name) = row[1] else {
+                    return
+                }
+
+                if num == 0 && name == "main" {
                     self.path = path
-                } else if num == 1 {
+                } else if num == 1 && name == "temp" {
+                    tempDatabase = Database(connection: connection, name: name)
+                    tempDatabase?.mainDB = self
                     tempDatabase?.path = path
                 } else {
-
-                    guard case .text(let name) = row[1] else {
-                        return
-                    }
-
-
                     let childDB = Database(connection: self.connection, name: name)
                     childDB.mainDB = self
                     childDB.path = path
@@ -273,6 +294,10 @@ class Database {
     }
 
     public func execute(statement: String) throws -> Bool {
+        defer {
+            refreshAutoCommit()
+        }
+
         let statement = try Statement(connection: connection, text: statement)
         return try statement.step()
     }
@@ -388,14 +413,21 @@ class Database {
 
     // MARK: - Transactions
     public func exec(_ statement: String) throws  {
+
+        defer {
+            refreshAutoCommit()
+        }
+
         let rc = sqlite3_exec(connection, statement, nil, nil, nil)
         guard rc == SQLITE_OK else {
             throw SQLiteError(connection: connection, code: rc, sql: statement)
         }
+
     }
 
     public func beginTransaction() throws {
         try exec("BEGIN TRANSACTION;")
+        
     }
 
     public func endTransaction() throws {
@@ -425,4 +457,14 @@ class Database {
     }
 
 
+}
+
+extension Database: Hashable {
+    static func ==(lhs: Database, rhs: Database) -> Bool {
+        return lhs.connection == rhs.connection && lhs.name == rhs.name
+    }
+
+    var hashValue: Int {
+        return connection.hashValue ^ name.hashValue
+    }
 }

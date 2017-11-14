@@ -11,7 +11,6 @@ import Cocoa
 class LiftDocumentController: NSDocumentController {
 
     override func newDocument(_ sender: Any?) {
-        print("new doc")
         super.newDocument(sender)
     }
 

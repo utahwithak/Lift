@@ -17,8 +17,63 @@ class LiftDocument: NSDocument {
         super.init()
 
     }
-    
 
+    override var isDocumentEdited: Bool {
+        return false
+    }
+    
+    override func canClose(withDelegate delegate: Any, shouldClose shouldCloseSelector: Selector?, contextInfo: UnsafeMutableRawPointer?) {
+        var allowed = true
+
+        let shouldClose = {
+            guard let shouldCloseSelector = shouldCloseSelector else { return }
+            let Class: AnyClass = Swift.type(of: delegate as AnyObject)
+            let method = class_getMethodImplementation(Class, shouldCloseSelector)
+
+            typealias signature = @convention(c) (Any, Selector, AnyObject, Bool, UnsafeMutableRawPointer?) -> Void
+            let function = unsafeBitCast(method, to: signature.self)
+
+            function(delegate, shouldCloseSelector, self, allowed, contextInfo)
+        }
+
+        if database.autocommitStatus == .inTransaction {
+            let alert = NSAlert()
+            alert.messageText = NSLocalizedString("Currently in transaction!", comment: "Alert title when attempting to close while in transaction")
+            alert.informativeText = NSLocalizedString("The database is currently in a transaction. Closing now could result in loss of data. Would you like to attempt to commit these changes?", comment: "Alert message when attempting to close while in transaction")
+            alert.addButton(withTitle: NSLocalizedString("Commit", comment: "option to commit when closing"))
+            alert.addButton(withTitle: NSLocalizedString("Close without committing", comment:" option to close document with out commiting"))
+            alert.addButton(withTitle: NSLocalizedString("Cancel", comment:"cancel button when closing"))
+
+            let handler: (NSApplication.ModalResponse) -> Void = { response in
+                if response == NSApplication.ModalResponse.alertFirstButtonReturn {
+                    do {
+                        try self.database.endTransaction()
+                        allowed = true
+                    } catch {
+                        self.presentError(error)
+                        allowed = false
+                    }
+
+                } else if response == NSApplication.ModalResponse.alertSecondButtonReturn {
+                    allowed = true
+                } else if response == NSApplication.ModalResponse.alertThirdButtonReturn {
+                    allowed = false
+                }
+                shouldClose()
+
+            }
+            if let window = windowControllers.first?.window {
+                alert.beginSheetModal(for: window, completionHandler:handler)
+            } else {
+                let response = alert.runModal()
+                handler(response)
+            }
+        } else {
+            shouldClose()
+        }
+
+
+    }
     init(contentsOf url: URL, ofType typeName: String) throws {
         SQLiteDocumentPresenter.addPresenters(for: url)
 
@@ -32,10 +87,6 @@ class LiftDocument: NSDocument {
 
     public convenience init(for urlOrNil: URL?, withContentsOf contentsURL: URL, ofType typeName: String) throws {
         try self.init(contentsOf: contentsURL, ofType: typeName)
-    }
-
-    override class var autosavesInPlace: Bool {
-        return true
     }
 
     override func makeWindowControllers() {

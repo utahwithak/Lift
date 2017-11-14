@@ -15,6 +15,7 @@ protocol DetailsContentProvider: class {
 enum DetailSection {
     case database
     case table
+    case custom(NSImage, NSViewController)
 
     var image: NSImage {
         switch self {
@@ -22,16 +23,29 @@ enum DetailSection {
             return #imageLiteral(resourceName: "smallDB")
         case .table:
             return NSImage(named: .listViewTemplate)!
+        case .custom(let image, _):
+            return image
         }
     }
 
-    var identifier: NSStoryboard.SceneIdentifier {
+    var identifier: NSStoryboard.SceneIdentifier? {
         switch self {
         case .database:
             return NSStoryboard.SceneIdentifier("databaseDetails")
         case .table:
             return NSStoryboard.SceneIdentifier("tableDetailView")
+        case .custom(_, _):
+            return nil
         }
+    }
+}
+extension DetailSection: Equatable { }
+func ==(lhs: DetailSection, rhs: DetailSection) -> Bool {
+    switch (lhs, rhs) {
+    case (.database, .database), (.table,.table):
+        return true
+    default:
+        return false
     }
 }
 
@@ -111,16 +125,17 @@ class SideBarDetailsViewController: LiftViewController {
 
         tabControl.removeAllItems()
 
-        let identifiers = sections.map({$0.identifier})
-
-        for identifier in identifiers {
-            if let vc = storyboard?.instantiateController(withIdentifier: identifier) as? LiftViewController {
-                vc.representedObject = representedObject
-                let item = NSTabViewItem(viewController: vc)
+        for section in sections {
+            if let identifier = section.identifier, let vc = storyboard?.instantiateController(withIdentifier: identifier) as? LiftViewController {
+                    vc.representedObject = representedObject
+                    let item = NSTabViewItem(viewController: vc)
+                    tabControl.addTabViewItem(item)
+            } else if case .custom(_, let viewController) = section {
+                viewController.representedObject = representedObject
+                let item = NSTabViewItem(viewController: viewController)
                 tabControl.addTabViewItem(item)
             }
         }
-
     }
 
 }

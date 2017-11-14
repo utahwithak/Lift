@@ -54,7 +54,7 @@ class Statement {
         self.statement = statement
 
         if let val = sqlite3_sql(statement) {
-            sql = String(cString: val)
+            sql = String(cString: val).trimmingCharacters(in: .whitespacesAndNewlines)
         } else {
             print("Unable to get actual SQL!")
             sql = ""

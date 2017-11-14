@@ -11,6 +11,34 @@ import Foundation
 
 class Query {
 
+    static func executeQueries(from text: String, on connection:sqlite3, handler: (Result<ExecuteQueryResult, Error>) -> Bool, keepGoing: ()-> Bool  ) {
+        text.withCString {
+            var cur: UnsafePointer<Int8>? = $0
+            var next = cur
+
+            var bail = false
+            repeat {
+                var stmt: OpaquePointer?
+                cur = next
+                let rc = sqlite3_prepare_v3(connection, cur, -1, 0, &stmt, &next)
+                if rc != SQLITE_OK {
+                    // on a parse error fail always
+                    _ = handler(.failure(SQLiteError(connection: connection, code: rc)))
+                    bail = true
+                } else if let statement = stmt {
+
+                    let statement = Statement(connection: connection, statement: statement)
+                    let result = ExecuteQueryResult(statement: statement)
+                    result.load(keepGoing: keepGoing)
+                    bail = !handler(.success(result))
+
+                }
+
+            } while !bail && (cur != next)
+        }
+    }
+
+
     let statement: Statement
 
     var columnCount: Int {
@@ -58,6 +86,20 @@ class Query {
             try handler(rowData)
         }
     }
+
+    func processRows( handler: ([SQLiteData]) throws -> Void, keepGoing: () -> Bool ) throws {
+
+        var rowData = [SQLiteData](repeating: .null, count: statement.columnCount)
+
+        while try !statement.step() {
+            statement.fill(&rowData)
+            try handler(rowData)
+            if !keepGoing() {
+                throw NSError(domain: "com.datumapps.lift", code: -8, userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("User Canceled", comment: "Error description when canceling in the middle of a query")])
+            }
+        }
+    }
+
 
     func loadInBackground(completion: @escaping (Result<[[SQLiteData]],Error>) -> Void ) {
         DispatchQueue.global(qos: .userInteractive).async {

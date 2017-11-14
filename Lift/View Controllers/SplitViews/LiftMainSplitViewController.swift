@@ -27,6 +27,10 @@ class LiftMainSplitViewController: LiftSplitViewController {
         return (splitViewItems[1].viewController as? NSSplitViewController)?.splitViewItems[0].viewController as? LiftMainEditorTabViewController
     }
 
+    var bottomEditorContainer: BottomEditorContainer? {
+        return (splitViewItems[1].viewController as? NSSplitViewController)?.splitViewItems[1].viewController as? BottomEditorContainer
+    }
+
     var detailsViewController: SideBarDetailsViewController? {
         return splitViewItems[2].viewController as? SideBarDetailsViewController
     }
