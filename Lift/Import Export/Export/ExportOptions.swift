@@ -8,7 +8,7 @@
 
 import Foundation
 
-class ExportOptions: NSObject {
+class ExportOptions: NSObject, Codable {
     @objc dynamic var nullPlaceHolder = ""
     @objc dynamic var exportRawBlobData: Bool = false
     @objc dynamic var blobDataPlaceHolder = "<Blob>"

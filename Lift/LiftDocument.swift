@@ -38,7 +38,7 @@ class LiftDocument: NSDocument {
 
         if database.autocommitStatus == .inTransaction {
             let alert = NSAlert()
-            alert.messageText = NSLocalizedString("Currently in transaction!", comment: "Alert title when attempting to close while in transaction")
+            alert.messageText = NSLocalizedString("Currently in transaction", comment: "Alert title when attempting to close while in transaction")
             alert.informativeText = NSLocalizedString("The database is currently in a transaction. Closing now could result in loss of data. Would you like to attempt to commit these changes?", comment: "Alert message when attempting to close while in transaction")
             alert.addButton(withTitle: NSLocalizedString("Commit", comment: "option to commit when closing"))
             alert.addButton(withTitle: NSLocalizedString("Close without committing", comment:" option to close document with out commiting"))

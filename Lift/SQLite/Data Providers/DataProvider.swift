@@ -26,7 +26,7 @@ class DataProvider: NSObject {
             NotificationCenter.default.post(name: .TableDidChangeRowCount, object: self)
         }
     }
-    private var refreshingRowCount = false {
+    public private(set) var refreshingRowCount = false {
         didSet {
             if refreshingRowCount {
                 NotificationCenter.default.post(name: .TableDidBeginRefreshingRowCount, object: self)
@@ -43,7 +43,7 @@ class DataProvider: NSObject {
         guard case .text(let type) = data[0],
             case .text(let sql) = data[4],
             case .text(let name) = data[1] else {
-                throw NSError(domain: "com.dataumapps.lift", code: -3, userInfo: [NSLocalizedDescriptionKey:"INAVALID table data row!"])
+                throw NSError.invalidTableError
         }
 
         self.type = type
@@ -111,7 +111,7 @@ class DataProvider: NSObject {
 
     func drop() throws -> Bool {
         guard let database = database else {
-            throw NSError(domain: "com.datumapps.lift", code: -7, userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("No Database!", comment: "No database to drop")])
+            throw NSError.noDatabaseError
         }
 
         let statement = "DROP \(type) \(qualifiedNameForQuery);"
@@ -134,7 +134,7 @@ class DataProvider: NSObject {
     func cloneToDB(_ cloneType: CloneType, keepGoing: ()-> Bool) throws {
         
         guard let database = database else {
-            throw NSError(domain: "com.datumapps.lift", code: -7, userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("No Database!", comment: "No database error")])
+            throw NSError.noDatabaseError
         }
 
         var success = try database.execute(statement: "SAVEPOINT CLONEDB")

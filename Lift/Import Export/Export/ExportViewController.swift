@@ -52,11 +52,10 @@ class ExportViewController: LiftViewController {
         return ExportType(rawValue: exportTypeSelection.intValue)!
     }
 
+
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         progressViewController = segue.destinationController as? ProgressViewController
     }
-
-
 
     @IBAction func export(_ sender: Any) {
 
@@ -83,5 +82,10 @@ class ExportViewController: LiftViewController {
         } else if newLineRadioButton.state == .on {
             csvOptions.lineEnding = "\n"
         }
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
     }
 }

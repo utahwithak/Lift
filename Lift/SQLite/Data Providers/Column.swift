@@ -39,7 +39,7 @@ class Column {
         guard case .text(let name) = rowInfo[1],
         case .text(let type) = rowInfo[2],
         case .integer(let pk) = rowInfo[5] else {
-            throw NSError(domain: "SQLite", code: 2, userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Invalid column info", comment: "Error message when there is invalid format for pragma table_info")])
+            throw NSError.invalidColumnError
         }
         if case .text(let dflVal) = rowInfo[4] {
             defaultValue = dflVal

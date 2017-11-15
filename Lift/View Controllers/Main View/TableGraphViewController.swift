@@ -84,7 +84,7 @@ class TableGraphViewController: LiftMainViewController {
                 }
                 cell.table = table
 
-//                cell.view.translatesAutoresizingMaskIntoConstraints = false
+                cell.view.translatesAutoresizingMaskIntoConstraints = false
 
                 container.addSubview(cell.view)
                 childViewControllers.append(cell)

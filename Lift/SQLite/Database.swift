@@ -67,7 +67,7 @@ class Database {
     public let connection: sqlite3
     public let name: String
 
-    public private(set) var path: String = "In Memory"
+    public private(set) var path: String = ""
 
     public private(set) var tables = [Table]()
     public private(set) var systemTables = [Table]()
@@ -312,7 +312,7 @@ class Database {
 
                 if !rc {
                     print("INVALID USAGE! SHOULD NOT BE EXPECTING ROWS HERE!")
-                    returnError = NSError(domain: "com.datumapps.lift", code: -1, userInfo: [NSLocalizedDescriptionKey: "Invalid usage!"])
+                    returnError = NSError.invalidUsage
                 }
 
             } catch {
@@ -383,7 +383,7 @@ class Database {
         let integrityQuery = try Query(connection: connection, query: "PRAGMA integrity_check")
         let allRows = try integrityQuery.allRows()
         guard allRows.count == 1, allRows[0].count == 1, case .text(let okStr) = allRows[0][0] else {
-            throw NSError(domain: "com.datumapps.lift", code: -8, userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Invalid return from Integrity check!", comment: "Message when the inetrigty check returns something unexpected!")])
+            throw NSError.integretyCheckError
         }
         return okStr == "ok"
 

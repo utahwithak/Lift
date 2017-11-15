@@ -38,13 +38,18 @@ class SideBarBrowseViewController: LiftViewController {
             nodes = []
             return
         }
-        nodes.removeAll(keepingCapacity: true)
-        let header = HeaderViewNode(name: NSLocalizedString("Databases", comment: "Databases header cell title"))
+        if let headerNode = nodes.first as? HeaderViewNode {
+            headerNode.refresh(with: document)
 
-        for database in document.database.allDatabases {
-            header.children.append(DatabaseViewNode(database: database))
+        } else {
+            nodes.removeAll(keepingCapacity: true)
+            let header = HeaderViewNode(name: NSLocalizedString("Databases", comment: "Databases header cell title"))
+
+            for database in document.database.allDatabases {
+                header.children.append(DatabaseViewNode(database: database))
+            }
+            nodes.append(header)
         }
-        nodes.append(header)
 
     }
 

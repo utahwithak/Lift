@@ -62,7 +62,7 @@ extension ExportViewController {
                     let tableURL = url.deletingPathExtension().appendingPathComponent(table.name).appendingPathExtension("csv")
 
                     guard manager.createFile(atPath: tableURL.path, contents: nil, attributes: nil) else {
-                        throw NSError(domain: "com.datum.yield", code: 6, userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Failed to create file", comment: "Unable to create CSV file error")])
+                        throw NSError.unableToCreateFileError
                     }
 
                     guard let handle = OutputStream(url: tableURL, append: false) else {
@@ -83,7 +83,7 @@ extension ExportViewController {
                 DispatchQueue.main.async {
                     let alert = NSAlert()
                     alert.messageText = NSLocalizedString("Error exporting data", comment: "Generic export error")
-                    alert.informativeText = NSLocalizedString("Unable to save CSV File", comment: "CSV export error informative message")
+                    alert.informativeText = NSLocalizedString("Unable to save CSV File, failed with error:\n\(error.localizedDescription)", comment: "CSV export error informative message")
                     
                     
                     alert.addButton(withTitle: "Ok")

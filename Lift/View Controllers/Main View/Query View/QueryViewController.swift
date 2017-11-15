@@ -65,13 +65,20 @@ class QueryViewController: LiftMainViewController {
 
         presentViewControllerAsSheet(waitingView)
 
+        waitingView.indeterminate = false
+
         windowController?.showBottomBar()
 
         let text = sqlView.string
         var errors = [Error]()
         DispatchQueue.global(qos: .userInitiated).async {
 
-            Query.executeQueries(from: text, on: connection, handler: { result in
+            Query.executeQueries(from: text, on: connection, handler: { result, progress in
+
+                DispatchQueue.main.async {
+                    waitingView.value = progress
+                }
+
                 switch result {
                 case .failure(let error):
                     DispatchQueue.main.async {
@@ -95,9 +102,11 @@ class QueryViewController: LiftMainViewController {
 
             DispatchQueue.main.async {
 
-                self.dismissViewController(waitingView)
+                if waitingView.presenting != nil {
+                    self.dismissViewController(waitingView)
+                }
 
-                if !self.continueAfterErrors, let error = errors.first {
+                if !self.continueAfterErrors, let error = errors.first, !(error as NSError).isUserCanceledError {
                     let errorAlert = NSAlert(error: error)
                     if let window = self.view.window {
                         errorAlert.beginSheetModal(for: window, completionHandler: nil)

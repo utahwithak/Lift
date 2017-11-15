@@ -17,6 +17,16 @@ class TableDataViewController: LiftMainViewController {
     @IBOutlet weak var tableView: TableView!
     @IBOutlet weak var tableScrollView: TableScrollView!
 
+    override var representedObject: Any? {
+        didSet {
+            predicateViewController.representedObject = representedObject
+        }
+    }
+
+    lazy var predicateViewController: TablePredicateViewController = {
+        return self.storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("tablePredicateView")) as! TablePredicateViewController
+    }()
+
     let foreignKeyColumnColor = NSColor(calibratedRed:0.71, green:0.843, blue:1.0, alpha:0.5).cgColor
 
     let numberColor = NSColor(calibratedRed:0.2, green:0.403, blue:0.507, alpha:1)
@@ -47,6 +57,7 @@ class TableDataViewController: LiftMainViewController {
             data = selectedTable?.basicData
             data?.delegate = self
             resetTableView()
+
         }
     }
 
@@ -118,7 +129,7 @@ class TableDataViewController: LiftMainViewController {
         }
 
         waitingVC.cancelHandler = cancelOp
-
+        waitingVC.indeterminate = true
         presentViewControllerAsSheet(waitingVC)
 
         DispatchQueue.global(qos: .userInitiated).async {
@@ -566,7 +577,7 @@ extension TableDataViewController: JumpDelegate {
                 }
 
                 waitingVC.cancelHandler = cancelOp
-
+                waitingVC.indeterminate = true
                 let completion = {
                     if waitingVC.presenting == self {
                         self.dismissViewController(waitingVC)
@@ -650,4 +661,12 @@ extension TableDataViewController: NSTextFieldDelegate {
             }
         }
     }
+}
+
+extension TableDataViewController: BottomEditorContentProvider {
+
+    var editorViewController: LiftViewController {
+        return self.predicateViewController
+    }
+
 }

@@ -61,7 +61,7 @@ class StatementWaitingViewController: LiftViewController {
                         }
                     } else {
                         DispatchQueue.main.async {
-                            self?.handleError(NSError(domain: "com.datumapps.lift", code: -6, userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Operation Failed, unknown error occurred", comment: " Unknown error description")]))
+                            self?.handleError(NSError.unknownOperationError)
                         }
                     }
                 } catch {

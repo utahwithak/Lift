@@ -29,7 +29,7 @@ class Table: DataProvider {
         //type|name|tbl_name|rootpage|sql
         guard case .text(let sql) = data[4],
             case .text(let name) = data[1] else {
-            throw NSError(domain: "com.dataumapps.lift", code: -3, userInfo: [NSLocalizedDescriptionKey:"INAVALID table data row!"])
+            throw NSError.invalidTableError
         }
 
         do {

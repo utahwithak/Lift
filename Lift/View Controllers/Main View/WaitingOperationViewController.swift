@@ -22,9 +22,11 @@ class WaitingOperationViewController: NSViewController {
 
         activityIndicator.startAnimation(self)
 
-        activityIndicator?.isIndeterminate = numberOfOperations == nil
-        if let total = numberOfOperations {
-            activityIndicator?.doubleValue = Double(currentOperation) / Double(total)
+        activityIndicator?.isIndeterminate = indeterminate
+        if !indeterminate {
+            activityIndicator.maxValue = 1
+            activityIndicator.minValue = 0
+            activityIndicator?.doubleValue = value
         }
     }
 
@@ -32,19 +34,17 @@ class WaitingOperationViewController: NSViewController {
         cancelHandler?()
     }
 
-    public var numberOfOperations: Int? {
+    public var indeterminate = true {
         didSet {
-            activityIndicator?.isIndeterminate = numberOfOperations == nil
+            activityIndicator?.isIndeterminate = indeterminate
         }
     }
 
-    public var currentOperation: Int = 0 {
+    public var value: Double = 0 {
         didSet {
-            if let total = numberOfOperations {
-                activityIndicator?.doubleValue = Double(currentOperation) / Double(total)
-            }
+            activityIndicator.isIndeterminate = false
+            activityIndicator?.doubleValue = value
         }
-
     }
 
 

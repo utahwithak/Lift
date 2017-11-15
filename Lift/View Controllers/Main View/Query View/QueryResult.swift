@@ -27,7 +27,7 @@ class ExecuteQueryResult: NSObject {
 
     func load(keepGoing: () -> Bool) {
         guard let query = query else {
-            error = NSError(domain: "com.datumapps.lift", code: -9, userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("No Query Error", comment: "Missing query when attempting to execute")])
+            error = NSError.noQueryError
             return
         }
 

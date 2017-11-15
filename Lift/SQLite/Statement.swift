@@ -268,7 +268,7 @@ class Statement {
     func bind(data: SQLiteData, for key: String) throws {
         let index = Int(sqlite3_bind_parameter_index(statement, key))
         guard index > 0 else {
-            throw NSError(domain: "SQLITE QUERY", code: -1, userInfo:[NSLocalizedDescriptionKey: NSLocalizedString("Attempting to bind an argument thats not there!", comment: " Error when attempting to bind an argument thats not there")])
+            throw NSError.invalidBindError
         }
         try bind(data: data, at: index)
     }

@@ -11,8 +11,10 @@ import Foundation
 
 class Query {
 
-    static func executeQueries(from text: String, on connection:sqlite3, handler: (Result<ExecuteQueryResult, Error>) -> Bool, keepGoing: ()-> Bool  ) {
+    static func executeQueries(from text: String, on connection:sqlite3, handler: (Result<ExecuteQueryResult, Error>, Double) -> Bool, keepGoing: ()-> Bool  ) {
+        let len = Double(text.utf8.count)
         text.withCString {
+
             var cur: UnsafePointer<Int8>? = $0
             var next = cur
 
@@ -20,17 +22,22 @@ class Query {
             repeat {
                 var stmt: OpaquePointer?
                 cur = next
+                var progress: Double = 0
+                if let cur = cur {
+                    progress = Double($0.distance(to: cur)) / len
+                }
+
                 let rc = sqlite3_prepare_v3(connection, cur, -1, 0, &stmt, &next)
                 if rc != SQLITE_OK {
                     // on a parse error fail always
-                    _ = handler(.failure(SQLiteError(connection: connection, code: rc)))
+                    _ = handler(.failure(SQLiteError(connection: connection, code: rc)), progress)
                     bail = true
                 } else if let statement = stmt {
 
                     let statement = Statement(connection: connection, statement: statement)
                     let result = ExecuteQueryResult(statement: statement)
                     result.load(keepGoing: keepGoing)
-                    bail = !handler(.success(result))
+                    bail = !handler(.success(result), progress)
 
                 }
 
@@ -95,7 +102,7 @@ class Query {
             statement.fill(&rowData)
             try handler(rowData)
             if !keepGoing() {
-                throw NSError(domain: "com.datumapps.lift", code: -8, userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("User Canceled", comment: "Error description when canceling in the middle of a query")])
+                throw NSError.userCanceledError
             }
         }
     }
