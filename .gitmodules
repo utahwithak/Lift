@@ -1,3 +1,6 @@
 [submodule "External/swiftxlsx"]
 	path = External/swiftxlsx
 	url = https://utahwithak@github.com/utahwithak/SwiftXLSX
+[submodule "External/cwcsv"]
+	path = External/cwcsv
+	url = git@github.com:utahwithak/CWCSVParser.git

@@ -21,7 +21,18 @@ class SnippetViewController: LiftViewController {
         tableView.registerForDraggedTypes([NSPasteboard.PasteboardType.string])
     }
 
+
     @IBAction func removeSnippet(_ sender: Any) {
+
+         let index = tableView.selectedRow
+
+        guard index != -1 else {
+                return
+        }
+        tableView.beginUpdates()
+        tableView.removeRows(at: IndexSet(IndexPath(item: index, section: 0)), withAnimation: NSTableView.AnimationOptions.effectFade)
+        SnippetManager.shared.removeSnippet(at: index)
+        tableView.endUpdates()
 
     }
 

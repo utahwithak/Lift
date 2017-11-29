@@ -10,7 +10,7 @@ import Cocoa
 
 class LiftDocument: NSDocument {
 
-    let database: Database
+    @objc dynamic let database: Database
 
     override init() {
         database = try! Database(type: .inMemory(name: "main"))

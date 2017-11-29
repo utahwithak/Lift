@@ -51,7 +51,6 @@ class TableData: NSObject {
 
     private let baseQuery: String
 
-
     public var pageSize = 1000
 
     public private(set) var finishedLoadingAfter = false
@@ -79,15 +78,14 @@ class TableData: NSObject {
     private var lastValues: ArraySlice<SQLiteData>?
     private var firstValues: ArraySlice<SQLiteData>?
 
-
     public private(set) var columnNames: [String]?
 
-    init(provider: DataProvider) {
+    init(provider: DataProvider, customQuery: String? = nil) {
         self.provider = provider
 
         let name = provider.qualifiedNameForQuery
 
-        if let table = provider as? Table {
+        if customQuery == nil, let table = provider as? Table {
             smartPaging =  provider is Table
             if table.definition?.withoutRowID ?? false{
                 let primaryKeys =  table.columns.filter { $0.primaryKey }
@@ -103,13 +101,17 @@ class TableData: NSObject {
 
 
             baseQuery = "SELECT \(sortColumns),* FROM \(name)"
-
         } else {
             sortCount = 0
             argString = ""
             sortColumns = ""
             smartPaging = false
-            baseQuery = "SELECT * FROM \(name)"
+            if let query = customQuery {
+                baseQuery = "SELECT * FROM \(name) WHERE \(query)"
+            } else {
+                baseQuery = "SELECT * FROM \(name)"
+            }
+
 
         }
 

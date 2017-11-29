@@ -39,6 +39,11 @@ class LongPressButton: NSButton {
     }
 
     override func mouseDown(with event: NSEvent) {
+
+        guard isEnabled else {
+            return
+        }
+
         showingMenu = false
         longPressTimer = Timer(timeInterval: delay, repeats: false, block: {[weak self] timer in
 
@@ -51,7 +56,9 @@ class LongPressButton: NSButton {
 
     }
     override func mouseUp(with event: NSEvent) {
-
+        guard isEnabled else {
+            return
+        }
         longPressTimer?.invalidate()
         if !showingMenu, let action = self.action, let target = self.target {
             NSApp.sendAction(action, to: target, from: self)
@@ -59,12 +66,18 @@ class LongPressButton: NSButton {
     }
 
     override func mouseEntered(with event: NSEvent) {
+        guard isEnabled else {
+            return
+        }
         originalImage = image
         image = overlayImage
         super.mouseEntered(with: event)
     }
 
     override func mouseExited(with event: NSEvent) {
+        guard isEnabled else {
+            return
+        }
         image = originalImage
         super.mouseExited(with: event)
     }

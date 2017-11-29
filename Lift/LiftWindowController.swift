@@ -87,6 +87,15 @@ class LiftWindowController: NSWindowController {
 
     }
 
+    func hideBottomBar() {
+        guard let splitView = contentViewController as? LiftMainSplitViewController else {
+            return
+        }
+
+        splitView.setLocation(.bottom, collapsed: true)
+
+    }
+
     @IBAction func refreshDatabase( _ sender: NSSegmentedControl) {
         (document as? LiftDocument)?.refresh()
     }
@@ -142,6 +151,16 @@ class LiftWindowController: NSWindowController {
             view = .query
         }
         tabController.switchMainView(to: view)
+    }
+
+    public func showQueryView(with SQL: String) {
+        guard let tabController = mainEditor else {
+            return
+        }
+
+        tabController.switchMainView(to: .query)
+        tabController.setQuerySQL(to: SQL)
+
     }
 
     @IBAction func showAttachDetach(_ sender: NSSegmentedControl) {

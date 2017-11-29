@@ -53,6 +53,21 @@ extension String {
         }
     }
 
+    func querySafeString() -> String {
+        if (first == "\"" || first == "'" || first == "`") && balancedQoutedString() {
+            return self
+        }
+        if first == "[" && last == "]" {
+            return self
+        }
+
+        var returnVal = self
+        if contains("\"") {
+            returnVal = self.replacingOccurrences(of: "\"", with: "\"\"")
+        }
+        return "\"\(returnVal)\""
+    }
+
     //checks starting with ( and ending with ) can have internal () and qoutes, with sqlite style double qoutes
     func isBalanced() -> Bool {
         //check if we are balanced

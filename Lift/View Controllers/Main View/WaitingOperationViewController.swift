@@ -23,9 +23,10 @@ class WaitingOperationViewController: NSViewController {
         activityIndicator.startAnimation(self)
 
         activityIndicator?.isIndeterminate = indeterminate
+        activityIndicator.maxValue = 1
+        activityIndicator.minValue = 0
+
         if !indeterminate {
-            activityIndicator.maxValue = 1
-            activityIndicator.minValue = 0
             activityIndicator?.doubleValue = value
         }
     }

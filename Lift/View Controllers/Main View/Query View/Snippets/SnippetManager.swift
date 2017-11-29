@@ -27,6 +27,11 @@ class SnippetManager {
         save()
     }
 
+    func removeSnippet(at index: Int) {
+        snippets.remove(at: index)
+        save()
+    }
+
     func replace(at index: Int, with snippet: Snippet) {
         snippets[index] = snippet
         save()

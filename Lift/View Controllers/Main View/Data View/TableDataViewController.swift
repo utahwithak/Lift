@@ -14,6 +14,7 @@ class TableDataViewController: LiftMainViewController {
 
     fileprivate static var identifierMap = [NSUserInterfaceItemIdentifier: Int]()
 
+    @IBOutlet weak var filterButton: NSButton!
     @IBOutlet weak var tableView: TableView!
     @IBOutlet weak var tableScrollView: TableScrollView!
 
@@ -24,7 +25,9 @@ class TableDataViewController: LiftMainViewController {
     }
 
     lazy var predicateViewController: TablePredicateViewController = {
-        return self.storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("tablePredicateView")) as! TablePredicateViewController
+        let predicateview = self.storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("tablePredicateView")) as! TablePredicateViewController
+
+        return predicateview
     }()
 
     let foreignKeyColumnColor = NSColor(calibratedRed:0.71, green:0.843, blue:1.0, alpha:0.5).cgColor
@@ -32,8 +35,8 @@ class TableDataViewController: LiftMainViewController {
     let numberColor = NSColor(calibratedRed:0.2, green:0.403, blue:0.507, alpha:1)
 
     var data: TableData?
-    var visibleRowCountBuffer: Int = 0
 
+    var visibleRowCountBuffer: Int = 0
 
     var foreignKeyIdentifiers = Set<Int>()
 
@@ -53,11 +56,43 @@ class TableDataViewController: LiftMainViewController {
     override var selectedTable: DataProvider? {
         didSet {
             clearTable()
-
             data = selectedTable?.basicData
             data?.delegate = self
             resetTableView()
 
+        }
+    }
+
+    private var queryString: String? {
+        didSet {
+            if queryString?.isEmpty ?? true {
+                filterButton.image = #imageLiteral(resourceName: "filter")
+                data = selectedTable?.basicData
+                data?.delegate = self
+                resetTableView()
+
+            } else {
+                filterButton.image = #imageLiteral(resourceName: "highlightedFilter")
+                if let provider = selectedTable {
+                    clearTable()
+                    data = TableData(provider: provider, customQuery: queryString)
+                    data?.delegate = self
+                    resetTableView()
+                }
+
+            }
+        }
+    }
+
+    deinit {
+        predicateViewController.removeObserver(self, forKeyPath: #keyPath(TablePredicateViewController.queryString))
+    }
+
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == #keyPath(TablePredicateViewController.queryString) {
+            self.queryString = predicateViewController.queryString
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
     }
 
@@ -96,6 +131,70 @@ class TableDataViewController: LiftMainViewController {
         }
 
         copySelection(selectionBox, fromData: data, asJson: false, columnMap: columnMap)
+    }
+
+    @IBAction func dropSelected(_ sender: Any) {
+        guard let database = document?.database else {
+            return
+        }
+        var drop = true
+        let isInAutocommit = database.autocommitStatus == .autocommit
+        if isInAutocommit {
+            let alert = NSAlert()
+            alert.messageText = NSLocalizedString("Drop Rows", comment: "Drop rows prompt title")
+
+            alert.informativeText = NSLocalizedString("Are you sure you want to drop these rows?", comment: "Confirmation for dropping rows")
+            alert.alertStyle = .warning
+            let response = alert.runModal()
+
+            drop = response == .OK
+        }
+
+        guard drop else {
+            return
+        }
+        let savePointName = "DropRows\(Date().timeIntervalSince1970)"
+        var customSavePoint = true
+        do {
+            try database.beginSavepoint(named: savePointName)
+        } catch {
+            customSavePoint = false
+            let alert = NSAlert()
+            alert.messageText = NSLocalizedString("Failed to Begin Savepoint", comment: "Save point warning prompt")
+
+            let optionString: String
+            if isInAutocommit {
+                optionString = NSLocalizedString("Would you like to drop these rows immediately?", comment: "When in autocommit and we can't start savepoint")
+            } else {
+                optionString = NSLocalizedString("Would you like to drop these rows in the current transaction?", comment: "When in already in a transaction and we can't start savepoint")
+            }
+
+            alert.informativeText = String(format: NSLocalizedString("Unable to open a savepoint to help protect against corruption. %@\nError:%@", comment: "Confirmation for dropping rows outside of explicit savepoint"), optionString, error.localizedDescription)
+
+            alert.alertStyle = .warning
+            let response = alert.runModal()
+
+            drop = response == .OK
+        }
+
+        guard drop else {
+            return
+        }
+
+
+
+
+
+
+        if customSavePoint {
+            do {
+                try database.releaseSavepoint(named: savePointName)
+            } catch {
+                NSApp.presentError(error)
+            }
+        }
+
+
     }
 
     private func copySelection(_ selection: SelectionBox, fromData: TableData, asJson copyAsJSON: Bool, columnMap: [Int: Int]) {
@@ -285,7 +384,6 @@ class TableDataViewController: LiftMainViewController {
         currentForeignKey = nil
         customStart = nil
 
-
     }
 
     fileprivate func set(row: Int, rawCol: Int, to value: SimpleUpdateType) {
@@ -325,12 +423,21 @@ class TableDataViewController: LiftMainViewController {
     }
 
     @IBAction func addCustomValues(_ sender: NSButton) {
-        guard let table = selectedTable as? Table, isEditingEnabled else {
-            return
-        }
+//        guard let table = selectedTable as? Table, isEditingEnabled else {
+//            return
+//        }
 
     }
 
+    @IBAction func showFilter(_ sender: NSButton) {
+        if sender.state == .on {
+            windowController?.showBottomBar()
+        } else {
+            windowController?.hideBottomBar()
+        }
+    }
+
+    
 }
 
 extension TableDataViewController: TableDataDelegate {
@@ -385,8 +492,6 @@ extension TableDataViewController: NSTableViewDataSource {
     }
 
     private static let cellIdentifier = NSUserInterfaceItemIdentifier("defaultCell")
-
-
 
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
         guard let tableColumn = tableColumn, let cell = tableView.makeView(withIdentifier: TableDataViewController.cellIdentifier, owner: self) as? TableViewCell,
@@ -666,7 +771,10 @@ extension TableDataViewController: NSTextFieldDelegate {
 extension TableDataViewController: BottomEditorContentProvider {
 
     var editorViewController: LiftViewController {
+        predicateViewController.addObserver(self, forKeyPath: #keyPath(TablePredicateViewController.queryString), options: [], context: nil)
         return self.predicateViewController
     }
 
 }
+
+

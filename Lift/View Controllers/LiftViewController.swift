@@ -9,9 +9,7 @@
 import Cocoa
 class LiftViewController: NSViewController {
 
-    var document: LiftDocument? {
-        return representedObject as? LiftDocument
-    }
+    @objc dynamic var document: LiftDocument?
 
     var windowController: LiftWindowController? {
         return view.window?.windowController as? LiftWindowController
@@ -44,9 +42,10 @@ class LiftViewController: NSViewController {
 
     override var representedObject: Any? {
         didSet {
-            if representedObject != nil {
-                NotificationCenter.default.addObserver(self, selector: #selector(selectedTableChanged), name: .selectedTableChanged, object: nil)
-            }
+            document = representedObject as? LiftDocument
+
+            NotificationCenter.default.addObserver(self, selector: #selector(selectedTableChanged), name: .selectedTableChanged, object: nil)
+
         }
     }
 }

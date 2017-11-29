@@ -28,7 +28,7 @@ extension Notification.Name {
 
 typealias sqlite3 = OpaquePointer
 
-class Database {
+class Database: NSObject {
     private static var inMemoryCount = 0
 
 
@@ -77,7 +77,7 @@ class Database {
     public private(set) var tempDatabase: Database?
     public private(set) var mainDB: Database?
 
-    public private(set) var extensionsAllowed = false
+
 
     public private(set) var history = [String]()
 
@@ -91,48 +91,22 @@ class Database {
         }
     }
 
-
-    public var foreignKeysEnabled: Bool {
-        get {
-            do {
-                let query = try Query(connection: connection, query: "PRAGMA foreign_keys")
-                let allRows = try query.allRows()
-                guard let result = allRows.first?.first else {
-                    return false
-                }
-                return result.intValue == 1
-            } catch {
-                print("Failed to get f key support")
-                return false
-            }
-        }
-        set {
-            do {
-                let value = newValue ? "ON":"OFF"
-                _ = try execute(statement: "PRAGMA foreign_keys=\(value)")
-            } catch {
-                print("Failed to update foreign key status!")
-            }
-        }
-    }
-
     private init(connection: sqlite3, name: String, refresh: Bool = true) {
         self.connection = connection
         self.name = name
 
+        super.init()
+
         if refresh {
             // return asap and refresh on the next go around
             DispatchQueue.global(qos: .background).async {
-                DispatchQueue.main.async {
-                    self.refresh()
-                }
+                self.refresh()
             }
         }
 
         if name == "main" {
-            enableExtensions()
             foreignKeysEnabled = true
-
+            extensionsAllowed = true
             // enable tracing
             let tmpSelf = self
             let rc = sqlite3_trace_v2(connection, UInt32(SQLITE_TRACE_STMT), { (type, context, preparedStatement, expandedText) -> Int32 in
@@ -219,8 +193,10 @@ class Database {
         }
 
 
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(name: .DatabaseReloaded, object: self)  
+        }
 
-        NotificationCenter.default.post(name: .DatabaseReloaded, object: self)
     }
 
     private func refreshAttachedDatabases() {
@@ -354,6 +330,11 @@ class Database {
     }
 
     public func loadExtension(at path: URL, entryPoint: String? ) throws {
+
+        if !extensionsAllowed {
+            extensionsAllowed = true
+        }
+
         let zFile = path.path
         var errorMsg: UnsafeMutablePointer<Int8>?
         let rc = sqlite3_load_extension(connection, zFile, entryPoint, &errorMsg)
@@ -391,23 +372,6 @@ class Database {
 
     public func checkForeignKeyIntegrity() throws -> Bool {
         return try execute(statement: "PRAGMA foreign_key_check")
-    }
-
-    public func enableExtensions() {
-        guard name == "main" else {
-            return
-        }
-        extensionsAllowed = SQLite3ConfigHelper.enableExtensions(for: connection)
-    }
-
-    public func disableExtensions() {
-        guard name == "main" else {
-            return
-        }
-
-        if SQLite3ConfigHelper.disableExtensions(for: connection) {
-            extensionsAllowed = false
-        }
     }
 
 
@@ -456,15 +420,4 @@ class Database {
         try exec("ROLLBACK TO \(name);")
     }
 
-
-}
-
-extension Database: Hashable {
-    static func ==(lhs: Database, rhs: Database) -> Bool {
-        return lhs.connection == rhs.connection && lhs.name == rhs.name
-    }
-
-    var hashValue: Int {
-        return connection.hashValue ^ name.hashValue
-    }
 }

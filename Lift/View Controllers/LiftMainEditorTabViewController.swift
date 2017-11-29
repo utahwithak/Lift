@@ -63,4 +63,11 @@ class LiftMainEditorTabViewController: NSTabViewController {
 
         }
     }
+
+    func setQuerySQL(to text: String) {
+        guard let queryView = tabViewItems[2].viewController as? QueryViewController else {
+            return
+        }
+        queryView.sqlView.string = text
+    }
 }
