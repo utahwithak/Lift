@@ -182,7 +182,10 @@ class Database: NSObject {
                     }
                 } catch {
                     print("Error!:\(error)")
-                    NSApp.presentError(error)
+                    DispatchQueue.main.async {
+                        NSApp.presentError(error)
+                    }
+
                 }
 
             }
@@ -288,7 +291,7 @@ class Database: NSObject {
 
                 if !rc {
                     print("INVALID USAGE! SHOULD NOT BE EXPECTING ROWS HERE!")
-                    returnError = NSError.invalidUsage
+                    returnError = LiftError.invalidUsage
                 }
 
             } catch {
@@ -364,7 +367,7 @@ class Database: NSObject {
         let integrityQuery = try Query(connection: connection, query: "PRAGMA integrity_check")
         let allRows = try integrityQuery.allRows()
         guard allRows.count == 1, allRows[0].count == 1, case .text(let okStr) = allRows[0][0] else {
-            throw NSError.integretyCheckError
+            throw LiftError.integrityCheck
         }
         return okStr == "ok"
 

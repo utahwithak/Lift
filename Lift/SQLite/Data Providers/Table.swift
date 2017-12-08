@@ -29,7 +29,7 @@ class Table: DataProvider {
         //type|name|tbl_name|rootpage|sql
         guard case .text(let sql) = data[4],
             case .text(let name) = data[1] else {
-            throw NSError.invalidTableError
+            throw LiftError.invalidTable
         }
 
         do {
@@ -168,7 +168,7 @@ class Table: DataProvider {
             }
 
         })
-
+        
     }
 
 

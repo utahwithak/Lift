@@ -62,12 +62,12 @@ extension ExportViewController {
                     let tableURL = url.deletingPathExtension().appendingPathComponent(table.name).appendingPathExtension("csv")
 
                     guard manager.createFile(atPath: tableURL.path, contents: nil, attributes: nil) else {
-                        throw NSError.unableToCreateFileError
+                        throw LiftError.unableToCreateFile
                     }
 
-                    guard let handle = OutputStream(url: tableURL, append: false) else {
-                        return
-                    }
+
+                    let handle = try FileHandle(forWritingTo: tableURL)
+
                     handle.open()
                     defer {
                         handle.close()

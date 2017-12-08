@@ -39,7 +39,7 @@ class Column {
         guard case .text(let name) = rowInfo[1],
         case .text(let type) = rowInfo[2],
         case .integer(let pk) = rowInfo[5] else {
-            throw NSError.invalidColumnError
+            throw LiftError.invalidColumn
         }
         if case .text(let dflVal) = rowInfo[4] {
             defaultValue = dflVal

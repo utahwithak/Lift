@@ -27,7 +27,7 @@ class ExecuteQueryResult: NSObject {
 
     func load(keepGoing: () -> Bool) {
         guard let query = query else {
-            error = NSError.noQueryError
+            error = LiftError.noQueryError
             return
         }
 

@@ -102,7 +102,7 @@ class Query {
             statement.fill(&rowData)
             try handler(rowData)
             if !keepGoing() {
-                throw NSError.userCanceledError
+                throw LiftError.userCanceled
             }
         }
     }

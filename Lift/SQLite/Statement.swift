@@ -250,6 +250,23 @@ class Statement {
         try checkedOperation(on: connection) { sqlite3_bind_null( statement, bindIndex(for: i)) }
     }
 
+    func bind(object: Any, at i: Int? = nil) throws {
+        switch object {
+        case let int as Int:
+            try bind(data: .integer(int), at: i)
+        case let str as String:
+            try bind(data: .text(str), at: i)
+        case let dat as Data:
+            try bind(data: .blob(dat), at: i)
+        case let flt as Double:
+            try bind(data: .float(flt), at: i)
+        case nil:
+            try bindNull(at: i)
+        default:
+            throw LiftError.unknownBindType
+        }
+    }
+
     func bind(data: SQLiteData, at i: Int? = nil) throws {
         switch data {
         case .blob(let data):
@@ -268,7 +285,7 @@ class Statement {
     func bind(data: SQLiteData, for key: String) throws {
         let index = Int(sqlite3_bind_parameter_index(statement, key))
         guard index > 0 else {
-            throw NSError.invalidBindError
+            throw LiftError.invalidBind
         }
         try bind(data: data, at: index)
     }

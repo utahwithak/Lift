@@ -324,22 +324,46 @@ class LiftWindowController: NSWindowController {
     }
 
     @IBAction func showImportExport(_ sender: NSSegmentedControl) {
-        let identifier: NSStoryboard.SceneIdentifier
         switch sender.selectedSegment {
         case 0:
 
-            identifier = NSStoryboard.SceneIdentifier("importViewController")
+            let chooser = NSOpenPanel()
+            chooser.canChooseDirectories = true
+            chooser.canChooseFiles = true
+
+            guard let vc = storyboard?.instantiateController(withIdentifier:   NSStoryboard.SceneIdentifier("importViewController")) as? ImportViewController else {
+                return
+            }
+
+            let responseHandler: (NSApplication.ModalResponse) -> Void = { _ in
+                guard let url = chooser.url else {
+                    return
+                }
+                vc.importPath = url
+                vc.representedObject = self.document
+                self.contentViewController?.presentViewControllerAsSheet(vc)
+            }
+
+            if let window = window {
+                chooser.beginSheetModal(for: window, completionHandler: responseHandler)
+            } else {
+                let response = chooser.runModal()
+                responseHandler(response)
+            }
+
+
 
 
         default:
-            identifier = NSStoryboard.SceneIdentifier("exportViewController")
+            guard let vc = storyboard?.instantiateController(withIdentifier:  NSStoryboard.SceneIdentifier("exportViewController")) as? LiftViewController else {
+                return
+            }
+
+            vc.representedObject = document
+            contentViewController?.presentViewControllerAsSheet(vc)
+
         }
 
-        guard let vc = storyboard?.instantiateController(withIdentifier: identifier) as? LiftViewController else {
-            return
-        }
-        vc.representedObject = document
-        contentViewController?.presentViewControllerAsSheet(vc)
     }
 
 }

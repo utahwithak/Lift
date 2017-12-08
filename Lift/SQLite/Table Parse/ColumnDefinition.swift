@@ -33,6 +33,10 @@ class ColumnDefinition: NSObject {
         
     }
 
+    init(name: String) {
+        self.name = SQLiteName(rawValue: name)
+    }
+
 
     private static func parseType(from scanner: Scanner) throws -> SQLiteName? {
 

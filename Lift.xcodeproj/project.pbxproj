@@ -15,6 +15,7 @@
 		8F11B7A81F83DDEE008E19D7 /* SwiftXLSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F11B7A51F83DDBE008E19D7 /* SwiftXLSX.framework */; };
 		8F11B7A91F83DDEE008E19D7 /* SwiftXLSX.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8F11B7A51F83DDBE008E19D7 /* SwiftXLSX.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8F178CA11FA0DB790057387A /* JumpToRowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F178CA01FA0DB790057387A /* JumpToRowViewController.swift */; };
+		8F1BC6331FCF47C500128351 /* ImportDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1BC6321FCF47C500128351 /* ImportDataViewController.swift */; };
 		8F1C4F001F9905D300DE12BF /* PassThroughScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1C4EFF1F9905D300DE12BF /* PassThroughScrollView.swift */; };
 		8F2521701F855A2A00B438CC /* CreateViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25216F1F855A2A00B438CC /* CreateViewViewController.swift */; };
 		8F2521731F855A3D00B438CC /* LiftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2521721F855A3D00B438CC /* LiftViewController.swift */; };
@@ -127,6 +128,8 @@
 		8FB9F1651F7EB5C40090FA53 /* ForeignKeyClause.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1641F7EB5C40090FA53 /* ForeignKeyClause.swift */; };
 		8FB9F1681F7EB62C0090FA53 /* ForeignKeyActionStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1671F7EB62C0090FA53 /* ForeignKeyActionStatement.swift */; };
 		8FB9F16A1F7EB66C0090FA53 /* ForeignKeyMatchStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1691F7EB66C0090FA53 /* ForeignKeyMatchStatement.swift */; };
+		8FBE0F021FCE485600ABFD1E /* CWCSVParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBE0F011FCE485600ABFD1E /* CWCSVParser.swift */; };
+		8FBE0F041FCE491900ABFD1E /* TextImportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBE0F031FCE491900ABFD1E /* TextImportViewController.swift */; };
 		8FBFF3541FA0BFAD00317830 /* QueryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBFF3531FA0BFAD00317830 /* QueryViewController.swift */; };
 		8FC63CD81FA227F000005591 /* SQLite3ConfigHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FC63CD71FA227F000005591 /* SQLite3ConfigHelper.m */; };
 		8FC63CDB1FA2492000005591 /* LiftMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC63CDA1FA2492000005591 /* LiftMainViewController.swift */; };
@@ -207,6 +210,7 @@
 		8F11B79B1F83DC79008E19D7 /* SQLiteDocumentPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteDocumentPresenter.swift; sourceTree = "<group>"; };
 		8F11B79E1F83DDBE008E19D7 /* SwiftXLSX.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SwiftXLSX.xcodeproj; path = External/swiftxlsx/SwiftXLSX.xcodeproj; sourceTree = SOURCE_ROOT; };
 		8F178CA01FA0DB790057387A /* JumpToRowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JumpToRowViewController.swift; sourceTree = "<group>"; };
+		8F1BC6321FCF47C500128351 /* ImportDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportDataViewController.swift; sourceTree = "<group>"; };
 		8F1C4EFF1F9905D300DE12BF /* PassThroughScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassThroughScrollView.swift; sourceTree = "<group>"; };
 		8F25216F1F855A2A00B438CC /* CreateViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateViewViewController.swift; sourceTree = "<group>"; };
 		8F2521721F855A3D00B438CC /* LiftViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiftViewController.swift; sourceTree = "<group>"; };
@@ -325,6 +329,8 @@
 		8FB9F1641F7EB5C40090FA53 /* ForeignKeyClause.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForeignKeyClause.swift; sourceTree = "<group>"; };
 		8FB9F1671F7EB62C0090FA53 /* ForeignKeyActionStatement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForeignKeyActionStatement.swift; sourceTree = "<group>"; };
 		8FB9F1691F7EB66C0090FA53 /* ForeignKeyMatchStatement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForeignKeyMatchStatement.swift; sourceTree = "<group>"; };
+		8FBE0F011FCE485600ABFD1E /* CWCSVParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CWCSVParser.swift; path = External/cwcsv/CWCSVParser/Parser/CWCSVParser.swift; sourceTree = SOURCE_ROOT; };
+		8FBE0F031FCE491900ABFD1E /* TextImportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextImportViewController.swift; sourceTree = "<group>"; };
 		8FBFF3531FA0BFAD00317830 /* QueryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryViewController.swift; sourceTree = "<group>"; };
 		8FC63CD61FA227F000005591 /* SQLite3ConfigHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SQLite3ConfigHelper.h; sourceTree = "<group>"; };
 		8FC63CD71FA227F000005591 /* SQLite3ConfigHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SQLite3ConfigHelper.m; sourceTree = "<group>"; };
@@ -387,6 +393,7 @@
 				8FC63CD61FA227F000005591 /* SQLite3ConfigHelper.h */,
 				8FC63CD71FA227F000005591 /* SQLite3ConfigHelper.m */,
 				8F7C525F1F7D3A69004A91BC /* Table Parse */,
+				8FBE0F011FCE485600ABFD1E /* CWCSVParser.swift */,
 			);
 			path = SQLite;
 			sourceTree = "<group>";
@@ -788,6 +795,8 @@
 			children = (
 				8F9565B81FB36EE5008FE038 /* Export */,
 				8FEFD4C01F9F7B4200C6C75A /* ImportViewController.swift */,
+				8FBE0F031FCE491900ABFD1E /* TextImportViewController.swift */,
+				8F1BC6321FCF47C500128351 /* ImportDataViewController.swift */,
 			);
 			path = "Import Export";
 			sourceTree = "<group>";
@@ -1046,14 +1055,17 @@
 				8F7D84331F8BA3810053137B /* TableNumberView.swift in Sources */,
 				8F72E3A51F83E0D0006C88F5 /* SideBarBrowseViewController.swift in Sources */,
 				8F921DBF1F7ECECB00464D27 /* DefaultColumnConstraint.swift in Sources */,
+				8FBE0F021FCE485600ABFD1E /* CWCSVParser.swift in Sources */,
 				8F6273E21F85C291007055D9 /* SQLiteTextView.swift in Sources */,
 				8FB9F16A1F7EB66C0090FA53 /* ForeignKeyMatchStatement.swift in Sources */,
 				8F9565D11FB36EFC008FE038 /* ExportViewController+XML.swift in Sources */,
 				8F9565D01FB36EFC008FE038 /* ExportNodes.swift in Sources */,
 				8F2521731F855A3D00B438CC /* LiftViewController.swift in Sources */,
+				8F1BC6331FCF47C500128351 /* ImportDataViewController.swift in Sources */,
 				8FEFD4C11F9F7B4200C6C75A /* ImportViewController.swift in Sources */,
 				8F63DE1A1FBB237F008F2DA0 /* NSError+Additions.swift in Sources */,
 				8FD4FEA11F8BFEDA0008D8DA /* ArrowView.swift in Sources */,
+				8FBE0F041FCE491900ABFD1E /* TextImportViewController.swift in Sources */,
 				8FA148D81F8D038D00644638 /* ForiegnKeyConnection.swift in Sources */,
 				8F4BECCB1FB68B00003DAA5E /* TabControl.swift in Sources */,
 				8F9565CD1FB36EFC008FE038 /* JSONExportOptions.swift in Sources */,

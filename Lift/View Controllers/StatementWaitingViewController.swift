@@ -61,7 +61,7 @@ class StatementWaitingViewController: LiftViewController {
                         }
                     } else {
                         DispatchQueue.main.async {
-                            self?.handleError(NSError.unknownOperationError)
+                            self?.handleError(LiftError.unknownOperationError)
                         }
                     }
                 } catch {

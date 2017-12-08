@@ -43,7 +43,7 @@ class DataProvider: NSObject {
         guard case .text(let type) = data[0],
             case .text(let sql) = data[4],
             case .text(let name) = data[1] else {
-                throw NSError.invalidTableError
+                throw LiftError.invalidTable
         }
 
         self.type = type
@@ -111,7 +111,7 @@ class DataProvider: NSObject {
 
     func drop() throws -> Bool {
         guard let database = database else {
-            throw NSError.noDatabaseError
+            throw LiftError.noDatabase
         }
 
         let statement = "DROP \(type) \(qualifiedNameForQuery);"
@@ -134,7 +134,7 @@ class DataProvider: NSObject {
     func cloneToDB(_ cloneType: CloneType, keepGoing: ()-> Bool) throws {
         
         guard let database = database else {
-            throw NSError.noDatabaseError
+            throw LiftError.noDatabase
         }
 
         var success = try database.execute(statement: "SAVEPOINT CLONEDB")

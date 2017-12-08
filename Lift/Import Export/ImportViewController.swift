@@ -9,13 +9,11 @@
 import Cocoa
 import SwiftXLSX
 
+
+
 class ImportViewController: LiftViewController {
 
-    @objc dynamic var importPath: URL? {
-        didSet {
-            refreshContent()
-        }
-    }
+    @objc dynamic var importPath: URL?
 
     @IBOutlet weak var tabControl: TabControl!
     @IBOutlet weak var tabView: NSTabView!
@@ -30,6 +28,8 @@ class ImportViewController: LiftViewController {
 
         let responseHandler: (NSApplication.ModalResponse) -> Void = { _ in
             self.importPath = chooser.url
+            self.refreshContent()
+
         }
 
         if let window = view.window {
@@ -41,24 +41,29 @@ class ImportViewController: LiftViewController {
     }
 
     override func viewDidLoad() {
+        tabView.removeAllItems()
+        tabControl.reloadData()
+        tabControl.datasource = self
         super.viewDidLoad()
         hideContentView()
+
+        refreshContent()
+
     }
 
     private func hideContentView() {
         tabControl.isHidden = true
         tabView.isHidden = true
         tabViewHeightConstraint.constant = 0
-        tabViewHeightConstraint.isActive = true
         tabControlHeightConstraint.constant = 0
-        tabControlHeightConstraint.isActive = true
     }
 
     private func showContentView() {
         tabControl.animator().isHidden = false
         tabView.animator().isHidden = false
-        tabViewHeightConstraint.isActive = false
-        tabControlHeightConstraint.isActive = false
+        tabViewHeightConstraint.constant = 150
+        tabControlHeightConstraint.constant = 28
+
         tabControl.reloadData()
     }
 
@@ -92,10 +97,72 @@ class ImportViewController: LiftViewController {
 
     func checkForImport(from file: URL) {
 
+        let importType = ImportType.importType(for: file)
+
+        switch importType {
+        case .text(let text, let encoding):
+            guard let vc = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("textInitialViewController")) as? TextImportViewController else {
+                return
+            }
+            vc.encoding = encoding
+            vc.delegate = self
+            vc.text = text as NSString
+            vc.title = file.lastPathComponent
+            tabView.addTabViewItem(NSTabViewItem(viewController: vc))
+        default:
+            print("type:\(importType)")
+        }
 
     }
 
 }
+
+extension ImportViewController: TextImportDelegate {
+    func textImport(_ textVC: TextImportViewController, processAsSQL text: String) {
+
+
+    }
+
+    func textImport(_ textVC: TextImportViewController, showImportFor CSV: [[String]]) {
+        guard let item = tabView.selectedTabViewItem else {
+            return
+        }
+
+        guard let importView = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("importDataView")) as? ImportDataViewController else {
+            return
+        }
+        importView.delegate = self
+        importView.data = CSV
+        importView.title = textVC.title
+        importView.representedObject = representedObject
+        
+        let index = tabView.indexOfTabViewItem(item)
+
+        let newView = NSTabViewItem(viewController: importView)
+        tabView.removeTabViewItem(at: index)
+        tabView.insertTabViewItem(newView, at: index)
+        tabControl.reloadData()
+        tabControl.selectedItem = newView
+    }
+}
+
+extension ImportViewController: ImportDataDelegate {
+    func closeImportView(_ vc: ImportDataViewController) {
+        guard let index = tabView.tabViewItems.index(where: { $0.viewController === vc}) else {
+            return
+        }
+
+        tabView.removeTabViewItem(at: index)
+        if tabView.numberOfTabViewItems > 0 {
+            tabControl.reloadData()
+            tabView.selectTabViewItem(at: 0)
+            tabControl.selectedItem = tabView.tabViewItems[0]
+        } else {
+            hideContentView()
+        }
+    }
+}
+
 
 extension ImportViewController: TabControlDatasource {
     func numberOfTabsFor(_ control: TabControl) -> Int {
@@ -152,17 +219,14 @@ extension ImportViewController: TabControlDatasource {
 
 fileprivate enum ImportType {
 
-
-
     case failed
     case xml
     case json
-    case csv
     case sqlite
     case xlsx
-    case text
+    case text(String, String.Encoding)
 
-    static func importType(for url: URL) -> ImportType? {
+    static func importType(for url: URL) -> ImportType {
         
         guard var data = try? Data(contentsOf: url, options: .mappedIfSafe) else {
             return .failed
@@ -186,13 +250,21 @@ fileprivate enum ImportType {
             print("Not XML")
         }
 
-        guard let str = String(bytesNoCopy: &data, length: data.count, encoding: .utf8, freeWhenDone: false) else {
-            return .failed
+        let simpleString = data.withUnsafeMutableBytes { (ptr: UnsafeMutablePointer<UInt8>) -> ImportType? in
+            let unsafePtr = UnsafeMutableRawPointer(ptr)
+            if let str = String(bytesNoCopy: unsafePtr, length: data.count, encoding: .utf8, freeWhenDone: false) {
+                return .text(str, .utf8)
+            } else if let rom = String(bytesNoCopy: unsafePtr, length: data.count, encoding: .macOSRoman, freeWhenDone: false) {
+                return .text(rom, .macOSRoman)
+            }
+            return nil
         }
 
-
-        return .text
-
+        if let type = simpleString {
+            return type
+        } else {
+            return .failed
+        }
     }
 
 }
