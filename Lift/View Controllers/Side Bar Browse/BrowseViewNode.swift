@@ -231,22 +231,28 @@ class TableViewNode: BrowseViewNode {
 
     func startListening() {
         NotificationCenter.default.addObserver(forName: .TableDidBeginRefreshingRowCount, object: provider, queue: nil) { [weak self] _ in
-            self?.refreshingCount = true
+            DispatchQueue.main.async {
+                self?.refreshingCount = true
+            }
+
         }
 
         NotificationCenter.default.addObserver(forName: .TableDidEndRefreshingRowCount, object: provider, queue: nil) { [weak self] _ in
-            self?.refreshingCount = false
+            DispatchQueue.main.async {
+                self?.refreshingCount = false
+            }
         }
 
         NotificationCenter.default.addObserver(forName: .TableDidChangeRowCount, object: provider, queue: nil) { [weak self, weak provider] _ in
             guard let table = provider, let mySelf = self else {
                 return
             }
-
-            if let num = table.rowCount {
-                mySelf.rowCount = NSNumber(integerLiteral: num)
-            } else {
-                mySelf.rowCount = nil
+            DispatchQueue.main.async {
+                if let num = table.rowCount {
+                    mySelf.rowCount = NSNumber(integerLiteral: num)
+                } else {
+                    mySelf.rowCount = nil
+                }
             }
         }
     }

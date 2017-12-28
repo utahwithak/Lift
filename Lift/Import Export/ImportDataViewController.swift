@@ -17,7 +17,7 @@ class ImportDataViewController: LiftViewController {
 
     let skipColumnTitle = NSLocalizedString("Don't Import", comment: "Don't import this column title")
 
-    var data: [[Any]]!
+    var data: [[Any?]]!
     @IBOutlet var columnArrayController: NSArrayController!
     @IBOutlet var tableArrayController: NSArrayController!
     private let newTableChoice = ImportTableChoice(name: "New Table", columns: [], table: nil)
@@ -259,8 +259,8 @@ class ImportDataViewController: LiftViewController {
                         }
 
                         for index in importColumnIndexes {
-                            if index < row.count {
-                                try insertQuery.bind(object: row[index])
+                            if index < row.count, let value = row[index]  {
+                                try insertQuery.bind(object: value )
                             } else {
                                 try insertQuery.bindNull()
                             }
@@ -337,7 +337,7 @@ extension ImportDataViewController: NSTableViewDelegate {
                     return nil
                 }
                 view.removeAllItems()
-                if let firstRow = data.first?.map({ "\($0)" }) {
+                if let firstRow = data.first?.flatMap({ $0 }).map({ "\($0)" }) {
                     view.addItems(withObjectValues: firstRow)
                     view.addItem(withObjectValue: skipColumnTitle)
                     view.selectItem(at: column)
@@ -378,8 +378,8 @@ extension ImportDataViewController: NSTableViewDelegate {
             }
 
             let rowData = data[row - 1]
-            if column < rowData.count {
-                view.textField?.stringValue = "\(rowData[column])"
+            if column < rowData.count, let value = rowData[column] {
+                view.textField?.stringValue = "\(value)"
             } else {
                 view.textField?.stringValue = ""
             }

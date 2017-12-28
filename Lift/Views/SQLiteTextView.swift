@@ -21,7 +21,7 @@ class SQLiteTextView: NSTextView {
             setup()
         }
 
-        highlighter.autocompleteWords = ids
+        highlighter.autocompleteWords = ids.union(["sqlite_master", "sqlite_sequence"])
     }
 
     func setup() {
@@ -37,10 +37,49 @@ class SQLiteTextView: NSTextView {
         isAutomaticTextReplacementEnabled = false
         font = NSFont(name: "SF Mono", size: 11) ?? NSFont(name: "Menlo", size: 11)
 
+        if let clipView = enclosingScrollView?.contentView {
+            clipView.postsBoundsChangedNotifications = true
+            NotificationCenter.default.addObserver(self, selector: #selector(boundsChanged), name: NSView.boundsDidChangeNotification, object: clipView)
+        }
+
+    }
+
+    @objc private func boundsChanged(_ not: Notification) {
+        highlighter.highlight(self)
     }
 
     func refresh() {
         highlighter.recolorAll()
     }
-    
+
+    override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
+        return isEditable ? .copy : NSDragOperation()
+    }
+
+    override func draggingExited(_ sender: NSDraggingInfo?) {
+
+    }
+
+    override func prepareForDragOperation(_ sender: NSDraggingInfo) -> Bool {
+        return isEditable
+    }
+
+
+    override func performDragOperation(_ draggingInfo: NSDraggingInfo) -> Bool {
+
+        let pasteBoard = draggingInfo.draggingPasteboard()
+
+
+        if let urls = pasteBoard.readObjects(forClasses: [NSURL.self], options:nil) as? [URL], urls.count > 0 {
+            for url in urls {
+                if let text = try? String(contentsOf: url, encoding: .utf8) {
+                    self.textStorage?.append(NSAttributedString(string: text))
+                }
+            }
+            return true
+        }
+
+        return false
+
+    }
 }

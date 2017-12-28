@@ -50,6 +50,8 @@ class AttachDatabaseViewController: LiftViewController {
                     return false
                 }
 
+                SQLiteDocumentPresenter.addPresenters(for: path)
+
                 return try database.attachDatabase(at: path, with: name)
             }
 

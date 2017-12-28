@@ -109,7 +109,7 @@ class DataProvider: NSObject {
         return TableData(provider: self)
     }
 
-    func drop() throws -> Bool {
+    func drop(refresh: Bool = true) throws -> Bool {
         guard let database = database else {
             throw LiftError.noDatabase
         }
@@ -117,21 +117,39 @@ class DataProvider: NSObject {
         let statement = "DROP \(type) \(qualifiedNameForQuery);"
         let success = try database.execute(statement: statement)
 
-        if success {
+        if success && refresh {
            database.refresh()
-        } else {
-            print("Failed to refersh")
         }
 
         return success
     }
 
-    enum CloneType {
-        case toTemp
-        case toMain
+    enum TransferType {
+        case cloneToTemp
+        case cloneToMain
+        case moveToTemp
+        case moveToMain
+
+        var isMove: Bool {
+            switch self {
+            case .moveToMain, .moveToTemp:
+                return true
+            default:
+                return false
+            }
+        }
+        var isToTemp: Bool {
+            switch self {
+            case .cloneToTemp, .moveToTemp:
+                return true
+            default:
+                return false
+            }
+        }
+
     }
 
-    func cloneToDB(_ cloneType: CloneType, keepGoing: ()-> Bool) throws {
+    func transfer(with transferType: TransferType, keepGoing: ()-> Bool) throws {
         
         guard let database = database else {
             throw LiftError.noDatabase
@@ -141,7 +159,7 @@ class DataProvider: NSObject {
 
         do {
             var sql = self.sql
-            if cloneType == .toTemp {
+            if transferType.isToTemp {
                 guard let createRange = sql.range(of: "CREATE ") else {
                     return
                 }
@@ -153,7 +171,7 @@ class DataProvider: NSObject {
             success = try database.execute(statement: sql)
 
             if self.type == "table" {
-                let intoName = cloneType == .toMain ? "main" : "temp"
+                let intoName = transferType.isToTemp ? "temp" : "main"
                 let selectStatement = "SELECT rowID, * FROM \(qualifiedNameForQuery)"
                 let query = try Query(connection: connection, query: selectStatement)
                 let colNames = ["rowID"] + columns.map { $0.name.sqliteSafeString() }
@@ -163,11 +181,19 @@ class DataProvider: NSObject {
                 let insertQuery = try Query(connection: connection, query: insertStatement)
                 try insertQuery.processData(from: query, keepGoing: keepGoing)
             }
+
+            if transferType.isMove {
+                success = try drop(refresh: false)
+            }
+
             if keepGoing() {
                 success = try database.execute(statement: "RELEASE SAVEPOINT CLONEDB")
             } else {
                 success = try database.execute(statement: "ROLLBACK TRANSACTION TO SAVEPOINT CLONEDB")
             }
+
+
+
         } catch {
             success = try database.execute(statement: "ROLLBACK TRANSACTION TO SAVEPOINT CLONEDB")
             throw error

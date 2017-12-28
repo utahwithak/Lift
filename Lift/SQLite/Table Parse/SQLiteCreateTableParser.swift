@@ -93,9 +93,8 @@ class SQLiteCreateTableParser {
 
         }
 
-
         guard stringScanner.scanString(")", into: nil) else {
-            throw ParserError.unexpectedError("Expected end of definitions, not found!:\(String(statement.characters.dropFirst(stringScanner.scanLocation)))")
+            throw ParserError.unexpectedError("Expected end of definitions, not found!:\(String(statement.dropFirst(stringScanner.scanLocation)))")
         }
 
         currentTable.withoutRowID = stringScanner.scanString("WITHOUT ROWID", into: nil)

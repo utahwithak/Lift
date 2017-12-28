@@ -306,7 +306,6 @@ class Database: NSObject {
 
 
     public func attachDatabase(at path: URL, with name: String) throws -> Bool {
-
         let cleanedPath = path.path.sqliteSafeString()
         let sql = "ATTACH DATABASE \(cleanedPath) AS \(name.sqliteSafeString())"
         let success = try execute(statement: sql)

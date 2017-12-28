@@ -9,6 +9,9 @@
 import Cocoa
 import SwiftXLSX
 
+protocol ImportViewDelegate: class {
+    func importView(_ importVC: ImportViewController, showSQL text: String)
+}
 
 
 class ImportViewController: LiftViewController {
@@ -19,6 +22,8 @@ class ImportViewController: LiftViewController {
     @IBOutlet weak var tabView: NSTabView!
     @IBOutlet var tabViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet var tabControlHeightConstraint: NSLayoutConstraint!
+
+    public weak var delegate: ImportViewDelegate?
 
     @IBAction func chooseImportPath(_ sender: Any) {
 
@@ -109,6 +114,22 @@ class ImportViewController: LiftViewController {
             vc.text = text as NSString
             vc.title = file.lastPathComponent
             tabView.addTabViewItem(NSTabViewItem(viewController: vc))
+        case .xlsx(let workbook):
+
+            for sheet in workbook.sheets.sheets {
+
+                guard let importView = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("importDataView")) as? ImportDataViewController else {
+                    return
+                }
+                importView.delegate = self
+
+                importView.data = sheet.sqliteData()
+                importView.title = sheet.sheetName
+                importView.representedObject = representedObject
+
+                let newView = NSTabViewItem(viewController: importView)
+                tabView.addTabViewItem(newView)
+            }
         default:
             print("type:\(importType)")
         }
@@ -119,8 +140,7 @@ class ImportViewController: LiftViewController {
 
 extension ImportViewController: TextImportDelegate {
     func textImport(_ textVC: TextImportViewController, processAsSQL text: String) {
-
-
+        delegate?.importView(self, showSQL: text)
     }
 
     func textImport(_ textVC: TextImportViewController, showImportFor CSV: [[String]]) {
@@ -223,7 +243,7 @@ fileprivate enum ImportType {
     case xml
     case json
     case sqlite
-    case xlsx
+    case xlsx(Workbook)
     case text(String, String.Encoding)
 
     static func importType(for url: URL) -> ImportType {
@@ -239,8 +259,8 @@ fileprivate enum ImportType {
             print("file's not JSON")
         }
 
-        if Workbook(path: url) != nil {
-            return .xlsx
+        if let workbook = Workbook(path: url) {
+            return .xlsx(workbook)
         }
 
         do {
@@ -267,4 +287,27 @@ fileprivate enum ImportType {
         }
     }
 
+}
+
+extension Worksheet {
+    func sqliteData() -> [[Any?]] {
+        guard let flatData = self.flatData() else {
+            return [[]]
+        }
+
+        var data = [[Any?]]()
+
+        for row in flatData {
+            var rowData = [Any?]()
+            for expressible in row {
+                if let value = expressible {
+                    rowData.append(value)
+                } else {
+                    rowData.append(nil)
+                }
+            }
+            data.append(rowData)
+        }
+        return data
+    }
 }

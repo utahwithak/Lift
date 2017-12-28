@@ -30,8 +30,7 @@ class Query {
                 let rc = sqlite3_prepare_v3(connection, cur, -1, 0, &stmt, &next)
                 if rc != SQLITE_OK {
                     // on a parse error fail always
-                    _ = handler(.failure(SQLiteError(connection: connection, code: rc)), progress)
-                    bail = true
+                    bail = !handler(.failure(SQLiteError(connection: connection, code: rc)), progress)
                 } else if let statement = stmt {
 
                     let statement = Statement(connection: connection, statement: statement)

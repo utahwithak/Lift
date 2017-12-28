@@ -12,8 +12,9 @@ import Cocoa
 
 class TableDataViewController: LiftMainViewController {
 
-    fileprivate static var identifierMap = [NSUserInterfaceItemIdentifier: Int]()
-
+    public static var identifierMap = [NSUserInterfaceItemIdentifier: Int]()
+    public static let numberColor = NSColor(calibratedRed:0.2, green:0.403, blue:0.507, alpha:1)
+    
     @IBOutlet weak var filterButton: NSButton!
     @IBOutlet weak var tableView: TableView!
     @IBOutlet weak var tableScrollView: TableScrollView!
@@ -32,7 +33,7 @@ class TableDataViewController: LiftMainViewController {
 
     let foreignKeyColumnColor = NSColor(calibratedRed:0.71, green:0.843, blue:1.0, alpha:0.5).cgColor
 
-    let numberColor = NSColor(calibratedRed:0.2, green:0.403, blue:0.507, alpha:1)
+
 
     var data: TableData?
 
@@ -519,10 +520,10 @@ extension TableDataViewController: NSTableViewDataSource {
             color = NSColor.lightGray
         case .integer:
             justification = .right
-            color = numberColor
+            color = TableDataViewController.numberColor
         case .float:
             justification = .right
-            color = numberColor
+            color = TableDataViewController.numberColor
         }
 
         if foreignKeyIdentifiers.contains(column) {

@@ -123,12 +123,12 @@ class LineNumberView: NSRulerView {
             return
         }
 
-        let text = textView.string
-        let stringLength = text.count
+        let text = textView.string as NSString
+        let stringLength = text.length
         let count = lineIndices.count
 
         var charIndex = 0;
-        var lineIndex = lineNumber(for: invalidCharacterIndex, in: text)
+        var lineIndex = lineNumber(for: invalidCharacterIndex)
         if count > 0 {
             charIndex = lineIndices[lineIndex]
         }
@@ -140,7 +140,7 @@ class LineNumberView: NSRulerView {
                 lineIndices.append(charIndex)
             }
 
-            charIndex = NSMaxRange((text as NSString).lineRange(for: NSRange(location: charIndex, length: 0)));
+            charIndex = NSMaxRange(text.lineRange(for: NSRange(location: charIndex, length: 0)));
             lineIndex += 1
         } while charIndex < stringLength;
 
@@ -172,7 +172,7 @@ class LineNumberView: NSRulerView {
 
     }
 
-    private func lineNumber(for charIndex: Int, in text: String) -> Int {
+    private func lineNumber(for charIndex: Int) -> Int {
 
         // Binary search
         var left = 0;
@@ -217,8 +217,6 @@ class LineNumberView: NSRulerView {
             return
         }
 
-        let text = textView.string
-
         let yinset = textView.textContainerInset.height
 
         if invalidCharacterIndex < Int.max {
@@ -236,7 +234,7 @@ class LineNumberView: NSRulerView {
         range.length += 1
 
         let count = lines.count
-        let start = lineNumber(for: range.location, in: text)
+        let start = lineNumber(for: range.location)
         guard start < count else {
             return
         }

@@ -1,0 +1,31 @@
+#!/usr/bin/python
+
+import sqlite3
+import random
+import os
+import string
+
+conn = sqlite3.connect('/Users/Carl8382/Desktop/giantSQLite.db')
+count = 0
+c = conn.cursor()
+for row in c.execute('SELECT * FROM sqlite_master'):
+	print row
+	count = count + 1
+for tabExtender in range(0,10,1):
+	print "creating table"+str(count + tabExtender)
+
+	c.execute("CREATE TABLE IF NOT EXISTS table"+str(count + tabExtender)+"(id INTEGER PRIMARY KEY AUTOINCREMENT, strVal TEXT, blobDat BLOB, doubVal REAL)")
+	
+	for loop in range(0,(tabExtender + 1)*1000):
+		values = []
+		for i in range(0,10*tabExtender):
+			print i
+			strVal = ''.join(random.choice(string.ascii_uppercase + string.digits+"\n\t.,/!@#$^&*()_+-=") for _ in range(tabExtender))
+
+			values.append((strVal,buffer(os.urandom(10*tabExtender)),random.uniform(0, tabExtender)))
+		print "done creating values for count:"+str(loop)
+		c.executemany('INSERT INTO table'+str(count+tabExtender)+'(strVal,blobDat,doubVal) VALUES (?,?,?)', values)
+
+conn.commit()
+print "done inserting, closing"
+conn.close()

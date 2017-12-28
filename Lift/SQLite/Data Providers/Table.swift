@@ -241,6 +241,9 @@ class Table: DataProvider {
         let names = columns.enumerated().map({
             return (($0.1.name.isValidXMLElementName || options.allowInvalidXML) && options.useNamesForElements) ? $0.1.name : "column\($0.0)"
         })
+        let dataElement = XMLElement(name: "rows")
+        tableElement.addChild(dataElement)
+
         try query.processRows(handler: { row in
 
             let rowElement = XMLElement(name: options.rowName)
@@ -281,7 +284,7 @@ class Table: DataProvider {
                 }
             }
 
-            tableElement.addChild(rowElement)
+            dataElement.addChild(rowElement)
         })
 
         return tableElement

@@ -12,7 +12,7 @@ class QueryViewController: LiftMainViewController {
     @IBOutlet var sqlView: SQLiteTextView!
 
     private var isCanceled = false
-
+    @objc dynamic var shouldContinueAfterErrors = false
     override func viewDidLoad() {
         super.viewDidLoad()
         sqlView.setup()
@@ -81,17 +81,17 @@ class QueryViewController: LiftMainViewController {
 
                 switch result {
                 case .failure(let error):
-                    DispatchQueue.main.async {
-                        self.presentError(error)
-                    }
-                    return false
+
+                    errors.append(error)
+
+                    return self.shouldContinueAfterErrors
                 case .success(let executeResult):
                     DispatchQueue.main.async {
                         self.resultsViewController.addResult(executeResult)
                     }
                     if let error = executeResult.error {
                         errors.append(error)
-                        return self.continueAfterErrors
+                        return self.shouldContinueAfterErrors
                     }
                 }
 
@@ -106,7 +106,7 @@ class QueryViewController: LiftMainViewController {
                     self.dismissViewController(waitingView)
                 }
 
-                if !self.continueAfterErrors, let error = errors.first, !(error as NSError).isUserCanceledError {
+                if !self.shouldContinueAfterErrors, let error = errors.first, !(error as NSError).isUserCanceledError {
                     let errorAlert = NSAlert(error: error)
                     if let window = self.view.window {
                         errorAlert.beginSheetModal(for: window, completionHandler: nil)
@@ -124,8 +124,6 @@ class QueryViewController: LiftMainViewController {
 
 
     }
-
-    var continueAfterErrors = false
 
     override var preferredSections: [DetailSection] {
         var sections = super.preferredSections

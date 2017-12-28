@@ -207,10 +207,16 @@ extension SideBarBrowseViewController: NSMenuDelegate {
         let alert = NSAlert()
         let format = NSLocalizedString("Drop %@?", comment: "title for drop alert")
         alert.messageText = String(format: format, provider.type)
-        let messageFormat = NSLocalizedString("Are you sure you want to drop %@ \"%@\"?\nThis cannot be undone.", comment: "Confirmation text")
-        alert.informativeText = String(format: messageFormat, provider.type, provider.name)
-        alert.addButton(withTitle: "Drop")
-        alert.addButton(withTitle: "Cancel")
+        let messageFormat = NSLocalizedString("Are you sure you want to drop %@ \"%@\"?%@", comment: "Confirmation text")
+        let checkText:String
+        if document?.database.autocommitStatus == .autocommit {
+            checkText = NSLocalizedString("\nThis cannot be undone.", comment: "Extra warning when dropping table in autocommit mode")
+        } else {
+            checkText = ""
+        }
+        alert.informativeText = String(format: messageFormat, provider.type, provider.name, checkText)
+        alert.addButton(withTitle: NSLocalizedString("Drop", comment: "Drop alert button "))
+        alert.addButton(withTitle: NSLocalizedString("Cancel", comment: "cancel Drop"))
         let response = alert.runModal()
         if response == .alertFirstButtonReturn {
             do {
@@ -221,7 +227,7 @@ extension SideBarBrowseViewController: NSMenuDelegate {
         }
     }
 
-    private func clone(provider: DataProvider, to type: Table.CloneType) {
+    private func transfer(provider: DataProvider, with type: Table.TransferType) {
         guard let waitingView = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("waitingOperationView")) as? WaitingOperationViewController else {
             return
         }
@@ -240,7 +246,7 @@ extension SideBarBrowseViewController: NSMenuDelegate {
 
         DispatchQueue.global(qos: .userInteractive).async {
             do {
-                try provider.cloneToDB(type, keepGoing: keepGoing)
+                try provider.transfer(with: type, keepGoing: keepGoing)
                 DispatchQueue.main.async {
                     self.dismissViewController(waitingView)
                 }
@@ -261,7 +267,7 @@ extension SideBarBrowseViewController: NSMenuDelegate {
             return
         }
 
-        clone(provider: provider, to: .toTemp)
+        transfer(provider: provider, with: .cloneToTemp)
     }
 
     @objc private func cloneToMain(_ item: NSMenuItem) {
@@ -270,7 +276,25 @@ extension SideBarBrowseViewController: NSMenuDelegate {
             return
         }
 
-        clone(provider: provider, to: .toMain)
+        transfer(provider: provider, with: .cloneToMain)
+    }
+
+    @objc private func moveToMain(_ item: NSMenuItem) {
+
+        guard let provider = item.representedObject as? DataProvider else {
+            return
+        }
+        transfer(provider: provider, with: .moveToMain)
+
+    }
+
+    @objc private func moveToTemp(_ item: NSMenuItem) {
+
+        guard let provider = item.representedObject as? DataProvider else {
+            return
+        }
+        transfer(provider: provider, with: .moveToTemp)
+
     }
 
     @objc private func showInFinder(_ item: NSMenuItem) {
@@ -288,7 +312,7 @@ extension SideBarBrowseViewController: NSMenuDelegate {
     }
 
     func menuNeedsUpdate(_ menu: NSMenu) {
-        print("update")
+        menu.delegate = self
         menu.removeAllItems()
         let row = outlineView.clickedRow
         let column = outlineView.clickedColumn
@@ -338,13 +362,31 @@ extension SideBarBrowseViewController: NSMenuDelegate {
                     if provider.database?.name != "temp" {
                         let cloneTemp = NSMenuItem(title:  NSLocalizedString("Clone to temp", comment: "clone to temp db menu item"), action: #selector(createTempClone), keyEquivalent: "")
                         cloneTemp.representedObject = tableNode.provider
+                        cloneTemp.keyEquivalent = "n"
+                        cloneTemp.keyEquivalentModifierMask = [.command]
                         menu.addItem(cloneTemp)
+                        let moveFromTemp = NSMenuItem(title: NSLocalizedString("Move to temp", comment: "clone to main menu item"), action:   #selector(moveToTemp), keyEquivalent: "")
+                        moveFromTemp.representedObject = tableNode.provider
+                        moveFromTemp.keyEquivalent = "n"
+                        moveFromTemp.isAlternate = true
+                        moveFromTemp.keyEquivalentModifierMask = [.option,.command]
+                        menu.addItem(moveFromTemp)
                     }
 
                     if provider.database?.name != "main" {
-                        let cloneTemp = NSMenuItem(title: NSLocalizedString("Clone to main", comment: "clone to main menu item"), action: #selector(cloneToMain), keyEquivalent: "")
+
+
+                        let cloneTemp = NSMenuItem(title: NSLocalizedString("Clone to main", comment: "clone to main menu item"), action:   #selector(cloneToMain), keyEquivalent: "")
                         cloneTemp.representedObject = tableNode.provider
+                        cloneTemp.keyEquivalent = "m"
+                        cloneTemp.keyEquivalentModifierMask = [.command]
                         menu.addItem(cloneTemp)
+                        let moveFromTemp = NSMenuItem(title: NSLocalizedString("Move to main", comment: "clone to main menu item"), action:   #selector(moveToMain), keyEquivalent: "")
+                        moveFromTemp.representedObject = tableNode.provider
+                        moveFromTemp.keyEquivalent = "m"
+                        moveFromTemp.isAlternate = true
+                        moveFromTemp.keyEquivalentModifierMask = [.option,.command]
+                        menu.addItem(moveFromTemp)
 
                     }
 

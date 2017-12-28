@@ -340,6 +340,7 @@ class LiftWindowController: NSWindowController {
                     return
                 }
                 vc.importPath = url
+                vc.delegate = self
                 vc.representedObject = self.document
                 self.contentViewController?.presentViewControllerAsSheet(vc)
             }
@@ -426,4 +427,11 @@ extension LiftWindowController: NSDraggingDestination {
     }
 
 
+}
+
+extension LiftWindowController: ImportViewDelegate {
+    func importView(_ importVC: ImportViewController, showSQL text: String) {
+        contentViewController?.dismissViewController(importVC)
+        showQueryView(with: text)
+    }
 }

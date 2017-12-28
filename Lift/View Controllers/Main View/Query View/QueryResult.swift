@@ -14,6 +14,8 @@ class ExecuteQueryResult: NSObject {
     public private(set) var rows = [RowData]()
     public private(set) var error: Error?
 
+    public var duration: TimeInterval?
+
     @objc dynamic let sql: String
 
     let columnNames: [String]
@@ -23,6 +25,10 @@ class ExecuteQueryResult: NSObject {
         self.query = Query(statement: statement)
         self.sql = statement.sql
 
+    }
+
+    public func object(at row: Int, column: Int) -> CellData {
+        return rows[row][column]
     }
 
     func load(keepGoing: () -> Bool) {
@@ -36,9 +42,11 @@ class ExecuteQueryResult: NSObject {
         }
 
         do {
+            let start = Date()
             try query.processRows(handler: { rawData in
                 self.rows.append(RowData(row: rawData))
             }, keepGoing: keepGoing)
+            self.duration = Date().timeIntervalSince(start)
 
         } catch {
             self.error = error
