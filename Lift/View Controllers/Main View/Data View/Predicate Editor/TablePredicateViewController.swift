@@ -53,20 +53,40 @@ class TablePredicateViewController: LiftViewController {
 
     private func convert( _ comparisonPredicate: NSComparisonPredicate) -> String {
         let constantValue = comparisonPredicate.rightExpression.constantValue ?? ""
-        let lhs = comparisonPredicate.leftExpression.description.querySafeString()
+
+        var query = comparisonPredicate.leftExpression.description.querySafeString()
+
         switch comparisonPredicate.predicateOperatorType {
         case .endsWith:
-            return lhs + " LIKE '%%\(constantValue)'"
+            return query + " LIKE '%%\(constantValue)'"
         case .contains:
-            return lhs + " LIKE '%\(constantValue)%'"
+            return query + " LIKE '%\(constantValue)%'"
         case .beginsWith:
-            return lhs + " LIKE '\(constantValue)%%'"
+            return query + " LIKE '\(constantValue)%%'"
         case .equalTo:
-            return lhs + " = " + comparisonPredicate.rightExpression.description
+            query += " = "
+        case .lessThan:
+            query += " < "
+        case .lessThanOrEqualTo:
+            query += " <= "
+        case .greaterThan:
+            query += " > "
+        case .greaterThanOrEqualTo:
+            query += " >= "
+        case .notEqualTo:
+            query += " != "
         default:
             return comparisonPredicate.description
         }
 
+        if let strVal = constantValue as? String {
+            if let intVal = Int(strVal) {
+                return query + "\(intVal)"
+            } else if let doubVal = Double(strVal) {
+                return query + "\(doubVal)"
+            }
+        }
+        return query + comparisonPredicate.rightExpression.description
     }
 
     private func convert(_ compoundPredicate: NSCompoundPredicate) -> String? {

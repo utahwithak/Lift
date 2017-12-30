@@ -46,6 +46,7 @@ class LiftMainEditorTabViewController: NSTabViewController {
         case .query:
             selectedTabViewItemIndex = 2
         }
+        
 
     }
     private func updateBottomContainer() {

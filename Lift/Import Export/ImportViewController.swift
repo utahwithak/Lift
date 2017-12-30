@@ -24,7 +24,7 @@ class ImportViewController: LiftViewController {
     @IBOutlet var tabControlHeightConstraint: NSLayoutConstraint!
 
     public weak var delegate: ImportViewDelegate?
-
+    
     @IBAction func chooseImportPath(_ sender: Any) {
 
         let chooser = NSOpenPanel()
@@ -51,9 +51,24 @@ class ImportViewController: LiftViewController {
         tabControl.datasource = self
         super.viewDidLoad()
         hideContentView()
+    }
 
-        refreshContent()
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        if importPath != nil, let waitingVC = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("progressViewController")) as? ProgressViewController {
 
+            waitingVC.operation = NSLocalizedString("Preparing for import...", comment: "Loading file file for import waiting label text")
+            waitingVC.indeterminant = true
+            presentViewControllerAsSheet(waitingVC)
+
+            DispatchQueue.global(qos: .userInitiated).async {
+                self.refreshContent()
+
+                DispatchQueue.main.async {
+                    self.dismissViewController(waitingVC)
+                }
+            }
+        }
     }
 
     private func hideContentView() {
@@ -93,10 +108,12 @@ class ImportViewController: LiftViewController {
             checkForImport(from: url)
         }
 
-        if tabView.numberOfTabViewItems == 0 {
-            hideContentView()
-        } else {
-            showContentView()
+        DispatchQueue.main.async {
+            if self.tabView.numberOfTabViewItems == 0 {
+                self.hideContentView()
+            } else {
+                self.showContentView()
+            }
         }
     }
 
@@ -104,36 +121,38 @@ class ImportViewController: LiftViewController {
 
         let importType = ImportType.importType(for: file)
 
-        switch importType {
-        case .text(let text, let encoding):
-            guard let vc = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("textInitialViewController")) as? TextImportViewController else {
-                return
-            }
-            vc.encoding = encoding
-            vc.delegate = self
-            vc.text = text as NSString
-            vc.title = file.lastPathComponent
-            tabView.addTabViewItem(NSTabViewItem(viewController: vc))
-        case .xlsx(let workbook):
+        DispatchQueue.main.async {
+            switch importType {
+            case .text(let text, let encoding):
 
-            for sheet in workbook.sheets.sheets {
-
-                guard let importView = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("importDataView")) as? ImportDataViewController else {
+                guard let vc = self.storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("textInitialViewController")) as? TextImportViewController else {
                     return
                 }
-                importView.delegate = self
+                vc.encoding = encoding
+                vc.delegate = self
+                vc.text = text as NSString
+                vc.title = file.lastPathComponent
+                self.tabView.addTabViewItem(NSTabViewItem(viewController: vc))
+            case .xlsx(let workbook):
 
-                importView.data = sheet.sqliteData()
-                importView.title = sheet.sheetName
-                importView.representedObject = representedObject
+                for sheet in workbook.sheets {
 
-                let newView = NSTabViewItem(viewController: importView)
-                tabView.addTabViewItem(newView)
+                    guard let importView = self.storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("importDataView")) as? ImportDataViewController else {
+                        return
+                    }
+                    importView.delegate = self
+
+                    importView.data = sheet.sqliteData()
+                    importView.title = sheet.name
+                    importView.representedObject = self.representedObject
+
+                    let newView = NSTabViewItem(viewController: importView)
+                    self.tabView.addTabViewItem(newView)
+                }
+            default:
+                print("type:\(importType)")
             }
-        default:
-            print("type:\(importType)")
         }
-
     }
 
 }
@@ -243,7 +262,7 @@ fileprivate enum ImportType {
     case xml
     case json
     case sqlite
-    case xlsx(Workbook)
+    case xlsx(XLSXDocument)
     case text(String, String.Encoding)
 
     static func importType(for url: URL) -> ImportType {
@@ -259,7 +278,7 @@ fileprivate enum ImportType {
             print("file's not JSON")
         }
 
-        if let workbook = Workbook(path: url) {
+        if let workbook = try? XLSXDocument(path: url) {
             return .xlsx(workbook)
         }
 
@@ -289,7 +308,7 @@ fileprivate enum ImportType {
 
 }
 
-extension Worksheet {
+extension Sheet {
     func sqliteData() -> [[Any?]] {
         guard let flatData = self.flatData() else {
             return [[]]

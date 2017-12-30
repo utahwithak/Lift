@@ -20,6 +20,7 @@ extension Notification.Name {
 
 class LiftWindowController: NSWindowController {
 
+    @IBOutlet weak var viewTypeSegmentedControl: NSSegmentedControl!
     @IBOutlet weak var panelSegmentedControl: NSSegmentedControl!
 
     @IBOutlet weak var attachDetachSegmentedControl: NSSegmentedControl!
@@ -157,7 +158,7 @@ class LiftWindowController: NSWindowController {
         guard let tabController = mainEditor else {
             return
         }
-
+        viewTypeSegmentedControl.selectedSegment = 2
         tabController.switchMainView(to: .query)
         tabController.setQuerySQL(to: SQL)
 

@@ -103,8 +103,8 @@ class ExportTableNode: ExportNode {
         try table.exportCSV(columns: exportColumns, writer: writer, with: options)
     }
 
-    func export(to worksheet: Worksheet, with options: XLSXExportOptions) throws {
-        try table.export(to: worksheet, columns: exportColumns, with: options)
+    func export(to sheet: Sheet, with options: XLSXExportOptions) throws {
+        try table.export(to: sheet, columns: exportColumns, with: options)
     }
 
     func exportXML(with options: XMLExportOptions) throws -> XMLElement {

@@ -54,7 +54,7 @@ extension ExportViewController {
                 }
             }
 
-            let excelDoc = Workbook()
+            let excelDoc = XLSXDocument()
 
             let count = tablesToExport.count
             for (index, table) in tablesToExport.enumerated() {

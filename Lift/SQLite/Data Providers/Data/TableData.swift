@@ -47,7 +47,18 @@ enum SimpleUpdateType {
     }
 }
 
-class TableData: NSObject {
+struct ColumnSort {
+    let column: String
+    let asc: Bool
+
+    func queryStatement(flipped: Bool) -> String {
+        var order = flipped ? !asc : asc
+
+        return column.querySafeString() + (order ? " ASC" : " DESC")
+    }
+}
+
+final class TableData: NSObject {
 
     private let baseQuery: String
 
@@ -68,6 +79,7 @@ class TableData: NSObject {
     private var loadingNextPage = false
     private var loadingPreviousPage = false
 
+    let customOrdering: [ColumnSort]
 
     // used for smart paging
     //
@@ -80,14 +92,16 @@ class TableData: NSObject {
 
     public private(set) var columnNames: [String]?
 
-    init(provider: DataProvider, customQuery: String? = nil) {
+    init(provider: DataProvider, customQuery: String? = nil, customSorting: [ColumnSort] = []) {
         self.provider = provider
+
+        self.customOrdering = customSorting
 
         let name = provider.qualifiedNameForQuery
 
-        if customQuery == nil, let table = provider as? Table {
+        if customSorting.isEmpty && customQuery == nil, let table = provider as? Table {
             smartPaging =  provider is Table
-            if table.definition?.withoutRowID ?? false{
+            if table.definition?.withoutRowID ?? false {
                 let primaryKeys =  table.columns.filter { $0.primaryKey }
                 sortCount = primaryKeys.count
                 sortColumns = primaryKeys.map { $0.name.sqliteSafeString() }.joined(separator: ", ")
@@ -98,8 +112,6 @@ class TableData: NSObject {
                 argString = "$0"
                 sortCount = 1
             }
-
-
             baseQuery = "SELECT \(sortColumns),* FROM \(name)"
         } else {
             sortCount = 0
@@ -111,7 +123,6 @@ class TableData: NSObject {
             } else {
                 baseQuery = "SELECT * FROM \(name)"
             }
-
 
         }
 
@@ -129,8 +140,13 @@ class TableData: NSObject {
         return data[row].data[column]
     }
 
+    func customSortOrdering(forNext: Bool) ->  String {
+        return customOrdering.map( { $0.queryStatement(flipped: !forNext) }).joined(separator: ", ")
+    }
+
 
     private func buildNextQuery() -> String {
+
 
         if smartPaging {
             var builder = baseQuery
@@ -139,11 +155,19 @@ class TableData: NSObject {
                 builder += " WHERE (\(sortColumns)) > (\(argString))"
             }
 
-            builder += " ORDER BY \(sortColumns) LIMIT \(pageSize)"
+
+            builder += " LIMIT \(pageSize)"
 
             return builder
         } else {
-            return baseQuery + " LIMIT \(pageSize) OFFSET \(data.count)"
+            var builder = baseQuery
+
+            let customOrder = customSortOrdering(forNext: true)
+            if !customOrder.isEmpty {
+                builder += " ORDER BY \(customOrder)"
+            }
+
+            return builder + " LIMIT \(pageSize) OFFSET \(data.count)"
         }
 
     }
@@ -174,8 +198,6 @@ class TableData: NSObject {
             return buildNextQuery()
         }
     }
-
-
 
     public func loadInitial(customStart: CustomTableStart? = nil) throws {
 

@@ -172,7 +172,7 @@ class Table: DataProvider {
     }
 
 
-    func export(to worksheet: Worksheet, columns: [Column], with options: XLSXExportOptions) throws {
+    func export(to worksheet: Sheet, columns: [Column], with options: XLSXExportOptions) throws {
 
 
         let query = try exportQuery(for: columns)

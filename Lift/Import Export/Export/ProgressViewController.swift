@@ -12,7 +12,9 @@ class ProgressViewController: NSViewController {
 
     @objc dynamic var operation = ""
     @objc dynamic var progress = NSNumber(value: 0)
+    @objc dynamic var indeterminant = false
 
+    @IBOutlet weak var indicator: NSProgressIndicator!
 
     func setOperationText(to value: String) {
         operation = value
@@ -22,4 +24,9 @@ class ProgressViewController: NSViewController {
         progress = NSNumber(value: value)
     }
 
+    override func viewDidLoad() {
+        if indeterminant {
+            indicator.startAnimation(nil)
+        }
+    }
 }

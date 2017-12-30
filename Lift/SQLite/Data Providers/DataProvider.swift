@@ -106,7 +106,7 @@ class DataProvider: NSObject {
     }
 
     var basicData: TableData {
-        return TableData(provider: self)
+        return TableData(provider: self, customSorting: [])
     }
 
     func drop(refresh: Bool = true) throws -> Bool {

@@ -46,8 +46,6 @@
 		8F6273E51F85C2C0007055D9 /* SQLiteSyntaxHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6273E41F85C2C0007055D9 /* SQLiteSyntaxHighlighter.swift */; };
 		8F63DE1A1FBB237F008F2DA0 /* NSError+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F63DE191FBB237F008F2DA0 /* NSError+Additions.swift */; };
 		8F6B42BB1F94EAD200110EC6 /* NSTreeController+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6B42BA1F94EAD200110EC6 /* NSTreeController+Additions.swift */; };
-		8F72E3A11F83DED9006C88F5 /* Zip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F72E3A01F83DED9006C88F5 /* Zip.framework */; };
-		8F72E3A21F83DED9006C88F5 /* Zip.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8F72E3A01F83DED9006C88F5 /* Zip.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		8F72E3A51F83E0D0006C88F5 /* SideBarBrowseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F72E3A41F83E0D0006C88F5 /* SideBarBrowseViewController.swift */; };
 		8F72E3AC1F83F415006C88F5 /* SQLiteError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F72E3AB1F83F415006C88F5 /* SQLiteError.swift */; };
 		8F72E3B51F83FBE9006C88F5 /* CreateTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F72E3B41F83FBE9006C88F5 /* CreateTableViewController.swift */; };
@@ -193,7 +191,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				8F72E3A21F83DED9006C88F5 /* Zip.framework in Embed Frameworks */,
 				8F11B7A91F83DDEE008E19D7 /* SwiftXLSX.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -242,7 +239,6 @@
 		8F6273E41F85C2C0007055D9 /* SQLiteSyntaxHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteSyntaxHighlighter.swift; sourceTree = "<group>"; };
 		8F63DE191FBB237F008F2DA0 /* NSError+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSError+Additions.swift"; sourceTree = "<group>"; };
 		8F6B42BA1F94EAD200110EC6 /* NSTreeController+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSTreeController+Additions.swift"; sourceTree = "<group>"; };
-		8F72E3A01F83DED9006C88F5 /* Zip.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Zip.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F72E3A41F83E0D0006C88F5 /* SideBarBrowseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarBrowseViewController.swift; sourceTree = "<group>"; };
 		8F72E3AB1F83F415006C88F5 /* SQLiteError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteError.swift; sourceTree = "<group>"; };
 		8F72E3B41F83FBE9006C88F5 /* CreateTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTableViewController.swift; sourceTree = "<group>"; };
@@ -356,7 +352,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8F72E3A11F83DED9006C88F5 /* Zip.framework in Frameworks */,
 				8F11B7A81F83DDEE008E19D7 /* SwiftXLSX.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -583,7 +578,6 @@
 		8F7C52201F7D39E4004A91BC = {
 			isa = PBXGroup;
 			children = (
-				8F72E3A01F83DED9006C88F5 /* Zip.framework */,
 				8F7C522B1F7D39E4004A91BC /* Lift */,
 				8F7C52401F7D39E5004A91BC /* LiftTests */,
 				8F7C524B1F7D39E5004A91BC /* LiftUITests */,

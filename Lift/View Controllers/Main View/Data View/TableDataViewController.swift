@@ -44,6 +44,7 @@ class TableDataViewController: LiftMainViewController {
     private var currentForeignKey: ForeignKeyJump?
     private var customStart: CustomTableStart?
 
+
     /// Selection box columns -> TableDataColumn
     var columnMap: [Int: Int] {
         var colMap = [Int: Int]()
@@ -568,6 +569,16 @@ extension TableDataViewController: NSTableViewDataSource {
 
 
 extension TableDataViewController: NSMenuDelegate {
+
+    func tableView(_ tableView: NSTableView, didClick tableColumn: NSTableColumn) {
+        if let provider = selectedTable {
+            clearTable()
+            data = TableData(provider: provider, customQuery: queryString, customSorting: [ColumnSort(column: tableColumn.title, asc: true)])
+            data?.delegate = self
+            resetTableView()
+        }
+
+    }
 
     func menuNeedsUpdate(_ menu: NSMenu) {
 

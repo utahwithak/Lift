@@ -77,6 +77,10 @@ class SQLiteTextView: NSTextView {
                 }
             }
             return true
+        } else if let strings = pasteBoard.readObjects(forClasses: [NSString.self], options:nil) as? [String], strings.count > 0 {
+            for text in strings {
+                self.textStorage?.append(NSAttributedString(string: text))
+            }
         }
 
         return false

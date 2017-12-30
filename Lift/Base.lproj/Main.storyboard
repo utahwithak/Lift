@@ -601,6 +601,7 @@
                         <outlet property="attachDetachSegmentedControl" destination="Ghq-vz-OSa" id="GEt-Go-AMR"/>
                         <outlet property="autocommitSegmentedControl" destination="gdz-FJ-XcE" id="psT-sI-TGS"/>
                         <outlet property="panelSegmentedControl" destination="XSQ-Ui-Qgp" id="yGd-mf-HWQ"/>
+                        <outlet property="viewTypeSegmentedControl" destination="LIU-Wu-PGd" id="cd3-ZE-I7q"/>
                         <segue destination="bWf-RV-w4Q" kind="relationship" relationship="window.shadowedContentViewController" id="CvV-d2-e5n"/>
                     </connections>
                 </windowController>
@@ -4446,7 +4447,7 @@ DQ
                                     <rect key="frame" x="1" y="1" width="450" height="232"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="34" rowSizeStyle="automatic" viewBased="YES" id="Lhc-Hh-UAx">
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="34" rowSizeStyle="automatic" viewBased="YES" id="Lhc-Hh-UAx">
                                             <rect key="frame" x="0.0" y="0.0" width="450" height="232"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -5173,6 +5174,7 @@ Gw
                             <progressIndicator wantsLayer="YES" maxValue="1" style="bar" translatesAutoresizingMaskIntoConstraints="NO" id="DlM-le-6vf">
                                 <rect key="frame" x="20" y="44" width="410" height="20"/>
                                 <connections>
+                                    <binding destination="6Wr-UB-PWs" name="isIndeterminate" keyPath="self.indeterminant" id="Bri-jX-mhh"/>
                                     <binding destination="6Wr-UB-PWs" name="value" keyPath="self.progress" id="dOZ-Tb-LRY"/>
                                 </connections>
                             </progressIndicator>
@@ -5197,6 +5199,9 @@ Gw
                             <constraint firstItem="KeW-h5-xAt" firstAttribute="top" secondItem="DlM-le-6vf" secondAttribute="bottom" constant="8" id="zdn-gq-eFS"/>
                         </constraints>
                     </view>
+                    <connections>
+                        <outlet property="indicator" destination="DlM-le-6vf" id="5QJ-I4-bau"/>
+                    </connections>
                 </viewController>
                 <customObject id="uz4-ra-v54" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -5229,6 +5234,6 @@ Gw
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="Nw9-SG-VTH"/>
-        <segue reference="Psl-tF-5nh"/>
+        <segue reference="fav-H4-dey"/>
     </inferredMetricsTieBreakers>
 </document>

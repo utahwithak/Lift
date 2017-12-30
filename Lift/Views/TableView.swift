@@ -31,9 +31,8 @@ extension CGRect {
     }
 }
 
-
 class TableView: NSTableView {
-
+    
     override var selectedRow: Int {
         return selectionBoxes.first?.startRow ?? -1
     }
@@ -90,7 +89,6 @@ class TableView: NSTableView {
         didSet {
             refreshSelection()
         }
-
     }
 
     @IBAction func copy(sender: Any) {

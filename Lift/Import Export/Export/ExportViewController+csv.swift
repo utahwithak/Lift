@@ -65,7 +65,6 @@ extension ExportViewController {
                         throw LiftError.unableToCreateFile
                     }
 
-
                     let handle = try FileHandle(forWritingTo: tableURL)
 
                     handle.open()
