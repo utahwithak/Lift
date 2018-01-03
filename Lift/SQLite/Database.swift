@@ -42,7 +42,7 @@ class Database: NSObject {
             guard ret == SQLITE_OK, let connection = db else {
                 throw SQLiteError(connection: db, code: ret, sql: "Opening with: \(dbName)")
             }
-            self.init(connection: connection, name: name, refresh: false)
+            self.init(connection: connection, name: name)
             Database.inMemoryCount += 1
         case .disk(path:let path, name:let name):
             var db: sqlite3?
@@ -59,7 +59,7 @@ class Database: NSObject {
                 throw SQLiteError(connection: db, code: ret, sql: "Opening path:\(path.path)")
             }
 
-            self.init(connection: connection, name: "main", refresh: false)
+            self.init(connection: connection, name: "main")
         }
 
     }
@@ -91,18 +91,11 @@ class Database: NSObject {
         }
     }
 
-    private init(connection: sqlite3, name: String, refresh: Bool = true) {
+    private init(connection: sqlite3, name: String) {
         self.connection = connection
         self.name = name
 
         super.init()
-
-        if refresh {
-            // return asap and refresh on the next go around
-            DispatchQueue.global(qos: .background).async {
-                self.refresh()
-            }
-        }
 
         if name == "main" {
             foreignKeysEnabled = true
@@ -232,10 +225,12 @@ class Database: NSObject {
                     tempDatabase = Database(connection: connection, name: name)
                     tempDatabase?.mainDB = self
                     tempDatabase?.path = path
+                    tempDatabase?.refresh()
                 } else {
                     let childDB = Database(connection: self.connection, name: name)
                     childDB.mainDB = self
                     childDB.path = path
+                    childDB.refresh()
                     attachedDatabases.append(childDB)
                 }
 

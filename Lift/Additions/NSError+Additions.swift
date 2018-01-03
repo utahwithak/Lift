@@ -10,31 +10,45 @@ import Foundation
 
 extension NSError {
     var isUserCanceledError: Bool {
-        return code == LiftError.userCanceled.rawValue && domain == LiftError.errorDomain
+        return code == LiftError.userCanceled.errorCode && domain == LiftError.errorDomain
     }
 }
 
 
-enum LiftError: Int, CustomNSError {
+enum LiftError: CustomNSError {
 
-    case unknownOperationError  = -1
-    case noQueryError           = -2
-    case unableToCreateFile     = -3
-    case invalidUsage           = -4
-    case integrityCheck         = -5
-    case userCanceled           = -6
-    case invalidBind            = -7
-    case invalidColumn          = -8
-    case invalidTable           = -9
-    case noDatabase             = -10
-    case unknownBindType        = -11
+    case unknownOperationError
+    case noQueryError
+    case unableToCreateFile
+    case invalidUsage
+    case integrityCheck
+    case userCanceled
+    case invalidBind
+    case invalidColumn
+    case invalidTable
+    case noDatabase
+    case unknownBindType
+    case invalidXMLName(String)
 
     public static var errorDomain: String {
         return "com.datumapps.lift"
     }
 
     var errorCode: Int {
-        return self.rawValue
+        switch self {
+        case .unknownOperationError:    return -1
+        case .noQueryError:             return -2
+        case .unableToCreateFile:       return -3
+        case .invalidUsage:             return -4
+        case .integrityCheck:           return -5
+        case .userCanceled:             return -6
+        case .invalidBind:              return -7
+        case .invalidColumn:            return -8
+        case .invalidTable:             return -9
+        case .noDatabase:               return -10
+        case .unknownBindType:          return -11
+        case .invalidXMLName(_):       return -12
+        }
     }
 
     // To make it work when casting to NSError's
@@ -44,17 +58,18 @@ enum LiftError: Int, CustomNSError {
 
     var localizedDescription: String {
         switch self {
-            case .unknownOperationError: return NSLocalizedString("Operation Failed, unknown error occurred", comment: "Unknown error description")
-            case .noQueryError: return NSLocalizedString("No Query Error", comment: "Missing query when attempting to execute")
-            case .unableToCreateFile: return NSLocalizedString("Failed to create file", comment: "Unable to create CSV file error")
-            case .invalidUsage: return NSLocalizedString("Invalid usage!", comment: "Invalid usage error message")
-            case .integrityCheck: return NSLocalizedString("Invalid return from Integrity check!", comment: "Message when the inetrigty check returns something unexpected!")
-            case .userCanceled: return NSLocalizedString("User Canceled", comment: "Error description when canceling in the middle of a query")
-            case .invalidBind: return NSLocalizedString("Attempting to bind an argument thats not there!", comment: " Error when attempting to bind an argument thats not there")
-            case .invalidColumn: return NSLocalizedString("Invalid column info", comment: "Error message when there is invalid format for pragma table_info")
-            case .invalidTable: return NSLocalizedString("Invalid table data row", comment: "Invalid sqlite master row data error")
-            case .noDatabase: return  NSLocalizedString("No Database!", comment: "No database error")
-            case .unknownBindType: return NSLocalizedString("Unable to bind value, unknown type", comment: "Attempted to bind object with unknown type.")
+        case .unknownOperationError: return NSLocalizedString("Operation Failed, unknown error occurred", comment: "Unknown error description")
+        case .noQueryError: return NSLocalizedString("No Query Error", comment: "Missing query when attempting to execute")
+        case .unableToCreateFile: return NSLocalizedString("Failed to create file", comment: "Unable to create CSV file error")
+        case .invalidUsage: return NSLocalizedString("Invalid usage!", comment: "Invalid usage error message")
+        case .integrityCheck: return NSLocalizedString("Invalid return from Integrity check!", comment: "Message when the inetrigty check returns something unexpected!")
+        case .userCanceled: return NSLocalizedString("User Canceled", comment: "Error description when canceling in the middle of a query")
+        case .invalidBind: return NSLocalizedString("Attempting to bind an argument thats not there!", comment: " Error when attempting to bind an argument thats not there")
+        case .invalidColumn: return NSLocalizedString("Invalid column info", comment: "Error message when there is invalid format for pragma table_info")
+        case .invalidTable: return NSLocalizedString("Invalid table data row", comment: "Invalid sqlite master row data error")
+        case .noDatabase: return  NSLocalizedString("No Database!", comment: "No database error")
+        case .unknownBindType: return NSLocalizedString("Unable to bind value, unknown type", comment: "Attempted to bind object with unknown type.")
+        case .invalidXMLName(let name): return String(format: NSLocalizedString("Attempting to include \"%@\" in xml, which is invalid", comment: "error when attempting to export a name that contains invalid xml"), name);
         }
     }
 }

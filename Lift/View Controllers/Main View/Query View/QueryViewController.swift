@@ -34,7 +34,7 @@ class QueryViewController: LiftMainViewController {
 
     lazy var snippetViewController: SnippetViewController = {
         let vc =  self.storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("snippetViewController")) as! SnippetViewController
-
+        vc.snippetDataProvider = self
         return vc
     }()
 
@@ -139,6 +139,12 @@ extension QueryViewController: BottomEditorContentProvider {
 
     var editorViewController: LiftViewController {
         return self.resultsViewController
+    }
+
+}
+extension QueryViewController: SnippetDataDelegate {
+    var currentSQL: String {
+        return sqlView.string
     }
 
 }

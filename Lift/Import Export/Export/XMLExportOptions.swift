@@ -10,11 +10,19 @@ import Foundation
 
 class XMLExportOptions: ExportOptions {
 
+    override init() {
+        super.init()
+        nullPlaceHolder = ""
+    }
+
+    required init(from decoder: Decoder) throws {
+        try super.init(from: decoder)
+    }
     /// Include All tables in single file or separate file per table. Combined would be something like:
     /// <Database> 
-    ///   <tableA> ...
-    ///   </tableA>
-    ///   <tableB>
+    ///   <table name="A"> ...
+    ///   </table>
+    ///   <table name="B">
     ///    ....
     /// </Database>
     @objc dynamic var separateFilePerTable: Bool = false
@@ -28,17 +36,13 @@ class XMLExportOptions: ExportOptions {
     ///
     @objc dynamic var rowName: String = "Row"
 
-    /// use attribues on an element named `rowName`
-    ///
-    @objc dynamic var useAttributes: Bool = false
+    @objc dynamic var dataSectionName: String = "data"
 
     @objc dynamic var rootNodeName: String = "database"
 
     @objc dynamic var useNamesForElements: Bool = true
 
-    @objc dynamic var allowInvalidXML: Bool = false
-
-    @objc dynamic var alwaysIncludeProperties: Bool = true
+    @objc dynamic var includeProperties: Bool = true
 
     /// converts options into the `XMLNode.Option` int val
     ///

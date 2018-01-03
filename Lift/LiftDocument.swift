@@ -10,16 +10,19 @@ import Cocoa
 
 class LiftDocument: NSDocument {
 
-    @objc dynamic let database: Database
+    private var observationListener: NSObjectProtocol?
+
+    @objc dynamic public private(set) var database: Database {
+        didSet {
+            updateListeners()
+        }
+    }
 
     override init() {
         database = try! Database(type: .inMemory(name: "main"))
         super.init()
+        updateListeners()
 
-    }
-
-    override var isDocumentEdited: Bool {
-        return false
     }
     
     override func canClose(withDelegate delegate: Any, shouldClose shouldCloseSelector: Selector?, contextInfo: UnsafeMutableRawPointer?) {
@@ -75,13 +78,15 @@ class LiftDocument: NSDocument {
 
     }
     init(contentsOf url: URL, ofType typeName: String) throws {
+    
         SQLiteDocumentPresenter.addPresenters(for: url)
 
         database = try Database(type: .disk(path: url, name: "main"))
-
         super.init()
         fileURL = url
         displayName = url.lastPathComponent
+        refresh()
+        updateListeners()
 
     }
 
@@ -96,9 +101,80 @@ class LiftDocument: NSDocument {
         self.addWindowController(windowController)
     }
 
-    override func save(to url: URL, ofType typeName: String, for saveOperation: NSDocument.SaveOperationType, completionHandler: @escaping (Error?) -> Void) {
+    override func save(_ sender: Any?) {
+        if database.autocommitStatus == .inTransaction {
+            do {
+                try database.endTransaction()
+            } catch {
+                presentError(error)
 
-        completionHandler(nil)
+            }
+        }
+    }
+
+    override func save(to url: URL, ofType typeName: String, for saveOperation: NSDocument.SaveOperationType, completionHandler: @escaping (Error?) -> Void) {
+        if fileURL == nil {
+            var pFile: sqlite3?;           /* Database connection opened on zFilename */
+
+            var rc = sqlite3_open(url.path, &pFile)
+            SQLiteDocumentPresenter.addPresenters(for: url)
+
+            guard rc == SQLITE_OK, let pTo = pFile else {
+                let error = SQLiteError(connection: nil, code: rc, sql: "sqlite3_open")
+                completionHandler(error)
+                return
+            }
+
+            if let pBackup = sqlite3_backup_init(pTo, "main", database.connection, "main") {
+                sqlite3_backup_step(pBackup, -1)
+                sqlite3_backup_finish(pBackup)
+                rc = sqlite3_errcode(pTo)
+                guard rc == SQLITE_OK else {
+                    let error = SQLiteError(connection: nil, code: rc, sql: "sqlite3_backup_step")
+                    completionHandler(error)
+                    return
+                }
+                fileURL = url
+                do {
+
+                    database = try Database(type: .disk(path: url, name: "main"))
+                    refresh()
+                } catch {
+                    completionHandler(error)
+                }
+            } else {
+                let error = NSError(domain: "com.datumapps.lift", code: -1, userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("Failed to initialize backup", comment: "Error string")])
+                completionHandler(error)
+            }
+            /* Close the database connection opened on database file zFilename
+             ** and return the result of this function. */
+            sqlite3_close(pTo)
+            return
+
+        }
+
+        if database.autocommitStatus == .inTransaction {
+            do {
+                try database.endTransaction()
+            } catch {
+                completionHandler(error)
+            }
+        }
+
+        if let curURL = fileURL, curURL != url {
+
+            do {
+                SQLiteDocumentPresenter.addPresenters(for: url)
+                try FileManager.default.moveItem(at: curURL, to: url)
+                fileURL = curURL
+                completionHandler(nil)
+            } catch {
+                completionHandler(error)
+
+            }
+
+        }
+
 
     }
 
@@ -130,6 +206,20 @@ class LiftDocument: NSDocument {
 
     func checkForeignKeys() throws -> Bool {
         return try database.checkForeignKeyIntegrity()
+    }
+
+    private func updateListeners() {
+        observationListener = NotificationCenter.default.addObserver(forName: .AutocommitStatusChanged, object: database, queue: OperationQueue.main ) { [weak self] (notitifcation) in
+            guard let mySelf = self else {
+                return
+            }
+
+            if mySelf.database.autocommitStatus == .inTransaction {
+                mySelf.updateChangeCount(NSDocument.ChangeType.changeDone)
+            } else {
+                mySelf.updateChangeCount(NSDocument.ChangeType.changeCleared)
+            }
+        }
     }
 
 }

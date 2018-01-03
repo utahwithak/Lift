@@ -149,10 +149,39 @@ class ImportViewController: LiftViewController {
                     let newView = NSTabViewItem(viewController: importView)
                     self.tabView.addTabViewItem(newView)
                 }
+            case .xml(let document):
+                do {
+                    let tables = try self.parseXML(document: document)
+                    for table in tables {
+
+                        guard let importView = self.storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("importDataView")) as? ImportDataViewController else {
+                            return
+                        }
+                        importView.delegate = self
+
+                        importView.data = table.data
+                        importView.title = table.possibleName
+                        importView.representedObject = self.representedObject
+
+                        let newView = NSTabViewItem(viewController: importView)
+                        self.tabView.addTabViewItem(newView)
+                    }
+                } catch {
+                    self.presentError(error)
+                }
             default:
                 print("type:\(importType)")
             }
         }
+    }
+
+    struct ImportTableInformation {
+        let possibleName: String
+        let data: [[Any?]]
+    }
+    private func parseXML(document: XMLDocument) throws -> [ImportTableInformation] {
+
+        return []
     }
 
 }
@@ -254,59 +283,6 @@ extension ImportViewController: TabControlDatasource {
     }
 }
 
-
-
-fileprivate enum ImportType {
-
-    case failed
-    case xml
-    case json
-    case sqlite
-    case xlsx(XLSXDocument)
-    case text(String, String.Encoding)
-
-    static func importType(for url: URL) -> ImportType {
-        
-        guard var data = try? Data(contentsOf: url, options: .mappedIfSafe) else {
-            return .failed
-        }
-        
-        do {
-            _ = try JSONSerialization.jsonObject(with: data, options: [])
-            return .json
-        } catch {
-            print("file's not JSON")
-        }
-
-        if let workbook = try? XLSXDocument(path: url) {
-            return .xlsx(workbook)
-        }
-
-        do {
-            _ = try XMLDocument(contentsOf: url, options: [])
-            return .xml
-        } catch {
-            print("Not XML")
-        }
-
-        let simpleString = data.withUnsafeMutableBytes { (ptr: UnsafeMutablePointer<UInt8>) -> ImportType? in
-            let unsafePtr = UnsafeMutableRawPointer(ptr)
-            if let str = String(bytesNoCopy: unsafePtr, length: data.count, encoding: .utf8, freeWhenDone: false) {
-                return .text(str, .utf8)
-            } else if let rom = String(bytesNoCopy: unsafePtr, length: data.count, encoding: .macOSRoman, freeWhenDone: false) {
-                return .text(rom, .macOSRoman)
-            }
-            return nil
-        }
-
-        if let type = simpleString {
-            return type
-        } else {
-            return .failed
-        }
-    }
-
-}
 
 extension Sheet {
     func sqliteData() -> [[Any?]] {

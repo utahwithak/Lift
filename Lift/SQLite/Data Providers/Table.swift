@@ -222,66 +222,49 @@ class Table: DataProvider {
     func exportToXML(columns: [Column], with options: XMLExportOptions) throws -> XMLElement {
 
         let query = try exportQuery(for: columns)
-        let tableElementName = ((name.isValidXMLElementName || options.allowInvalidXML) && options.useNamesForElements) ? name : "table"
-        let tableElement = XMLElement(name: tableElementName)
 
-        if options.alwaysIncludeProperties || (!name.isValidXMLElementName && !options.allowInvalidXML) || !options.useNamesForElements {
+        let tableElementName = "table"
+        let tableElement = XMLElement(name: tableElementName)
+        tableElement.addAttribute(name: "name", value: name)
+
+        if options.includeProperties {
             let tableProperties = XMLElement(name: "properities")
             tableElement.addChild(tableProperties)
-            tableProperties.addChild(XMLElement(name: "name", stringValue: name))
+            tableProperties.addChild(XMLElement(name: "tableName", stringValue: name))
             let columnElements = XMLElement(name: "columns")
             tableProperties.addChild(columnElements)
             for column in columns {
                 let colElement = XMLElement(name: "column")
-                colElement.addAttribute(name: "name", value:column.name)
+                colElement.addChild(XMLElement(name: "name", stringValue: column.name))
+                colElement.addChild(XMLElement(name: "type", stringValue: column.type))
                 columnElements.addChild(colElement)
             }
         }
 
-        let names = columns.enumerated().map({
-            return (($0.1.name.isValidXMLElementName || options.allowInvalidXML) && options.useNamesForElements) ? $0.1.name : "column\($0.0)"
-        })
-        let dataElement = XMLElement(name: "rows")
+
+        let dataElement = XMLElement(name: options.dataSectionName)
         tableElement.addChild(dataElement)
 
         try query.processRows(handler: { row in
 
             let rowElement = XMLElement(name: options.rowName)
 
-
-            let converter: (SQLiteData) -> String  = { data in
+            for data in row {
+                let element: XMLElement
                 switch data {
                 case .null:
-                    return options.nullPlaceHolder
+                    element = XMLElement(name:"null", stringValue:options.nullPlaceHolder)
                 case .integer(let val):
-                    return "\(val)"
+                    element = XMLElement(name:"integer", stringValue:"\(val)")
                 case .float(let doub):
-                    return "\(doub)"
+                    element = XMLElement(name:"double", stringValue:"\(doub)")
                 case .text(let str):
-                    return str
+                    element = XMLElement(name:"text", stringValue:str)
                 case .blob(let data):
-                    if options.exportRawBlobData {
-                        return data.hexEncodedString()
-                    } else {
-                        return options.blobDataPlaceHolder
-                    }
+                    element = XMLElement(name:"blob", stringValue: options.exportRawBlobData ? data.hexEncodedString() : options.blobDataPlaceHolder)
                 }
-            }
 
-            for (i, name) in names.enumerated() {
-
-                if options.useAttributes {
-
-                    let attribute = XMLNode(kind: .attribute)
-                    attribute.name = name
-                    attribute.stringValue = converter(row[i])
-                    rowElement.addAttribute(attribute)
-
-
-                } else {
-                    let columnElement = XMLElement(name: name, stringValue: converter(row[i]))
-                    rowElement.addChild(columnElement)
-                }
+                rowElement.addChild(element)
             }
 
             dataElement.addChild(rowElement)

@@ -49,7 +49,7 @@ class SQLiteTextView: NSTextView {
     }
 
     func refresh() {
-        highlighter.recolorAll()
+        highlighter.highlight(self)
     }
 
     override func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
@@ -67,6 +67,10 @@ class SQLiteTextView: NSTextView {
 
     override func performDragOperation(_ draggingInfo: NSDraggingInfo) -> Bool {
 
+        defer {
+            highlighter.highlight(self)
+        }
+
         let pasteBoard = draggingInfo.draggingPasteboard()
 
 
@@ -77,13 +81,7 @@ class SQLiteTextView: NSTextView {
                 }
             }
             return true
-        } else if let strings = pasteBoard.readObjects(forClasses: [NSString.self], options:nil) as? [String], strings.count > 0 {
-            for text in strings {
-                self.textStorage?.append(NSAttributedString(string: text))
-            }
         }
-
-        return false
-
+        return super.performDragOperation(draggingInfo)
     }
 }

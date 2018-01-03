@@ -44,6 +44,8 @@ func ==(lhs: DetailSection, rhs: DetailSection) -> Bool {
     switch (lhs, rhs) {
     case (.database, .database), (.table,.table):
         return true
+    case (.custom(let lI, let lVc ), .custom(let rI, let rVc)):
+        return lI == rI && lVc == rVc
     default:
         return false
     }
@@ -65,15 +67,6 @@ class SideBarDetailsViewController: LiftViewController {
         }
     }
 
-    private func clearRepresentedObjects() {
-        for item in tabControl.tabViewItems {
-            if let vc = item.viewController as? LiftViewController {
-                vc.representedObject = nil
-            }
-        }
-
-    }
-
     weak var contentProvider: DetailsContentProvider? {
         didSet {
             sections = contentProvider?.preferredSections ?? [.database]
@@ -87,11 +80,11 @@ class SideBarDetailsViewController: LiftViewController {
             if pastIndex >= 0 && pastIndex < oldValue.count {
                 pastVal = oldValue[pastIndex]
             }
-            refreshSegmentedControl(oldSelection: pastVal )
+            refreshSegmentedControl(oldSelection: pastVal, oldValues: oldValue)
         }
     }
 
-    private func refreshSegmentedControl(oldSelection: DetailSection?) {
+    private func refreshSegmentedControl(oldSelection: DetailSection?, oldValues: [DetailSection]) {
 
         let images = sections.map({ $0.image })
         let segmentedControl = HiddenSegmentedControl(images: images, trackingMode: .selectAny, target: self, action: #selector(changeTab))
@@ -105,7 +98,36 @@ class SideBarDetailsViewController: LiftViewController {
 
 
         self.segmentedControl = segmentedControl
-        refreshTabs()
+
+        for (index,section) in sections.enumerated() {
+            if index < oldValues.count && section == oldValues[index] && index < tabControl.numberOfTabViewItems, let vc = tabControl.tabViewItem(at: index).viewController {
+                vc.representedObject = representedObject
+                continue
+            } else {
+                if index < tabControl.numberOfTabViewItems {
+                    tabControl.tabViewItem(at: index).viewController?.representedObject = nil
+                    tabControl.removeTabViewItem(at: index)
+                }
+            }
+
+            var item: NSTabViewItem?
+            if let identifier = section.identifier, let vc = storyboard?.instantiateController(withIdentifier: identifier) as? LiftViewController {
+                vc.representedObject = representedObject
+                item = NSTabViewItem(viewController: vc)
+            } else if case .custom(_, let viewController) = section {
+                viewController.representedObject = representedObject
+                 item = NSTabViewItem(viewController: viewController)
+            }
+
+            if let item = item {
+                if index < tabControl.numberOfTabViewItems {
+                    tabControl.insertTabViewItem(item, at: index)
+                } else {
+                    tabControl.addTabViewItem(item)
+                }
+            }
+        }
+
         var index = 0
         if let old = oldSelection, let newIndex = sections.index(of: old) {
             index = newIndex
@@ -118,24 +140,6 @@ class SideBarDetailsViewController: LiftViewController {
 
     @objc private func changeTab(_ control: HiddenSegmentedControl) {
         tabControl.selectTabViewItem(at: control.selectedSegment)
-    }
-
-    private func refreshTabs() {
-        clearRepresentedObjects()
-
-        tabControl.removeAllItems()
-
-        for section in sections {
-            if let identifier = section.identifier, let vc = storyboard?.instantiateController(withIdentifier: identifier) as? LiftViewController {
-                    vc.representedObject = representedObject
-                    let item = NSTabViewItem(viewController: vc)
-                    tabControl.addTabViewItem(item)
-            } else if case .custom(_, let viewController) = section {
-                viewController.representedObject = representedObject
-                let item = NSTabViewItem(viewController: viewController)
-                tabControl.addTabViewItem(item)
-            }
-        }
     }
 
 }

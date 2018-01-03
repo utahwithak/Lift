@@ -32,6 +32,13 @@ class LiftViewController: NSViewController {
         super.viewDidLoad()
     }
 
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        selectedTable = windowController?.selectedTable
+
+    }
+
+
     @objc public func selectedTableChanged(_ notification: Notification) {
         if windowController == nil && (notification.object as? LiftWindowController)?.document === document {
             selectedTable = (notification.object as? LiftWindowController)?.selectedTable
@@ -43,7 +50,6 @@ class LiftViewController: NSViewController {
     override var representedObject: Any? {
         didSet {
             document = representedObject as? LiftDocument
-
             NotificationCenter.default.addObserver(self, selector: #selector(selectedTableChanged), name: .selectedTableChanged, object: nil)
 
         }

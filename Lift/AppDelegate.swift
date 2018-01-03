@@ -22,5 +22,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         // Insert code here to tear down your application
     }
 
+    func applicationShouldOpenUntitledFile(_ sender: NSApplication) -> Bool {
+
+        showWelcomeToLiftWindow(sender)
+        return false
+    }
+
+    @IBAction func showWelcomeToLiftWindow(_ sender: Any) {
+        for window in NSApp.windows {
+            if window.contentViewController is WelcomeViewController {
+                window.makeKeyAndOrderFront(self)
+                return
+            }
+        }
+    }
+
 }
 

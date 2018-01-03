@@ -45,6 +45,7 @@
 		8F6273E21F85C291007055D9 /* SQLiteTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6273E11F85C291007055D9 /* SQLiteTextView.swift */; };
 		8F6273E51F85C2C0007055D9 /* SQLiteSyntaxHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6273E41F85C2C0007055D9 /* SQLiteSyntaxHighlighter.swift */; };
 		8F63DE1A1FBB237F008F2DA0 /* NSError+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F63DE191FBB237F008F2DA0 /* NSError+Additions.swift */; };
+		8F6A8A911FFC090800F093F1 /* ImportType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6A8A901FFC090800F093F1 /* ImportType.swift */; };
 		8F6B42BB1F94EAD200110EC6 /* NSTreeController+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6B42BA1F94EAD200110EC6 /* NSTreeController+Additions.swift */; };
 		8F72E3A51F83E0D0006C88F5 /* SideBarBrowseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F72E3A41F83E0D0006C88F5 /* SideBarBrowseViewController.swift */; };
 		8F72E3AC1F83F415006C88F5 /* SQLiteError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F72E3AB1F83F415006C88F5 /* SQLiteError.swift */; };
@@ -83,6 +84,7 @@
 		8F84D24B1F8AFA5000CF4B08 /* RowCountFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F84D24A1F8AFA5000CF4B08 /* RowCountFormatter.swift */; };
 		8F84D24E1F8B04FA00CF4B08 /* TableDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F84D24D1F8B04FA00CF4B08 /* TableDataViewController.swift */; };
 		8F8FA7311F92CE8500783C5C /* PassthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8FA7301F92CE8500783C5C /* PassthroughView.swift */; };
+		8F9114A21FF84A6C000B6D6A /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9114A11FF84A6C000B6D6A /* WelcomeViewController.swift */; };
 		8F921DB61F7EB85000464D27 /* ForeignKeyDeferStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F921DB51F7EB85000464D27 /* ForeignKeyDeferStatement.swift */; };
 		8F921DB91F7ECD4500464D27 /* ColumnConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F921DB81F7ECD4500464D27 /* ColumnConstraint.swift */; };
 		8F921DBB1F7ECD7100464D27 /* ForeignKeyColumnConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F921DBA1F7ECD7100464D27 /* ForeignKeyColumnConstraint.swift */; };
@@ -112,6 +114,7 @@
 		8FAF33501FA2AE6A003ACFC7 /* NSTabView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAF334F1FA2AE6A003ACFC7 /* NSTabView+Additions.swift */; };
 		8FAF33521FA2AF5D003ACFC7 /* DatabaseDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAF33511FA2AF5D003ACFC7 /* DatabaseDetailsViewController.swift */; };
 		8FB3CB4D1F8BEFBA003D2D94 /* Data+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB3CB4C1F8BEFBA003D2D94 /* Data+Additions.swift */; };
+		8FB7CC981FFBFE0100D5CDC0 /* URLPathFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB7CC971FFBFE0100D5CDC0 /* URLPathFormatter.swift */; };
 		8FB9F14D1F7D72220090FA53 /* ColumnDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F14C1F7D72220090FA53 /* ColumnDefinition.swift */; };
 		8FB9F14F1F7DC6EA0090FA53 /* TableConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F14E1F7DC6EA0090FA53 /* TableConstraint.swift */; };
 		8FB9F1511F7E7FA40090FA53 /* IndexedColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1501F7E7FA40090FA53 /* IndexedColumn.swift */; };
@@ -238,6 +241,7 @@
 		8F6273E11F85C291007055D9 /* SQLiteTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteTextView.swift; sourceTree = "<group>"; };
 		8F6273E41F85C2C0007055D9 /* SQLiteSyntaxHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteSyntaxHighlighter.swift; sourceTree = "<group>"; };
 		8F63DE191FBB237F008F2DA0 /* NSError+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSError+Additions.swift"; sourceTree = "<group>"; };
+		8F6A8A901FFC090800F093F1 /* ImportType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportType.swift; sourceTree = "<group>"; };
 		8F6B42BA1F94EAD200110EC6 /* NSTreeController+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSTreeController+Additions.swift"; sourceTree = "<group>"; };
 		8F72E3A41F83E0D0006C88F5 /* SideBarBrowseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarBrowseViewController.swift; sourceTree = "<group>"; };
 		8F72E3AB1F83F415006C88F5 /* SQLiteError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteError.swift; sourceTree = "<group>"; };
@@ -283,6 +287,7 @@
 		8F84D24A1F8AFA5000CF4B08 /* RowCountFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowCountFormatter.swift; sourceTree = "<group>"; };
 		8F84D24D1F8B04FA00CF4B08 /* TableDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableDataViewController.swift; sourceTree = "<group>"; };
 		8F8FA7301F92CE8500783C5C /* PassthroughView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassthroughView.swift; sourceTree = "<group>"; };
+		8F9114A11FF84A6C000B6D6A /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		8F921DB51F7EB85000464D27 /* ForeignKeyDeferStatement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForeignKeyDeferStatement.swift; sourceTree = "<group>"; };
 		8F921DB81F7ECD4500464D27 /* ColumnConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnConstraint.swift; sourceTree = "<group>"; };
 		8F921DBA1F7ECD7100464D27 /* ForeignKeyColumnConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForeignKeyColumnConstraint.swift; sourceTree = "<group>"; };
@@ -312,6 +317,7 @@
 		8FAF334F1FA2AE6A003ACFC7 /* NSTabView+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSTabView+Additions.swift"; sourceTree = "<group>"; };
 		8FAF33511FA2AF5D003ACFC7 /* DatabaseDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseDetailsViewController.swift; sourceTree = "<group>"; };
 		8FB3CB4C1F8BEFBA003D2D94 /* Data+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Additions.swift"; sourceTree = "<group>"; };
+		8FB7CC971FFBFE0100D5CDC0 /* URLPathFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLPathFormatter.swift; sourceTree = "<group>"; };
 		8FB9F14C1F7D72220090FA53 /* ColumnDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColumnDefinition.swift; sourceTree = "<group>"; };
 		8FB9F14E1F7DC6EA0090FA53 /* TableConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableConstraint.swift; sourceTree = "<group>"; };
 		8FB9F1501F7E7FA40090FA53 /* IndexedColumn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexedColumn.swift; sourceTree = "<group>"; };
@@ -529,6 +535,17 @@
 			path = "Log View Controller";
 			sourceTree = "<group>";
 		};
+		8F6A8A931FFC092000F093F1 /* Import */ = {
+			isa = PBXGroup;
+			children = (
+				8FBE0F031FCE491900ABFD1E /* TextImportViewController.swift */,
+				8F1BC6321FCF47C500128351 /* ImportDataViewController.swift */,
+				8FEFD4C01F9F7B4200C6C75A /* ImportViewController.swift */,
+				8F6A8A901FFC090800F093F1 /* ImportType.swift */,
+			);
+			path = Import;
+			sourceTree = "<group>";
+		};
 		8F72E3BD1F840B17006C88F5 /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -599,10 +616,11 @@
 			isa = PBXGroup;
 			children = (
 				8F7C522C1F7D39E5004A91BC /* AppDelegate.swift */,
+				8F7C52341F7D39E5004A91BC /* Main.storyboard */,
 				8F7C52301F7D39E5004A91BC /* LiftDocument.swift */,
 				8F11B7901F83D2A9008E19D7 /* LiftWindowController.swift */,
 				8FEFD4C21F9F7FB000C6C75A /* LiftDocumentController.swift */,
-				8F7C52341F7D39E5004A91BC /* Main.storyboard */,
+				8F91149F1FF84A57000B6D6A /* Welcome Screen */,
 				8FA148DB1F8D2F4800644638 /* View Controllers */,
 				8FEFD4BC1F9F7AC300C6C75A /* Import Export */,
 				8F72E3BD1F840B17006C88F5 /* Views */,
@@ -661,6 +679,15 @@
 				8F805CCC1F7ED3EF0074FE6B /* NotNullColumnConstraint.swift */,
 			);
 			path = "Conflict Constraints";
+			sourceTree = "<group>";
+		};
+		8F91149F1FF84A57000B6D6A /* Welcome Screen */ = {
+			isa = PBXGroup;
+			children = (
+				8F9114A11FF84A6C000B6D6A /* WelcomeViewController.swift */,
+				8FB7CC971FFBFE0100D5CDC0 /* URLPathFormatter.swift */,
+			);
+			path = "Welcome Screen";
 			sourceTree = "<group>";
 		};
 		8F921DB71F7ECD0C00464D27 /* ColumnConstraints */ = {
@@ -791,9 +818,7 @@
 			isa = PBXGroup;
 			children = (
 				8F9565B81FB36EE5008FE038 /* Export */,
-				8FEFD4C01F9F7B4200C6C75A /* ImportViewController.swift */,
-				8FBE0F031FCE491900ABFD1E /* TextImportViewController.swift */,
-				8F1BC6321FCF47C500128351 /* ImportDataViewController.swift */,
+				8F6A8A931FFC092000F093F1 /* Import */,
 			);
 			path = "Import Export";
 			sourceTree = "<group>";
@@ -1001,6 +1026,7 @@
 				8F391B3C1F965850002D3AFE /* LiftMainSplitViewController.swift in Sources */,
 				8F9565D31FB36EFC008FE038 /* ExportViewController+JSON.swift in Sources */,
 				8F9565D91FB36F45008FE038 /* XMLElement+Additions.swift in Sources */,
+				8F6A8A911FFC090800F093F1 /* ImportType.swift in Sources */,
 				8F74A74C1F86A0E50069721E /* SideBarDetailsViewController.swift in Sources */,
 				8FD4FEA51F8C01420008D8DA /* CGPoint+Additions.swift in Sources */,
 				8FCADB341FE4A62E00C22E1D /* BrowseCellView.swift in Sources */,
@@ -1014,6 +1040,7 @@
 				8FC63CDB1FA2492000005591 /* LiftMainViewController.swift in Sources */,
 				8F11B7951F83DC1C008E19D7 /* Database.swift in Sources */,
 				8F4BECCE1FB68B63003DAA5E /* QueryResultsViewController.swift in Sources */,
+				8F9114A21FF84A6C000B6D6A /* WelcomeViewController.swift in Sources */,
 				8F4BECC21FB6861A003DAA5E /* BottomEditorContainer.swift in Sources */,
 				8F84D24E1F8B04FA00CF4B08 /* TableDataViewController.swift in Sources */,
 				8F7D84381F8BAF1D0053137B /* TableViewCell.swift in Sources */,
@@ -1052,6 +1079,7 @@
 				8FD4FE9F1F8BFE7E0008D8DA /* GraphViewsContainer.swift in Sources */,
 				8F7D84331F8BA3810053137B /* TableNumberView.swift in Sources */,
 				8F72E3A51F83E0D0006C88F5 /* SideBarBrowseViewController.swift in Sources */,
+				8FB7CC981FFBFE0100D5CDC0 /* URLPathFormatter.swift in Sources */,
 				8F921DBF1F7ECECB00464D27 /* DefaultColumnConstraint.swift in Sources */,
 				8FBE0F021FCE485600ABFD1E /* CWCSVParser.swift in Sources */,
 				8F6273E21F85C291007055D9 /* SQLiteTextView.swift in Sources */,

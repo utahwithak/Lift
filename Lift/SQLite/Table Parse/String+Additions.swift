@@ -10,12 +10,32 @@ import Foundation
 
 
 extension String {
-
-    public var isValidXMLElementName: Bool {
-
-        let set = CharacterSet(charactersIn: "&<>\"\n\t ")
-        return rangeOfCharacter(from: set) == nil
-    }
+//
+//    public var unescapeXMLString: String {
+//        var cpy = self
+//        cpy = cpy.replacingOccurrences(of:"&amp;" , with:"&" , options: .literal, range: nil)
+//        cpy = cpy.replacingOccurrences(of:"&quot;", with:"\"", options: .literal, range: nil)
+//        cpy = cpy.replacingOccurrences(of:"&#x27;", with:"'" , options: .literal, range: nil)
+//        cpy = cpy.replacingOccurrences(of:"&#39;" , with:"'" , options: .literal, range: nil)
+//        cpy = cpy.replacingOccurrences(of:"&#x92;", with:"'" , options: .literal, range: nil)
+//        cpy = cpy.replacingOccurrences(of:"&#x96;", with:"-" , options: .literal, range: nil)
+//        cpy = cpy.replacingOccurrences(of:"&gt;"  , with:">" , options: .literal, range: nil)
+//        cpy = cpy.replacingOccurrences(of:"&lt;"  , with:"<" , options: .literal, range: nil)
+//        return cpy
+//    }
+//
+//    public var xmlSafeString: String {
+//        var cpy = self
+//        cpy = cpy.replacingOccurrences(of:"&" , with:"&amp;" , options: .literal, range: nil)
+//        cpy = cpy.replacingOccurrences(of:"&quot;", with:"\"", options: .literal, range: nil)
+//        cpy = cpy.replacingOccurrences(of:"&#x27;", with:"'" , options: .literal, range: nil)
+//        cpy = cpy.replacingOccurrences(of:"&#39;" , with:"'" , options: .literal, range: nil)
+//        cpy = cpy.replacingOccurrences(of:"&#x92;", with:"'" , options: .literal, range: nil)
+//        cpy = cpy.replacingOccurrences(of:"&#x96;", with:"-" , options: .literal, range: nil)
+//        cpy = cpy.replacingOccurrences(of:"&gt;"  , with:">" , options: .literal, range: nil)
+//        cpy = cpy.replacingOccurrences(of:"&lt;"  , with:"<" , options: .literal, range: nil)
+//        return cpy
+//    }
 
     func CSVFormattedString(qouted: Bool, separator: String) -> String {
 

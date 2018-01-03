@@ -7,11 +7,21 @@
 //
 
 import Cocoa
+protocol SnippetDataDelegate: class {
+    var currentSQL: String { get }
+}
 
 class SnippetViewController: LiftViewController {
 
+    private let newSnippetIdentifier = NSStoryboardSegue.Identifier("newSnippet")
+    private let editSnippetIdentifer = NSStoryboardSegue.Identifier("editSnippet")
 
     @IBOutlet weak var tableView: NSTableView!
+
+    @IBOutlet var newSnippetMenu: NSMenu!
+    @IBOutlet var rightClickMenu: NSMenu!
+
+    public weak var snippetDataProvider: SnippetDataDelegate?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,29 +29,82 @@ class SnippetViewController: LiftViewController {
         tableView.doubleAction = #selector(editSnippet)
         tableView.target = self
         tableView.registerForDraggedTypes([NSPasteboard.PasteboardType.string])
+        
     }
 
+    @IBAction func duplicateSelected(_ sender: Any) {
 
-    @IBAction func removeSnippet(_ sender: Any) {
+        var selection = tableView.selectedRowIndexes
 
-         let index = tableView.selectedRow
-
-        guard index != -1 else {
-                return
+        if sender is NSMenuItem && tableView.clickedRow != -1 && !selection.contains(tableView.clickedRow) {
+            selection.removeAll()
         }
+
+        if selection.isEmpty && tableView.clickedRow != -1 {
+            selection.insert(tableView.clickedRow)
+        }
+
         tableView.beginUpdates()
-        tableView.removeRows(at: IndexSet(IndexPath(item: index, section: 0)), withAnimation: NSTableView.AnimationOptions.effectFade)
-        SnippetManager.shared.removeSnippet(at: index)
+        let preCount = SnippetManager.shared.numberOfSnippets
+        for index in selection {
+            let snippet = SnippetManager.shared.snippets[index]
+            SnippetManager.shared.addNewSnippet(snippet)
+        }
+        let postcount = SnippetManager.shared.numberOfSnippets
+        tableView.insertRows(at: IndexSet(preCount..<postcount), withAnimation: .effectFade)
         tableView.endUpdates()
 
     }
 
-    @objc private func editSnippet(_ sender: Any) {
-        performSegue(withIdentifier: NSStoryboardSegue.Identifier("editSnippet"), sender: self)
+    @IBAction func removeSnippet(_ sender: Any) {
+        var indexes = tableView.selectedRowIndexes
+
+        if sender is NSMenuItem && tableView.clickedRow != -1 && !indexes.contains(tableView.clickedRow) {
+            indexes.removeAll()
+        }
+
+        if indexes.isEmpty && tableView.clickedRow != -1 {
+            indexes.insert(tableView.clickedRow)
+        }
+
+        guard !indexes.isEmpty else {
+            return
+        }
+        tableView.beginUpdates()
+        tableView.removeRows(at: indexes, withAnimation: NSTableView.AnimationOptions.effectFade)
+
+        for index in indexes.reversed() {
+            SnippetManager.shared.removeSnippet(at: index)
+        }
+        tableView.endUpdates()
+
+    }
+
+    @objc @IBAction func editSnippet(_ sender: Any) {
+        if sender is NSMenuItem && tableView.clickedRow != -1 && (tableView.selectedRow != tableView.clickedRow || tableView.selectedRowIndexes.count > 1) {
+            tableView.selectRowIndexes(IndexSet([tableView.clickedRow]), byExtendingSelection: false)
+        }
+        performSegue(withIdentifier:editSnippetIdentifer , sender: self)
+    }
+
+    @IBAction func createNewSnippet(_ sender: Any) {
+        performSegue(withIdentifier: newSnippetIdentifier, sender: self)
+    }
+
+    @IBAction func createNewSnippetFromSQL(_ sender: Any) {
+        guard let delegate = snippetDataProvider, let editorView = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("snippetEditorView")) as? SnippetEditorViewController else {
+            return
+        }
+
+
+        editorView.snippet = Snippet(name: "Current SQL", description: "", sql: delegate.currentSQL )
+        editorView.delegate = self
+        presentViewControllerAsSheet(editorView)
+        
     }
 
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
-        if segue.identifier?.rawValue == "editSnippet", let dest = segue.destinationController as? SnippetEditorViewController {
+        if segue.identifier == editSnippetIdentifer, let dest = segue.destinationController as? SnippetEditorViewController {
             let selection = tableView.selectedRow
             if selection >= 0 {
                 dest.snippet = SnippetManager.shared.snippets[selection]
@@ -50,7 +113,6 @@ class SnippetViewController: LiftViewController {
                 dest.snippet = Snippet(name: "", description: "", sql: "")
             }
             dest.delegate = self
-
 
         } else if let dest = segue.destinationController as? SnippetEditorViewController {
             dest.snippet = Snippet(name: "", description: "", sql: "")
@@ -80,15 +142,15 @@ extension SnippetViewController: NSTableViewDataSource {
     }
 
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        return 59
+        return 33
     }
 
     func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
         pboard.declareTypes([.string], owner: self)
-        guard let first = rowIndexes.first else {
-            return false
-        }
-        pboard.setString(SnippetManager.shared.snippets[first].sql, forType: .string)
+
+        let sql = rowIndexes.sorted().map({ SnippetManager.shared.snippets[$0].sql }).joined(separator:"\n")
+
+        pboard.setString(sql, forType: .string)
         return true
     }
 }

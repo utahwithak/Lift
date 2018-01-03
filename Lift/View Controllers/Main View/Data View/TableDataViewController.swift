@@ -1,3 +1,4 @@
+
 //
 //  TableDataViewController.swift
 //  Lift
@@ -751,12 +752,10 @@ extension TableDataViewController: NSTextFieldDelegate {
             return
         }
 
-
         set(row: selectionBox.startRow, rawCol: selectionBox.startColumn, to: .argument(textField.stringValue))
         textField.isEditable = false
 
         if let rawMovement = obj.userInfo?["NSTextMovement"] as? Int, let movement = NSTextMovement(rawValue: rawMovement)  {
-
 
             switch movement {
             case .down, .return:

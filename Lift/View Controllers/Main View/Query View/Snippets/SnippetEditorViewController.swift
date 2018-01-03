@@ -16,11 +16,16 @@ class SnippetEditorViewController: NSViewController {
 
     var snippet: Snippet!
 
+    @IBOutlet var snippetSQLView: SQLiteTextView!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         name = snippet.name
         snippetDescription = snippet.description
         sql = snippet.sql
+        if !snippetDescription.isEmpty {
+            snippetSQLView.refresh()
+        }
     }
 
     weak var delegate: SnippetEditorDelegate?

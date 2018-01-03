@@ -10,8 +10,11 @@ import Cocoa
 
 class LiftDocumentController: NSDocumentController {
 
-    override func newDocument(_ sender: Any?) {
-        super.newDocument(sender)
-    }
+    override func noteNewRecentDocumentURL(_ url: URL) {
 
+        willChangeValue(for: \.recentDocumentURLs)
+        super.noteNewRecentDocumentURL(url)
+        didChangeValue(for: \.recentDocumentURLs)
+
+    }
 }

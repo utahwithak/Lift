@@ -43,6 +43,14 @@ class LiftWindowController: NSWindowController {
 
     }
 
+    @IBAction func saveDocument(_ sender: Any) {
+        document?.saveDocument(sender)
+    }
+    
+    var documentDatabase: Database? {
+        return (document as? LiftDocument)?.database
+    }
+
     override func windowDidLoad() {
 
         window?.titleVisibility = .hidden
@@ -218,11 +226,9 @@ class LiftWindowController: NSWindowController {
     override var document: AnyObject? {
         didSet {
             contentViewController?.representedObject = document
+            NotificationCenter.default.addObserver(self, selector: #selector(attachedDatabasesChanged), name: .AttachedDatabasesChanged, object: nil)
+            NotificationCenter.default.addObserver(self, selector: #selector(autocommitStatusChanged), name: .AutocommitStatusChanged, object: nil)
 
-            if let document = document as? LiftDocument {
-                NotificationCenter.default.addObserver(self, selector: #selector(attachedDatabasesChanged), name: .AttachedDatabasesChanged, object: document.database)
-                NotificationCenter.default.addObserver(self, selector: #selector(autocommitStatusChanged), name: .AutocommitStatusChanged, object: document.database)
-            }
         }
     }
 
@@ -233,7 +239,7 @@ class LiftWindowController: NSWindowController {
     }
 
     @objc private func autocommitStatusChanged(_ notification: Notification) {
-        guard let database = notification.object as? Database else {
+        guard let database = notification.object as? Database, database === documentDatabase else {
             return
         }
         let image: NSImage?
@@ -248,7 +254,7 @@ class LiftWindowController: NSWindowController {
     }
 
     @objc private func attachedDatabasesChanged(_ notification: Notification) {
-        guard let database = notification.object as? Database else {
+        guard let database = notification.object as? Database, database == documentDatabase else {
             return
         }
         attachDetachSegmentedControl.setEnabled(!database.attachedDatabases.isEmpty, forSegment: 1)
