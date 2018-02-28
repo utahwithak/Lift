@@ -34,7 +34,7 @@ class LiftTests: XCTestCase {
             XCTAssert(tab.columns[0].type?.rawValue ?? "" == "type (1234, 4321)")
 
 
-            tab = try SQLiteCreateTableParser.parseSQL("Create TABLE sometabl(\"collumn \"\" with quote\" \"crazy type\" with lots of names(14243)")
+            tab = try SQLiteCreateTableParser.parseSQL("Create TABLE sometabl(\"collumn \"\" with quote\" \"crazy type\" with lots of names(14243))")
             XCTAssert(tab.columns[0].type?.rawValue ?? "" == "\"crazy type\" with lots of names(14243)")
             
         } catch {
@@ -112,10 +112,9 @@ class LiftTests: XCTestCase {
 
         do {
             let def = try SQLiteCreateTableParser.parseSQL("CREATE table t1 (column3")
-            XCTAssert(!def.isTemp)
-            XCTAssert(def.tableName == "t1")
+            XCTFail("Should not have created def")
+
         } catch {
-            XCTFail("Should have created def")
         }
 
 
@@ -219,13 +218,13 @@ class LiftTests: XCTestCase {
 
     func testTablePrimaryKeyConstraints() {
         do {
-            var def = try SQLiteCreateTableParser.parseSQL("CREATE TABLE tableT(\"some column\" INTEGER, colo2 INT, PRIMARY KEY (colo2)")
+            var def = try SQLiteCreateTableParser.parseSQL("CREATE TABLE tableT(\"some column\" INTEGER, colo2 INT, PRIMARY KEY (colo2))")
             XCTAssert(!def.tableConstraints.isEmpty)
             XCTAssert(def.tableConstraints.first is PrimaryKeyTableConstraint)
             XCTAssert(!(def.tableConstraints[0] as! PrimaryKeyTableConstraint).indexedColumns.isEmpty)
             XCTAssert((def.tableConstraints[0] as! PrimaryKeyTableConstraint).indexedColumns[0].columnName == "colo2")
 
-            def = try SQLiteCreateTableParser.parseSQL("CREATE TABLE tableT(\"some column\" INTEGER, colo2 INT, CONSTRAINT abcd PRIMARY KEY (colo2, \"some column\")")
+            def = try SQLiteCreateTableParser.parseSQL("CREATE TABLE tableT(\"some column\" INTEGER, colo2 INT, CONSTRAINT abcd PRIMARY KEY (colo2, \"some column\"))")
             XCTAssert(!def.tableConstraints.isEmpty)
             XCTAssert(def.tableConstraints.first is PrimaryKeyTableConstraint)
             XCTAssert(!(def.tableConstraints[0] as! PrimaryKeyTableConstraint).indexedColumns.isEmpty)
@@ -234,7 +233,7 @@ class LiftTests: XCTestCase {
             XCTAssert(((def.tableConstraints[0] as! PrimaryKeyTableConstraint).indexedColumns.last?.columnName.rawValue ?? "") == "\"some column\"")
 
 
-            def = try SQLiteCreateTableParser.parseSQL("CREATE TABLE tableT(\"some column\" INTEGER, colo2 INT, CONSTRAINT abcd PRIMARY KEY (colo2, \"some column\") ON CONFLICT ROLLBACK")
+            def = try SQLiteCreateTableParser.parseSQL("CREATE TABLE tableT(\"some column\" INTEGER, colo2 INT, CONSTRAINT abcd PRIMARY KEY (colo2, \"some column\") ON CONFLICT ROLLBACK)")
             XCTAssert(!def.tableConstraints.isEmpty)
             XCTAssert(def.tableConstraints.first is PrimaryKeyTableConstraint)
             XCTAssert(!(def.tableConstraints[0] as! PrimaryKeyTableConstraint).indexedColumns.isEmpty)
@@ -244,34 +243,34 @@ class LiftTests: XCTestCase {
             XCTAssert((def.tableConstraints[0] as! PrimaryKeyTableConstraint).conflictClause != nil)
             XCTAssert((def.tableConstraints[0] as! PrimaryKeyTableConstraint).conflictClause!.resolution == .rollback)
 
-            def = try SQLiteCreateTableParser.parseSQL("CREATE TABLE tableT(\"some column\" INTEGER, colo2 INT, CONSTRAINT abcd PRIMARY KEY (colo2, \"some column\") ON CONFLICT ROLLBACK")
+            def = try SQLiteCreateTableParser.parseSQL("CREATE TABLE tableT(\"some column\" INTEGER, colo2 INT, CONSTRAINT abcd PRIMARY KEY (colo2, \"some column\") ON CONFLICT ROLLBACK)")
             if let res = (def.tableConstraints[0] as? PrimaryKeyTableConstraint)?.conflictClause?.resolution {
                 XCTAssert( res == .rollback)
             } else {
                 XCTFail("Should have had a resolution")
             }
 
-            def = try SQLiteCreateTableParser.parseSQL("CREATE TABLE tableT(\"some column\" INTEGER, colo2 INT, CONSTRAINT abcd PRIMARY KEY (colo2, \"some column\") ON CONFLICT ABORT")
+            def = try SQLiteCreateTableParser.parseSQL("CREATE TABLE tableT(\"some column\" INTEGER, colo2 INT, CONSTRAINT abcd PRIMARY KEY (colo2, \"some column\") ON CONFLICT ABORT)")
             if let res = (def.tableConstraints[0] as? PrimaryKeyTableConstraint)?.conflictClause?.resolution {
                 XCTAssert( res == .abort)
             } else {
                 XCTFail("Should have had a resolution")
             }
-            def = try SQLiteCreateTableParser.parseSQL("CREATE TABLE tableT(\"some column\" INTEGER, colo2 INT, CONSTRAINT abcd PRIMARY KEY (colo2, \"some column\") ON CONFLICT IGNORE")
+            def = try SQLiteCreateTableParser.parseSQL("CREATE TABLE tableT(\"some column\" INTEGER, colo2 INT, CONSTRAINT abcd PRIMARY KEY (colo2, \"some column\") ON CONFLICT IGNORE)")
             if let res = (def.tableConstraints[0] as? PrimaryKeyTableConstraint)?.conflictClause?.resolution {
                 XCTAssert( res == .ignore)
             } else {
                 XCTFail("Should have had a resolution")
             }
 
-            def = try SQLiteCreateTableParser.parseSQL("CREATE TABLE tableT(\"some column\" INTEGER, colo2 INT, CONSTRAINT abcd PRIMARY KEY (colo2, \"some column\") ON CONFLICT FAIL")
+            def = try SQLiteCreateTableParser.parseSQL("CREATE TABLE tableT(\"some column\" INTEGER, colo2 INT, CONSTRAINT abcd PRIMARY KEY (colo2, \"some column\") ON CONFLICT FAIL)")
             if let res = (def.tableConstraints[0] as? PrimaryKeyTableConstraint)?.conflictClause?.resolution {
                 XCTAssert( res == .fail)
             } else {
                 XCTFail("Should have had a resolution")
             }
 
-            def = try SQLiteCreateTableParser.parseSQL("CREATE TABLE tableT(\"some column\" INTEGER, colo2 INT, CONSTRAINT abcd PRIMARY KEY (colo2, \"some column\") ON CONFLICT REPLACE")
+            def = try SQLiteCreateTableParser.parseSQL("CREATE TABLE tableT(\"some column\" INTEGER, colo2 INT, CONSTRAINT abcd PRIMARY KEY (colo2, \"some column\") ON CONFLICT REPLACE)")
             if let res = (def.tableConstraints[0] as? PrimaryKeyTableConstraint)?.conflictClause?.resolution {
                 XCTAssert( res == .replace)
             } else {
@@ -282,7 +281,7 @@ class LiftTests: XCTestCase {
 
 
         } catch {
-            XCTFail("Should have acceppted all")
+            XCTFail("Should have acceppted all: \(error)")
         }
     }
 
@@ -302,7 +301,7 @@ class LiftTests: XCTestCase {
 
     func testUniqueTableConstraints() {
         do {
-            let def = try SQLiteCreateTableParser.parseSQL("CREATE TABLE   simpleTable   \t( cola, colb, colc, cold, CONSTRAINT abcd UNIQUE ( cola, colb) ON CONFLICT ABORT, PRIMARY KEY (colc), CONSTRAINT uniqu2 UNIQUE (cold)")
+            let def = try SQLiteCreateTableParser.parseSQL("CREATE TABLE   simpleTable   \t( cola, colb, colc, cold, CONSTRAINT abcd UNIQUE ( cola, colb) ON CONFLICT ABORT, PRIMARY KEY (colc), CONSTRAINT uniqu2 UNIQUE (cold))")
             XCTAssert(def.tableName == "simpleTable")
 
             let constraints = def.tableConstraints
@@ -348,7 +347,7 @@ class LiftTests: XCTestCase {
 
 
         } catch {
-            XCTFail("Should have created def")
+            XCTFail("Should have created def\(error)")
         }
     }
 
@@ -442,7 +441,7 @@ class LiftTests: XCTestCase {
                 XCTFail("Didn't parse table cosntraint")
             }
 
-            if let tableconst = table.tableConstraints.flatMap({ $0 as? UniqueTableConstraint}).first {
+            if let tableconst = table.tableConstraints.compactMap({ $0 as? UniqueTableConstraint}).first {
                 if let name = tableconst.name {
                     XCTAssert( name == "uni")
                 } else {
@@ -455,7 +454,7 @@ class LiftTests: XCTestCase {
             } else {
                 XCTFail("Didn't parse table cosntraint")
             }
-            if let checker = table.tableConstraints.flatMap({ $0 as? CheckTableConstraint}).first {
+            if let checker = table.tableConstraints.compactMap({ $0 as? CheckTableConstraint}).first {
                 XCTAssert(checker.checkExpression == "(cola = 23)")
             } else {
                 XCTFail("Didn't parse table cosntraint")

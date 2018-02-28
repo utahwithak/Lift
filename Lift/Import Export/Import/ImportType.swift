@@ -33,16 +33,16 @@ enum ImportType {
 
         if let workbook = try? XLSXDocument(path: url) {
             return .xlsx(workbook)
-        }else if let doc = try? XMLDocument(contentsOf: url, options: []) {
+        } else if let doc = try? XMLDocument(contentsOf: url, options: []) {
             return .xml(doc)
         }
 
-
+        let len = data.count
         let simpleString = data.withUnsafeMutableBytes { (ptr: UnsafeMutablePointer<UInt8>) -> ImportType? in
             let unsafePtr = UnsafeMutableRawPointer(ptr)
-            if let str = String(bytesNoCopy: unsafePtr, length: data.count, encoding: .utf8, freeWhenDone: false) {
+            if let str = String(bytesNoCopy: unsafePtr, length:len , encoding: .utf8, freeWhenDone: false) {
                 return .text(str, .utf8)
-            } else if let rom = String(bytesNoCopy: unsafePtr, length: data.count, encoding: .macOSRoman, freeWhenDone: false) {
+            } else if let rom = String(bytesNoCopy: unsafePtr, length: len, encoding: .macOSRoman, freeWhenDone: false) {
                 return .text(rom, .macOSRoman)
             }
             return nil

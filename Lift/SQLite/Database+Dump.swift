@@ -237,7 +237,7 @@ fileprivate func dump_callback( pArg: UnsafeMutableRawPointer?, nArg: Int32, azA
                 helper.errorCount += 1
                 return 0;
             }
-            let colString = azCol.flatMap({$0}).map({"\"\($0.SQLiteEscapedString)\""}).joined(separator: ",")
+            let colString = azCol.compactMap({$0}).map({"\"\($0.SQLiteEscapedString)\""}).joined(separator: ",")
 
             /* Always quote the table name, even if it appears to be pure ascii,
              ** in case it is a keyword. Ex:  INSERT INTO "table" ... */

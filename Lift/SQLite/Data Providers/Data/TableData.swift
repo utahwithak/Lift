@@ -49,10 +49,10 @@ enum SimpleUpdateType {
 
 struct ColumnSort {
     let column: String
-    let asc: Bool
+    var asc: Bool
 
     func queryStatement(flipped: Bool) -> String {
-        var order = flipped ? !asc : asc
+        let order = flipped ? !asc : asc
 
         return column.querySafeString() + (order ? " ASC" : " DESC")
     }

@@ -22,6 +22,9 @@ class BrowseViewNode: NSObject {
         return children.count
     }
 
+    @objc dynamic var canDrop: Bool {
+        return false
+    }
 }
 
 class HeaderViewNode: BrowseViewNode {
@@ -195,6 +198,10 @@ class TableViewNode: BrowseViewNode {
 
     @objc dynamic var refreshingCount = false
     @objc dynamic var rowCount: NSNumber?
+
+    override var canDrop: Bool {
+        return true
+    }
 
     weak var provider: DataProvider? {
 

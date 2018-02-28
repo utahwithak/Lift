@@ -42,7 +42,7 @@ class ExportViewController: LiftViewController {
 
     @objc dynamic let csvOptions = CSVExportOptions()
     @objc dynamic let sqliteOptions = SQLiteExportOptions()
-    @objc dynamic let xlsOptions = XLSXExportOptions()
+    @objc dynamic let xlsxOptions = XLSXExportOptions()
     @objc dynamic let xmlOptions = XMLExportOptions()
     @objc dynamic let jsonOptions = JSONExportOptions()
 
@@ -73,7 +73,7 @@ class ExportViewController: LiftViewController {
         case .JSON:
             exportJSON()
         }
-
+        dismiss(nil)
     }
 
     @IBAction func toggleCSVLineEndings(_ sender: NSButton) {
@@ -84,6 +84,10 @@ class ExportViewController: LiftViewController {
         }
     }
 
+
+    @IBAction func toggleXLSXBlobOptions(_ sender: NSButton) {
+        xlsxOptions.exportRawBlobData = sender.tag == 0
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
 

@@ -112,6 +112,14 @@ class SideBarBrowseViewController: LiftViewController {
     @IBAction func showCreateTable(_ sender: Any?) {
         performSegue(withIdentifier: NSStoryboardSegue.Identifier("createTable"), sender: sender)
     }
+
+    @IBAction func dropSelectedTable(_ sender: NSButton) {
+        guard let provider = selectedTable else {
+            print("No selected provider!")
+            return
+        }
+        drop(provider: provider)
+    }
 }
 
 extension SideBarBrowseViewController: NSOutlineViewDelegate {
@@ -203,7 +211,10 @@ extension SideBarBrowseViewController: NSMenuDelegate {
         guard let provider = item.representedObject as? DataProvider else {
             return
         }
+        drop(provider: provider)
+    }
 
+    private func drop(provider: DataProvider) {
         let alert = NSAlert()
         let format = NSLocalizedString("Drop %@?", comment: "title for drop alert")
         alert.messageText = String(format: format, provider.type)
@@ -305,8 +316,50 @@ extension SideBarBrowseViewController: NSMenuDelegate {
     }
 
     @objc private func renameProvider(_ item: NSMenuItem) {
+        guard let table = item.representedObject as? Table, let window = view.window else {
+            return
+        }
+
+        let namePrompt = NSAlert()
+        namePrompt.messageText = NSLocalizedString("Rename Table", comment: "Title text")
+        namePrompt.informativeText = NSLocalizedString("Enter new table name.", comment: "rename table text")
+        namePrompt.addButton(withTitle: NSLocalizedString("Rename", comment: "Rename button name"))
+        namePrompt.addButton(withTitle: NSLocalizedString("Cancel", comment: "Cancel rename string"))
+        let textfield = NSTextField(frame: NSRect(x: 0, y: 0, width: 150, height: 21))
+        textfield.stringValue = table.name
+        namePrompt.accessoryView = textfield
+        textfield.becomeFirstResponder()
+        namePrompt.beginSheetModal(for: window) { (response) in
+            if response == NSApplication.ModalResponse.alertFirstButtonReturn {
+                do {
+                    let newName = textfield.stringValue
+                    _ = try self.document?.database.execute(statement: "ALTER TABLE \(table.qualifiedNameForQuery) RENAME TO \(newName.sqliteSafeString())")
+                    self.document?.database.refresh()
+                } catch {
+                    self.presentError(error)
+                }
+            }
+        }
+
+
+    }
+
+    @objc private func editProvider(_ item: NSMenuItem) {
         guard let provider = item.representedObject as? DataProvider else {
             return
+        }
+        if let view = (provider as? View)?.definition {
+            guard let editController = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("createViewViewController")) as? CreateViewViewController else {
+                return
+            }
+            editController.dropQualifiedName = provider.qualifiedNameForQuery
+            editController.representedObject = representedObject
+            editController.viewDefinition = view
+            presentViewControllerAsSheet(editController)
+        } else if let tableDef = (provider as? Table)?.definition {
+
+        } else {
+            print("UNABLE TO GET DEF!! WHATS UP!?")
         }
 
     }
@@ -390,10 +443,23 @@ extension SideBarBrowseViewController: NSMenuDelegate {
 
                     }
 
-                    let renameObject = NSMenuItem(title: NSLocalizedString("Rename", comment: "Rename menu item"), action: #selector(renameProvider), keyEquivalent: "")
-                    renameObject.representedObject = tableNode.provider
-                    menu.addItem(renameObject)
+                    if provider is Table {
+                        let renameObject = NSMenuItem(title: NSLocalizedString("Rename", comment: "Rename menu item"), action: #selector(renameProvider), keyEquivalent: "")
+                        renameObject.representedObject = tableNode.provider
+                        menu.addItem(renameObject)
+                    }
+                    if let table = provider as? Table, table.definition != nil {
+                        let editObject = NSMenuItem(title: NSLocalizedString("Edit Definition", comment: "edit menu item"), action: #selector(editProvider), keyEquivalent: "")
+                        editObject.representedObject = table
+                        menu.addItem(editObject)
+                    } else if let view = provider as? View, view.definition != nil {
+                        let editObject = NSMenuItem(title: NSLocalizedString("Edit Definition", comment: "edit menu item"), action: #selector(editProvider), keyEquivalent: "")
+                        editObject.representedObject = view
+                        menu.addItem(editObject)
+                    }
+                    
                 }
+
             }
         default:
             return

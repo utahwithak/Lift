@@ -34,7 +34,7 @@ class XMLExportOptions: ExportOptions {
     /// name for the element in the XML Document
     /// something like: <`rowName` ...> ... </`rowName`>
     ///
-    @objc dynamic var rowName: String = "Row"
+    @objc dynamic var rowName: String = "row"
 
     @objc dynamic var dataSectionName: String = "data"
 

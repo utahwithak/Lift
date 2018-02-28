@@ -11,7 +11,8 @@ import Cocoa
 class CreateViewViewController: LiftViewController {
 
     @objc dynamic var viewDefinition = ViewDefinition()
-    
+
+    public var dropQualifiedName: String?
 
     @objc dynamic var databases: [String] {
         return document?.database.allDatabases.map( { $0.name }) ?? []
@@ -22,7 +23,35 @@ class CreateViewViewController: LiftViewController {
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         if let waitingView = segue.destinationController as? StatementWaitingViewController {
             waitingView.delegate = self
-            waitingView.operation = .statement(viewDefinition.createStatement)
+            let statement: OperationType
+            if let dropFirst = dropQualifiedName {
+                statement = .customCall({ () throws -> Bool in
+                    guard let db = self.document?.database else {
+                        return false
+                    }
+                    try db.beginSavepoint(named: "alterTable")
+
+                    defer {
+                        try? db.releaseSavepoint(named: "alterTable")
+                    }
+
+                    do {
+
+                        try db.execute(statement: "DROP VIEW \(dropFirst)")
+                        try db.execute(statement: self.viewDefinition.createStatement)
+                    } catch {
+                        try? db.rollbackSavepoint(named: "alterTable")
+                        throw error
+
+                    }
+
+                    return true
+                })
+            } else {
+                statement = .statement(viewDefinition.createStatement)
+            }
+
+            waitingView.operation = statement
             waitingView.representedObject = representedObject
 
         }

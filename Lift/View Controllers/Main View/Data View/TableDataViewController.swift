@@ -266,6 +266,7 @@ class TableDataViewController: LiftMainViewController {
         clearTable()
         tableView.doubleAction = #selector(doubleClickTable)
         tableView.target = self
+        tableView.headerView = CustomTableHeaderView(frame: NSRect.zero)
 
         view.postsFrameChangedNotifications = true
         NotificationCenter.default.addObserver(forName: NSView.frameDidChangeNotification , object: view, queue: nil) { [weak self] _ in
@@ -372,6 +373,7 @@ class TableDataViewController: LiftMainViewController {
 
             newColumn.width = 150
             tableView.addTableColumn(newColumn)
+            newColumn.sortDescriptorPrototype = NSSortDescriptor(key: name, ascending: true, selector: #selector(NSString.localizedCompare))
         }
 
         if newData.count > 0 {
@@ -572,13 +574,34 @@ extension TableDataViewController: NSTableViewDataSource {
 extension TableDataViewController: NSMenuDelegate {
 
     func tableView(_ tableView: NSTableView, didClick tableColumn: NSTableColumn) {
-        if let provider = selectedTable {
-            clearTable()
-            data = TableData(provider: provider, customQuery: queryString, customSorting: [ColumnSort(column: tableColumn.title, asc: true)])
-            data?.delegate = self
-            resetTableView()
+        guard let provider = selectedTable else {
+            return
         }
+        let sortOrders: [ColumnSort]
+        if let curData = data {
+            var curOrders = curData.customOrdering
+            if let index = curOrders.index(where: { $0.column == tableColumn.title}) {
+                if curOrders[index].asc {
+                    curOrders[index].asc = false
+                } else {
+                    curOrders.remove(at: index)
+                }
+            } else {
+                curOrders.append(ColumnSort(column: tableColumn.title, asc: true))
+            }
+            sortOrders = curOrders
+        } else {
+            sortOrders = [ColumnSort(column: tableColumn.title, asc: true)]
+        }
+        clearTable()
+        data = TableData(provider: provider, customQuery: queryString, customSorting: sortOrders)
+        data?.delegate = self
+        resetTableView()
+        self.tableView.sortOrders = sortOrders
+    }
 
+    func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
+        print("Changed")
     }
 
     func menuNeedsUpdate(_ menu: NSMenu) {

@@ -28,7 +28,7 @@ enum LiftError: CustomNSError {
     case invalidTable
     case noDatabase
     case unknownBindType
-    case invalidXMLName(String)
+    case invalidImportXML(String)
 
     public static var errorDomain: String {
         return "com.datumapps.lift"
@@ -47,7 +47,7 @@ enum LiftError: CustomNSError {
         case .invalidTable:             return -9
         case .noDatabase:               return -10
         case .unknownBindType:          return -11
-        case .invalidXMLName(_):       return -12
+        case .invalidImportXML(_):       return -12
         }
     }
 
@@ -69,7 +69,7 @@ enum LiftError: CustomNSError {
         case .invalidTable: return NSLocalizedString("Invalid table data row", comment: "Invalid sqlite master row data error")
         case .noDatabase: return  NSLocalizedString("No Database!", comment: "No database error")
         case .unknownBindType: return NSLocalizedString("Unable to bind value, unknown type", comment: "Attempted to bind object with unknown type.")
-        case .invalidXMLName(let name): return String(format: NSLocalizedString("Attempting to include \"%@\" in xml, which is invalid", comment: "error when attempting to export a name that contains invalid xml"), name);
+        case .invalidImportXML(let reason): return String(format: NSLocalizedString("Unable to recognize xml, %@", comment: "error when attempting to export a name that contains invalid xml"), reason);
         }
     }
 }

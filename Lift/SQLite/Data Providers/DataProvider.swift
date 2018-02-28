@@ -51,7 +51,7 @@ class DataProvider: NSObject {
         let query = try Query(connection: connection, query:  "PRAGMA \(database.name.sqliteSafeString()).table_info(\(name.sqliteSafeString()))")
         let columnData = try query.allRows()
 
-        columns = try columnData.flatMap {
+        columns = try columnData.compactMap {
             return try Column(rowInfo: $0, connection: connection)
         }
 

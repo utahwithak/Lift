@@ -38,7 +38,7 @@ struct SQLiteError: LocalizedError {
         return errorDescription ?? "Code: \(code)"
     }
 
-    var failureReason: String {
+    var failureReason: String? {
         return sql ?? "Unknown SQL"
     }
 }

@@ -55,6 +55,15 @@ class TableView: NSTableView {
         selectionBoxes = [SelectionBox(startRow: 0, endRow: numberOfRows - 1, startColumn: 0, endColumn: numberOfColumns - 1)]
     }
 
+    public var sortOrders: [ColumnSort] {
+        set {
+            (headerView as? CustomTableHeaderView)?.sortOrders = newValue
+        }
+        get {
+            return (headerView as? CustomTableHeaderView)?.sortOrders ?? []
+        }
+    }
+
     private var selectionRects = [NSRect]() {
         didSet {
             var views = [NSView]()
@@ -80,9 +89,8 @@ class TableView: NSTableView {
             }
 
             selectionViews = views
-
-
         }
+
     }
 
     var selectionBoxes = [SelectionBox]() {
@@ -230,6 +238,7 @@ class TableView: NSTableView {
                 selectionBoxes = [SelectionBox(startRow: 0, endRow: numberOfRows - 1, startColumn:minCol, endColumn: maxCol)]
             }
         }
+
     }
 
     override func deselectAll(_ sender: Any?) {

@@ -18,7 +18,6 @@ class ViewDefinition: NSObject {
             }
         }
     }
-    @objc dynamic public var withoutRowID = false
     @objc dynamic public var databaseName: SQLiteName? {
         didSet {
             if isTemp && databaseName?.rawValue != "temp" {

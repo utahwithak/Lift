@@ -94,7 +94,7 @@ class TablePredicateViewController: LiftViewController {
             return nil
         }
 
-        let subQueries = subs.flatMap { convert($0) }
+        let subQueries = subs.compactMap { convert($0) }
 
         guard !subQueries.isEmpty else {
             return nil

@@ -160,7 +160,7 @@ class ImportViewController: LiftViewController {
                         importView.delegate = self
 
                         importView.data = table.data
-                        importView.title = table.possibleName
+                        importView.title = table.proprties.name
                         importView.representedObject = self.representedObject
 
                         let newView = NSTabViewItem(viewController: importView)
@@ -176,12 +176,104 @@ class ImportViewController: LiftViewController {
     }
 
     struct ImportTableInformation {
-        let possibleName: String
+        let proprties: TableProperties
         let data: [[Any?]]
     }
+
+    struct TableProperties {
+        var name: String
+        var columns = [(String, String)]()
+        var fullSQL: String?
+        init(name: String) {
+            self.name = name
+        }
+    }
+
     private func parseXML(document: XMLDocument) throws -> [ImportTableInformation] {
 
-        return []
+        guard let tables = document.rootElement()?.elements(forName: "table"), !tables.isEmpty else {
+            throw LiftError.invalidImportXML("Missing table elements, <root> <table></table> <root>")
+        }
+
+        var importInfos = [ImportTableInformation]()
+        for (index, tableElement) in tables.enumerated() {
+            var props = TableProperties(name: String(format: NSLocalizedString("Table %i", comment: "unknown table import name %@ replaced with what number it is"), index + 1))
+
+            if let originalName = tableElement.attribute(forName: "name")?.stringValue {
+                props.name = originalName
+            }
+
+            if let properties = tableElement.child(named: "properities") {
+                props.name = properties.child(named: "tableName")?.stringValue ?? props.name
+                props.fullSQL = properties.child(named: "sql")?.stringValue
+
+                if let columns = properties.child(named: "columns")?.elements(forName: "column") {
+                    for (colIndex, columnElement) in columns.enumerated() {
+                        let columnName = columnElement.child(named: "name")?.stringValue ?? "Column \(colIndex + 1)"
+                        let type = columnElement.child(named: "type")?.stringValue ?? ""
+                        props.columns.append((columnName, type))
+                    }
+                }
+
+            }
+            guard let rows = tableElement.child(named: "data")?.elements(forName: "row") else {
+                throw LiftError.invalidImportXML("Missing <data> section containing rows")
+            }
+
+            var tableData = [[Any?]]()
+            for rowElement in rows {
+                var rowData = [Any?]()
+                guard let values = rowElement.children as? [XMLElement] else {
+                    continue
+                }
+                for value in values {
+                    guard let name = value.name else {
+                        rowData.append(value.stringValue)
+                        continue
+                    }
+                    switch name.lowercased() {
+                    case "null":
+                        rowData.append(nil)
+                    case "integer":
+                        if let strVal = value.stringValue {
+                            if let intVal = Int(strVal) {
+                                rowData.append(intVal)
+                            } else {
+                                rowData.append(strVal)
+                            }
+                        } else {
+                            rowData.append(nil)
+                        }
+                    case "double":
+                        if let strVal = value.stringValue {
+                            if let doubVal = Double(strVal) {
+                                rowData.append(doubVal)
+                            } else {
+                                rowData.append(strVal)
+                            }
+                        } else {
+                            rowData.append(nil)
+                        }
+                    case "text":
+                        rowData.append(value.stringValue)
+                    case "blob":
+                        // will be converted higher up
+                        rowData.append(value.stringValue)
+                    default:
+                        rowData.append(value.stringValue)
+                    }
+                }
+
+                tableData.append(rowData)
+            }
+
+
+            let tableInfo = ImportTableInformation(proprties: props, data: tableData)
+
+            importInfos.append(tableInfo)
+        }
+
+        return importInfos
     }
 
 }
@@ -306,3 +398,10 @@ extension Sheet {
         return data
     }
 }
+
+extension XMLElement {
+    func child(named name: String) -> XMLElement? {
+        return children?.first(where: { $0.name == name}) as? XMLElement
+    }
+}
+

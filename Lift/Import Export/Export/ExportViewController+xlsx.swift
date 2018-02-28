@@ -67,7 +67,7 @@ extension ExportViewController {
 
                 let workSheet = excelDoc.addSheet(named: table.name)
                 do {
-                    try table.export(to: workSheet, with: self.xlsOptions)
+                    try table.export(to: workSheet, with: self.xlsxOptions)
                 } catch {
                     DispatchQueue.main.async {
                         self.presentError(error)
@@ -80,6 +80,7 @@ extension ExportViewController {
             DispatchQueue.main.async {
                 progressViewController.setOperationText(to:String(format: NSLocalizedString("Saving %@", comment: "Saving xlsx file %@ replaced with file name"), url.lastPathComponent))
                 progressViewController.updateProgress(to: 1)
+                progressViewController.indeterminant = true
 
             }
             do {

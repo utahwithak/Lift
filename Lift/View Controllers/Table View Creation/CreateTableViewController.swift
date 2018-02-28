@@ -13,6 +13,8 @@ class CreateTableViewController: LiftViewController {
 
     @IBOutlet weak var createTabView: NSTabView!
 
+    @IBOutlet weak var definitionTabView: NSTabView!
+
     @objc dynamic var databases: [String] {
         return document?.database.allDatabases.map( { $0.name }) ?? []
     }
@@ -41,6 +43,9 @@ class CreateTableViewController: LiftViewController {
             waitingView.representedObject = representedObject
 
         }
+    }
+    @IBAction func toggleCreationType(_ sender: NSSegmentedControl) {
+        definitionTabView.selectTabViewItem(at: sender.selectedSegment)
     }
 }
 

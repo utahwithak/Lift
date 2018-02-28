@@ -274,7 +274,7 @@ class TabControl: NSControl {
 
     var selectedItem: Any? {
         set {
-            guard let buttons = scrollView.documentView?.subviews.flatMap( { $0 as? TabButton}) else {
+            guard let buttons = scrollView.documentView?.subviews.compactMap( { $0 as? TabButton}) else {
                 return
             }
             for button in buttons {
@@ -308,7 +308,7 @@ class TabControl: NSControl {
             invalidateRestorableState()
         }
         get {
-            return scrollView.documentView?.subviews.flatMap( { $0 as? TabButton}).first(where: { $0.state == .on })?.cell?.representedObject
+            return scrollView.documentView?.subviews.compactMap( { $0 as? TabButton}).first(where: { $0.state == .on })?.cell?.representedObject
         }
     }
 
@@ -568,7 +568,7 @@ class TabControl: NSControl {
         }
 
         tabView.removeConstraints(tabView.constraints)
-        let buttonViews = tabView.subviews.flatMap({ $0 as? TabButton })
+        let buttonViews = tabView.subviews.compactMap({ $0 as? TabButton })
         var prev: TabButton?
 
         for item in items {

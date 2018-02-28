@@ -17,6 +17,7 @@
 		8F178CA11FA0DB790057387A /* JumpToRowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F178CA01FA0DB790057387A /* JumpToRowViewController.swift */; };
 		8F1BC6331FCF47C500128351 /* ImportDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1BC6321FCF47C500128351 /* ImportDataViewController.swift */; };
 		8F1C4F001F9905D300DE12BF /* PassThroughScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1C4EFF1F9905D300DE12BF /* PassThroughScrollView.swift */; };
+		8F21ED892047372900A6AFA9 /* ViewParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F21ED882047372900A6AFA9 /* ViewParsingTests.swift */; };
 		8F2521701F855A2A00B438CC /* CreateViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25216F1F855A2A00B438CC /* CreateViewViewController.swift */; };
 		8F2521731F855A3D00B438CC /* LiftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2521721F855A3D00B438CC /* LiftViewController.swift */; };
 		8F2521761F855B0800B438CC /* ViewDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2521751F855B0800B438CC /* ViewDefinition.swift */; };
@@ -83,6 +84,8 @@
 		8F84D23B1F8A9B4900CF4B08 /* TableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F84D23A1F8A9B4900CF4B08 /* TableData.swift */; };
 		8F84D24B1F8AFA5000CF4B08 /* RowCountFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F84D24A1F8AFA5000CF4B08 /* RowCountFormatter.swift */; };
 		8F84D24E1F8B04FA00CF4B08 /* TableDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F84D24D1F8B04FA00CF4B08 /* TableDataViewController.swift */; };
+		8F8F7F3C2047100E0043EBCA /* CustomTableViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8F7F3B2047100E0043EBCA /* CustomTableViewHeaderView.swift */; };
+		8F8F7F4220472EFD0043EBCA /* SQLiteCreateViewParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8F7F4120472EFD0043EBCA /* SQLiteCreateViewParser.swift */; };
 		8F8FA7311F92CE8500783C5C /* PassthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8FA7301F92CE8500783C5C /* PassthroughView.swift */; };
 		8F9114A21FF84A6C000B6D6A /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9114A11FF84A6C000B6D6A /* WelcomeViewController.swift */; };
 		8F921DB61F7EB85000464D27 /* ForeignKeyDeferStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F921DB51F7EB85000464D27 /* ForeignKeyDeferStatement.swift */; };
@@ -213,6 +216,7 @@
 		8F178CA01FA0DB790057387A /* JumpToRowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JumpToRowViewController.swift; sourceTree = "<group>"; };
 		8F1BC6321FCF47C500128351 /* ImportDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportDataViewController.swift; sourceTree = "<group>"; };
 		8F1C4EFF1F9905D300DE12BF /* PassThroughScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassThroughScrollView.swift; sourceTree = "<group>"; };
+		8F21ED882047372900A6AFA9 /* ViewParsingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewParsingTests.swift; sourceTree = "<group>"; };
 		8F25216F1F855A2A00B438CC /* CreateViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateViewViewController.swift; sourceTree = "<group>"; };
 		8F2521721F855A3D00B438CC /* LiftViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiftViewController.swift; sourceTree = "<group>"; };
 		8F2521751F855B0800B438CC /* ViewDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDefinition.swift; sourceTree = "<group>"; };
@@ -286,6 +290,8 @@
 		8F84D23A1F8A9B4900CF4B08 /* TableData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableData.swift; sourceTree = "<group>"; };
 		8F84D24A1F8AFA5000CF4B08 /* RowCountFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowCountFormatter.swift; sourceTree = "<group>"; };
 		8F84D24D1F8B04FA00CF4B08 /* TableDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableDataViewController.swift; sourceTree = "<group>"; };
+		8F8F7F3B2047100E0043EBCA /* CustomTableViewHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewHeaderView.swift; sourceTree = "<group>"; };
+		8F8F7F4120472EFD0043EBCA /* SQLiteCreateViewParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteCreateViewParser.swift; sourceTree = "<group>"; };
 		8F8FA7301F92CE8500783C5C /* PassthroughView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassthroughView.swift; sourceTree = "<group>"; };
 		8F9114A11FF84A6C000B6D6A /* WelcomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeViewController.swift; sourceTree = "<group>"; };
 		8F921DB51F7EB85000464D27 /* ForeignKeyDeferStatement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForeignKeyDeferStatement.swift; sourceTree = "<group>"; };
@@ -395,7 +401,7 @@
 				8F11B7981F83DC58008E19D7 /* sqlite3.h */,
 				8FC63CD61FA227F000005591 /* SQLite3ConfigHelper.h */,
 				8FC63CD71FA227F000005591 /* SQLite3ConfigHelper.m */,
-				8F7C525F1F7D3A69004A91BC /* Table Parse */,
+				8F8F7F3E20472EE00043EBCA /* Parse */,
 				8FBE0F011FCE485600ABFD1E /* CWCSVParser.swift */,
 			);
 			path = SQLite;
@@ -561,6 +567,7 @@
 				8F6273E41F85C2C0007055D9 /* SQLiteSyntaxHighlighter.swift */,
 				8F7D84371F8BAF1D0053137B /* TableViewCell.swift */,
 				8FCBA64F1F90EAC800B87DEA /* TableView.swift */,
+				8F8F7F3B2047100E0043EBCA /* CustomTableViewHeaderView.swift */,
 				8F7A8E641FA2654A00A80FD2 /* HiddenBackgroundSegmentedControl.swift */,
 				8F72E3C01F840B3D006C88F5 /* Line Numers */,
 				8F8FA7301F92CE8500783C5C /* PassthroughView.swift */,
@@ -640,6 +647,7 @@
 			isa = PBXGroup;
 			children = (
 				8F7C52411F7D39E5004A91BC /* LiftTests.swift */,
+				8F21ED882047372900A6AFA9 /* ViewParsingTests.swift */,
 				8F7C52431F7D39E5004A91BC /* Info.plist */,
 			);
 			path = LiftTests;
@@ -679,6 +687,23 @@
 				8F805CCC1F7ED3EF0074FE6B /* NotNullColumnConstraint.swift */,
 			);
 			path = "Conflict Constraints";
+			sourceTree = "<group>";
+		};
+		8F8F7F3E20472EE00043EBCA /* Parse */ = {
+			isa = PBXGroup;
+			children = (
+				8F8F7F4020472EEC0043EBCA /* View Parsing */,
+				8F7C525F1F7D3A69004A91BC /* Table Parse */,
+			);
+			path = Parse;
+			sourceTree = "<group>";
+		};
+		8F8F7F4020472EEC0043EBCA /* View Parsing */ = {
+			isa = PBXGroup;
+			children = (
+				8F8F7F4120472EFD0043EBCA /* SQLiteCreateViewParser.swift */,
+			);
+			path = "View Parsing";
 			sourceTree = "<group>";
 		};
 		8F91149F1FF84A57000B6D6A /* Welcome Screen */ = {
@@ -984,6 +1009,7 @@
 			files = (
 				8FAF33521FA2AF5D003ACFC7 /* DatabaseDetailsViewController.swift in Sources */,
 				8FB9F1681F7EB62C0090FA53 /* ForeignKeyActionStatement.swift in Sources */,
+				8F8F7F3C2047100E0043EBCA /* CustomTableViewHeaderView.swift in Sources */,
 				8F11B79C1F83DC79008E19D7 /* SQLiteDocumentPresenter.swift in Sources */,
 				8F9565CE1FB36EFC008FE038 /* CSVExportOptions.swift in Sources */,
 				8F9565D41FB36EFC008FE038 /* SQLiteExportOptions.swift in Sources */,
@@ -1026,6 +1052,7 @@
 				8F391B3C1F965850002D3AFE /* LiftMainSplitViewController.swift in Sources */,
 				8F9565D31FB36EFC008FE038 /* ExportViewController+JSON.swift in Sources */,
 				8F9565D91FB36F45008FE038 /* XMLElement+Additions.swift in Sources */,
+				8F8F7F4220472EFD0043EBCA /* SQLiteCreateViewParser.swift in Sources */,
 				8F6A8A911FFC090800F093F1 /* ImportType.swift in Sources */,
 				8F74A74C1F86A0E50069721E /* SideBarDetailsViewController.swift in Sources */,
 				8FD4FEA51F8C01420008D8DA /* CGPoint+Additions.swift in Sources */,
@@ -1124,6 +1151,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8F7C52421F7D39E5004A91BC /* LiftTests.swift in Sources */,
+				8F21ED892047372900A6AFA9 /* ViewParsingTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

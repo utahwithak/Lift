@@ -146,7 +146,9 @@ class Database: NSObject {
     }
 
     func refreshAutoCommit() {
-        autocommitStatus = sqlite3_get_autocommit(connection) != 0 ? .autocommit : .inTransaction
+        DispatchQueue.main.async {
+            self.autocommitStatus = sqlite3_get_autocommit(self.connection) != 0 ? .autocommit : .inTransaction
+        }
     }
 
     private func refreshTables() {
@@ -267,6 +269,7 @@ class Database: NSObject {
         return tables.first(where: { $0.name == name })
     }
 
+    @discardableResult
     public func execute(statement: String) throws -> Bool {
         defer {
             refreshAutoCommit()

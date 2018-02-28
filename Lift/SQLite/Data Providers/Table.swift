@@ -23,7 +23,7 @@ class Table: DataProvider {
 
     let definition: TableDefinition?
 
-
+//https://www.sqlite.org/lang_altertable.html
     override init(database: Database, data: [SQLiteData], connection: sqlite3) throws {
 
         //type|name|tbl_name|rootpage|sql
@@ -187,7 +187,7 @@ class Table: DataProvider {
 
             let nextRow = worksheet.addRow()
 
-            let xlsValues = row.map({ (data) -> XLSXExpressible in
+            let xlsValues = row.map({ (data) -> XLSXExpressible? in
                 switch data {
                 case .integer(let intVal):
                     return intVal
@@ -197,6 +197,10 @@ class Table: DataProvider {
                     return strVal
                 case .null:
 
+                    guard options.exportNULLValues else {
+                        return nil
+                    }
+
                     if !options.nullPlaceHolder.isEmpty {
                         return options.nullPlaceHolder
                     } else {
@@ -204,6 +208,11 @@ class Table: DataProvider {
                     }
 
                 case .blob(let data):
+
+                    guard options.exportBlobData else {
+                        return nil
+                    }
+
                     if options.exportRawBlobData {
                         return data.hexEncodedString()
                     } else {
@@ -231,6 +240,7 @@ class Table: DataProvider {
             let tableProperties = XMLElement(name: "properities")
             tableElement.addChild(tableProperties)
             tableProperties.addChild(XMLElement(name: "tableName", stringValue: name))
+            tableProperties.addChild(XMLElement(name: "sql", stringValue: sql))
             let columnElements = XMLElement(name: "columns")
             tableProperties.addChild(columnElements)
             for column in columns {

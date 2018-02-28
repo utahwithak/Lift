@@ -12,12 +12,19 @@ import SwiftXLSX
 class ExportNode: NSObject {
     @objc dynamic let name: String
     @objc dynamic let children: [ExportNode]
-    @objc dynamic var export = true
+    @objc dynamic var export = true {
+        didSet {
+            if !export {
+                children.forEach({
+                    $0.export = false
+                })
+            }
+        }
+    }
 
     init(name: String, children: [ExportNode]) {
         self.name = name
         self.children = children
-
         super.init()
 
         children.forEach { (node) in
@@ -50,8 +57,13 @@ class ExportNode: NSObject {
         }
 
         if keyPath == "export" {
-            export = children.reduce(false, { $0 || $1.export } )
+            guard let child = object as? ExportNode else {
+                return
+            }
 
+            if child.export && !export {
+                export = true
+            }
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }

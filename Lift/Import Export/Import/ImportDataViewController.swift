@@ -337,7 +337,7 @@ extension ImportDataViewController: NSTableViewDelegate {
                     return nil
                 }
                 view.removeAllItems()
-                if let firstRow = data.first?.flatMap({ $0 }).map({ "\($0)" }) {
+                if let firstRow = data.first?.compactMap({ $0 }).map({ "\($0)" }) {
                     view.addItems(withObjectValues: firstRow)
                     view.addItem(withObjectValue: skipColumnTitle)
                     view.selectItem(at: column)
