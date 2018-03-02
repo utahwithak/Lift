@@ -266,7 +266,7 @@ class TableDataViewController: LiftMainViewController {
         clearTable()
         tableView.doubleAction = #selector(doubleClickTable)
         tableView.target = self
-        tableView.headerView = CustomTableHeaderView(frame: NSRect.zero)
+        tableView.headerView = CustomTableHeaderView(frame: tableView.headerView?.frame ?? NSRect.zero)
 
         view.postsFrameChangedNotifications = true
         NotificationCenter.default.addObserver(forName: NSView.frameDidChangeNotification , object: view, queue: nil) { [weak self] _ in
@@ -411,6 +411,8 @@ class TableDataViewController: LiftMainViewController {
             }
         } catch {
             presentError(error)
+            tableView.reloadData(forRowIndexes: IndexSet([row]), columnIndexes: IndexSet([rawCol]))
+
         }
     }
 
@@ -507,8 +509,9 @@ extension TableDataViewController: NSTableViewDataSource {
         guard let textField = cell.textField else {
             return nil
         }
-
-        textField.delegate = self
+        if textField.delegate == nil {
+            textField.delegate = self
+        }
 
         let object = data.object(at: row, column: column)
         textField.stringValue = object.displayValue

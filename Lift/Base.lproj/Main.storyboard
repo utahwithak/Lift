@@ -4534,7 +4534,7 @@ Gw
         <scene sceneID="0hJ-Jj-R9g">
             <objects>
                 <viewController id="kQh-N2-uH1" customClass="TableDataViewController" customModule="Lift" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" wantsLayer="YES" id="YBg-S5-1MX">
+                    <view key="view" id="YBg-S5-1MX">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="310"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
@@ -4569,7 +4569,7 @@ Gw
                                                             <rect key="frame" x="1" y="0.0" width="347" height="15"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
-                                                                <textField canDrawConcurrently="YES" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="xJq-Xq-Z1q">
+                                                                <textField canDrawConcurrently="YES" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" preferredMaxLayoutWidth="200" translatesAutoresizingMaskIntoConstraints="NO" id="xJq-Xq-Z1q">
                                                                     <rect key="frame" x="0.0" y="-1" width="349" height="17"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="FWT-mF-4BI">
                                                                         <font key="font" metaFont="system"/>

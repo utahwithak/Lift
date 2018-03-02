@@ -36,8 +36,8 @@ class SQLiteCreateViewParser {
         def.name = try SQLiteCreateTableParser.parseStringOrName(from: stringScanner)
 
         if stringScanner.scanString("(", into: nil) {
-
-
+            def.specifyColumns = true
+            
             let initialColumn = try SQLiteCreateTableParser.parseStringOrName(from: stringScanner)
             def.columns.append(initialColumn)
 

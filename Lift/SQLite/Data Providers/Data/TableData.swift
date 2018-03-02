@@ -114,14 +114,27 @@ final class TableData: NSObject {
             }
             baseQuery = "SELECT \(sortColumns),* FROM \(name)"
         } else {
-            sortCount = 0
-            argString = ""
-            sortColumns = ""
-            smartPaging = false
-            if let query = customQuery {
-                baseQuery = "SELECT * FROM \(name) WHERE \(query)"
+            if let table = provider as? Table, table.definition?.withoutRowID ?? false {
+                let primaryKeys =  table.columns.filter { $0.primaryKey }
+                sortCount = primaryKeys.count
+                sortColumns = primaryKeys.map { $0.name.sqliteSafeString() }.joined(separator: ", ")
+                argString = (0..<primaryKeys.count).map { "$\($0)"}.joined(separator: ", ")
+                smartPaging = false
+                if let query = customQuery {
+                    baseQuery = "SELECT \(sortColumns),* FROM \(name) WHERE \(query)"
+                } else {
+                    baseQuery = "SELECT \(sortColumns),* FROM \(name)"
+                }
             } else {
-                baseQuery = "SELECT * FROM \(name)"
+                sortColumns = "rowid"
+                argString = "$0"
+                sortCount = 1
+                smartPaging = false
+                if let query = customQuery {
+                    baseQuery = "SELECT \(sortColumns),* FROM \(name) WHERE \(query)"
+                } else {
+                    baseQuery = "SELECT \(sortColumns),* FROM \(name)"
+                }
             }
 
         }
