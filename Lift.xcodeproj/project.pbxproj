@@ -145,6 +145,7 @@
 		8FD4FEA31F8BFEF70008D8DA /* GraphTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD4FEA21F8BFEF70008D8DA /* GraphTableView.swift */; };
 		8FD4FEA51F8C01420008D8DA /* CGPoint+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD4FEA41F8C01420008D8DA /* CGPoint+Additions.swift */; };
 		8FD6D92D1F981A510033E512 /* RowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD6D92C1F981A510033E512 /* RowData.swift */; };
+		8FE11ACC2049A1AE0086E53C /* CustomRowEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE11ACB2049A1AE0086E53C /* CustomRowEditorViewController.swift */; };
 		8FEE61121FBBBD850090CE1F /* TablePredicateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEE61111FBBBD850090CE1F /* TablePredicateViewController.swift */; };
 		8FEFD4BF1F9F7AD900C6C75A /* ExportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEFD4BE1F9F7AD900C6C75A /* ExportViewController.swift */; };
 		8FEFD4C11F9F7B4200C6C75A /* ImportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEFD4C01F9F7B4200C6C75A /* ImportViewController.swift */; };
@@ -352,6 +353,7 @@
 		8FD4FEA21F8BFEF70008D8DA /* GraphTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphTableView.swift; sourceTree = "<group>"; };
 		8FD4FEA41F8C01420008D8DA /* CGPoint+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CGPoint+Additions.swift"; sourceTree = "<group>"; };
 		8FD6D92C1F981A510033E512 /* RowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowData.swift; sourceTree = "<group>"; };
+		8FE11ACB2049A1AE0086E53C /* CustomRowEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRowEditorViewController.swift; sourceTree = "<group>"; };
 		8FEE61111FBBBD850090CE1F /* TablePredicateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TablePredicateViewController.swift; sourceTree = "<group>"; };
 		8FEFD4BE1F9F7AD900C6C75A /* ExportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportViewController.swift; sourceTree = "<group>"; };
 		8FEFD4C01F9F7B4200C6C75A /* ImportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportViewController.swift; sourceTree = "<group>"; };
@@ -421,6 +423,7 @@
 			children = (
 				8F84D24D1F8B04FA00CF4B08 /* TableDataViewController.swift */,
 				8F178CA01FA0DB790057387A /* JumpToRowViewController.swift */,
+				8FE11ACB2049A1AE0086E53C /* CustomRowEditorViewController.swift */,
 				8F44A8AE1FBDE14B00FB652B /* Predicate Editor */,
 			);
 			path = "Data View";
@@ -1109,6 +1112,7 @@
 				8FB7CC981FFBFE0100D5CDC0 /* URLPathFormatter.swift in Sources */,
 				8F921DBF1F7ECECB00464D27 /* DefaultColumnConstraint.swift in Sources */,
 				8FBE0F021FCE485600ABFD1E /* CWCSVParser.swift in Sources */,
+				8FE11ACC2049A1AE0086E53C /* CustomRowEditorViewController.swift in Sources */,
 				8F6273E21F85C291007055D9 /* SQLiteTextView.swift in Sources */,
 				8FB9F16A1F7EB66C0090FA53 /* ForeignKeyMatchStatement.swift in Sources */,
 				8F9565D11FB36EFC008FE038 /* ExportViewController+XML.swift in Sources */,

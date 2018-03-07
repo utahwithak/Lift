@@ -85,6 +85,10 @@ class Table: DataProvider {
 
     }
 
+    var isEditable: Bool {
+        return !name.hasPrefix("sqlite_")
+    }
+
     func foreignKeys(from columnName: String) -> [ForeignKeyConnection] {
         return foreignKeys.filter { $0.fromColumns.contains(columnName) }
     }

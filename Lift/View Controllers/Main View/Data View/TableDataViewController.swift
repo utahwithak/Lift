@@ -603,10 +603,6 @@ extension TableDataViewController: NSMenuDelegate {
         self.tableView.sortOrders = sortOrders
     }
 
-    func tableView(_ tableView: NSTableView, sortDescriptorsDidChange oldDescriptors: [NSSortDescriptor]) {
-        print("Changed")
-    }
-
     func menuNeedsUpdate(_ menu: NSMenu) {
 
         menu.removeAllItems()
@@ -645,6 +641,7 @@ extension TableDataViewController: NSMenuDelegate {
                     }
                 }
 
+
                 let setToMenu = NSMenuItem(title: NSLocalizedString("Set To...", comment: "set to menu item title, opens to show default values"), action: nil, keyEquivalent: "")
                 let subMenu = NSMenu()
                 setToMenu.submenu = subMenu
@@ -663,6 +660,7 @@ extension TableDataViewController: NSMenuDelegate {
             menu.addItem(withTitle: NSLocalizedString("Copy as CSV", comment: "Copy csv menu item"), action: #selector(copyAsCSV), keyEquivalent: "")
             menu.addItem(withTitle: NSLocalizedString("Copy as JSON", comment: "Copy JSON menu item"), action: #selector(copyAsJSON), keyEquivalent: "")
         }
+
     }
 
     @objc private func setToType(_ sender: NSMenuItem) {
