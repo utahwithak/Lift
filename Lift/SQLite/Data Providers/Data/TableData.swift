@@ -26,7 +26,7 @@ enum SimpleUpdateType {
     case defaultValue
     case argument(String)
 
-    static let allVals: [SimpleUpdateType] = [.null,.current_time, .current_date, .current_timestamp, .defaultValue]
+    static let allVals: [SimpleUpdateType] = [.null, .current_time, .current_date, .current_timestamp, .defaultValue]
 
     var title: String {
         switch  self {
@@ -399,6 +399,10 @@ final class TableData: NSObject {
         case updated
         case removed
         case failed
+    }
+
+    func rowdata(at row: Int) -> RowData {
+        return data[row]
     }
 
     func set(row: Int, column: Int, to value: SimpleUpdateType) throws -> UpdateResult {

@@ -28,6 +28,8 @@
 		8F374B961F87E5C700BB4F63 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F374B951F87E5C700BB4F63 /* View.swift */; };
 		8F391B3C1F965850002D3AFE /* LiftMainSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F391B3B1F965850002D3AFE /* LiftMainSplitViewController.swift */; };
 		8F391B7C1F967429002D3AFE /* LongPressButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F391B7B1F967429002D3AFE /* LongPressButton.swift */; };
+		8F445A4F20504E3C0041CD84 /* EditRowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F445A4E20504E3C0041CD84 /* EditRowData.swift */; };
+		8F445A5220504E550041CD84 /* NewRowValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F445A5120504E550041CD84 /* NewRowValue.swift */; };
 		8F44A8B01FBDE16800FB652B /* SQLiteExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F44A8AF1FBDE16800FB652B /* SQLiteExpression.swift */; };
 		8F4BECC21FB6861A003DAA5E /* BottomEditorContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4BECC11FB6861A003DAA5E /* BottomEditorContainer.swift */; };
 		8F4BECC81FB68B00003DAA5E /* TabCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4BECC41FB68AFF003DAA5E /* TabCell.swift */; };
@@ -42,6 +44,7 @@
 		8F4BECDC1FB793A1003DAA5E /* SnippetTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4BECDB1FB793A1003DAA5E /* SnippetTableCellView.swift */; };
 		8F4C40DA1F87B3CE003BF006 /* StatementWaitingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4C40D91F87B3CE003BF006 /* StatementWaitingViewController.swift */; };
 		8F4C40DD1F87B657003BF006 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4C40DC1F87B657003BF006 /* Result.swift */; };
+		8F51324E20504DE800E2A759 /* AttributedStringFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F51324D20504DE800E2A759 /* AttributedStringFormatter.swift */; };
 		8F5891E51FA392960076C86D /* LogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5891E41FA392960076C86D /* LogViewController.swift */; };
 		8F6273E21F85C291007055D9 /* SQLiteTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6273E11F85C291007055D9 /* SQLiteTextView.swift */; };
 		8F6273E51F85C2C0007055D9 /* SQLiteSyntaxHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6273E41F85C2C0007055D9 /* SQLiteSyntaxHighlighter.swift */; };
@@ -228,6 +231,8 @@
 		8F374B951F87E5C700BB4F63 /* View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View.swift; sourceTree = "<group>"; };
 		8F391B3B1F965850002D3AFE /* LiftMainSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiftMainSplitViewController.swift; sourceTree = "<group>"; };
 		8F391B7B1F967429002D3AFE /* LongPressButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongPressButton.swift; sourceTree = "<group>"; };
+		8F445A4E20504E3C0041CD84 /* EditRowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRowData.swift; sourceTree = "<group>"; };
+		8F445A5120504E550041CD84 /* NewRowValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRowValue.swift; sourceTree = "<group>"; };
 		8F44A8AF1FBDE16800FB652B /* SQLiteExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteExpression.swift; sourceTree = "<group>"; };
 		8F4BECC11FB6861A003DAA5E /* BottomEditorContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomEditorContainer.swift; sourceTree = "<group>"; };
 		8F4BECC41FB68AFF003DAA5E /* TabCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabCell.swift; sourceTree = "<group>"; };
@@ -242,6 +247,7 @@
 		8F4BECDB1FB793A1003DAA5E /* SnippetTableCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnippetTableCellView.swift; sourceTree = "<group>"; };
 		8F4C40D91F87B3CE003BF006 /* StatementWaitingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatementWaitingViewController.swift; sourceTree = "<group>"; };
 		8F4C40DC1F87B657003BF006 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
+		8F51324D20504DE800E2A759 /* AttributedStringFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedStringFormatter.swift; sourceTree = "<group>"; };
 		8F5891E41FA392960076C86D /* LogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogViewController.swift; sourceTree = "<group>"; };
 		8F6273E11F85C291007055D9 /* SQLiteTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteTextView.swift; sourceTree = "<group>"; };
 		8F6273E41F85C2C0007055D9 /* SQLiteSyntaxHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteSyntaxHighlighter.swift; sourceTree = "<group>"; };
@@ -423,7 +429,7 @@
 			children = (
 				8F84D24D1F8B04FA00CF4B08 /* TableDataViewController.swift */,
 				8F178CA01FA0DB790057387A /* JumpToRowViewController.swift */,
-				8FE11ACB2049A1AE0086E53C /* CustomRowEditorViewController.swift */,
+				8F51324B20504DCC00E2A759 /* Custom Row Editing */,
 				8F44A8AE1FBDE14B00FB652B /* Predicate Editor */,
 			);
 			path = "Data View";
@@ -534,6 +540,17 @@
 				8F4BECD51FB72926003DAA5E /* SnippetManager.swift */,
 			);
 			path = Snippets;
+			sourceTree = "<group>";
+		};
+		8F51324B20504DCC00E2A759 /* Custom Row Editing */ = {
+			isa = PBXGroup;
+			children = (
+				8FE11ACB2049A1AE0086E53C /* CustomRowEditorViewController.swift */,
+				8F445A4E20504E3C0041CD84 /* EditRowData.swift */,
+				8F51324D20504DE800E2A759 /* AttributedStringFormatter.swift */,
+				8F445A5120504E550041CD84 /* NewRowValue.swift */,
+			);
+			path = "Custom Row Editing";
 			sourceTree = "<group>";
 		};
 		8F5891E21FA392880076C86D /* Log View Controller */ = {
@@ -1053,6 +1070,7 @@
 				8FEE61121FBBBD850090CE1F /* TablePredicateViewController.swift in Sources */,
 				8FB9F14F1F7DC6EA0090FA53 /* TableConstraint.swift in Sources */,
 				8F391B3C1F965850002D3AFE /* LiftMainSplitViewController.swift in Sources */,
+				8F445A4F20504E3C0041CD84 /* EditRowData.swift in Sources */,
 				8F9565D31FB36EFC008FE038 /* ExportViewController+JSON.swift in Sources */,
 				8F9565D91FB36F45008FE038 /* XMLElement+Additions.swift in Sources */,
 				8F8F7F4220472EFD0043EBCA /* SQLiteCreateViewParser.swift in Sources */,
@@ -1072,6 +1090,7 @@
 				8F4BECCE1FB68B63003DAA5E /* QueryResultsViewController.swift in Sources */,
 				8F9114A21FF84A6C000B6D6A /* WelcomeViewController.swift in Sources */,
 				8F4BECC21FB6861A003DAA5E /* BottomEditorContainer.swift in Sources */,
+				8F445A5220504E550041CD84 /* NewRowValue.swift in Sources */,
 				8F84D24E1F8B04FA00CF4B08 /* TableDataViewController.swift in Sources */,
 				8F7D84381F8BAF1D0053137B /* TableViewCell.swift in Sources */,
 				8F9565CC1FB36EFC008FE038 /* XLSXExportOptions.swift in Sources */,
@@ -1115,6 +1134,7 @@
 				8FE11ACC2049A1AE0086E53C /* CustomRowEditorViewController.swift in Sources */,
 				8F6273E21F85C291007055D9 /* SQLiteTextView.swift in Sources */,
 				8FB9F16A1F7EB66C0090FA53 /* ForeignKeyMatchStatement.swift in Sources */,
+				8F51324E20504DE800E2A759 /* AttributedStringFormatter.swift in Sources */,
 				8F9565D11FB36EFC008FE038 /* ExportViewController+XML.swift in Sources */,
 				8F9565D01FB36EFC008FE038 /* ExportNodes.swift in Sources */,
 				8F2521731F855A3D00B438CC /* LiftViewController.swift in Sources */,

@@ -430,9 +430,21 @@ class TableDataViewController: LiftMainViewController {
     }
 
     @IBAction func addCustomValues(_ sender: NSButton) {
-//        guard let table = selectedTable as? Table, isEditingEnabled else {
-//            return
-//        }
+        guard let table = selectedTable as? Table, isEditingEnabled else {
+            return
+        }
+
+        guard let customRowEditor = storyboard?.instantiateController(withIdentifier: CustomRowEditorViewController.storyboardIdentifier) as? CustomRowEditorViewController else {
+            print("failed to create row data")
+            return
+        }
+
+        customRowEditor.sortCount = 0
+        customRowEditor.columnNames = table.columns.map({ $0.name })
+        customRowEditor.row = RowData(row: [SQLiteData](repeating:.null, count: table.columns.count))
+        customRowEditor.creatingRow = true
+        presentViewControllerAsSheet(customRowEditor)
+
 
     }
 
@@ -641,16 +653,21 @@ extension TableDataViewController: NSMenuDelegate {
                     }
                 }
 
+                if table.isEditable {
+                    let setToMenu = NSMenuItem(title: NSLocalizedString("Set To...", comment: "set to menu item title, opens to show default values"), action: nil, keyEquivalent: "")
+                    let subMenu = NSMenu()
+                    setToMenu.submenu = subMenu
+                    for type in SimpleUpdateType.allVals {
+                        let updateItem = NSMenuItem(title: type.title, action: #selector(setToType), keyEquivalent: "")
+                        updateItem .representedObject = type
+                        subMenu.addItem(updateItem )
+                    }
+                    menu.addItem(setToMenu)
 
-                let setToMenu = NSMenuItem(title: NSLocalizedString("Set To...", comment: "set to menu item title, opens to show default values"), action: nil, keyEquivalent: "")
-                let subMenu = NSMenu()
-                setToMenu.submenu = subMenu
-                for type in SimpleUpdateType.allVals {
-                    let updateItem = NSMenuItem(title: type.title, action: #selector(setToType), keyEquivalent: "")
-                    updateItem .representedObject = type
-                    subMenu.addItem(updateItem )
+                    let editRow = NSMenuItem(title: NSLocalizedString("Edit Row", comment: "menu item for editing entire row"), action: #selector(editSelectedRow), keyEquivalent: "")
+                    editRow.representedObject = table
+                    menu.addItem(editRow)
                 }
-                menu.addItem(setToMenu)
 
 
             }
@@ -669,6 +686,24 @@ extension TableDataViewController: NSMenuDelegate {
         }
 
         set(row: selectionBox.startRow, rawCol: selectionBox.startColumn, to: type)
+    }
+
+    @objc private func editSelectedRow(_ sender: NSMenuItem) {
+        guard let selectionBox = tableView.selectionBoxes.first,let rowData = data?.rowdata(at: selectionBox.startRow), let columnNames = data?.columnNames, let sortCount = data?.sortCount  else {
+            return
+        }
+
+        guard let editViewController = storyboard?.instantiateController(withIdentifier: CustomRowEditorViewController.storyboardIdentifier) as? CustomRowEditorViewController else {
+            print("Unable to create edit row VC")
+            return
+        }
+        editViewController.sortCount = sortCount
+        editViewController.columnNames = columnNames
+        editViewController.row = rowData
+
+        presentViewControllerAsSheet(editViewController)
+
+
     }
 
     @objc private func copyAsCSV(_ sender: Any) {
