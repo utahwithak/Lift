@@ -22,6 +22,10 @@ class NotNullColumnConstraint: ConflictColumnConstraint {
 
     }
 
+    override init() {
+        super.init()
+    }
+
     override var sql: String {
         var builder = ""
         if let name = constraintName?.sql{

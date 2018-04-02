@@ -18,7 +18,7 @@ class CreateTableViewController: LiftViewController {
     @objc dynamic var databases: [String] {
         return document?.database.allDatabases.map( { $0.name }) ?? []
     }
-    
+
     @IBOutlet var selectStatementView: SQLiteTextView!
 
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
@@ -34,9 +34,7 @@ class CreateTableViewController: LiftViewController {
                 waitingView.operation = .statement(statement)
                 
             } else {
-
                 waitingView.operation = .statement(table.createStatment)
-
             }
 
 
@@ -44,9 +42,12 @@ class CreateTableViewController: LiftViewController {
 
         }
     }
+
     @IBAction func toggleCreationType(_ sender: NSSegmentedControl) {
         definitionTabView.selectTabViewItem(at: sender.selectedSegment)
     }
+
+
 }
 
 

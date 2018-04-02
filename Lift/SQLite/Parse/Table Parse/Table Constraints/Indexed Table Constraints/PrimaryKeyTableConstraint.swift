@@ -18,6 +18,11 @@ class PrimaryKeyTableConstraint: IndexedTableConstraint {
         try super.init(with: name, from: scanner)
     }
 
+    override init(initialColumn name: ColumnNameProvider) {
+        super.init(initialColumn: name)
+
+    }
+
     override var sql: String {
         var builder = ""
         if let name = name?.sql {
@@ -36,7 +41,7 @@ class PrimaryKeyTableConstraint: IndexedTableConstraint {
 
 
         let cleanedIndexed = indexedColumns.filter { (index) -> Bool in
-            return columns.contains(index.columnName.cleanedVersion)
+            return columns.contains(index.nameProvider.columnName.cleanedVersion)
         }
 
         if cleanedIndexed.isEmpty {
@@ -48,10 +53,10 @@ class PrimaryKeyTableConstraint: IndexedTableConstraint {
             builder += "CONSTRAINT \(name) "
         }
         builder += "PRIMARY KEY ("
-        builder += cleanedIndexed.map({ $0.sql}).joined(separator: ", ")
-        builder += ") "
-        if let conflict = conflictClause {
-            builder += conflict.sql
+        builder += cleanedIndexed.map({$0.sql}).joined(separator: ", ")
+        builder += ")"
+        if let conflict = conflictClause?.sql, !conflict.isEmpty {
+            builder += " " + conflict
         }
         return builder
 

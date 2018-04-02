@@ -15,17 +15,23 @@ enum IndexColumnSortOrder {
 }
 
 class IndexedColumn {
-    var columnName: SQLiteName
+    var nameProvider: ColumnNameProvider
     var collationName: SQLiteName?
     var sortOrder: IndexColumnSortOrder
 
+    init(provider: ColumnNameProvider) {
+        nameProvider = provider
+        sortOrder = .notSpecified
+    }
 
     init?(from scanner: Scanner) throws {
 
-        columnName = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
+        let columnName = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
         if columnName.isEmpty {
             return nil
         }
+
+        nameProvider = columnName
 
         if scanner.scanString("COLLATE", into: nil) {
             collationName = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
@@ -43,16 +49,16 @@ class IndexedColumn {
     }
 
     var sql: String {
-        var builder = "\(columnName.sql) "
+        var builder = "\(nameProvider.columnName.sql)"
         if let name = collationName {
-            builder += "COLLATE \(name.sql) "
+            builder += " COLLATE \(name.sql)"
         }
 
         switch sortOrder {
         case .ASC:
-            builder += "ASC "
+            builder += " ASC"
         case .DESC:
-            builder += "DESC "
+            builder += " DESC"
         case .notSpecified:
             break
         }

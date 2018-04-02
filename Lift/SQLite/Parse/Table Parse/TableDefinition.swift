@@ -18,7 +18,9 @@ class TableDefinition: NSObject {
             }
         }
     }
+
     @objc dynamic public var withoutRowID = false
+
     @objc dynamic public var databaseName: SQLiteName? {
         didSet {
             if isTemp && databaseName?.rawValue != "temp" {
@@ -26,12 +28,27 @@ class TableDefinition: NSObject {
             }
         }
     }
-    @objc dynamic public var tableName = SQLiteName(rawValue: "")
 
+    @objc dynamic public var tableName = SQLiteName(rawValue: "") {
+        willSet {
+            willChangeValue(forKey: #keyPath(hasValidName))
+        }
+        didSet {
+            didChangeValue(forKey: #keyPath(hasValidName))
+        }
+    }
+
+    @objc dynamic public var hasValidName: Bool {
+        return !tableName.isEmpty
+    }
     
-    @objc dynamic public var columns = [ColumnDefinition]()
+    @objc dynamic public var columns = [ColumnDefinition]() {
+        didSet {
+            columns.forEach({ $0.table = self })
+        }
+    }
 
-     @objc dynamic public var tableConstraints = [TableConstraint]()
+    @objc dynamic public var tableConstraints = [TableConstraint]()
 
 
     var qualifiedNameForQuery: String {
@@ -54,12 +71,15 @@ class TableDefinition: NSObject {
 
         builder += columns.map({ $0.creationStatement}).joined(separator: ", ")
 
-        builder += tableConstraints.compactMap({ $0.sql }).joined(separator: ", ")
+        let tConst = tableConstraints.compactMap({ $0.sql }).joined(separator: ", ")
+        if !tConst.isEmpty {
+            builder += ", " + tConst
+        }
 
-        builder += ") "
+        builder += ")"
 
         if withoutRowID {
-            builder += "WITHOUT ROWID"
+            builder += " WITHOUT ROWID"
         }
 
         return builder
@@ -84,7 +104,7 @@ class TableDefinition: NSObject {
 
         let tabConstraints = tableConstraints.compactMap({ $0.sql(with: includedColumnNames )})
         if !tabConstraints.isEmpty {
-            builder += "," + tabConstraints.joined(separator: ", ")
+            builder += ", " + tabConstraints.joined(separator: ", ")
         }
 
         builder += ") "

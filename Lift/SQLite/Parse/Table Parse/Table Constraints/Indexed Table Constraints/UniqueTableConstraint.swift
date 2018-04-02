@@ -16,6 +16,10 @@ class UniqueTableConstraint: IndexedTableConstraint {
         try super.init(with: name, from: scanner)
     }
 
+    override init(initialColumn name: ColumnNameProvider) {
+        super.init(initialColumn: name)
+
+    }
 
     override var sql: String {
         var builder = ""
@@ -35,7 +39,7 @@ class UniqueTableConstraint: IndexedTableConstraint {
 
 
         let cleanedIndexed = indexedColumns.filter { (index) -> Bool in
-            return columns.contains(index.columnName.cleanedVersion)
+            return columns.contains(index.nameProvider.columnName.cleanedVersion)
         }
 
         if cleanedIndexed.isEmpty {

@@ -17,4 +17,7 @@ class ConflictColumnConstraint: ColumnConstraint {
 
         super.init(name: name)
     }
+    init() {
+        super.init(name: nil)
+    }
 }

@@ -8,12 +8,23 @@
 
 import Foundation
 
+protocol ColumnNameProvider: class {
+    var columnName: SQLiteName { get }
+}
+
+extension SQLiteName: ColumnNameProvider {
+    var columnName: SQLiteName {
+        return self
+    }
+}
 
 class ColumnDefinition: NSObject {
 
-    public var name: SQLiteName
+    @objc dynamic public var name: SQLiteName
 
-    public var type: SQLiteName?
+    @objc dynamic public var type: SQLiteName?
+
+    public weak var table: TableDefinition?
 
     public var columnConstraints = [ColumnConstraint]()
 
@@ -31,6 +42,9 @@ class ColumnDefinition: NSObject {
         }
 
         
+    }
+    override init(){
+        self.name = SQLiteName(rawValue: "New Column")
     }
 
     init(name: String) {
@@ -111,16 +125,26 @@ class ColumnDefinition: NSObject {
 
 
     var creationStatement: String {
-        var builder = "\(name.sql) "
+        
+        var builder = "\(name.sql)"
         if let includedType = type {
-            builder += "\(includedType.rawValue) "
+            builder += " \(includedType.rawValue)"
         }
+        let constrantText = columnConstraints.map({ $0.sql}).joined(separator: " ")
 
-        builder += columnConstraints.map({ $0.sql}).joined(separator: " ")
+        if !constrantText.isEmpty {
+            builder += " " + constrantText
+        }
 
         return builder
     }
 
 }
 
+
+extension ColumnDefinition: ColumnNameProvider {
+    var columnName: SQLiteName {
+        return name
+    }
+}
 

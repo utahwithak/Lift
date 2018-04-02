@@ -27,6 +27,23 @@ class IndexedTableConstraint: TableConstraint {
 
 
     }
+
+    init(initialColumn name: ColumnNameProvider) {
+        indexedColumns = [IndexedColumn(provider: name)]
+        super.init(name: nil)
+    }
+
+    public func removeColumn(named: ColumnNameProvider) {
+        indexedColumns = indexedColumns.filter({ $0.nameProvider !== named })
+    }
+
+    public func addColumn(named: ColumnNameProvider) {
+        indexedColumns.append(IndexedColumn(provider: named))
+    }
+    public func contains(_ provider: ColumnNameProvider) -> Bool {
+        return indexedColumns.contains(where: { $0.nameProvider === provider })
+    }
+
     private static func parseIndexColumns(from scanner: Scanner) throws -> [IndexedColumn] {
         var columns = [IndexedColumn]()
         guard let first = try IndexedColumn(from: scanner) else {
