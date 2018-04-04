@@ -8,20 +8,20 @@
 
 import Foundation
 
-class ForeignKeyMatchStatement: Equatable {
+struct ForeignKeyMatchStatement: Equatable {
 
-    let name: SQLiteName
+    let name: String
 
     init(from scanner: Scanner) throws {
-        name = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
+        name = try SQLiteCreateTableParser.parseStringOrName(from: scanner).rawValue
     }
 
     init(name: String) {
-        self.name = SQLiteName(rawValue: name)
+        self.name = name
     }
 
     var sql: String {
-        return "MATCH \(name.sql) "
+        return "MATCH \(name.sqliteSafeString()) "
     }
 }
 

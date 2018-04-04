@@ -192,7 +192,7 @@ class CustomRowEditorViewController: NSViewController {
     private static func arguments(for editRows: [EditRowData]) -> [String: SQLiteData] {
         var values = [String: SQLiteData]()
         for (index, row) in editRows.enumerated() {
-            if let value = row.argument() {
+            if row.hasChanges, let value = row.argument() {
                 values["$\(index)"] = value
             }
         }

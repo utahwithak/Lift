@@ -357,7 +357,12 @@ extension SideBarBrowseViewController: NSMenuDelegate {
             editController.viewDefinition = view
             presentViewControllerAsSheet(editController)
         } else if let tableDef = (provider as? Table)?.definition {
-
+            guard let editController = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("createTableViewController")) as? CreateTableViewController else {
+                return
+            }
+            editController.representedObject = representedObject
+            editController.table = tableDef.copyForEditing()
+            presentViewControllerAsSheet(editController)
         } else {
             print("UNABLE TO GET DEF!! WHATS UP!?")
         }

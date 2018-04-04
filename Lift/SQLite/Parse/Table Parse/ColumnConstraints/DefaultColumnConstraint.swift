@@ -93,4 +93,13 @@ class DefaultColumnConstraint: ColumnConstraint {
 
         return builder + "DEFAULT \(value.sql)"
     }
+
+    private init(copying: DefaultColumnConstraint) {
+        value = copying.value
+        super.init(name: copying.constraintName)
+    }
+
+    override func copy() -> ColumnConstraint {
+        return DefaultColumnConstraint(copying: self)
+    }
 }

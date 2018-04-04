@@ -15,6 +15,10 @@ class ColumnConstraint {
         constraintName = name
     }
 
+    func copy() -> ColumnConstraint {
+        return ColumnConstraint(name: self.constraintName)
+    }
+
     static func parseConstraint(from scanner: Scanner) throws -> ColumnConstraint? {
         var name: SQLiteName?
 

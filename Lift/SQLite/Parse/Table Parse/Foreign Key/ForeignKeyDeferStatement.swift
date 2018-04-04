@@ -15,7 +15,7 @@ enum DeferType {
     case initiallyImmediate
 }
 
-class ForeignKeyDeferStatement: Equatable {
+struct ForeignKeyDeferStatement: Equatable {
 
     var isDeferrable = true
     var type = DeferType.notSpecified

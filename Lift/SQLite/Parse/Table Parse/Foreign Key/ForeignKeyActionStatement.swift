@@ -44,7 +44,7 @@ enum ActionResult {
     }
 }
 
-class ForeignKeyActionStatement: Equatable {
+struct ForeignKeyActionStatement: Equatable {
     var type: ActionType
     var result: ActionResult
 

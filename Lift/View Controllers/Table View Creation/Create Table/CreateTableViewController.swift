@@ -21,6 +21,10 @@ class CreateTableViewController: LiftViewController {
 
     @IBOutlet var selectStatementView: SQLiteTextView!
 
+    public var originalDefinition: TableDefinition? {
+        return table.originalDefinition
+    }
+
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         if let waitingView = segue.destinationController as? StatementWaitingViewController {
             waitingView.delegate = self
@@ -59,5 +63,14 @@ extension CreateTableViewController: StatementWaitingViewDelegate {
             dismissViewController(self)
             document?.database.refresh()
         }
+    }
+}
+
+
+class CreateColumnArrayController: NSArrayController {
+    // overridden to add a new object to the content objects and to the arranged objects
+    override func newObject() -> Any {
+        let count = (arrangedObjects as? NSArray)?.count
+        return ColumnDefinition(name: "Column \( (count ?? 0) + 1)")
     }
 }

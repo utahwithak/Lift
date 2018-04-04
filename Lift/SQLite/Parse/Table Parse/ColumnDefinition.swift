@@ -48,7 +48,7 @@ class ColumnDefinition: NSObject {
     }
 
     init?(from scanner: Scanner) throws {
-
+        originalColumn = nil
         name = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
         if name.isEmpty {
             return nil
@@ -60,14 +60,30 @@ class ColumnDefinition: NSObject {
             columnConstraints.append(constraint)
         }
 
-        
+
     }
+
+    public let originalColumn: ColumnDefinition?
+
     override init(){
         self.name = SQLiteName(rawValue: "New Column")
+        originalColumn = nil
     }
 
     init(name: String) {
         self.name = SQLiteName(rawValue: name)
+        originalColumn = nil
+    }
+
+    private init(copying: ColumnDefinition) {
+        self.originalColumn = copying
+        name = copying.name.copy
+        type = copying.type?.copy
+        columnConstraints = copying.columnConstraints.map({ $0.copy() })
+    }
+
+    func duplicateForEditing() -> ColumnDefinition {
+        return ColumnDefinition(copying: self)
     }
 
 

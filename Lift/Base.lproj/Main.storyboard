@@ -2364,7 +2364,7 @@ Gw
         <!--Create Table View Controller-->
         <scene sceneID="nbU-Rh-HaO">
             <objects>
-                <viewController id="Vy1-dh-UOw" customClass="CreateTableViewController" customModule="Lift" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="createTableViewController" id="Vy1-dh-UOw" customClass="CreateTableViewController" customModule="Lift" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="7cG-Fm-U9B">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="566"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -2413,10 +2413,9 @@ DQ
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <connections>
-                                    <binding destination="Vy1-dh-UOw" name="value" keyPath="self.table.tableName" id="pZQ-GN-2bS">
+                                    <binding destination="Vy1-dh-UOw" name="value" keyPath="self.table.tableName" id="PBE-Z9-EnS">
                                         <dictionary key="options">
                                             <bool key="NSContinuouslyUpdatesValue" value="YES"/>
-                                            <string key="NSValueTransformerName">Lift.SQLiteStringValueFormatter</string>
                                         </dictionary>
                                     </binding>
                                 </connections>
@@ -2578,9 +2577,10 @@ DQ
                                                                                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                                             </textFieldCell>
                                                                                                             <connections>
-                                                                                                                <binding destination="NMw-LS-AlQ" name="value" keyPath="objectValue.defaultExpression" id="Gtd-tO-ybS">
+                                                                                                                <binding destination="NMw-LS-AlQ" name="value" keyPath="objectValue.defaultExpression" id="eVA-23-IOC">
                                                                                                                     <dictionary key="options">
                                                                                                                         <bool key="NSContinuouslyUpdatesValue" value="YES"/>
+                                                                                                                        <string key="NSNullPlaceholder">Default Value</string>
                                                                                                                     </dictionary>
                                                                                                                 </binding>
                                                                                                             </connections>
@@ -2923,7 +2923,7 @@ DQ
                 </viewController>
                 <customObject id="ggI-mY-jN9" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController representsSharedInstance="YES" id="jSH-uR-fDU"/>
-                <arrayController objectClassName="Lift.ColumnDefinition" id="yGl-nY-XrH">
+                <arrayController objectClassName="Lift.ColumnDefinition" id="yGl-nY-XrH" customClass="CreateColumnArrayController" customModule="Lift" customModuleProvider="target">
                     <connections>
                         <binding destination="Vy1-dh-UOw" name="contentArray" keyPath="self.table.columns" id="NwY-FC-S0g"/>
                     </connections>
@@ -5076,7 +5076,6 @@ DQ
                                                             </menuItem>
                                                             <menuItem title="Default Value" id="ShN-rS-pla">
                                                                 <connections>
-                                                                    <action selector="chooseFileForItem:" target="oww-NL-d96" id="458-Dq-X2D"/>
                                                                     <binding destination="oww-NL-d96" name="hidden" keyPath="self.creatingRow" id="UOw-iF-NEy">
                                                                         <dictionary key="options">
                                                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
@@ -5135,8 +5134,8 @@ DQ
                                     </menu>
                                 </popUpButtonCell>
                                 <connections>
-                                    <binding destination="oww-NL-d96" name="contentValues" keyPath="self.typeOptions" id="gO2-AK-nY8"/>
                                     <binding destination="oww-NL-d96" name="selectedIndex" keyPath="self.insertionType" previousBinding="gO2-AK-nY8" id="LGZ-at-9of"/>
+                                    <binding destination="oww-NL-d96" name="contentValues" keyPath="self.typeOptions" id="gO2-AK-nY8"/>
                                 </connections>
                             </popUpButton>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="l6U-s0-oov">

@@ -22,6 +22,15 @@ class CheckColumnConstraint: ColumnConstraint {
 
         super.init(name: name)
     }
+
+    private init(copying: CheckColumnConstraint) {
+        checkExpression = copying.checkExpression
+        super.init(name: copying.constraintName)
+    }
+
+    override func copy() -> ColumnConstraint {
+        return CheckColumnConstraint(copying: self)
+    }
     
     override var sql: String {
         var builder = ""

@@ -47,7 +47,7 @@ class SQLiteCreateTableParser {
             throw ParserError.notATableStatement
         }
 
-        currentTable.tableName = try SQLiteCreateTableParser.parseStringOrName(from: stringScanner)
+        currentTable.tableName = try SQLiteCreateTableParser.parseStringOrName(from: stringScanner).rawValue
 
         guard stringScanner.scanString("(", into: nil) else {
             throw ParserError.noDefinitions

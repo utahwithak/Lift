@@ -31,4 +31,14 @@ class CollateColumnConstraint: ColumnConstraint {
 
         return builder + "COLLATE \(collationName.sql)"
     }
+
+    private init(copying: CollateColumnConstraint) {
+        collationName = copying.collationName.copy
+        super.init(name: copying.constraintName)
+    }
+
+    override func copy() -> ColumnConstraint {
+        return CollateColumnConstraint(copying: self)
+    }
 }
+

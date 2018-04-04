@@ -9,6 +9,22 @@
 import Foundation
 
 class TableDefinition: NSObject {
+
+    init(originalDefinition: TableDefinition? = nil) {
+        self.originalDefinition = originalDefinition
+        super.init()
+
+        guard let orig = originalDefinition else {
+            return
+        }
+        isTemp = orig.isTemp
+        withoutRowID = orig.withoutRowID
+        databaseName = orig.databaseName?.copy
+        tableName = orig.tableName
+        columns = orig.columns.map({ $0.duplicateForEditing() })
+
+    }
+
     @objc dynamic public var isTemp = false {
         didSet {
             if isTemp {
@@ -29,7 +45,7 @@ class TableDefinition: NSObject {
         }
     }
 
-    @objc dynamic public var tableName = SQLiteName(rawValue: "") {
+    @objc dynamic public var tableName = "" {
         willSet {
             willChangeValue(forKey: #keyPath(hasValidName))
         }
@@ -50,30 +66,30 @@ class TableDefinition: NSObject {
 
     @objc dynamic public var tableConstraints = [TableConstraint]()
 
+    public let originalDefinition: TableDefinition?
+
+    func copyForEditing() -> TableDefinition {
+        return TableDefinition(originalDefinition: self)
+    }
+
 
     var qualifiedNameForQuery: String {
         if let schemaName = databaseName {
-            return "\(schemaName.sql).\(tableName.sql)"
+            return "\(schemaName.sql).\(tableName.sqliteSafeString())"
         } else {
-            return tableName.sql
+            return tableName.sqliteSafeString()
         }
     }
 
     var createStatment: String {
-        var builder = "CREATE TABLE "
+        var builder = "CREATE TABLE \(qualifiedNameForQuery)"
+        builder += "(\n\t"
 
-        if let dbName = databaseName {
-            builder += dbName.sql + "." + tableName.sql
-        } else {
-            builder += tableName.sql
-        }
-        builder += "("
+        builder += columns.map({ $0.creationStatement}).joined(separator: ",\n\t")
 
-        builder += columns.map({ $0.creationStatement}).joined(separator: ", ")
-
-        let tConst = tableConstraints.compactMap({ $0.sql }).joined(separator: ", ")
+        let tConst = tableConstraints.compactMap({ $0.sql }).joined(separator: ",\n\t")
         if !tConst.isEmpty {
-            builder += ", " + tConst
+            builder += ",\n\t" + tConst
         }
 
         builder += ")"
@@ -92,11 +108,7 @@ class TableDefinition: NSObject {
         if checkExisting {
             builder += "IF NOT EXISTS "
         }
-        if let dbName = databaseName {
-            builder += dbName.sql + "." + tableName.sql
-        } else {
-            builder += tableName.sql
-        }
+        builder += qualifiedNameForQuery
         builder += "("
 
         let includedColumns = columns.filter({includedColumnNames.contains($0.name.cleanedVersion) })

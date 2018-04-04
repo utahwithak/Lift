@@ -62,4 +62,11 @@ class ConflictClause {
     var sql: String {
         return "ON CONFLICT \(resolution.sql) "
     }
+    private init(copying: ConflictClause) {
+        self.resolution = copying.resolution
+    }
+    
+    var copy: ConflictClause {
+        return ConflictClause(copying: self)
+    }
 }

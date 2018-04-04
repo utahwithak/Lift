@@ -43,7 +43,6 @@ class SQLiteName: NSObject {
             return rawValue
         }
     }
-
     
 }
 

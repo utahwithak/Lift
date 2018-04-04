@@ -22,8 +22,16 @@ class NotNullColumnConstraint: ConflictColumnConstraint {
 
     }
 
-    override init() {
+    init() {
         super.init()
+    }
+
+    private init(copying: NotNullColumnConstraint) {
+        super.init(copying: copying)
+    }
+    
+    override func copy() -> ColumnConstraint {
+        return NotNullColumnConstraint(copying: self)
     }
 
     override var sql: String {

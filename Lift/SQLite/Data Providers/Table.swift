@@ -82,6 +82,7 @@ class Table: DataProvider {
         for column in columns {
             column.definition = definition?.columns.first(where: { $0.name.cleanedVersion == column.name })
         }
+        definition?.tableName = name
 
     }
 

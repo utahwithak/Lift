@@ -179,7 +179,7 @@ class ImportDataViewController: LiftViewController {
             }
 
             let tableBuilder = TableDefinition()
-            tableBuilder.tableName = SQLiteName(rawValue: tableName)
+            tableBuilder.tableName = tableName
 
             tableBuilder.isTemp = createInTempDatabase
 

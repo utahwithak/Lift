@@ -41,6 +41,17 @@ class PrimaryKeyColumnConstraint: ConflictColumnConstraint {
         autoincrement = scanner.scanString("AUTOINCREMENT", into: nil)
     }
 
+    private init(copying: PrimaryKeyColumnConstraint) {
+        autoincrement = copying.autoincrement
+        sortOrder = copying.sortOrder
+        
+        super.init(copying: copying)
+    }
+
+    override func copy() -> ColumnConstraint {
+        return PrimaryKeyColumnConstraint(copying: self)
+    }
+
     override var sql: String {
         var builder = ""
         if let name = constraintName?.sql{

@@ -24,7 +24,7 @@ struct RowData {
             case .blob(_):
                 return CellData(type: .blob, displayValue: "<blob>")
             case .null:
-                return CellData(type: .null, displayValue: "<null>")
+                return CellData(type: .null, displayValue: "null")
             case .integer(let int):
                 return CellData(type: .integer, displayValue: "\(int)")
             case .float(let dbl):

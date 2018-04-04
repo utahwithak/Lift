@@ -25,5 +25,13 @@ class ForeignKeyColumnConstraint: ColumnConstraint {
 
         return builder + clause.sql
     }
-    
+
+    private init(copying: ForeignKeyColumnConstraint) {
+        clause = copying.clause
+        super.init(name: copying.constraintName)
+    }
+
+    override func copy() -> ColumnConstraint {
+        return ForeignKeyColumnConstraint(copying: self)
+    }
 }

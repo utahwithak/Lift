@@ -69,6 +69,7 @@ class EditRowData: NSObject {
             return "CURRENT_TIME"
         case .timeStamp:
             return "CURRENT_TIMESTAMP"
+
         }
     }
 

@@ -18,6 +18,14 @@ class UniqueColumnConstraint: ConflictColumnConstraint {
         try super.init(with: name,from: scanner)
         
     }
+
+    private init(copying: UniqueColumnConstraint) {
+        super.init(copying: copying)
+    }
+
+    override func copy() -> ColumnConstraint {
+        return UniqueColumnConstraint(copying: self)
+    }
     override var sql: String {
         var builder = ""
         if let name = constraintName?.sql{

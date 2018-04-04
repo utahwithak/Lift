@@ -10,19 +10,18 @@ import Foundation
 
 struct ForeignKeyClause {
 
-    var foreignTable: SQLiteName
+    var foreignTable: String
     var actionStatements = [ForeignKeyActionStatement]()
     var matchStatements = [ForeignKeyMatchStatement]()
 
-    var toColumns = [SQLiteName]()
+    var toColumns = [String]()
 
     var deferStatement: ForeignKeyDeferStatement?
 
     init( destination: String, columns: [String]) {
 
-        foreignTable = SQLiteName(rawValue: destination)
-
-        toColumns = columns.map({ SQLiteName(rawValue: $0)})
+        foreignTable = destination
+        toColumns = columns
 
     }
 
@@ -32,11 +31,11 @@ struct ForeignKeyClause {
             throw ParserError.unexpectedError("Expected references for FK clause!?")
         }
 
-        foreignTable = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
+        foreignTable = try SQLiteCreateTableParser.parseStringOrName(from: scanner).rawValue
 
         if scanner.scanString("(", into: nil) {
             repeat {
-                let name = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
+                let name = try SQLiteCreateTableParser.parseStringOrName(from: scanner).rawValue
 
                 guard !name.isEmpty else {
                     throw ParserError.unexpectedError("Empty foreign key column name!")
@@ -80,9 +79,9 @@ struct ForeignKeyClause {
     }
 
     var sql: String {
-        var builder = "REFERENCES \(foreignTable.sql) "
+        var builder = "REFERENCES \(foreignTable.sqliteSafeString()) "
         if !toColumns.isEmpty {
-            builder += "(" + toColumns.map({ $0.sql }).joined(separator: ", ") + ") "
+            builder += "(" + toColumns.map({ $0.sqliteSafeString() }).joined(separator: ", ") + ") "
         }
 
         builder += actionStatements.map({ $0.sql }).joined(separator:" ")
