@@ -2577,6 +2577,13 @@ DQ
                                                                                                                 <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                                                                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                                                             </textFieldCell>
+                                                                                                            <connections>
+                                                                                                                <binding destination="NMw-LS-AlQ" name="value" keyPath="objectValue.defaultExpression" id="Gtd-tO-ybS">
+                                                                                                                    <dictionary key="options">
+                                                                                                                        <bool key="NSContinuouslyUpdatesValue" value="YES"/>
+                                                                                                                    </dictionary>
+                                                                                                                </binding>
+                                                                                                            </connections>
                                                                                                         </textField>
                                                                                                     </subviews>
                                                                                                     <constraints>
@@ -4799,7 +4806,7 @@ Gw
             <objects>
                 <viewController storyboardIdentifier="editRowViewController" id="oww-NL-d96" customClass="CustomRowEditorViewController" customModule="Lift" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="Ggh-dC-rhR">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="411"/>
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="495"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tlW-yz-l21">
@@ -4825,22 +4832,25 @@ DQ
 </string>
                                     <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="doAction:" target="oww-NL-d96" id="asq-UX-t7w"/>
+                                </connections>
                             </button>
                             <splitView arrangesAllSubviews="NO" dividerStyle="thin" translatesAutoresizingMaskIntoConstraints="NO" id="Nx1-UK-eee">
-                                <rect key="frame" x="20" y="61" width="410" height="330"/>
+                                <rect key="frame" x="20" y="102" width="410" height="373"/>
                                 <subviews>
                                     <customView id="C4Q-Np-LkB">
-                                        <rect key="frame" x="0.0" y="0.0" width="410" height="160"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="410" height="186"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
-                                            <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Szn-Kc-a61">
-                                                <rect key="frame" x="0.0" y="0.0" width="410" height="160"/>
+                                            <scrollView autohidesScrollers="YES" horizontalLineScroll="26" horizontalPageScroll="10" verticalLineScroll="26" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Szn-Kc-a61">
+                                                <rect key="frame" x="0.0" y="0.0" width="410" height="186"/>
                                                 <clipView key="contentView" id="GZl-Qx-4Ql">
-                                                    <rect key="frame" x="1" y="0.0" width="408" height="159"/>
+                                                    <rect key="frame" x="1" y="0.0" width="408" height="185"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="Vaf-mi-KwO" viewBased="YES" id="LIr-eM-DGd">
-                                                            <rect key="frame" x="0.0" y="0.0" width="408" height="136"/>
+                                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="24" headerView="Vaf-mi-KwO" viewBased="YES" id="LIr-eM-DGd">
+                                                            <rect key="frame" x="0.0" y="0.0" width="408" height="162"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <size key="intercellSpacing" width="3" height="2"/>
                                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -4863,9 +4873,8 @@ DQ
                                                                             <rect key="frame" x="1" y="1" width="118" height="17"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                             <subviews>
-                                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="EOg-Ip-2NX">
+                                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="EOg-Ip-2NX">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="118" height="17"/>
-                                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="K5K-hh-43p">
                                                                                         <font key="font" metaFont="system"/>
                                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -4876,6 +4885,11 @@ DQ
                                                                                     </connections>
                                                                                 </textField>
                                                                             </subviews>
+                                                                            <constraints>
+                                                                                <constraint firstItem="EOg-Ip-2NX" firstAttribute="centerY" secondItem="3ZJ-bS-T2f" secondAttribute="centerY" id="6A3-hu-TZ7"/>
+                                                                                <constraint firstAttribute="trailing" secondItem="EOg-Ip-2NX" secondAttribute="trailing" constant="2" id="95n-pY-lrt"/>
+                                                                                <constraint firstItem="EOg-Ip-2NX" firstAttribute="leading" secondItem="3ZJ-bS-T2f" secondAttribute="leading" constant="2" id="tmu-uG-yGV"/>
+                                                                            </constraints>
                                                                             <connections>
                                                                                 <outlet property="textField" destination="EOg-Ip-2NX" id="qaF-Si-cc2"/>
                                                                             </connections>
@@ -4895,26 +4909,40 @@ DQ
                                                                     </textFieldCell>
                                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                     <prototypeCellViews>
-                                                                        <tableCellView id="UdV-D0-qoD">
-                                                                            <rect key="frame" x="122" y="1" width="106" height="17"/>
+                                                                        <tableCellView id="6xU-EK-LXC">
+                                                                            <rect key="frame" x="122" y="1" width="106" height="23"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                             <subviews>
-                                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Aa-p9-qtz">
-                                                                                    <rect key="frame" x="0.0" y="0.0" width="106" height="17"/>
-                                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="jup-xw-jpI">
-                                                                                        <font key="font" metaFont="system"/>
-                                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                                                    </textFieldCell>
+                                                                                <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YLC-c0-nmu">
+                                                                                    <rect key="frame" x="-1" y="-2" width="106" height="26"/>
+                                                                                    <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="26v-Yu-6zW" id="CLW-t4-PKb">
+                                                                                        <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                                                                        <font key="font" metaFont="menu"/>
+                                                                                        <menu key="menu" id="OF7-14-2dW">
+                                                                                            <items>
+                                                                                                <menuItem title="Item 1" state="on" id="26v-Yu-6zW"/>
+                                                                                                <menuItem title="Item 2" id="Cp3-Le-sZm"/>
+                                                                                                <menuItem title="Item 3" id="Ez5-zH-i8z"/>
+                                                                                            </items>
+                                                                                        </menu>
+                                                                                    </popUpButtonCell>
                                                                                     <connections>
-                                                                                        <binding destination="UdV-D0-qoD" name="value" keyPath="objectValue.newValue.displayValue" id="DB2-JR-8NT"/>
+                                                                                        <binding destination="6xU-EK-LXC" name="content" keyPath="objectValue.newValue.availableConversionTypes" id="OzX-Tq-yTU">
+                                                                                            <dictionary key="options">
+                                                                                                <string key="NSNullPlaceholder">No Type</string>
+                                                                                            </dictionary>
+                                                                                        </binding>
+                                                                                        <binding destination="6xU-EK-LXC" name="enabled" keyPath="objectValue.newValue.availableConversionTypes.@count" id="PtG-Ku-U7S"/>
+                                                                                        <binding destination="6xU-EK-LXC" name="contentValues" keyPath="objectValue.newValue.availableConversionTypes.name" previousBinding="OzX-Tq-yTU" id="fhc-h2-i2o"/>
+                                                                                        <binding destination="6xU-EK-LXC" name="selectedObject" keyPath="objectValue.newValue.customTypeConverter" previousBinding="fhc-h2-i2o" id="9JR-UD-ih9"/>
                                                                                     </connections>
-                                                                                </textField>
+                                                                                </popUpButton>
                                                                             </subviews>
-                                                                            <connections>
-                                                                                <outlet property="textField" destination="1Aa-p9-qtz" id="2gf-zg-FjE"/>
-                                                                            </connections>
+                                                                            <constraints>
+                                                                                <constraint firstItem="YLC-c0-nmu" firstAttribute="centerY" secondItem="6xU-EK-LXC" secondAttribute="centerY" id="Enj-0W-goH"/>
+                                                                                <constraint firstItem="YLC-c0-nmu" firstAttribute="leading" secondItem="6xU-EK-LXC" secondAttribute="leading" constant="1" id="aWP-P8-IJj"/>
+                                                                                <constraint firstAttribute="trailing" secondItem="YLC-c0-nmu" secondAttribute="trailing" constant="3.5" id="z0i-IO-icJ"/>
+                                                                            </constraints>
                                                                         </tableCellView>
                                                                     </prototypeCellViews>
                                                                 </tableColumn>
@@ -4935,19 +4963,26 @@ DQ
                                                                             <rect key="frame" x="230.5" y="1" width="176" height="17"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                             <subviews>
-                                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kYf-pY-s8A">
+                                                                                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="kYf-pY-s8A">
                                                                                     <rect key="frame" x="0.0" y="0.0" width="176" height="17"/>
-                                                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="qXc-u1-zrO">
                                                                                         <font key="font" metaFont="system"/>
                                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                                     </textFieldCell>
                                                                                     <connections>
-                                                                                        <binding destination="W5K-9G-23v" name="value" keyPath="objectValue.newValue.displayValue" id="EjY-gE-ISe"/>
+                                                                                        <binding destination="W5K-9G-23v" name="value" keyPath="objectValue.newValue.text" id="69K-hU-8UY"/>
+                                                                                        <binding destination="W5K-9G-23v" name="textColor" keyPath="objectValue.newValue.textColor" id="Blz-f3-eyO"/>
                                                                                     </connections>
                                                                                 </textField>
                                                                             </subviews>
+                                                                            <constraints>
+                                                                                <constraint firstAttribute="trailing" secondItem="kYf-pY-s8A" secondAttribute="trailing" constant="2" id="0Zt-82-vad"/>
+                                                                                <constraint firstItem="kYf-pY-s8A" firstAttribute="centerY" secondItem="W5K-9G-23v" secondAttribute="centerY" id="94J-Hs-Dzm"/>
+                                                                                <constraint firstItem="kYf-pY-s8A" firstAttribute="top" secondItem="W5K-9G-23v" secondAttribute="top" id="94b-sH-qUW"/>
+                                                                                <constraint firstItem="kYf-pY-s8A" firstAttribute="leading" secondItem="W5K-9G-23v" secondAttribute="leading" constant="2" id="nuP-gJ-0pk"/>
+                                                                                <constraint firstAttribute="bottom" secondItem="kYf-pY-s8A" secondAttribute="bottom" id="qyg-mC-cYd"/>
+                                                                            </constraints>
                                                                             <connections>
                                                                                 <outlet property="textField" destination="kYf-pY-s8A" id="TcK-Mm-YSW"/>
                                                                             </connections>
@@ -4967,7 +5002,7 @@ DQ
                                                     <rect key="frame" x="1" y="178" width="408" height="16"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
-                                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="Ohs-pF-Oqm">
+                                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="Ohs-pF-Oqm">
                                                     <rect key="frame" x="224" y="17" width="15" height="102"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
@@ -4985,24 +5020,25 @@ DQ
                                         </constraints>
                                     </customView>
                                     <customView id="emD-zy-cdy">
-                                        <rect key="frame" x="0.0" y="161" width="410" height="169"/>
+                                        <rect key="frame" x="0.0" y="187" width="410" height="186"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <subviews>
                                             <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qoo-Fa-gyP">
-                                                <rect key="frame" x="0.0" y="0.0" width="410" height="129"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="410" height="146"/>
                                                 <clipView key="contentView" id="Bvo-Mh-m9t">
-                                                    <rect key="frame" x="1" y="1" width="408" height="127"/>
+                                                    <rect key="frame" x="1" y="1" width="408" height="144"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <textView importsGraphics="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="jWe-Hz-IJ8">
-                                                            <rect key="frame" x="0.0" y="0.0" width="408" height="127"/>
+                                                        <textView importsGraphics="NO" richText="NO" verticallyResizable="YES" usesFontPanel="YES" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="jWe-Hz-IJ8">
+                                                            <rect key="frame" x="0.0" y="0.0" width="408" height="144"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                            <size key="minSize" width="408" height="127"/>
+                                                            <size key="minSize" width="408" height="144"/>
                                                             <size key="maxSize" width="647" height="10000000"/>
                                                             <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                                             <connections>
-                                                                <binding destination="qoQ-S4-gSu" name="attributedString" keyPath="selection.newValue.displayValue" id="h6H-DD-9c8">
+                                                                <binding destination="qoQ-S4-gSu" name="editable" keyPath="selection.newValue.canEditTextually" id="jfv-ao-L4Q"/>
+                                                                <binding destination="qoQ-S4-gSu" name="value" keyPath="selection.newValue.text" id="X11-y6-qJM">
                                                                     <dictionary key="options">
                                                                         <bool key="NSContinuouslyUpdatesValue" value="YES"/>
                                                                     </dictionary>
@@ -5016,19 +5052,19 @@ DQ
                                                     <rect key="frame" x="-100" y="-100" width="87" height="18"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
-                                                <scroller key="verticalScroller" verticalHuggingPriority="750" doubleValue="1" horizontal="NO" id="jMW-J6-Dhd">
-                                                    <rect key="frame" x="393" y="1" width="16" height="127"/>
+                                                <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="jMW-J6-Dhd">
+                                                    <rect key="frame" x="393" y="1" width="16" height="144"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
                                             </scrollView>
                                             <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="RDx-HH-RI9">
-                                                <rect key="frame" x="286" y="134" width="120" height="26"/>
-                                                <popUpButtonCell key="cell" type="push" title="Current Value" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="D65-K1-TtP" id="ash-Ne-QMN">
+                                                <rect key="frame" x="288" y="151" width="118" height="26"/>
+                                                <popUpButtonCell key="cell" type="push" title="Field Value" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="D65-K1-TtP" id="ash-Ne-QMN">
                                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                                     <font key="font" metaFont="menu"/>
                                                     <menu key="menu" id="E3B-Me-vQS">
                                                         <items>
-                                                            <menuItem title="Current Value" state="on" id="D65-K1-TtP"/>
+                                                            <menuItem title="Field Value" state="on" id="D65-K1-TtP"/>
                                                             <menuItem title="Null" id="Oyp-G5-DKT"/>
                                                             <menuItem title="Date" id="TK0-vu-5lb"/>
                                                             <menuItem title="Time" id="ZvD-Hy-Ite"/>
@@ -5036,6 +5072,16 @@ DQ
                                                             <menuItem title="File" id="sbQ-0Q-6tS">
                                                                 <connections>
                                                                     <action selector="chooseFileForItem:" target="oww-NL-d96" id="oR2-6u-7A9"/>
+                                                                </connections>
+                                                            </menuItem>
+                                                            <menuItem title="Default Value" id="ShN-rS-pla">
+                                                                <connections>
+                                                                    <action selector="chooseFileForItem:" target="oww-NL-d96" id="458-Dq-X2D"/>
+                                                                    <binding destination="oww-NL-d96" name="hidden" keyPath="self.creatingRow" id="UOw-iF-NEy">
+                                                                        <dictionary key="options">
+                                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                        </dictionary>
+                                                                    </binding>
                                                                 </connections>
                                                             </menuItem>
                                                         </items>
@@ -5046,7 +5092,7 @@ DQ
                                                 </connections>
                                             </popUpButton>
                                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="yA2-be-3vq">
-                                                <rect key="frame" x="197" y="140" width="83" height="17"/>
+                                                <rect key="frame" x="199" y="157" width="83" height="17"/>
                                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Set Value To:" id="hPZ-wn-c2Y">
                                                     <font key="font" metaFont="system"/>
                                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -5071,21 +5117,59 @@ DQ
                                     <real value="250"/>
                                 </holdingPriorities>
                             </splitView>
+                            <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tQb-4h-UWj">
+                                <rect key="frame" x="290" y="58" width="143" height="26"/>
+                                <popUpButtonCell key="cell" type="push" title="Insert" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="axy-Xq-oIf" id="vTZ-1o-fyb">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" id="sAZ-zX-Qf0">
+                                        <items>
+                                            <menuItem title="Insert" state="on" id="axy-Xq-oIf"/>
+                                            <menuItem title="Replace" id="0IV-9y-lP2"/>
+                                            <menuItem title="Insert or Replace" id="Cco-Ic-SFR"/>
+                                            <menuItem title="Insert or Rollback" id="ekl-8a-AGa"/>
+                                            <menuItem title="Insert or Abort" id="g0F-UW-RXS"/>
+                                            <menuItem title="Insert or Fail" id="2Dg-cK-ofU"/>
+                                            <menuItem title="Insert or Ignore" id="ZGZ-hl-Wi2"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                                <connections>
+                                    <binding destination="oww-NL-d96" name="contentValues" keyPath="self.typeOptions" id="gO2-AK-nY8"/>
+                                    <binding destination="oww-NL-d96" name="selectedIndex" keyPath="self.insertionType" previousBinding="gO2-AK-nY8" id="LGZ-at-9of"/>
+                                </connections>
+                            </popUpButton>
+                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="l6U-s0-oov">
+                                <rect key="frame" x="246" y="63" width="38" height="17"/>
+                                <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Type:" id="eJp-K8-Sd3">
+                                    <font key="font" metaFont="system"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Nx1-UK-eee" secondAttribute="trailing" constant="20" id="KGt-qO-aoL"/>
                             <constraint firstItem="hg0-c6-1Ow" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="tlW-yz-l21" secondAttribute="trailing" constant="12" symbolic="YES" id="O5t-wR-Abg"/>
+                            <constraint firstItem="tQb-4h-UWj" firstAttribute="leading" secondItem="l6U-s0-oov" secondAttribute="trailing" constant="10" id="Pkk-eS-eWM"/>
                             <constraint firstAttribute="trailing" secondItem="hg0-c6-1Ow" secondAttribute="trailing" constant="20" symbolic="YES" id="QYi-c3-LVF"/>
-                            <constraint firstItem="hg0-c6-1Ow" firstAttribute="top" secondItem="Nx1-UK-eee" secondAttribute="bottom" constant="20" id="SCU-ec-QDa"/>
+                            <constraint firstItem="l6U-s0-oov" firstAttribute="centerY" secondItem="tQb-4h-UWj" secondAttribute="centerY" id="RaD-re-xdX"/>
+                            <constraint firstItem="hg0-c6-1Ow" firstAttribute="top" secondItem="tQb-4h-UWj" secondAttribute="bottom" constant="20" id="YsZ-Zm-XEQ"/>
                             <constraint firstAttribute="bottom" secondItem="hg0-c6-1Ow" secondAttribute="bottom" constant="20" symbolic="YES" id="aX1-SU-GDZ"/>
                             <constraint firstItem="Nx1-UK-eee" firstAttribute="leading" secondItem="Ggh-dC-rhR" secondAttribute="leading" constant="20" id="bQh-Ru-9gh"/>
+                            <constraint firstAttribute="trailing" secondItem="tQb-4h-UWj" secondAttribute="trailing" constant="20" id="cx5-jp-sWL"/>
                             <constraint firstItem="Nx1-UK-eee" firstAttribute="top" secondItem="Ggh-dC-rhR" secondAttribute="top" constant="20" id="hdK-z3-QnS"/>
+                            <constraint firstItem="tQb-4h-UWj" firstAttribute="top" secondItem="Nx1-UK-eee" secondAttribute="bottom" constant="20" symbolic="YES" id="phZ-em-YmM"/>
                             <constraint firstItem="tlW-yz-l21" firstAttribute="leading" secondItem="Ggh-dC-rhR" secondAttribute="leading" constant="20" symbolic="YES" id="pv0-G5-UrH"/>
+                            <constraint firstItem="l6U-s0-oov" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="Ggh-dC-rhR" secondAttribute="leading" constant="20" symbolic="YES" id="rNe-Jv-BEA"/>
                             <constraint firstAttribute="bottom" secondItem="tlW-yz-l21" secondAttribute="bottom" constant="20" symbolic="YES" id="u1d-MD-AKr"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="actionButton" destination="hg0-c6-1Ow" id="Zg1-x1-tOL"/>
                         <outlet property="editValuesArrayController" destination="qoQ-S4-gSu" id="1S7-rR-3J9"/>
+                        <outlet property="editView" destination="jWe-Hz-IJ8" id="JG3-au-RDy"/>
+                        <outlet property="insertTypeConstraint" destination="YsZ-Zm-XEQ" id="qe1-4Z-ttP"/>
                     </connections>
                 </viewController>
                 <customObject id="FU7-Ju-m8w" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -5096,7 +5180,7 @@ DQ
                 </arrayController>
                 <userDefaultsController id="PYd-jj-GQd"/>
             </objects>
-            <point key="canvasLocation" x="-1911" y="3752.5"/>
+            <point key="canvasLocation" x="-1887" y="3382"/>
         </scene>
         <!--Table Predicate View Controller-->
         <scene sceneID="Me7-Cb-8iI">

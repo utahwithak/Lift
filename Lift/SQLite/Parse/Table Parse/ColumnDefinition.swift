@@ -28,6 +28,25 @@ class ColumnDefinition: NSObject {
 
     public var columnConstraints = [ColumnConstraint]()
 
+    @objc dynamic public var defaultExpression: String? {
+        get {
+            return (columnConstraints.first(where: { $0 is DefaultColumnConstraint}) as? DefaultColumnConstraint)?.value.sql
+        }
+        set {
+
+            if let defIndex = columnConstraints.index(where: { $0 is DefaultColumnConstraint }), let defaultConstraint = columnConstraints[defIndex] as? DefaultColumnConstraint {
+                guard let val = newValue, !val.isEmpty else {
+                    columnConstraints.remove(at: defIndex)
+                    return
+                }
+                defaultConstraint.value = DefaultValue(text: val)
+            } else if let newValue = newValue, !newValue.isEmpty {
+                let newconstraint = DefaultColumnConstraint(value: DefaultValue(text: newValue))
+                columnConstraints.append(newconstraint)
+            }
+        }
+    }
+
     init?(from scanner: Scanner) throws {
 
         name = try SQLiteCreateTableParser.parseStringOrName(from: scanner)

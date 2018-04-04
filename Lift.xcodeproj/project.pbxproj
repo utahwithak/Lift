@@ -63,6 +63,8 @@
 		8F74A7591F87AD350069721E /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F74A7541F8721470069721E /* Query.swift */; };
 		8F74FA3B1FC33620008D8B4A /* Database+Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F74FA3A1FC33620008D8B4A /* Database+Options.swift */; };
 		8F754B1A1F98D92600BC5312 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F754B191F98D92600BC5312 /* DataProvider.swift */; };
+		8F766F0F2073E9F90095F197 /* InsertionOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F766F0E2073E9F90095F197 /* InsertionOption.swift */; };
+		8F766F122074540F0095F197 /* UpdateOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F766F112074540F0095F197 /* UpdateOption.swift */; };
 		8F7A8E651FA2654A00A80FD2 /* HiddenBackgroundSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7A8E641FA2654A00A80FD2 /* HiddenBackgroundSegmentedControl.swift */; };
 		8F7C522D1F7D39E5004A91BC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C522C1F7D39E5004A91BC /* AppDelegate.swift */; };
 		8F7C522F1F7D39E5004A91BC /* LiftSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C522E1F7D39E5004A91BC /* LiftSplitViewController.swift */; };
@@ -267,6 +269,8 @@
 		8F74A7541F8721470069721E /* Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
 		8F74FA3A1FC33620008D8B4A /* Database+Options.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Database+Options.swift"; sourceTree = "<group>"; };
 		8F754B191F98D92600BC5312 /* DataProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataProvider.swift; sourceTree = "<group>"; };
+		8F766F0E2073E9F90095F197 /* InsertionOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InsertionOption.swift; sourceTree = "<group>"; };
+		8F766F112074540F0095F197 /* UpdateOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateOption.swift; sourceTree = "<group>"; };
 		8F7A8E641FA2654A00A80FD2 /* HiddenBackgroundSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HiddenBackgroundSegmentedControl.swift; sourceTree = "<group>"; };
 		8F7C52291F7D39E4004A91BC /* Lift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F7C522C1F7D39E5004A91BC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -551,6 +555,8 @@
 				8F445A4E20504E3C0041CD84 /* EditRowData.swift */,
 				8F51324D20504DE800E2A759 /* AttributedStringFormatter.swift */,
 				8F445A5120504E550041CD84 /* NewRowValue.swift */,
+				8F766F0E2073E9F90095F197 /* InsertionOption.swift */,
+				8F766F112074540F0095F197 /* UpdateOption.swift */,
 			);
 			path = "Custom Row Editing";
 			sourceTree = "<group>";
@@ -1090,6 +1096,7 @@
 				8F74A74C1F86A0E50069721E /* SideBarDetailsViewController.swift in Sources */,
 				8FD4FEA51F8C01420008D8DA /* CGPoint+Additions.swift in Sources */,
 				8FCADB341FE4A62E00C22E1D /* BrowseCellView.swift in Sources */,
+				8F766F0F2073E9F90095F197 /* InsertionOption.swift in Sources */,
 				8F8338FA1FBA05DA000AFE09 /* QueryResult.swift in Sources */,
 				8FB9F15C1F7EA4EB0090FA53 /* IndexedTableConstraint.swift in Sources */,
 				8F74A7521F871C560069721E /* Statement.swift in Sources */,
@@ -1112,6 +1119,7 @@
 				8F9565D51FB36EFC008FE038 /* ExportViewController+xlsx.swift in Sources */,
 				8F4BECD61FB72926003DAA5E /* SnippetManager.swift in Sources */,
 				8F8FA7311F92CE8500783C5C /* PassthroughView.swift in Sources */,
+				8F766F122074540F0095F197 /* UpdateOption.swift in Sources */,
 				8F374B921F87DF9400BB4F63 /* Table.swift in Sources */,
 				8F7C522D1F7D39E5004A91BC /* AppDelegate.swift in Sources */,
 				8F9565D21FB36EFC008FE038 /* ExportViewController+csv.swift in Sources */,

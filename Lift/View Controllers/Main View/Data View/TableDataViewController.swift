@@ -121,7 +121,15 @@ class TableDataViewController: LiftMainViewController {
             return
         }
 
-        view.window?.makeFirstResponder(cell)
+        let identifier = tableView.tableColumns[selectionBox.endColumn].identifier
+
+        guard let colIndex = TableDataViewController.identifierMap[identifier] else {
+            return
+        }
+
+        if let rowData = data?.object(at: selectionBox.endRow, column: colIndex), rowData.type != .blob {
+            view.window?.makeFirstResponder(cell)
+        }
     }
 
     @IBAction func copy(_ sender: Any) {
@@ -438,10 +446,9 @@ class TableDataViewController: LiftMainViewController {
             print("failed to create row data")
             return
         }
-
+        customRowEditor.table = table
         customRowEditor.sortCount = 0
         customRowEditor.columnNames = table.columns.map({ $0.name })
-        customRowEditor.row = RowData(row: [SQLiteData](repeating:.null, count: table.columns.count))
         customRowEditor.creatingRow = true
         presentViewControllerAsSheet(customRowEditor)
 
@@ -689,7 +696,7 @@ extension TableDataViewController: NSMenuDelegate {
     }
 
     @objc private func editSelectedRow(_ sender: NSMenuItem) {
-        guard let selectionBox = tableView.selectionBoxes.first,let rowData = data?.rowdata(at: selectionBox.startRow), let columnNames = data?.columnNames, let sortCount = data?.sortCount  else {
+        guard let selectionBox = tableView.selectionBoxes.first, let rowData = data?.rowdata(at: selectionBox.startRow), let columnNames = data?.columnNames, let sortCount = data?.sortCount, let table = selectedTable as? Table, isEditingEnabled  else {
             return
         }
 
@@ -697,6 +704,8 @@ extension TableDataViewController: NSMenuDelegate {
             print("Unable to create edit row VC")
             return
         }
+        editViewController.representedObject = representedObject
+        editViewController.table = table
         editViewController.sortCount = sortCount
         editViewController.columnNames = columnNames
         editViewController.row = rowData

@@ -16,6 +16,21 @@ enum DefaultValue {
     case literal(SQLiteName)
     case expression(String)
 
+    init(text: String) {
+        switch text.uppercased() {
+        case "NULL":
+            self = .null
+        case "CURRENT_DATE":
+            self = .current_date
+        case "CURRENT_TIME":
+            self = .current_time
+        case "CURRENT_TIMESTAMP":
+            self = .current_timestamp
+        default:
+            self = .literal(SQLiteName(rawValue:text))
+        }
+    }
+
     var sql: String {
         switch self {
         case .null:
@@ -37,7 +52,7 @@ enum DefaultValue {
 
 class DefaultColumnConstraint: ColumnConstraint {
 
-    let value: DefaultValue
+    var value: DefaultValue
 
     init(with name: SQLiteName?, from scanner: Scanner) throws {
 
@@ -63,6 +78,11 @@ class DefaultColumnConstraint: ColumnConstraint {
 
 
         super.init(name: name)
+    }
+
+    init(value: DefaultValue) {
+        self.value = value
+        super.init(name: nil)
     }
 
     override var sql: String {

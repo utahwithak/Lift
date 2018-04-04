@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum SQLiteDataType {
+enum SQLiteDataType: Int {
     case null
     case integer
     case float
@@ -54,6 +54,21 @@ enum SQLiteData {
         }
     }
 
+    var forEditing: String {
+        switch self {
+        case .null:
+            return ""
+        case .float(let dbl):
+            return "\(dbl)"
+        case .integer(let intVal):
+            return "\(intVal)"
+        case .text(let str):
+            return str
+        case .blob(let data):
+            return "X'\(data.hexEncodedString())'"
+        }
+    }
+
     var type: SQLiteDataType {
         switch self {
         case .null:
@@ -68,6 +83,24 @@ enum SQLiteData {
             return .blob
         }
     }
+}
+extension SQLiteData: Equatable {
+    
+}
 
-
+func ==(lhs:SQLiteData, rhs: SQLiteData) -> Bool {
+    switch (lhs, rhs) {
+    case (.text(let l), .text(let r)):
+        return l == r
+    case (.float(let l), .float(let r)):
+        return l == r
+    case (.blob(let l), .blob(let r)):
+        return l == r
+    case (.integer(let l), .integer(let r)):
+        return l == r
+    case (.null, .null):
+        return true
+    default:
+        return false
+    }
 }
