@@ -22,5 +22,4 @@ class JSONExportOptions: ExportOptions {
 
     @objc dynamic var prettyPrint: Bool = false
 
-
 }

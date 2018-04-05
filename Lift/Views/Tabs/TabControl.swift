@@ -20,14 +20,11 @@ import Cocoa
 
     func tabControl(_ control: TabControl, didReorderItems items: [Any]) -> Bool
 
-
-
     @objc optional func tabControl(_ control: TabControl, menuFor item: Any) -> NSMenu?
 
     @objc optional func tabControlDidChangeSelection(_ notification: Notification)
 
     @objc optional func tabControl(_ control: TabControl, didSelect item: Any)
-
 
     @objc optional func tabControl(_ control: TabControl, canEdit item: Any) -> Bool
 
@@ -53,7 +50,7 @@ class TabControl: NSControl {
         }
     }
 
-    override var isFlipped: Bool  {
+    override var isFlipped: Bool {
         return true
     }
 
@@ -91,11 +88,10 @@ class TabControl: NSControl {
         }
 
         wantsLayer = true
-        
+
         let cell = self.cell as? TabCell
         cell?.title = ""
         cell?.borderMask = [.bottom, .left, .right]
-
 
         scrollView = NSScrollView(frame: .zero)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -108,7 +104,6 @@ class TabControl: NSControl {
         darkenCell.borderMask = [.bottom, .right]
         addButton = button(withImage: NSImage(named: NSImage.Name.addTemplate)!, target: self, action: #selector(add), cell: darkenCell)
         addButton.setButtonType(.momentaryChange)
-
 
         let leftCell = BorderedButtonCell(textCell: "")
         leftCell.borderMask = [.left]
@@ -124,7 +119,7 @@ class TabControl: NSControl {
         rightCell.backgroundColor = TabCell.defaultBackgroundColor
         scrollRightButton = button(withImage: NSImage(named: NSImage.Name.rightFacingTriangleTemplate)!, target: self, action: #selector(goRight), cell: rightCell)
         scrollRightButton.setButtonType(.momentaryChange)
-        
+
         addButton.menu = nil
         scrollLeftButton.menu = nil
         scrollRightButton.menu = nil
@@ -135,7 +130,7 @@ class TabControl: NSControl {
         scrollRightButton.cell?.sendAction(on: [.leftMouseDown, .periodic])
 
         let views: [String: Any] = ["scrollView":scrollView, "addButton":addButton, "scrollLeftButton":scrollLeftButton, "scrollRightButton":scrollRightButton]
-        subviews = [addButton,scrollView, scrollLeftButton, scrollRightButton]
+        subviews = [addButton, scrollView, scrollLeftButton, scrollRightButton]
         self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[addButton]-(-1)-[scrollView]-(-1)-[scrollLeftButton][scrollRightButton]|", options: [], metrics: nil, views: views))
         for view in subviews {
             self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[view]|", options: [], metrics: nil, views: ["view":view]))
@@ -145,7 +140,7 @@ class TabControl: NSControl {
 
         scrollLeftButton.addConstraint(NSLayoutConstraint(item: scrollLeftButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 24))
         scrollRightButton.addConstraint(NSLayoutConstraint(item: scrollRightButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 24))
-        
+
         (addButton.cell as? TabCell)?.borderMask = [.bottom, .right]
         (scrollLeftButton.cell as? TabCell)?.borderMask = [.bottom, .left]
         (scrollRightButton.cell as? TabCell)?.borderMask = [.bottom]
@@ -155,11 +150,9 @@ class TabControl: NSControl {
 
     }
 
-
     func reloadData() {
         let tabView: NSView = NSView(frame: .zero)
         tabView.translatesAutoresizingMaskIntoConstraints = false
-
 
         guard let datasource = datasource else {
             return
@@ -175,7 +168,7 @@ class TabControl: NSControl {
 
             if let cell = button.cell as? TabCell, let menu = datasource.tabControl?(self, menuFor: item) {
                 cell.menu = menu
-                button.addTrackingArea(NSTrackingArea(rect: scrollView.bounds, options: [.mouseEnteredAndExited,.activeInActiveApp, .inVisibleRect], owner: self, userInfo: ["item" : item]))
+                button.addTrackingArea(NSTrackingArea(rect: scrollView.bounds, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self, userInfo: ["item" : item]))
             }
             newTabs.append(button)
         }
@@ -193,13 +186,11 @@ class TabControl: NSControl {
             clipView.addConstraint(NSLayoutConstraint(item: documentView, attribute: .right, relatedBy: .greaterThanOrEqual, toItem: clipView, attribute: .right, multiplier: 1, constant: 0))
         }
 
-
-
         updateButtons()
         invalidateRestorableState()
     }
 
-    private func button(withImage image: NSImage, target: AnyObject? , action: Selector?, cell: NSCell? = nil) -> NSButton {
+    private func button(withImage image: NSImage, target: AnyObject?, action: Selector?, cell: NSCell? = nil) -> NSButton {
         let button = NSButton(frame: .zero)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.cell = cell ?? self.cell?.copy() as? NSCell
@@ -219,7 +210,7 @@ class TabControl: NSControl {
             NSApplication.shared.sendAction(addAction, to: self.addTarget, from: self)
         }
         sender.state = .off
-        
+
         invalidateRestorableState()
 
     }
@@ -252,7 +243,7 @@ class TabControl: NSControl {
         guard let tabView = self.scrollView.documentView else {
             return nil
         }
-        let visibleRect = tabView.visibleRect;
+        let visibleRect = tabView.visibleRect
 
         for view in tabView.subviews {
             if view.frame.maxX > visibleRect.maxX {
@@ -271,10 +262,9 @@ class TabControl: NSControl {
         }
     }
 
-
     var selectedItem: Any? {
         set {
-            guard let buttons = scrollView.documentView?.subviews.compactMap( { $0 as? TabButton}) else {
+            guard let buttons = scrollView.documentView?.subviews.compactMap({ $0 as? TabButton}) else {
                 return
             }
             for button in buttons {
@@ -308,7 +298,7 @@ class TabControl: NSControl {
             invalidateRestorableState()
         }
         get {
-            return scrollView.documentView?.subviews.compactMap( { $0 as? TabButton}).first(where: { $0.state == .on })?.cell?.representedObject
+            return scrollView.documentView?.subviews.compactMap({ $0 as? TabButton}).first(where: { $0.state == .on })?.cell?.representedObject
         }
     }
 
@@ -329,7 +319,7 @@ class TabControl: NSControl {
         NotificationCenter.default.removeObserver(self, name: NSView.boundsDidChangeNotification, object: self.scrollView.contentView)
     }
 
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
         if context == &TabControl.myContext {
             updateButtons()
         } else {
@@ -346,7 +336,6 @@ class TabControl: NSControl {
         let showAddButton = addAction != nil
 
         addWidthConstraint?.constant = showAddButton ? 48 : 0
-
 
         let contentView = scrollView.contentView
 
@@ -379,10 +368,10 @@ class TabControl: NSControl {
 
         }
         // scroll to visible if either editing or selecting...
-        NSAnimationContext.runAnimationGroup( { context in
+        NSAnimationContext.runAnimationGroup({ context in
             context.allowsImplicitAnimation = true
             tab.superview?.scrollToVisible(tab.frame)
-        }, completionHandler:nil)
+        }, completionHandler: nil)
 
         invalidateRestorableState()
 
@@ -407,15 +396,13 @@ class TabControl: NSControl {
 
         let tabX = tab.frame.minX
 
-        let dragPoint = tabView.convert(startEvent.locationInWindow, from:nil)
-
+        let dragPoint = tabView.convert(startEvent.locationInWindow, from: nil)
 
         let draggingTab = self.tab(with: item)
 
         let draggingConstraints   = [NSLayoutConstraint(item: draggingTab, attribute: .leading, relatedBy: .equal, toItem: tabView, attribute: .leading, multiplier: 1, constant: tabX),
                                      NSLayoutConstraint(item: draggingTab, attribute: .top, relatedBy: .equal, toItem: tabView, attribute: .top, multiplier: 1, constant: 0),
                                      NSLayoutConstraint(item: draggingTab, attribute: .bottom, relatedBy: .equal, toItem: tabView, attribute: .bottom, multiplier: 1, constant: 0)]
-
 
         let newCell = TabCell(other: tab.cell)
         newCell?.borderMask = [.bottom]
@@ -430,12 +417,11 @@ class TabControl: NSControl {
             draggingTab.cell?.menu = menu
         }
 
-
         tabView.addSubview(draggingTab)
         tabView.addConstraints(draggingConstraints)
 
         (tab.cell as! TabCell).dragging = true
-        var prevPoint = dragPoint;
+        var prevPoint = dragPoint
         var dragged = false
         var reordered = false
 
@@ -449,12 +435,12 @@ class TabControl: NSControl {
             // move the dragged tab
             let nextPoint = tabView.convert(event.locationInWindow, from: nil)
 
-            let nextX = tabX + (nextPoint.x - dragPoint.x);
+            let nextX = tabX + (nextPoint.x - dragPoint.x)
 
-            let movingLeft = (nextPoint.x < prevPoint.x);
-            let movingRight = (nextPoint.x > prevPoint.x);
+            let movingLeft = (nextPoint.x < prevPoint.x)
+            let movingRight = (nextPoint.x > prevPoint.x)
 
-            prevPoint = nextPoint;
+            prevPoint = nextPoint
 
             draggingConstraints[0].constant = nextX
 
@@ -466,7 +452,7 @@ class TabControl: NSControl {
                 orderedItems.swapAt(index, index - 1)
 
                 swapped = true
-                reordered = true;
+                reordered = true
 
             } else if movingRight && draggingTab.frame.midX > tab.frame.maxX && (tab.cell?.representedObject as? NSObject) != (orderedItems.last as? NSObject) {
                 // shift right
@@ -476,7 +462,7 @@ class TabControl: NSControl {
                 reordered = true
             }
             if swapped {
-                NSAnimationContext.runAnimationGroup( {context in
+                NSAnimationContext.runAnimationGroup({context in
                     context.allowsImplicitAnimation = true
                     context.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
                     self.layoutTabs(items: orderedItems)
@@ -486,11 +472,10 @@ class TabControl: NSControl {
             }
         }
 
-
         tabView.removeConstraints(draggingConstraints)
         draggingTab.removeConstraints(draggingTab.constraints)
 
-        NSAnimationContext.runAnimationGroup( {context in
+        NSAnimationContext.runAnimationGroup({context in
             context.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
             draggingTab.animator().frame = tab.frame
         }, completionHandler: {
@@ -532,10 +517,10 @@ class TabControl: NSControl {
             }
 
             if (button.cell?.representedObject as? NSObject) == (item as? NSObject) {
-                return button;
+                return button
             }
         }
-        return nil;
+        return nil
     }
 
     private func tab(with item: Any) -> TabButton {
@@ -633,7 +618,6 @@ class TabControl: NSControl {
     }
 }
 
-
 extension TabControl: NSTextFieldDelegate {
     override func controlTextDidEndEditing(_ obj: Notification) {
         defer {
@@ -653,10 +637,8 @@ extension TabControl: NSTextFieldDelegate {
 
         if !title.isEmpty {
             button.title = title
-            datasource?.tabControl?(self, setTitle: title, for:item)
+            datasource?.tabControl?(self, setTitle: title, for: item)
         }
-
-
 
         NotificationCenter.default.post(name: obj.name, object: self, userInfo: obj.userInfo)
     }

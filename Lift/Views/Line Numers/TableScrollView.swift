@@ -15,13 +15,11 @@ class TableScrollView: NSScrollView {
     required init?(coder: NSCoder) {
 
         super.init(coder: coder)
-        
+
         lineNumberView = TableNumberView(scrollView: self)
         self.verticalRulerView = lineNumberView
         self.rulersVisible = true
 
     }
-
-
 
 }

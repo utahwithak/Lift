@@ -33,7 +33,7 @@ class Column {
      - 5 : "pk"
      */
     init(rowInfo: [SQLiteData], connection: sqlite3) throws {
-        
+
         self.connection = connection
 
         guard case .text(let name) = rowInfo[1],

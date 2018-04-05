@@ -32,7 +32,7 @@ extension FileHandle: Writer {
         closeFile()
     }
     func open() {
-        
+
     }
 }
 

@@ -15,8 +15,8 @@ class UniqueColumnConstraint: ConflictColumnConstraint {
             throw ParserError.unexpectedError("Expected Unique column constraint!")
         }
 
-        try super.init(with: name,from: scanner)
-        
+        try super.init(with: name, from: scanner)
+
     }
 
     private init(copying: UniqueColumnConstraint) {
@@ -28,7 +28,7 @@ class UniqueColumnConstraint: ConflictColumnConstraint {
     }
     override var sql: String {
         var builder = ""
-        if let name = constraintName?.sql{
+        if let name = constraintName?.sql {
             builder += "CONSTRAINT \(name) "
         }
         builder += "UNIQUE "
@@ -39,5 +39,5 @@ class UniqueColumnConstraint: ConflictColumnConstraint {
 
         return builder
     }
-    
+
 }

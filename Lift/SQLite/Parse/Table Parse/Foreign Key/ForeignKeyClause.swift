@@ -42,7 +42,6 @@ struct ForeignKeyClause {
                 }
                 toColumns.append(name)
 
-
             } while (scanner.scanString(",", into: nil))
 
             guard scanner.scanString(")", into: nil) else {
@@ -52,7 +51,6 @@ struct ForeignKeyClause {
                 throw ParserError.unexpectedError("No to columns in foreign key clause!")
             }
         }
-
 
         var finished = false
 
@@ -84,8 +82,8 @@ struct ForeignKeyClause {
             builder += "(" + toColumns.map({ $0.sqliteSafeString() }).joined(separator: ", ") + ") "
         }
 
-        builder += actionStatements.map({ $0.sql }).joined(separator:" ")
-        builder += matchStatements.map({ $0.sql }).joined(separator:" ")
+        builder += actionStatements.map({ $0.sql }).joined(separator: " ")
+        builder += matchStatements.map({ $0.sql }).joined(separator: " ")
         if let defStat = deferStatement {
             builder += defStat.sql
         }
@@ -113,7 +111,6 @@ func ==(lhs: ForeignKeyClause, rhs: ForeignKeyClause) -> Bool {
     if let lhD = lhs.deferStatement, let rhD = rhs.deferStatement, lhD != rhD {
         return false
     }
-
 
     if lhs.actionStatements.count != rhs.actionStatements.count {
         return false

@@ -38,7 +38,6 @@ class LiftViewController: NSViewController {
 
     }
 
-
     @objc public func selectedTableChanged(_ notification: Notification) {
         if windowController == nil && (notification.object as? LiftWindowController)?.document === document {
             selectedTable = (notification.object as? LiftWindowController)?.selectedTable

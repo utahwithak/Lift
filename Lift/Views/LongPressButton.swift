@@ -23,7 +23,7 @@ class LongPressButton: NSButton {
             newImage.lockFocus()
 
             originalImage.draw(in: NSRect(x: frame.midX - originalImage.size.width / 2, y: frame.midY - originalImage.size.height / 2, width: originalImage.size.width, height: originalImage.size.height))
-            arrowImage.draw(in: frame , from:arrowImage.alignmentRect, operation: .sourceOver, fraction:1)
+            arrowImage.draw(in: frame, from: arrowImage.alignmentRect, operation: .sourceOver, fraction: 1)
             newImage.unlockFocus()
             newImage.isTemplate = true
             return newImage

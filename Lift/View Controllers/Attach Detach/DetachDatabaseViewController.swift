@@ -10,7 +10,6 @@ import Cocoa
 
 class DetachDatabaseViewController: LiftViewController {
 
-
     override var representedObject: Any? {
         didSet {
 
@@ -22,7 +21,7 @@ class DetachDatabaseViewController: LiftViewController {
     }
 
     @objc dynamic var possibleDatabases: [String] {
-        return document?.database.attachedDatabases.map( { $0.name }) ?? []
+        return document?.database.attachedDatabases.map({ $0.name }) ?? []
     }
 
     @objc dynamic var selectedName: String?

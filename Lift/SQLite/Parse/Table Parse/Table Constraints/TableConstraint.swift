@@ -27,13 +27,13 @@ class TableConstraint: NSObject {
         scanner.scanLocation = curIndex
         switch nextPart.rawValue.lowercased() {
         case "primary":
-            return try PrimaryKeyTableConstraint(with:name, from: scanner)
+            return try PrimaryKeyTableConstraint(with: name, from: scanner)
         case "unique":
-            return try UniqueTableConstraint(with:name, from: scanner)
+            return try UniqueTableConstraint(with: name, from: scanner)
         case "check":
-            return try CheckTableConstraint(with:name, from: scanner)
+            return try CheckTableConstraint(with: name, from: scanner)
         case "foreign":
-            return try ForeignKeyTableConstraint(with:name, from: scanner)
+            return try ForeignKeyTableConstraint(with: name, from: scanner)
         default:
             throw ParserError.unexpectedError("Unexpected table constraint type!")
         }

@@ -60,12 +60,11 @@ class ColumnDefinition: NSObject {
             columnConstraints.append(constraint)
         }
 
-
     }
 
     public let originalColumn: ColumnDefinition?
 
-    override init(){
+    override init() {
         self.name = SQLiteName(rawValue: "New Column")
         originalColumn = nil
     }
@@ -85,7 +84,6 @@ class ColumnDefinition: NSObject {
     func duplicateForEditing() -> ColumnDefinition {
         return ColumnDefinition(copying: self)
     }
-
 
     private static func parseType(from scanner: Scanner) throws -> SQLiteName? {
 
@@ -130,7 +128,7 @@ class ColumnDefinition: NSObject {
 
             buffer = nil
 
-            if var name = type, scanner.scanCharacters(from: openParenChars, into: &buffer), (buffer?.hasSuffix("(") ?? false)  {
+            if var name = type, scanner.scanCharacters(from: openParenChars, into: &buffer), (buffer?.hasSuffix("(") ?? false) {
                 name = name + (buffer as String? ?? "")
 
                 scanner.scanUpTo(")", into: &buffer)
@@ -141,7 +139,6 @@ class ColumnDefinition: NSObject {
                 }
                 scanner.charactersToBeSkipped = prev
                 return name + (buffer as String? ?? "")
-
 
             } else {
                 if buffer == nil {
@@ -158,9 +155,8 @@ class ColumnDefinition: NSObject {
         return type
     }
 
-
     var creationStatement: String {
-        
+
         var builder = "\(name.sql)"
         if let includedType = type {
             builder += " \(includedType.rawValue)"
@@ -176,10 +172,8 @@ class ColumnDefinition: NSObject {
 
 }
 
-
 extension ColumnDefinition: ColumnNameProvider {
     var columnName: SQLiteName {
         return name
     }
 }
-

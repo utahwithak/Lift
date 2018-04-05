@@ -9,7 +9,7 @@
 import Foundation
 
 class UniqueTableConstraint: IndexedTableConstraint {
-    override init(with name: SQLiteName?,from scanner: Scanner) throws {
+    override init(with name: SQLiteName?, from scanner: Scanner) throws {
         if !scanner.scanString("unique", into: nil) || !scanner.scanString("(", into: nil) {
             throw ParserError.unexpectedError("Invalid table Unique key")
         }
@@ -36,7 +36,6 @@ class UniqueTableConstraint: IndexedTableConstraint {
     }
 
     override func sql(with columns: [String]) -> String? {
-
 
         let cleanedIndexed = indexedColumns.filter { (index) -> Bool in
             return columns.contains(index.nameProvider.columnName.cleanedVersion)

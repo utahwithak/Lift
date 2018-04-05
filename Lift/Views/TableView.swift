@@ -24,7 +24,6 @@ func + (lhs: SelectionBox, rhs: Int) -> SelectionBox {
     return SelectionBox(startRow: lhs.startRow + rhs, endRow: lhs.endRow + rhs, startColumn: lhs.startColumn, endColumn: lhs.endColumn)
 }
 
-
 extension CGRect {
     init(p1: CGPoint, p2: CGPoint) {
         self.init(x: min(p1.x, p2.x), y: min(p1.y, p2.y), width: fabs(p1.x - p2.x), height: fabs(p1.y - p2.y))
@@ -32,7 +31,7 @@ extension CGRect {
 }
 
 class TableView: NSTableView {
-    
+
     override var selectedRow: Int {
         return selectionBoxes.first?.startRow ?? -1
     }
@@ -122,7 +121,7 @@ class TableView: NSTableView {
         tableColumn.addObserver(self, forKeyPath: #keyPath(NSTableColumn.width), options: [], context: nil)
     }
 
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == #keyPath(NSTableColumn.width) {
             refreshSelection()
         } else {
@@ -131,13 +130,12 @@ class TableView: NSTableView {
     }
 
     override func sizeToFit() {
-        
+
     }
 
     override func awakeFromNib() {
         NotificationCenter.default.addObserver(self, selector: #selector(columnResized), name: NSTableView.columnDidResizeNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(columnMoved), name: NSTableView.columnDidMoveNotification, object: nil)
-
 
     }
 
@@ -164,7 +162,7 @@ class TableView: NSTableView {
         let converted: CGPoint
         if event.modifierFlags.contains(.shift), let oldBox = selectionBoxes.first {
             let frame = frameOfCell(atColumn: oldBox.startColumn, row: oldBox.startRow)
-            let p1 = CGPoint(x: NSMidX(frame),y: NSMidY(frame))
+            let p1 = CGPoint(x: frame.midX, y: frame.midY)
             let mousePoint = event.locationInWindow
             let p2 = convert(mousePoint, from: nil)
             selectPoints(p1: p1, p2: p2)
@@ -189,8 +187,8 @@ class TableView: NSTableView {
             }
         }
 
-        while let curEvent = self.window?.nextEvent(matching: [.leftMouseUp, .leftMouseDragged]),  curEvent.type != .leftMouseUp {
-            let curPoint = convert(curEvent.locationInWindow,from: nil)
+        while let curEvent = self.window?.nextEvent(matching: [.leftMouseUp, .leftMouseDragged]), curEvent.type != .leftMouseUp {
+            let curPoint = convert(curEvent.locationInWindow, from: nil)
             selectPoints(p1: converted, p2: curPoint)
         }
 
@@ -235,7 +233,7 @@ class TableView: NSTableView {
                 maxCol = maxCol == -1 ? col : max(maxCol, col)
             }
             if minCol != -1 && maxCol != -1 {
-                selectionBoxes = [SelectionBox(startRow: 0, endRow: numberOfRows - 1, startColumn:minCol, endColumn: maxCol)]
+                selectionBoxes = [SelectionBox(startRow: 0, endRow: numberOfRows - 1, startColumn: minCol, endColumn: maxCol)]
             }
         }
 
@@ -244,7 +242,6 @@ class TableView: NSTableView {
     override func deselectAll(_ sender: Any?) {
         selectionBoxes.removeAll(keepingCapacity: true)
     }
-
 
     override func insertRows(at indexes: IndexSet, withAnimation animationOptions: NSTableView.AnimationOptions = []) {
 
@@ -259,17 +256,14 @@ class TableView: NSTableView {
             selectionBoxes = [selection + offset]
         }
 
-
     }
 
     override func rulerView(_ ruler: NSRulerView, handleMouseDownWith event: NSEvent) {
         allowsColumnReordering = true
 
-        
         if event.modifierFlags.contains(.command) {
 
         }
-
 
         let mousePoint = convert(event.locationInWindow, from: nil)
         let converted = CGPoint(x: 1, y: mousePoint.y)
@@ -278,9 +272,9 @@ class TableView: NSTableView {
             selectionBoxes = [SelectionBox(startRow: row, endRow: row, startColumn: 0, endColumn: numberOfColumns - 1)]
         }
 
-        while let curEvent = self.window?.nextEvent(matching: [.leftMouseUp, .leftMouseDragged]),  curEvent.type != .leftMouseUp {
+        while let curEvent = self.window?.nextEvent(matching: [.leftMouseUp, .leftMouseDragged]), curEvent.type != .leftMouseUp {
 
-            let curPoint = convert(curEvent.locationInWindow,from: nil)
+            let curPoint = convert(curEvent.locationInWindow, from: nil)
             let p2 = CGPoint(x: 2, y: curPoint.y)
             let selectionRect = CGRect(p1: converted, p2: p2)
 
@@ -294,7 +288,6 @@ class TableView: NSTableView {
         }
 
     }
-
 
     override func menu(for event: NSEvent) -> NSMenu? {
         let mousePoint = event.locationInWindow
@@ -312,7 +305,7 @@ class TableView: NSTableView {
                 }
 
             }
-        } else  {
+        } else {
 
             if let index = selectionRects.index(where: { $0.contains(converted) }) {
                 selectionBoxes = [ selectionBoxes[index] ]
@@ -333,6 +326,4 @@ class TableView: NSTableView {
         return menu
     }
 
-
 }
-

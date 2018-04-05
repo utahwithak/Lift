@@ -53,5 +53,5 @@ class SnippetEditorViewController: NSViewController {
     @IBAction func saveEdits(_ sender: Any) {
         delegate?.editor(self, didEdit: snippet, at: editingIndex)
     }
-    
+
 }

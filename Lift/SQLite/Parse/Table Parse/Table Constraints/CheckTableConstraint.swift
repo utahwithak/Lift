@@ -17,14 +17,14 @@ class CheckTableConstraint: TableConstraint {
         if !scanner.scanString("check", into: nil) {
             throw ParserError.unexpectedError("Invalid table check")
         }
-       
+
         checkExpression = try SQLiteCreateTableParser.parseExp(from: scanner)
 
         super.init(name: name)
     }
     override var sql: String {
         var builder = ""
-        if let name = name?.sql{
+        if let name = name?.sql {
             builder += "CONSTRAINT \(name) "
         }
         return builder + "CHECK \(checkExpression) "

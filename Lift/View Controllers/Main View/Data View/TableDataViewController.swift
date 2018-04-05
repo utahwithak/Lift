@@ -1,4 +1,3 @@
-
 //
 //  TableDataViewController.swift
 //  Lift
@@ -9,13 +8,11 @@
 
 import Cocoa
 
-
-
 class TableDataViewController: LiftMainViewController {
 
     public static var identifierMap = [NSUserInterfaceItemIdentifier: Int]()
-    public static let numberColor = NSColor(calibratedRed:0.2, green:0.403, blue:0.507, alpha:1)
-    
+    public static let numberColor = NSColor(calibratedRed: 0.2, green: 0.403, blue: 0.507, alpha: 1)
+
     @IBOutlet weak var filterButton: NSButton!
     @IBOutlet weak var tableView: TableView!
     @IBOutlet weak var tableScrollView: TableScrollView!
@@ -32,9 +29,7 @@ class TableDataViewController: LiftMainViewController {
         return predicateview
     }()
 
-    let foreignKeyColumnColor = NSColor(calibratedRed:0.71, green:0.843, blue:1.0, alpha:0.5).cgColor
-
-
+    let foreignKeyColumnColor = NSColor(calibratedRed: 0.71, green: 0.843, blue: 1.0, alpha: 0.5).cgColor
 
     var data: TableData?
 
@@ -44,7 +39,6 @@ class TableDataViewController: LiftMainViewController {
 
     private var currentForeignKey: ForeignKeyJump?
     private var customStart: CustomTableStart?
-
 
     /// Selection box columns -> TableDataColumn
     var columnMap: [Int: Int] {
@@ -91,7 +85,7 @@ class TableDataViewController: LiftMainViewController {
         predicateViewController.removeObserver(self, forKeyPath: #keyPath(TablePredicateViewController.queryString))
     }
 
-    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == #keyPath(TablePredicateViewController.queryString) {
             self.queryString = predicateViewController.queryString
         } else {
@@ -192,11 +186,6 @@ class TableDataViewController: LiftMainViewController {
             return
         }
 
-
-
-
-
-
         if customSavePoint {
             do {
                 try database.releaseSavepoint(named: savePointName)
@@ -204,7 +193,6 @@ class TableDataViewController: LiftMainViewController {
                 NSApp.presentError(error)
             }
         }
-
 
     }
 
@@ -228,11 +216,9 @@ class TableDataViewController: LiftMainViewController {
             return
         }
 
-
         guard let waitingVC = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("waitingOperationView")) as? WaitingOperationViewController else {
             return
         }
-
 
         let cancelOp: () -> Void = {
             validOp = false
@@ -263,7 +249,6 @@ class TableDataViewController: LiftMainViewController {
 
     }
 
-
     @IBAction func paste(_ sender: Any) {
 
     }
@@ -277,14 +262,13 @@ class TableDataViewController: LiftMainViewController {
         tableView.headerView = CustomTableHeaderView(frame: tableView.headerView?.frame ?? NSRect.zero)
 
         view.postsFrameChangedNotifications = true
-        NotificationCenter.default.addObserver(forName: NSView.frameDidChangeNotification , object: view, queue: nil) { [weak self] _ in
+        NotificationCenter.default.addObserver(forName: NSView.frameDidChangeNotification, object: view, queue: nil) { [weak self] _ in
             guard let mySelf = self else {
                 return
             }
             mySelf.visibleRowCountBuffer = mySelf.tableView.rows(in: mySelf.tableView.visibleRect).length * 4
         }
     }
-
 
     @objc private func jumpToForeignKey(_ item: NSMenuItem) {
         guard let jump = item.representedObject as? ForeignKeyJump else {
@@ -328,7 +312,6 @@ class TableDataViewController: LiftMainViewController {
 
         windowController?.selectedTable = toTable
 
-
     }
 
     func clearTable() {
@@ -368,8 +351,7 @@ class TableDataViewController: LiftMainViewController {
             fromColumns = Set<String>()
         }
 
-
-        for (index,name) in columns.enumerated() where index > (newData.sortCount - 1) {
+        for (index, name) in columns.enumerated() where index > (newData.sortCount - 1) {
 
             let identifier = NSUserInterfaceItemIdentifier("\(index)")
             TableDataViewController.identifierMap[identifier] = index
@@ -452,7 +434,6 @@ class TableDataViewController: LiftMainViewController {
         customRowEditor.creatingRow = true
         presentViewControllerAsSheet(customRowEditor)
 
-
     }
 
     @IBAction func showFilter(_ sender: NSButton) {
@@ -463,7 +444,6 @@ class TableDataViewController: LiftMainViewController {
         }
     }
 
-    
 }
 
 extension TableDataViewController: TableDataDelegate {
@@ -489,7 +469,6 @@ extension TableDataViewController: TableDataDelegate {
 
         let vislbeRange = tableView.rows(in: tableView.visibleRect)
         let middleRow = (vislbeRange.upperBound + vislbeRange.lowerBound)/2
-
 
         guard !tableView.tableColumns.isEmpty else {
             return
@@ -578,7 +557,7 @@ extension TableDataViewController: NSTableViewDataSource {
         guard let data = data else {
             return nil
         }
-        if !data.finishedLoadingAfter && row > (data.count - visibleRowCountBuffer)  {
+        if !data.finishedLoadingAfter && row > (data.count - visibleRowCountBuffer) {
             data.loadNextPage()
         }
 
@@ -589,9 +568,7 @@ extension TableDataViewController: NSTableViewDataSource {
         return NSTableRowView()
     }
 
-    
 }
-
 
 extension TableDataViewController: NSMenuDelegate {
 
@@ -676,7 +653,6 @@ extension TableDataViewController: NSMenuDelegate {
                     menu.addItem(editRow)
                 }
 
-
             }
 
         } else {
@@ -712,7 +688,6 @@ extension TableDataViewController: NSMenuDelegate {
 
         presentViewControllerAsSheet(editViewController)
 
-
     }
 
     @objc private func copyAsCSV(_ sender: Any) {
@@ -726,12 +701,11 @@ extension TableDataViewController: NSMenuDelegate {
         guard let data = data, let selectionBox = tableView.selectionBoxes.first else {
             return
         }
-        
+
         copySelection(selectionBox, fromData: data, asJson: true, columnMap: columnMap)
 
     }
 }
-
 
 extension TableDataViewController: JumpDelegate {
     func jumpView(_ view: JumpToRowViewController, jumpTo: Int?) {
@@ -782,13 +756,11 @@ extension TableDataViewController: JumpDelegate {
 
                     }
 
-
                 }
                 let isLoading = data.loadToRowVisible(row, completion: completion, keepGoing: keepGoing)
                 if isLoading {
                     presentViewControllerAsSheet(waitingVC)
                 }
-
 
             }
 
@@ -796,7 +768,6 @@ extension TableDataViewController: JumpDelegate {
 
     }
 }
-
 
 extension TableDataViewController: NSTextFieldDelegate {
     override func controlTextDidBeginEditing(_ obj: Notification) {
@@ -823,7 +794,7 @@ extension TableDataViewController: NSTextFieldDelegate {
         set(row: selectionBox.startRow, rawCol: selectionBox.startColumn, to: .argument(textField.stringValue))
         textField.isEditable = false
 
-        if let rawMovement = obj.userInfo?["NSTextMovement"] as? Int, let movement = NSTextMovement(rawValue: rawMovement)  {
+        if let rawMovement = obj.userInfo?["NSTextMovement"] as? Int, let movement = NSTextMovement(rawValue: rawMovement) {
 
             switch movement {
             case .down, .return:
@@ -834,12 +805,12 @@ extension TableDataViewController: NSTextFieldDelegate {
             case .tab, .right:
                 self.tableView.selectRow(selectionBox.startRow, column: min(selectionBox.startColumn + 1, tableView.numberOfColumns - 1))
             case .backtab, .left:
-                self.tableView.selectRow(selectionBox.startRow, column: max(0,selectionBox.startColumn - 1))
+                self.tableView.selectRow(selectionBox.startRow, column: max(0, selectionBox.startColumn - 1))
                 DispatchQueue.main.async {
                     self.startEditingSelection()
                 }
             case .up:
-                self.tableView.selectRow(max(0,selectionBox.startRow - 1), column: selectionBox.startColumn)
+                self.tableView.selectRow(max(0, selectionBox.startRow - 1), column: selectionBox.startColumn)
             default:
                 break
             }
@@ -855,5 +826,3 @@ extension TableDataViewController: BottomEditorContentProvider {
     }
 
 }
-
-

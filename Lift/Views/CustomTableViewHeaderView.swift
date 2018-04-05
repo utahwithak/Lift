@@ -18,7 +18,7 @@ class CustomTableHeaderView: NSTableHeaderView {
         guard let tableView = tableView else {
             return
         }
-        
+
         if let sorts = sortOrders {
             for (priority, order) in sorts.enumerated() {
                 if priority > 0 {

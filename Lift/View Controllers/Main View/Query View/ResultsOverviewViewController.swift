@@ -24,7 +24,6 @@ class ResultsOverviewViewController: NSViewController {
 
     @objc var results = [ExecuteQueryResult]()
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
         updateProgressIndicator()

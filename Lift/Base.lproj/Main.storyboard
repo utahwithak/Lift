@@ -4396,6 +4396,28 @@ Gw
                                     </binding>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="oyB-NO-kYh">
+                                <rect key="frame" x="72" y="0.0" width="36" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="36" id="Lxt-qO-Bnb"/>
+                                    <constraint firstAttribute="height" constant="21" id="ri0-4F-bDv"/>
+                                </constraints>
+                                <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="NSActionTemplate" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="KdY-DJ-swD">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="editSelected:" target="5xX-Q9-yaR" id="jbg-85-sbV"/>
+                                    <binding destination="xkL-HF-Tzl" name="enabled" keyPath="selection.canDrop" id="XIj-uZ-H4f">
+                                        <dictionary key="options">
+                                            <integer key="NSMultipleValuesPlaceholder" value="0"/>
+                                            <integer key="NSNoSelectionPlaceholder" value="0"/>
+                                            <integer key="NSNotApplicablePlaceholder" value="0"/>
+                                            <integer key="NSNullPlaceholder" value="0"/>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="own-s7-gPV" secondAttribute="trailing" constant="-1" id="1FO-Xf-NOH"/>
@@ -4403,8 +4425,10 @@ Gw
                             <constraint firstItem="ZLL-ee-ZyH" firstAttribute="top" secondItem="own-s7-gPV" secondAttribute="bottom" constant="-1" id="8MD-dI-NaN"/>
                             <constraint firstItem="weo-FO-6dZ" firstAttribute="leading" secondItem="ZLL-ee-ZyH" secondAttribute="trailing" id="Ccj-ll-fWA"/>
                             <constraint firstAttribute="bottom" secondItem="ZLL-ee-ZyH" secondAttribute="bottom" id="TKH-h6-aLy"/>
+                            <constraint firstItem="oyB-NO-kYh" firstAttribute="leading" secondItem="weo-FO-6dZ" secondAttribute="trailing" id="hf9-3c-suK"/>
                             <constraint firstItem="weo-FO-6dZ" firstAttribute="centerY" secondItem="ZLL-ee-ZyH" secondAttribute="centerY" id="mbA-iu-UvN"/>
                             <constraint firstItem="own-s7-gPV" firstAttribute="leading" secondItem="56L-Uj-Vl3" secondAttribute="leading" constant="-1" id="saZ-ms-Dtz"/>
+                            <constraint firstItem="oyB-NO-kYh" firstAttribute="centerY" secondItem="weo-FO-6dZ" secondAttribute="centerY" id="vms-RL-IQb"/>
                             <constraint firstItem="ZLL-ee-ZyH" firstAttribute="leading" secondItem="56L-Uj-Vl3" secondAttribute="leading" id="wvp-kh-Ewq"/>
                         </constraints>
                     </view>

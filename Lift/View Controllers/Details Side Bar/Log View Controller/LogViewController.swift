@@ -10,7 +10,6 @@ import Cocoa
 
 class LogViewController: LiftViewController {
 
-
     @IBOutlet var arrayController: FilterableArrayController!
     @objc dynamic var log = [String]()
 
@@ -21,7 +20,6 @@ class LogViewController: LiftViewController {
             }
         }
     }
-
 
     @IBAction func clearHistory(_ sender: Any) {
         log = []
@@ -43,7 +41,7 @@ class LogViewController: LiftViewController {
 
 extension LogViewController: NSTableViewDelegate {
     static let attributes: [NSAttributedStringKey: Any] = [.font: NSFont.systemFont(ofSize: 13)]
-    
+
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
 
         guard let str = (arrayController.arrangedObjects as? NSArray)?[row] as? NSString else {
@@ -52,11 +50,10 @@ extension LogViewController: NSTableViewDelegate {
 
         let rect = str.boundingRect(with: CGSize(width: tableView.frame.width, height: CGFloat.greatestFiniteMagnitude), options: .usesLineFragmentOrigin, attributes: LogViewController.attributes)
 
-        return max(19,rect.size.height);
+        return max(19, rect.size.height)
 
     }
 }
-
 
 class FilterableArrayController: NSArrayController {
     var searchString: String?

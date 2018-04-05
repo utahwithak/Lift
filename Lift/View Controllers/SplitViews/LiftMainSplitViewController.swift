@@ -10,14 +10,12 @@ import Cocoa
 
 class LiftMainSplitViewController: LiftSplitViewController {
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
         if let middleView = splitViewItems[1].viewController as? LiftSplitViewController {
             middleView.splitDelegate = self
         }
     }
-
 
     var sideBar: SideBarBrowseViewController? {
         return splitViewItems[0].viewController as? SideBarBrowseViewController

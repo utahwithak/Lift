@@ -17,7 +17,6 @@ extension Notification.Name {
     static let selectedTableChanged = Notification.Name("selectedTableChanged")
 }
 
-
 class LiftWindowController: NSWindowController {
 
     @IBOutlet weak var viewTypeSegmentedControl: NSSegmentedControl!
@@ -46,7 +45,7 @@ class LiftWindowController: NSWindowController {
     @IBAction func saveDocument(_ sender: Any) {
         document?.saveDocument(sender)
     }
-    
+
     var documentDatabase: Database? {
         return (document as? LiftDocument)?.database
     }
@@ -83,7 +82,6 @@ class LiftWindowController: NSWindowController {
 
         otherWindowController.window?.orderFront(self.window)
         otherWindowController.window?.makeKey()
-
 
     }
 
@@ -208,7 +206,6 @@ class LiftWindowController: NSWindowController {
 
         openFile.accessoryView = auxView
 
-        
         if openFile.runModal() == .OK, let url = openFile.url {
             do {
                 try database.loadExtension(at: url, entryPoint: field.stringValue.isEmpty ? nil : field.stringValue )
@@ -304,7 +301,6 @@ class LiftWindowController: NSWindowController {
 
             return integrity && fKey
 
-
         }
         waitingView.delegate = self
         waitingView.operation = .customCall(operation)
@@ -338,7 +334,7 @@ class LiftWindowController: NSWindowController {
             chooser.canChooseDirectories = true
             chooser.canChooseFiles = true
 
-            guard let vc = storyboard?.instantiateController(withIdentifier:   NSStoryboard.SceneIdentifier("importViewController")) as? ImportViewController else {
+            guard let vc = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("importViewController")) as? ImportViewController else {
                 return
             }
 
@@ -359,11 +355,8 @@ class LiftWindowController: NSWindowController {
                 responseHandler(response)
             }
 
-
-
-
         default:
-            guard let vc = storyboard?.instantiateController(withIdentifier:  NSStoryboard.SceneIdentifier("exportViewController")) as? LiftViewController else {
+            guard let vc = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("exportViewController")) as? LiftViewController else {
                 return
             }
 
@@ -380,7 +373,6 @@ extension LiftWindowController: StatementWaitingViewDelegate {
     func waitingView(_ view: StatementWaitingViewController, finishedSuccessfully: Bool) {
         contentViewController?.dismissViewController(view)
     }
-
 
 }
 
@@ -399,11 +391,10 @@ extension LiftWindowController: LiftSplitViewDelegate {
     }
 }
 
-
 extension LiftWindowController: NSDraggingDestination {
 
     func shouldAllowDrag(_ draggingInfo: NSDraggingInfo) -> Bool {
-        return draggingInfo.draggingPasteboard().canReadObject(forClasses: [NSURL.self], options:nil)
+        return draggingInfo.draggingPasteboard().canReadObject(forClasses: [NSURL.self], options: nil)
     }
 
     func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
@@ -418,7 +409,7 @@ extension LiftWindowController: NSDraggingDestination {
 
         let pasteBoard = draggingInfo.draggingPasteboard()
 
-        if let urls = pasteBoard.readObjects(forClasses: [NSURL.self], options:nil) as? [URL], let url = urls.first {
+        if let urls = pasteBoard.readObjects(forClasses: [NSURL.self], options: nil) as? [URL], let url = urls.first {
 
             if let viewcontroller = storyboard?.instantiateController(withIdentifier: .attachDatabase) as? AttachDatabaseViewController {
                 viewcontroller.representedObject = document
@@ -432,7 +423,6 @@ extension LiftWindowController: NSDraggingDestination {
         return false
 
     }
-
 
 }
 

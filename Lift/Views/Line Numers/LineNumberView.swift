@@ -67,7 +67,6 @@ class LineNumberView: NSRulerView {
 
             invalidateLineIndices(from: 0)
 
-
         }
     }
 
@@ -91,18 +90,18 @@ class LineNumberView: NSRulerView {
     override var requiredThickness: CGFloat {
 
         let lineCount = count
-        var digits = 1;
+        var digits = 1
         if lineCount > 0 {
             digits = Int(log10(Double(lineCount)) + 1)
         }
 
-        let sampleString = [String](repeating:"8", count: digits).joined()
+        let sampleString = [String](repeating: "8", count: digits).joined()
 
-        let stringSize = (sampleString as NSString).size(withAttributes:  textAttributes)
-        
+        let stringSize = (sampleString as NSString).size(withAttributes: textAttributes)
+
         // Round up the value. There is a bug on 10.4 where the display gets all wonky when scrolling if you don't
         // return an integral value here.
-        return ceil(max(LineNumberView.DEFAULT_THICKNESS, stringSize.width + LineNumberView.RULER_MARGIN * 2));
+        return ceil(max(LineNumberView.DEFAULT_THICKNESS, stringSize.width + LineNumberView.RULER_MARGIN * 2))
     }
 
     lazy var textAttributes: [NSAttributedStringKey: Any] = {
@@ -111,10 +110,8 @@ class LineNumberView: NSRulerView {
         return [.font: font, .foregroundColor: color]
     }()
 
-
-
     private func invalidateLineIndices(from characterIndex: Int) {
-        invalidCharacterIndex = min(characterIndex, invalidCharacterIndex);
+        invalidCharacterIndex = min(characterIndex, invalidCharacterIndex)
     }
 
     private func calculateLines() {
@@ -127,7 +124,7 @@ class LineNumberView: NSRulerView {
         let stringLength = text.length
         let count = lineIndices.count
 
-        var charIndex = 0;
+        var charIndex = 0
         var lineIndex = lineNumber(for: invalidCharacterIndex)
         if count > 0 {
             charIndex = lineIndices[lineIndex]
@@ -140,9 +137,9 @@ class LineNumberView: NSRulerView {
                 lineIndices.append(charIndex)
             }
 
-            charIndex = NSMaxRange(text.lineRange(for: NSRange(location: charIndex, length: 0)));
+            charIndex = NSMaxRange(text.lineRange(for: NSRange(location: charIndex, length: 0)))
             lineIndex += 1
-        } while charIndex < stringLength;
+        } while charIndex < stringLength
 
         if lineIndex < count {
             lineIndices.removeLast(count - lineIndex)
@@ -169,37 +166,36 @@ class LineNumberView: NSRulerView {
             }
         }
 
-
     }
 
     private func lineNumber(for charIndex: Int) -> Int {
 
         // Binary search
-        var left = 0;
+        var left = 0
         var right = lineIndices.count
         while (right - left) > 1 {
-            let mid = (right + left) / 2;
+            let mid = (right + left) / 2
             let lineStart = lineIndices[mid]
 
             if charIndex < lineStart {
-                right = mid;
+                right = mid
             } else if charIndex > lineStart {
-                left = mid;
+                left = mid
             } else {
-                return mid;
+                return mid
             }
         }
-        return left;
+        return left
     }
 
-    private let nullRange = NSMakeRange(NSNotFound, 0);
+    private let nullRange = NSRange(location: NSNotFound, length: 0)
 
     func drawBackground() {
         let bounds = self.bounds
 
         backgroundColor.set()
 
-        __NSRectFill(bounds);
+        __NSRectFill(bounds)
         NSColor(calibratedWhite: 0.58, alpha: 1).set()
         NSBezierPath.strokeLine(from: NSPoint(x: bounds.maxX - 0.5, y: bounds.minY), to: NSPoint(x: bounds.maxX - 0.5, y: bounds.maxY))
 
@@ -207,10 +203,9 @@ class LineNumberView: NSRulerView {
 
     override func drawHashMarksAndLabels(in rect: NSRect) {
 
-        let boundWidth = NSWidth(bounds)
+        let boundWidth = bounds.width
 
         drawBackground()
-
 
         guard let textView = clientView as? NSTextView, let layoutManager = textView.layoutManager, let container = textView.textContainer, let visibleRect = scrollView?.contentView.bounds else {
             print("invalid client view!")
@@ -255,10 +250,10 @@ class LineNumberView: NSRulerView {
                 if let rects = rects, rectCount > 0 {
                     // Note that the ruler view is only as tall as the visible
                     // portion. Need to compensate for the clipview's coordinates.
-                    let ypos = yinset + NSMinY(rects[0]) - NSMinY(visibleRect)
+                    let ypos = yinset + NSMinY(rects[0]) - visibleRect.minY
 
                     // Line numbers are internally stored starting at 0
-                    let labelText = NSString(format:"%jd", line + 1)
+                    let labelText = NSString(format: "%jd", line + 1)
 
                     let stringSize = labelText.size(withAttributes: textAttributes)
 
@@ -271,7 +266,7 @@ class LineNumberView: NSRulerView {
                 }
             }
             if index > NSMaxRange(range) {
-                break;
+                break
             }
         }
 

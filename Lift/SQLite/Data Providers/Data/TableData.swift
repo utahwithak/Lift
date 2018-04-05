@@ -153,13 +153,11 @@ final class TableData: NSObject {
         return data[row].data[column]
     }
 
-    func customSortOrdering(forNext: Bool) ->  String {
-        return customOrdering.map( { $0.queryStatement(flipped: !forNext) }).joined(separator: ", ")
+    func customSortOrdering(forNext: Bool) -> String {
+        return customOrdering.map({ $0.queryStatement(flipped: !forNext) }).joined(separator: ", ")
     }
 
-
     private func buildNextQuery() -> String {
-
 
         if smartPaging {
             var builder = baseQuery
@@ -167,7 +165,6 @@ final class TableData: NSObject {
             if lastValues != nil {
                 builder += " WHERE (\(sortColumns)) > (\(argString))"
             }
-
 
             builder += " LIMIT \(pageSize)"
 
@@ -240,7 +237,7 @@ final class TableData: NSObject {
 
     }
 
-    public func loadToRowVisible(_ row: Int, completion: @escaping () -> Void, keepGoing: @escaping()-> Bool ) -> Bool {
+    public func loadToRowVisible(_ row: Int, completion: @escaping () -> Void, keepGoing: @escaping() -> Bool ) -> Bool {
         guard !loadingNextPage && !finishedLoadingAfter else {
             return false
         }
@@ -276,28 +273,21 @@ final class TableData: NSObject {
                     self.finishedLoadingAfter = true
                 }
 
-
-
                 if self.smartPaging, let last = rowData.last {
                     self.lastValues = last[0..<self.sortCount]
                 }
-
 
                 self.data.append(contentsOf: rowData.map { RowData(row: $0) })
                 completion()
 
                 self.loadingNextPage = false
 
-
             }, keepGoing: keepGoing)
-
-
 
         } catch {
             print("Failed to create query:\(error)")
             return false
         }
-
 
         return true
 
@@ -320,7 +310,6 @@ final class TableData: NSObject {
             query.loadInBackground { [weak self] result in
                 self?.handlePreviousResult(result)
             }
-
 
         } catch {
             print("Failed to create query:\(error)")
@@ -360,7 +349,6 @@ final class TableData: NSObject {
                 lastValues = last[0..<sortCount]
             }
 
-
             self.data.append(contentsOf: data.map { RowData(row: $0) })
             delegate?.tableDataDidPageNextIn(self, count: data.count)
 
@@ -372,9 +360,8 @@ final class TableData: NSObject {
 
     }
 
-
     private func handlePreviousResult(_ result: Result<[[SQLiteData]], Error>) {
-        
+
         switch result {
         case .success(let data):
             if data.count < pageSize {
@@ -549,7 +536,6 @@ final class TableData: NSObject {
         }
         return writer
     }
-
 
     func addDefaultValues() throws -> Bool {
         guard let table = provider as? Table else {

@@ -15,11 +15,10 @@ class TableNumberView: NSRulerView {
 
     private var backgroundColor = NSColor.white
 
-
     var rowCount: Int = 0 {
         didSet {
             if rowCount > rows.count {
-                let additional = (rows.count...rowCount).map { NSString(format:"%jd", $0 + 1) }
+                let additional = (rows.count...rowCount).map { NSString(format: "%jd", $0 + 1) }
                 rows.append(contentsOf: additional)
             }
 
@@ -62,28 +61,27 @@ class TableNumberView: NSRulerView {
 
         backgroundColor.set()
 
-        __NSRectFill(bounds);
+        __NSRectFill(bounds)
         NSColor(calibratedWhite: 0.58, alpha: 1).set()
         NSBezierPath.strokeLine(from: NSPoint(x: bounds.maxX - 0.5, y: bounds.minY), to: NSPoint(x: bounds.maxX - 0.5, y: bounds.maxY))
 
     }
 
-
     override var requiredThickness: CGFloat {
 
         let lineCount = count
-        var digits = 1;
+        var digits = 1
         if lineCount > 0 {
             digits = Int(log10(Double(lineCount)) + 1)
         }
 
-        let sampleString = [String](repeating:"8", count: digits).joined()
+        let sampleString = [String](repeating: "8", count: digits).joined()
 
-        let stringSize = (sampleString as NSString).size(withAttributes:  textAttributes)
+        let stringSize = (sampleString as NSString).size(withAttributes: textAttributes)
 
         // Round up the value. There is a bug on 10.4 where the display gets all wonky when scrolling if you don't
         // return an integral value here.
-        return ceil(max(TableNumberView.DEFAULT_THICKNESS, stringSize.width + TableNumberView.RULER_MARGIN * 2));
+        return ceil(max(TableNumberView.DEFAULT_THICKNESS, stringSize.width + TableNumberView.RULER_MARGIN * 2))
     }
 
    let textAttributes: [NSAttributedStringKey: Any] = {
@@ -94,9 +92,7 @@ class TableNumberView: NSRulerView {
 
     let context = NSStringDrawingContext()
 
-
     var rows = [NSString]()
-
 
     override func drawHashMarksAndLabels(in rect: NSRect) {
         drawBackground()
@@ -105,7 +101,7 @@ class TableNumberView: NSRulerView {
             return
         }
 
-        let boundWidth = NSWidth(bounds) - TableNumberView.RULER_MARGIN
+        let boundWidth = bounds.width - TableNumberView.RULER_MARGIN
 
         let visibleRowRange = tableView.rows(in: tableView.visibleRect)
 
@@ -115,17 +111,16 @@ class TableNumberView: NSRulerView {
 
             let rowRect = tableView.rect(ofRow: row)
 
-            let ypos = NSMinY(rowRect) - NSMinY(visibleRect)
+            let ypos = rowRect.minY - visibleRect.minY
 
             let labelText = rows[row]
 
-            let textRect = NSRect(x: 0, y: ypos + halfLineHeight, width: boundWidth, height: NSHeight(rowRect))
+            let textRect = NSRect(x: 0, y: ypos + halfLineHeight, width: boundWidth, height: rowRect.height)
 
             labelText.draw(with: textRect, options: [.usesLineFragmentOrigin], attributes: textAttributes, context: context)
 
             row += 1
         }
-    
+
     }
 }
-

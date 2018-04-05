@@ -29,7 +29,7 @@ class SnippetViewController: LiftViewController {
         tableView.doubleAction = #selector(editSnippet)
         tableView.target = self
         tableView.registerForDraggedTypes([NSPasteboard.PasteboardType.string])
-        
+
     }
 
     @IBAction func duplicateSelected(_ sender: Any) {
@@ -84,7 +84,7 @@ class SnippetViewController: LiftViewController {
         if sender is NSMenuItem && tableView.clickedRow != -1 && (tableView.selectedRow != tableView.clickedRow || tableView.selectedRowIndexes.count > 1) {
             tableView.selectRowIndexes(IndexSet([tableView.clickedRow]), byExtendingSelection: false)
         }
-        performSegue(withIdentifier:editSnippetIdentifer , sender: self)
+        performSegue(withIdentifier: editSnippetIdentifer, sender: self)
     }
 
     @IBAction func createNewSnippet(_ sender: Any) {
@@ -96,11 +96,10 @@ class SnippetViewController: LiftViewController {
             return
         }
 
-
         editorView.snippet = Snippet(name: "Current SQL", description: "", sql: delegate.currentSQL )
         editorView.delegate = self
         presentViewControllerAsSheet(editorView)
-        
+
     }
 
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
@@ -120,7 +119,6 @@ class SnippetViewController: LiftViewController {
         }
     }
 }
-
 
 extension SnippetViewController: NSTableViewDelegate {
 
@@ -148,7 +146,7 @@ extension SnippetViewController: NSTableViewDataSource {
     func tableView(_ tableView: NSTableView, writeRowsWith rowIndexes: IndexSet, to pboard: NSPasteboard) -> Bool {
         pboard.declareTypes([.string], owner: self)
 
-        let sql = rowIndexes.sorted().map({ SnippetManager.shared.snippets[$0].sql }).joined(separator:"\n")
+        let sql = rowIndexes.sorted().map({ SnippetManager.shared.snippets[$0].sql }).joined(separator: "\n")
 
         pboard.setString(sql, forType: .string)
         return true

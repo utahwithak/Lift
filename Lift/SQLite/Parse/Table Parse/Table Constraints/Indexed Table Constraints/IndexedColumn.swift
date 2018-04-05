@@ -65,7 +65,5 @@ class IndexedColumn {
 
         return builder
 
-
-
     }
 }

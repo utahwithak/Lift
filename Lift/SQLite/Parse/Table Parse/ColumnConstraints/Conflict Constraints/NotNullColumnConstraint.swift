@@ -18,7 +18,7 @@ class NotNullColumnConstraint: ConflictColumnConstraint {
             throw ParserError.unexpectedError("Expected null in not null constraint!")
         }
 
-        try super.init(with: name,from: scanner)
+        try super.init(with: name, from: scanner)
 
     }
 
@@ -29,14 +29,14 @@ class NotNullColumnConstraint: ConflictColumnConstraint {
     private init(copying: NotNullColumnConstraint) {
         super.init(copying: copying)
     }
-    
+
     override func copy() -> ColumnConstraint {
         return NotNullColumnConstraint(copying: self)
     }
 
     override var sql: String {
         var builder = ""
-        if let name = constraintName?.sql{
+        if let name = constraintName?.sql {
             builder += "CONSTRAINT \(name) "
         }
         builder += "NOT NULL "

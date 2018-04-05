@@ -12,7 +12,6 @@ protocol ImportDataDelegate: class {
     func closeImportView(_ vc: ImportDataViewController)
 }
 
-
 class ImportDataViewController: LiftViewController {
 
     let skipColumnTitle = NSLocalizedString("Don't Import", comment: "Don't import this column title")
@@ -59,7 +58,6 @@ class ImportDataViewController: LiftViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-    
 
         while tableView.numberOfColumns > 0 {
             tableView.removeTableColumn(tableView.tableColumns[0])
@@ -80,13 +78,12 @@ class ImportDataViewController: LiftViewController {
                 }
             }
 
-
         }
 
         importIntoChoices.append(newTableChoice)
 
         intoChoice = newTableChoice
-        
+
         guard let db = document?.database else {
             return
         }
@@ -98,13 +95,11 @@ class ImportDataViewController: LiftViewController {
         }
     }
 
-
     @objc dynamic var creatingNewTable = true {
         didSet {
             tableView.reloadData(forRowIndexes: IndexSet([0]), columnIndexes: IndexSet(0..<tableView.numberOfColumns))
         }
     }
-
 
     @IBAction func closeImport(_ sender: Any) {
         delegate?.closeImportView(self)
@@ -218,7 +213,6 @@ class ImportDataViewController: LiftViewController {
             return
         }
 
-
         let cancelOp: () -> Void = {
             isCanceled = true
         }
@@ -238,7 +232,7 @@ class ImportDataViewController: LiftViewController {
             }
 
             let valuesClause = importColumnIndexes.map { "$\($0)" } .joined(separator: ", ")
-            let columnClause = columnNamesForInsert.map { $0.sqliteSafeString() }.joined(separator:", ")
+            let columnClause = columnNamesForInsert.map { $0.sqliteSafeString() }.joined(separator: ", ")
             let insertQueryText = "INSERT INTO \(intoTableName)(\(columnClause)) VALUES (\(valuesClause));"
 
             do {
@@ -259,7 +253,7 @@ class ImportDataViewController: LiftViewController {
                         }
 
                         for index in importColumnIndexes {
-                            if index < row.count, let value = row[index]  {
+                            if index < row.count, let value = row[index] {
                                 try insertQuery.bind(object: value )
                             } else {
                                 try insertQuery.bindNull()
@@ -278,7 +272,6 @@ class ImportDataViewController: LiftViewController {
                 } catch {
                     print("Fail \(error)")
                 }
-
 
             } catch {
                 DispatchQueue.main.async {
@@ -305,7 +298,6 @@ class ImportDataViewController: LiftViewController {
         }
     }
 }
-
 
 extension ImportDataViewController: NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
@@ -383,12 +375,11 @@ extension ImportDataViewController: NSTableViewDelegate {
             } else {
                 view.textField?.stringValue = ""
             }
-            
+
             return view
         }
     }
 }
-
 
 class ImportTableChoice: NSObject {
     @objc dynamic let name: String

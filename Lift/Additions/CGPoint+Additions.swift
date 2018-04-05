@@ -8,7 +8,7 @@
 
 import Foundation
 
-extension CGPoint{
+extension CGPoint {
 
     mutating func translateX(_ x: CGFloat) {
         self.x += x

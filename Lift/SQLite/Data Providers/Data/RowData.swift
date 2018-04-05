@@ -28,7 +28,7 @@ struct RowData {
             case .integer(let int):
                 return CellData(type: .integer, displayValue: "\(int)")
             case .float(let dbl):
-                return CellData(type: .float, displayValue:  "\(dbl)")
+                return CellData(type: .float, displayValue: "\(dbl)")
             }
         }
     }()
@@ -36,8 +36,6 @@ struct RowData {
     func first(_ x: Int) -> ArraySlice<SQLiteData> {
         return data[0..<x]
     }
-
-
 
     subscript (index: Int) -> CellData {
         mutating get {

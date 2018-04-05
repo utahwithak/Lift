@@ -31,8 +31,6 @@ class TablePredicateViewController: LiftViewController {
                 queryString = nil
             }
 
-
-
         }
     }
     private func convert(_ regular: NSPredicate?) -> String? {
@@ -105,7 +103,6 @@ class TablePredicateViewController: LiftViewController {
 
     }
 
-
     override func viewDidLoad() {
         super.viewDidLoad()
         predicateEditor.wantsLayer = true
@@ -120,7 +117,7 @@ class TablePredicateViewController: LiftViewController {
             return
         }
 
-        let compoundTypes = [NSCompoundPredicate.LogicalType.and,NSCompoundPredicate.LogicalType.or].map { NSNumber(value: $0.rawValue)}
+        let compoundTypes = [NSCompoundPredicate.LogicalType.and, NSCompoundPredicate.LogicalType.or].map { NSNumber(value: $0.rawValue)}
         let compoundPredicate = NSPredicateEditorRowTemplate(compoundTypes: compoundTypes)
 
         let expressions = columnNames.map { NSExpression(forKeyPath: $0.querySafeString()) }
@@ -132,7 +129,7 @@ class TablePredicateViewController: LiftViewController {
         }
 
         let attributeTypes: [NSComparisonPredicate.Operator] = [.lessThan, .lessThanOrEqualTo, .greaterThan, .greaterThanOrEqualTo, .equalTo, .notEqualTo, .contains, .beginsWith, .endsWith]
-        rowTemplate = NSPredicateEditorRowTemplate(leftExpressions: expressions, rightExpressionAttributeType: .stringAttributeType, modifier: NSComparisonPredicate.Modifier.direct, operators: attributeTypes.map{ NSNumber(value: $0.rawValue)}, options: 0)
+        rowTemplate = NSPredicateEditorRowTemplate(leftExpressions: expressions, rightExpressionAttributeType: .stringAttributeType, modifier: NSComparisonPredicate.Modifier.direct, operators: attributeTypes.map { NSNumber(value: $0.rawValue)}, options: 0)
         predicateEditor.rowTemplates = [compoundPredicate, rowTemplate]
         predicateEditor.objectValue = NSCompoundPredicate(andPredicateWithSubpredicates: [])
         predicateEditor.reloadPredicate()
@@ -144,7 +141,7 @@ class TablePredicateViewController: LiftViewController {
         guard selectedTable != nil else {
             return
         }
-        
+
         predicateEditor.addRow(nil)
         predicateEditor.needsDisplay = true
     }
@@ -171,7 +168,7 @@ class TablePredicateViewController: LiftViewController {
             return
         }
 
-        windowController?.showQueryView(with:"SELECT * FROM \(table.qualifiedNameForQuery) WHERE \(queryString)")
+        windowController?.showQueryView(with: "SELECT * FROM \(table.qualifiedNameForQuery) WHERE \(queryString)")
     }
 
     @IBAction func clearPredicate(_ sender: Any) {

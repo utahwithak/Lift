@@ -14,7 +14,6 @@ extension NSError {
     }
 }
 
-
 enum LiftError: CustomNSError {
 
     case unknownOperationError
@@ -69,7 +68,7 @@ enum LiftError: CustomNSError {
         case .invalidTable: return NSLocalizedString("Invalid table data row", comment: "Invalid sqlite master row data error")
         case .noDatabase: return  NSLocalizedString("No Database!", comment: "No database error")
         case .unknownBindType: return NSLocalizedString("Unable to bind value, unknown type", comment: "Attempted to bind object with unknown type.")
-        case .invalidImportXML(let reason): return String(format: NSLocalizedString("Unable to recognize xml, %@", comment: "error when attempting to export a name that contains invalid xml"), reason);
+        case .invalidImportXML(let reason): return String(format: NSLocalizedString("Unable to recognize xml, %@", comment: "error when attempting to export a name that contains invalid xml"), reason)
         }
     }
 }

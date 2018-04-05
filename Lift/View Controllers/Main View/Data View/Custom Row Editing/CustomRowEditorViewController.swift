@@ -8,8 +8,6 @@
 
 import AppKit
 
-
-
 class CustomRowEditorViewController: NSViewController {
 
     static let storyboardIdentifier = NSStoryboard.SceneIdentifier("editRowViewController")
@@ -79,8 +77,6 @@ class CustomRowEditorViewController: NSViewController {
 
     @objc dynamic var editRows = [EditRowData]()
 
-
-
     private func generateCreateRow() {
 
         let insertionType = InsertOption(type: self.insertionType)
@@ -114,13 +110,12 @@ class CustomRowEditorViewController: NSViewController {
             try query.bind(arguments)
             return try query.step()
         }
-        
+
         waitingView.delegate = self
         waitingView.operation = .customCall(operation)
         waitingView.representedObject = representedObject
         presentViewControllerAsSheet(waitingView)
 
-     
     }
 
     private func generateUpdateQuery() {
@@ -141,14 +136,12 @@ class CustomRowEditorViewController: NSViewController {
         }
         builder += args.joined(separator: ", ") + " WHERE "
 
-
         var arguments = CustomRowEditorViewController.arguments(for: editRows)
 
         for i in 0..<sortCount {
             builder += "\(columnNames[i].sqliteSafeString()) = $whereArg\(i)"
             arguments["$whereArg\(i)"] = row?.data[i]
         }
-
 
         guard let waitingView = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("statementWaitingView")) as? StatementWaitingViewController else {
             return
@@ -214,4 +207,3 @@ extension CustomRowEditorViewController: StatementWaitingViewDelegate {
         }
     }
 }
-

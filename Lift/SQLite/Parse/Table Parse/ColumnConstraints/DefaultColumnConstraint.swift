@@ -27,7 +27,7 @@ enum DefaultValue {
         case "CURRENT_TIMESTAMP":
             self = .current_timestamp
         default:
-            self = .literal(SQLiteName(rawValue:text))
+            self = .literal(SQLiteName(rawValue: text))
         }
     }
 
@@ -48,7 +48,6 @@ enum DefaultValue {
         }
     }
 }
-
 
 class DefaultColumnConstraint: ColumnConstraint {
 
@@ -75,7 +74,6 @@ class DefaultColumnConstraint: ColumnConstraint {
         } else {
             value = .literal(try SQLiteCreateTableParser.parseStringOrName(from: scanner))
         }
-
 
         super.init(name: name)
     }

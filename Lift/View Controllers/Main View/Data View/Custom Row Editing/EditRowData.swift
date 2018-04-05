@@ -16,7 +16,6 @@ class EditRowData: NSObject {
 
     @objc dynamic public private(set) var typeDescription = ""
 
-
     @objc dynamic var supportsMultipleTypes: Bool {
         return availableTypes.count > 1
     }
@@ -94,6 +93,5 @@ class EditRowData: NSObject {
             return data
         }
     }
-    
 
 }

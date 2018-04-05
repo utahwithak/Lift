@@ -19,6 +19,10 @@ class DataProvider: NSObject {
 
     weak var database: Database?
 
+    var isEditable: Bool {
+        return false
+    }
+
     let columns: [Column]
 
     var rowCount: Int? {
@@ -47,8 +51,8 @@ class DataProvider: NSObject {
         }
 
         self.type = type
-        
-        let query = try Query(connection: connection, query:  "PRAGMA \(database.name.sqliteSafeString()).table_info(\(name.sqliteSafeString()))")
+
+        let query = try Query(connection: connection, query: "PRAGMA \(database.name.sqliteSafeString()).table_info(\(name.sqliteSafeString()))")
         let columnData = try query.allRows()
 
         columns = try columnData.compactMap {
@@ -64,7 +68,6 @@ class DataProvider: NSObject {
         refreshTableCount()
 
     }
-
 
     public func refreshTableCount() {
 
@@ -149,8 +152,8 @@ class DataProvider: NSObject {
 
     }
 
-    func transfer(with transferType: TransferType, keepGoing: ()-> Bool) throws {
-        
+    func transfer(with transferType: TransferType, keepGoing: () -> Bool) throws {
+
         guard let database = database else {
             throw LiftError.noDatabase
         }
@@ -192,13 +195,10 @@ class DataProvider: NSObject {
                 success = try database.execute(statement: "ROLLBACK TRANSACTION TO SAVEPOINT CLONEDB")
             }
 
-
-
         } catch {
             success = try database.execute(statement: "ROLLBACK TRANSACTION TO SAVEPOINT CLONEDB")
             throw error
         }
-
 
         if success {
             DispatchQueue.main.async {

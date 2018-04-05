@@ -13,7 +13,6 @@ class QueryResultsViewController: LiftViewController {
     @IBOutlet weak var tabControl: TabControl!
     @IBOutlet weak var holder: NSTabView!
 
-
     lazy var overviewViewController: ResultsOverviewViewController = {
         let overView =  storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("resultsOverviewViewController")) as! ResultsOverviewViewController
         overView.title = "Results"
@@ -31,7 +30,7 @@ class QueryResultsViewController: LiftViewController {
         holder.removeAllItems()
         tabControl.reloadData()
     }
-    
+
     func startQueries() {
         clearContent()
         overviewViewController.stillLoading = true
@@ -41,7 +40,7 @@ class QueryResultsViewController: LiftViewController {
     }
 
     func addResult(_ result: ExecuteQueryResult) {
-        
+
         overviewViewController.results.append(result)
 
         if !result.rows.isEmpty, let resultsView = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("ResultsTableViewController")) as? ResultsTableViewController {
@@ -88,7 +87,6 @@ extension QueryResultsViewController: TabControlDatasource {
 
         return true
     }
-
 
     func tabControl(_ control: TabControl, menuFor item: Any) -> NSMenu? {
         return nil

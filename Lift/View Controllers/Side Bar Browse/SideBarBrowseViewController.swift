@@ -32,7 +32,7 @@ class SideBarBrowseViewController: LiftViewController {
     @objc dynamic var nodes = [BrowseViewNode]()
 
     @IBOutlet var treeController: NSTreeController!
-    
+
     func refreshNodes() {
         guard let document = document else {
             nodes = []
@@ -104,7 +104,6 @@ class SideBarBrowseViewController: LiftViewController {
         (segue.destinationController as? NSViewController)?.representedObject = representedObject
     }
 
-
     @IBAction func showCreateView(_ sender: Any?) {
         performSegue(withIdentifier: NSStoryboardSegue.Identifier("createView"), sender: sender)
     }
@@ -141,27 +140,27 @@ extension SideBarBrowseViewController: NSOutlineViewDelegate {
         }
 
         if node.representedObject is TableViewNode {
-            return outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue:"TableCell"), owner: self)
-        } else if node.representedObject is DatabaseViewNode  {
-            let view = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue:"Heads"), owner: self)
+            return outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "TableCell"), owner: self)
+        } else if node.representedObject is DatabaseViewNode {
+            let view = outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "Heads"), owner: self)
             DispatchQueue.main.async {
                 outlineView.expandItem(item, expandChildren: false)
             }
-            return view;
+            return view
 
         } else if node.representedObject is GroupViewNode {
             DispatchQueue.main.async {
                 outlineView.expandItem(item, expandChildren: false)
             }
-            return outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue:"DataCell"), owner: self)
+            return outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "DataCell"), owner: self)
         } else if node.representedObject is HeaderViewNode {
             DispatchQueue.main.async {
                 outlineView.expandItem(item, expandChildren: false)
             }
-            return outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue:"HeaderCell"), owner: self)
+            return outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "HeaderCell"), owner: self)
         }
 
-        return outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue:"ColumnCell"), owner: self)
+        return outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "ColumnCell"), owner: self)
 
     }
 
@@ -179,7 +178,6 @@ extension SideBarBrowseViewController: NSOutlineViewDelegate {
         return 17
     }
 }
-
 
 extension SideBarBrowseViewController: NSMenuDelegate {
 
@@ -219,7 +217,7 @@ extension SideBarBrowseViewController: NSMenuDelegate {
         let format = NSLocalizedString("Drop %@?", comment: "title for drop alert")
         alert.messageText = String(format: format, provider.type)
         let messageFormat = NSLocalizedString("Are you sure you want to drop %@ \"%@\"?%@", comment: "Confirmation text")
-        let checkText:String
+        let checkText: String
         if document?.database.autocommitStatus == .autocommit {
             checkText = NSLocalizedString("\nThis cannot be undone.", comment: "Extra warning when dropping table in autocommit mode")
         } else {
@@ -341,32 +339,43 @@ extension SideBarBrowseViewController: NSMenuDelegate {
             }
         }
 
-
     }
 
     @objc private func editProvider(_ item: NSMenuItem) {
         guard let provider = item.representedObject as? DataProvider else {
             return
         }
-        if let view = (provider as? View)?.definition {
-            guard let editController = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("createViewViewController")) as? CreateViewViewController else {
-                return
-            }
-            editController.dropQualifiedName = provider.qualifiedNameForQuery
-            editController.representedObject = representedObject
-            editController.viewDefinition = view
-            presentViewControllerAsSheet(editController)
-        } else if let tableDef = (provider as? Table)?.definition {
-            guard let editController = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("createTableViewController")) as? CreateTableViewController else {
-                return
-            }
-            editController.representedObject = representedObject
-            editController.table = tableDef.copyForEditing()
-            presentViewControllerAsSheet(editController)
-        } else {
-            print("UNABLE TO GET DEF!! WHATS UP!?")
-        }
+        edit(provider: provider)
 
+    }
+
+    @IBAction func editSelected(_ sender: NSButton) {
+        guard let provider = selectedTable else {
+            print("No selected provider!")
+            return
+        }
+        edit(provider: provider)
+    }
+
+    private func edit(provider: DataProvider) {
+        if let view = (provider as? View)?.definition {
+        guard let editController = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("createViewViewController")) as? CreateViewViewController else {
+        return
+        }
+        editController.dropQualifiedName = provider.qualifiedNameForQuery
+        editController.representedObject = representedObject
+        editController.viewDefinition = view
+        presentViewControllerAsSheet(editController)
+        } else if let tableDef = (provider as? Table)?.definition {
+        guard let editController = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("createTableViewController")) as? CreateTableViewController else {
+        return
+        }
+        editController.representedObject = representedObject
+        editController.table = tableDef.copyForEditing()
+        presentViewControllerAsSheet(editController)
+        } else {
+        print("UNABLE TO GET DEF!! WHATS UP!?")
+        }
     }
 
     func menuNeedsUpdate(_ menu: NSMenu) {
@@ -413,37 +422,36 @@ extension SideBarBrowseViewController: NSMenuDelegate {
 
                 if let provider = tableNode.provider {
                     let dropFormat = NSLocalizedString("Drop %@", comment: "Drop table or view menu item, with %@ replaced with the name")
-                    let dropObject = NSMenuItem(title: String(format: dropFormat,provider.type), action: #selector(dropProvider), keyEquivalent: "")
+                    let dropObject = NSMenuItem(title: String(format: dropFormat, provider.type), action: #selector(dropProvider), keyEquivalent: "")
                     dropObject.representedObject = tableNode.provider
                     menu.addItem(dropObject)
 
                     if provider.database?.name != "temp" {
-                        let cloneTemp = NSMenuItem(title:  NSLocalizedString("Clone to temp", comment: "clone to temp db menu item"), action: #selector(createTempClone), keyEquivalent: "")
+                        let cloneTemp = NSMenuItem(title: NSLocalizedString("Clone to temp", comment: "clone to temp db menu item"), action: #selector(createTempClone), keyEquivalent: "")
                         cloneTemp.representedObject = tableNode.provider
                         cloneTemp.keyEquivalent = "n"
                         cloneTemp.keyEquivalentModifierMask = [.command]
                         menu.addItem(cloneTemp)
-                        let moveFromTemp = NSMenuItem(title: NSLocalizedString("Move to temp", comment: "clone to main menu item"), action:   #selector(moveToTemp), keyEquivalent: "")
+                        let moveFromTemp = NSMenuItem(title: NSLocalizedString("Move to temp", comment: "clone to main menu item"), action: #selector(moveToTemp), keyEquivalent: "")
                         moveFromTemp.representedObject = tableNode.provider
                         moveFromTemp.keyEquivalent = "n"
                         moveFromTemp.isAlternate = true
-                        moveFromTemp.keyEquivalentModifierMask = [.option,.command]
+                        moveFromTemp.keyEquivalentModifierMask = [.option, .command]
                         menu.addItem(moveFromTemp)
                     }
 
                     if provider.database?.name != "main" {
 
-
-                        let cloneTemp = NSMenuItem(title: NSLocalizedString("Clone to main", comment: "clone to main menu item"), action:   #selector(cloneToMain), keyEquivalent: "")
+                        let cloneTemp = NSMenuItem(title: NSLocalizedString("Clone to main", comment: "clone to main menu item"), action: #selector(cloneToMain), keyEquivalent: "")
                         cloneTemp.representedObject = tableNode.provider
                         cloneTemp.keyEquivalent = "m"
                         cloneTemp.keyEquivalentModifierMask = [.command]
                         menu.addItem(cloneTemp)
-                        let moveFromTemp = NSMenuItem(title: NSLocalizedString("Move to main", comment: "clone to main menu item"), action:   #selector(moveToMain), keyEquivalent: "")
+                        let moveFromTemp = NSMenuItem(title: NSLocalizedString("Move to main", comment: "clone to main menu item"), action: #selector(moveToMain), keyEquivalent: "")
                         moveFromTemp.representedObject = tableNode.provider
                         moveFromTemp.keyEquivalent = "m"
                         moveFromTemp.isAlternate = true
-                        moveFromTemp.keyEquivalentModifierMask = [.option,.command]
+                        moveFromTemp.keyEquivalentModifierMask = [.option, .command]
                         menu.addItem(moveFromTemp)
 
                     }
@@ -462,14 +470,13 @@ extension SideBarBrowseViewController: NSMenuDelegate {
                         editObject.representedObject = view
                         menu.addItem(editObject)
                     }
-                    
+
                 }
 
             }
         default:
             return
         }
-
 
     }
 

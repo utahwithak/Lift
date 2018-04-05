@@ -9,7 +9,7 @@
 import Cocoa
 
 class TableGraphViewController: LiftMainViewController {
-    
+
     @IBOutlet weak var scrollView: NSScrollView!
     @IBOutlet weak var container: GraphViewsContainer!
 
@@ -52,7 +52,6 @@ class TableGraphViewController: LiftMainViewController {
 
     }
 
-
     func reloadView() {
         var frameMap = [String: CGRect]()
         for childController in childViewControllers {
@@ -72,7 +71,6 @@ class TableGraphViewController: LiftMainViewController {
         guard let db = document?.database else {
             return
         }
-
 
         var maxHeight: CGFloat = 0
 
@@ -128,7 +126,6 @@ class TableGraphViewController: LiftMainViewController {
                     continue
                 }
 
-
                 for connection in table.foreignKeys {
                     let fromPoint = ArrowPoint(view: fromViewController, columns: connection.fromColumns)
                     guard let toViewController = childViewControllers.first(where: { ($0 as? GraphTableView)?.table.name == connection.toTable }) as? GraphTableView else {
@@ -143,7 +140,6 @@ class TableGraphViewController: LiftMainViewController {
     }
 }
 
-
 extension TableGraphViewController: GraphContainerViewDelegate {
     func containerView(_ containerView: GraphViewsContainer, didSelect view: NSView?) {
         if let view = view {
@@ -155,4 +151,3 @@ extension TableGraphViewController: GraphContainerViewDelegate {
         }
     }
 }
-

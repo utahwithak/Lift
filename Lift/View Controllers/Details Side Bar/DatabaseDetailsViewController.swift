@@ -10,5 +10,4 @@ import Cocoa
 
 class DatabaseDetailsViewController: LiftViewController {
 
-
 }

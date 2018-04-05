@@ -95,10 +95,9 @@ class QueryViewController: LiftMainViewController {
                     }
                 }
 
-                return !self.isCanceled 
+                return !self.isCanceled
 
             }, keepGoing: { return !self.isCanceled })
-
 
             DispatchQueue.main.async {
 
@@ -121,8 +120,6 @@ class QueryViewController: LiftMainViewController {
 
         }
 
-
-
     }
 
     override var preferredSections: [DetailSection] {
@@ -131,9 +128,8 @@ class QueryViewController: LiftMainViewController {
 
         return sections
     }
-    
-}
 
+}
 
 extension QueryViewController: BottomEditorContentProvider {
 

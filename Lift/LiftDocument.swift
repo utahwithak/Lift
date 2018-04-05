@@ -24,7 +24,7 @@ class LiftDocument: NSDocument {
         updateListeners()
 
     }
-    
+
     override func canClose(withDelegate delegate: Any, shouldClose shouldCloseSelector: Selector?, contextInfo: UnsafeMutableRawPointer?) {
         var allowed = true
 
@@ -44,8 +44,8 @@ class LiftDocument: NSDocument {
             alert.messageText = NSLocalizedString("Currently in transaction", comment: "Alert title when attempting to close while in transaction")
             alert.informativeText = NSLocalizedString("The database is currently in a transaction. Closing now could result in loss of data. Would you like to attempt to commit these changes?", comment: "Alert message when attempting to close while in transaction")
             alert.addButton(withTitle: NSLocalizedString("Commit", comment: "option to commit when closing"))
-            alert.addButton(withTitle: NSLocalizedString("Close without committing", comment:" option to close document with out commiting"))
-            alert.addButton(withTitle: NSLocalizedString("Cancel", comment:"cancel button when closing"))
+            alert.addButton(withTitle: NSLocalizedString("Close without committing", comment: " option to close document with out commiting"))
+            alert.addButton(withTitle: NSLocalizedString("Cancel", comment: "cancel button when closing"))
 
             let handler: (NSApplication.ModalResponse) -> Void = { response in
                 if response == NSApplication.ModalResponse.alertFirstButtonReturn {
@@ -66,7 +66,7 @@ class LiftDocument: NSDocument {
 
             }
             if let window = windowControllers.first?.window {
-                alert.beginSheetModal(for: window, completionHandler:handler)
+                alert.beginSheetModal(for: window, completionHandler: handler)
             } else {
                 let response = alert.runModal()
                 handler(response)
@@ -75,10 +75,9 @@ class LiftDocument: NSDocument {
             shouldClose()
         }
 
-
     }
     init(contentsOf url: URL, ofType typeName: String) throws {
-    
+
         SQLiteDocumentPresenter.addPresenters(for: url)
 
         database = try Database(type: .disk(path: url, name: "main"))
@@ -175,7 +174,6 @@ class LiftDocument: NSDocument {
 
         }
 
-
     }
 
     func keywords() -> Set<String> {
@@ -223,4 +221,3 @@ class LiftDocument: NSDocument {
     }
 
 }
-

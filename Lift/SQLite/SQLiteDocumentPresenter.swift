@@ -31,9 +31,9 @@ class SQLiteDocumentPresenter: NSObject, NSFilePresenter {
     let primaryPresentedItemURL: URL?
     let presentedItemURL: URL?
 
-    init(for fileURL: URL, prefix:String?, suffix:String?) {
+    init(for fileURL: URL, prefix: String?, suffix: String?) {
 
-        primaryPresentedItemURL = fileURL;
+        primaryPresentedItemURL = fileURL
         var path = fileURL.path
         if let prefix = prefix {
             let name = fileURL.lastPathComponent
@@ -48,9 +48,8 @@ class SQLiteDocumentPresenter: NSObject, NSFilePresenter {
         super.init()
     }
 
-
     var presentedItemOperationQueue: OperationQueue {
-        return SQLiteDocumentPresenter.presentedItemOperationQueue;
+        return SQLiteDocumentPresenter.presentedItemOperationQueue
     }
-    
+
 }

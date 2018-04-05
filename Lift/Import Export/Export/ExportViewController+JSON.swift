@@ -23,13 +23,11 @@ extension ExportViewController {
 
         performSegue(withIdentifier: NSStoryboardSegue.Identifier(rawValue: "showProgress"), sender: self)
 
-
         guard let progressViewController = self.progressViewController else {
             return
         }
 
-        progressViewController.setOperationText(to:String(format: NSLocalizedString("Exporting JSON", comment: "Export JSON Title")))
-
+        progressViewController.setOperationText(to: String(format: NSLocalizedString("Exporting JSON", comment: "Export JSON Title")))
 
         let manager = FileManager.default
 
@@ -43,7 +41,7 @@ extension ExportViewController {
         }
 
         DispatchQueue.global(qos: .userInitiated).async {
-            defer{
+            defer {
                 DispatchQueue.main.async {
                     self.dismissViewController(progressViewController)
                 }
@@ -59,11 +57,10 @@ extension ExportViewController {
 
                 let count = self.tablesToExport.count
 
-
-                for (index, table) in self.tablesToExport.enumerated(){
+                for (index, table) in self.tablesToExport.enumerated() {
                     //create CSV File for this table
                     DispatchQueue.main.async {
-                        progressViewController.setOperationText(to:String(format: NSLocalizedString("Exporting Table: %@", comment: "Create Table step %@ replaced with table name"), table.name))
+                        progressViewController.setOperationText(to: String(format: NSLocalizedString("Exporting Table: %@", comment: "Create Table step %@ replaced with table name"), table.name))
                         progressViewController.updateProgress(to: Double(index) / Double(count))
 
                     }
@@ -73,7 +70,6 @@ extension ExportViewController {
                     if self.jsonOptions.separateFilePerTable {
 
                         let tableURL = url.deletingPathExtension().appendingPathComponent(table.name).appendingPathExtension("json")
-
 
                         let data = try JSONSerialization.data(withJSONObject: object, options: self.jsonOptions.prettyPrint ? .prettyPrinted : [])
                         try data.write(to: tableURL)
@@ -96,14 +92,13 @@ extension ExportViewController {
                     alert.messageText = NSLocalizedString("Error exporting data", comment: "Generic export error")
                     alert.informativeText = NSLocalizedString("Unable to save XML File", comment: "CSV export error informative message")
 
-
                     alert.addButton(withTitle: "Ok")
                     alert.runModal()
                 }
             }
-            
+
         }
 
     }
-    
+
 }

@@ -64,7 +64,6 @@ class SQLiteTextView: NSTextView {
         return isEditable
     }
 
-
     override func performDragOperation(_ draggingInfo: NSDraggingInfo) -> Bool {
 
         defer {
@@ -73,8 +72,7 @@ class SQLiteTextView: NSTextView {
 
         let pasteBoard = draggingInfo.draggingPasteboard()
 
-
-        if let urls = pasteBoard.readObjects(forClasses: [NSURL.self], options:nil) as? [URL], urls.count > 0 {
+        if let urls = pasteBoard.readObjects(forClasses: [NSURL.self], options: nil) as? [URL], urls.count > 0 {
             for url in urls {
                 if let text = try? String(contentsOf: url, encoding: .utf8) {
                     self.textStorage?.append(NSAttributedString(string: text))

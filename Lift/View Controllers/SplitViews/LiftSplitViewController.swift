@@ -22,9 +22,9 @@ class LiftSplitViewController: NSSplitViewController {
     weak var splitDelegate: LiftSplitViewDelegate?
 
     override func viewDidLoad() {
-    
+
         splitView.delegate = self
-        
+
         super.viewDidLoad()
 
     }
@@ -43,4 +43,3 @@ class LiftSplitViewController: NSSplitViewController {
     }
 
 }
-

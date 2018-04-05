@@ -40,7 +40,7 @@ enum ImportType {
         let len = data.count
         let simpleString = data.withUnsafeMutableBytes { (ptr: UnsafeMutablePointer<UInt8>) -> ImportType? in
             let unsafePtr = UnsafeMutableRawPointer(ptr)
-            if let str = String(bytesNoCopy: unsafePtr, length:len , encoding: .utf8, freeWhenDone: false) {
+            if let str = String(bytesNoCopy: unsafePtr, length: len, encoding: .utf8, freeWhenDone: false) {
                 return .text(str, .utf8)
             } else if let rom = String(bytesNoCopy: unsafePtr, length: len, encoding: .macOSRoman, freeWhenDone: false) {
                 return .text(rom, .macOSRoman)

@@ -63,7 +63,6 @@ class BorderedButtonCell: NSButtonCell {
     }
     public static let defaultBorderColor = NSColor(calibratedWhite: 0.75, alpha: 1)
 
-
     public var borderWidth: CGFloat = 1 {
         didSet {
             controlView?.needsDisplay = true
@@ -115,7 +114,6 @@ class BorderedButtonCell: NSButtonCell {
     public static let defaultImageColor = NSColor(calibratedWhite: 0.5, alpha: 1)
     public static let defaultPressedImageColor = NSColor(calibratedWhite: 0.15, alpha: 1)
 
-
     override func drawImage(_ image: NSImage, withFrame frame: NSRect, in controlView: NSView) {
         isBordered = false
         //tintedImage(with: self.isHighlighted ? BorderedButtonCell.defaultPressedImageColor : BorderedButtonCell.defaultImageColor)
@@ -125,12 +123,11 @@ class BorderedButtonCell: NSButtonCell {
 
 }
 
-
 class TabCell: BorderedButtonCell {
     private static let defaultFont = NSFont(name: "HelveticaNeue-SemiBold", size: 13)
 
-    public static let defaultTitleSelectedColor = NSColor(calibratedRed:0.25, green:0.56, blue:0.92, alpha:1.00)
-    public static let defaultSelectedBackgroundColor = NSColor(calibratedRed:0.85, green:0.92, blue:1.00, alpha:0.75)
+    public static let defaultTitleSelectedColor = NSColor(calibratedRed: 0.25, green: 0.56, blue: 0.92, alpha: 1.00)
+    public static let defaultSelectedBackgroundColor = NSColor(calibratedRed: 0.85, green: 0.92, blue: 1.00, alpha: 0.75)
     public static let defaultBackgroundColor = NSColor(calibratedRed: 0.96, green: 0.96, blue: 0.96, alpha: 1.0)
 
     public var showsMenu = false {
@@ -165,7 +162,7 @@ class TabCell: BorderedButtonCell {
 
     public var maxWidth: CGFloat = 720
 
-    static let popupImage = NSImage(named:NSImage.Name("PullDownTemplate"))!.tintedImage(with: NSColor.darkGray)
+    static let popupImage = NSImage(named: NSImage.Name("PullDownTemplate"))!.tintedImage(with: NSColor.darkGray)
 
     static let popupSize = TabCell.popupImage.size
 
@@ -184,7 +181,6 @@ class TabCell: BorderedButtonCell {
         self.font = TabCell.defaultFont
 
         backgroundColor = TabCell.defaultBackgroundColor.copy() as? NSColor
-
 
     }
 
@@ -249,7 +245,7 @@ class TabCell: BorderedButtonCell {
 
             let popupRect = self.popupRect(with: cellFrame)
 
-            if let menu = self.menu(for: event, in: cellFrame, of: controlView), !menu.items.isEmpty && NSPointInRect(location, popupRect) {
+            if let menu = self.menu(for: event, in: cellFrame, of: controlView), !menu.items.isEmpty && popupRect.contains(location) {
                 menu.popUp(positioning: menu.items[0], at: NSPoint(x: popupRect.midX, y: popupRect.maxY), in: controlView)
                 showsMenu = false
                 return true
@@ -324,4 +320,3 @@ class DarkenBackgroundButton: BorderedButtonCell {
         super.drawImage(image.tintedImage(with: NSColor.darkGray), withFrame: frame, in: controlView)
     }
 }
-

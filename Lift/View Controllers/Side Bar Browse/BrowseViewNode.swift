@@ -92,8 +92,6 @@ class GroupViewNode: BrowseViewNode {
             }
         }
 
-
-
         for toAdd in toAdd {
             children.append(TableViewNode(provider: providers[toAdd]))
         }
@@ -190,7 +188,6 @@ class DatabaseViewNode: BrowseViewNode {
             children.remove(at: existingIndex)
         }
 
-
     }
 }
 
@@ -200,7 +197,7 @@ class TableViewNode: BrowseViewNode {
     @objc dynamic var rowCount: NSNumber?
 
     override var canDrop: Bool {
-        return true
+        return provider?.isEditable ?? false
     }
 
     weak var provider: DataProvider? {
@@ -275,7 +272,6 @@ class TableViewNode: BrowseViewNode {
             refreshingCount = false
         }
 
-
     }
 }
 
@@ -291,4 +287,3 @@ class ColumnNode: BrowseViewNode {
 
     @objc dynamic let type: String
 }
-

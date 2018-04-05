@@ -13,7 +13,7 @@ class TableDetailViewController: LiftViewController {
     @IBOutlet weak var contentTabView: NSTabView!
 
     @IBOutlet weak var sqlViewHeightConstraint: NSLayoutConstraint!
-    
+
     @IBOutlet var sqlTextView: SQLiteTextView!
 
     @IBOutlet weak var alterButton: NSButton!
@@ -25,7 +25,7 @@ class TableDetailViewController: LiftViewController {
         alterButton.addTrackingArea(trackingArea)
         alterButton.animator().alphaValue = 0
     }
-    
+
     override func mouseEntered(with event: NSEvent) {
         alterButton.animator().alphaValue = 1
         super.mouseEntered(with: event)

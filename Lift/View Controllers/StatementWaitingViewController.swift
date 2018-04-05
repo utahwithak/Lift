@@ -73,7 +73,6 @@ class StatementWaitingViewController: LiftViewController {
 
         }
 
-
     }
 
     func handleSuccess() {

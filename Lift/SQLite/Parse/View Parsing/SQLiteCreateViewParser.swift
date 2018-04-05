@@ -18,7 +18,6 @@ class SQLiteCreateViewParser {
         let stringScanner = Scanner(string: sql)
         stringScanner.caseSensitive = false
 
-
         guard stringScanner.scanString("CREATE ", into: nil) else {
             throw ParserError.notCreateStatement
         }
@@ -37,7 +36,7 @@ class SQLiteCreateViewParser {
 
         if stringScanner.scanString("(", into: nil) {
             def.specifyColumns = true
-            
+
             let initialColumn = try SQLiteCreateTableParser.parseStringOrName(from: stringScanner)
             def.columns.append(initialColumn)
 

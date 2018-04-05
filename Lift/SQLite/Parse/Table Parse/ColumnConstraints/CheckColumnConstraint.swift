@@ -31,7 +31,7 @@ class CheckColumnConstraint: ColumnConstraint {
     override func copy() -> ColumnConstraint {
         return CheckColumnConstraint(copying: self)
     }
-    
+
     override var sql: String {
         var builder = ""
         if let name = constraintName {

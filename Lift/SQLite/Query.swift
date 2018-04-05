@@ -8,10 +8,9 @@
 
 import Foundation
 
-
 class Query {
 
-    static func executeQueries(from text: String, on connection:sqlite3, handler: (Result<ExecuteQueryResult, Error>, Double) -> Bool, keepGoing: ()-> Bool  ) {
+    static func executeQueries(from text: String, on connection: sqlite3, handler: (Result<ExecuteQueryResult, Error>, Double) -> Bool, keepGoing: () -> Bool  ) {
         let len = Double(text.utf8.count)
         text.withCString {
 
@@ -44,7 +43,6 @@ class Query {
         }
     }
 
-
     let statement: Statement
 
     var columnCount: Int {
@@ -64,7 +62,7 @@ class Query {
         var rowData = [SQLiteData](repeating: .null, count: statement.columnCount)
 
         while try !statement.step() {
-            
+
             statement.fill(&rowData)
             results.append(rowData)
         }
@@ -106,8 +104,7 @@ class Query {
         }
     }
 
-
-    func loadInBackground(completion: @escaping (Result<[[SQLiteData]],Error>) -> Void ) {
+    func loadInBackground(completion: @escaping (Result<[[SQLiteData]], Error>) -> Void ) {
         DispatchQueue.global(qos: .userInteractive).async {
             do {
                 let data = try self.allRows()
@@ -123,7 +120,7 @@ class Query {
 
     }
 
-    func processInBackground(completion: @escaping ([[SQLiteData]],Error?) -> Void , keepGoing: @escaping () -> Bool ) {
+    func processInBackground(completion: @escaping ([[SQLiteData]], Error?) -> Void, keepGoing: @escaping () -> Bool ) {
         DispatchQueue.global(qos: .userInteractive).async {
 
             var data = [[SQLiteData]]()
@@ -154,7 +151,7 @@ class Query {
         try statement.bind(args)
     }
 
-    func processData(from query: Query, keepGoing: (()-> Bool)) throws {
+    func processData(from query: Query, keepGoing: (() -> Bool)) throws {
         var rowData = [SQLiteData](repeating: .null, count: query.statement.columnCount)
 
         try query.processQuery(handler: {

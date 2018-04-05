@@ -14,5 +14,4 @@ class PassthroughView: NSView {
         return nil
     }
 
-    
 }

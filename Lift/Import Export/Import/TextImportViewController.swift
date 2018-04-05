@@ -16,7 +16,7 @@ protocol TextImportDelegate: class {
 class TextImportViewController: NSViewController {
 
     @objc dynamic var text: NSString = ""
-    @objc dynamic var useCustomDelimiter = false 
+    @objc dynamic var useCustomDelimiter = false
     @objc dynamic var delimiter = ","
     @IBOutlet weak var delimiterField: NSTextField!
 
@@ -28,7 +28,6 @@ class TextImportViewController: NSViewController {
     var encoding: String.Encoding = .utf8
 
     @IBAction func parseAsCSV(_ sender: Any) {
-
 
         guard let waitingVC = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("waitingOperationView")) as? WaitingOperationViewController else {
             return
@@ -60,7 +59,7 @@ class TextImportViewController: NSViewController {
                     waitingVC.value = progress
                 }
             }
-            
+
             defer {
                 observer.invalidate()
             }
@@ -84,7 +83,6 @@ class TextImportViewController: NSViewController {
             }
         }
     }
-
 
     @IBAction func toggleDelimiter(_ sender: NSButton) {
 

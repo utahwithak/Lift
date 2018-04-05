@@ -21,7 +21,6 @@ extension ExportViewController {
 
         performSegue(withIdentifier: NSStoryboardSegue.Identifier(rawValue: "showProgress"), sender: self)
 
-
         guard let progressViewController = self.progressViewController else {
             return
         }
@@ -29,8 +28,7 @@ extension ExportViewController {
         progressViewController.setOperationText(to: NSLocalizedString("Writing Dump File", comment: "Create database step"))
         let manager = FileManager.default
 
-
-        guard manager.createFile(atPath: url.path, contents: nil, attributes: nil), let handle = FileHandle(forWritingAtPath:url.path) else {
+        guard manager.createFile(atPath: url.path, contents: nil, attributes: nil), let handle = FileHandle(forWritingAtPath: url.path) else {
             print("Failed to create file")
             dismissViewController(progressViewController)
             return
@@ -48,7 +46,7 @@ extension ExportViewController {
 
                 let helper = DumpHelper(handle: handle) { tableName in
                     DispatchQueue.main.async {
-                        progressViewController.setOperationText(to:String(format: NSLocalizedString("Dumping data for: %@", comment: "export data step %@ replaced with table name"), tableName))
+                        progressViewController.setOperationText(to: String(format: NSLocalizedString("Dumping data for: %@", comment: "export data step %@ replaced with table name"), tableName))
                     }
                 }
 
@@ -73,7 +71,7 @@ extension ExportViewController {
                 }
                 try self.document?.database.exec("PRAGMA writable_schema=OFF;")
                 try self.document?.database.releaseSavepoint(named: "dump")
-                handle.write( helper.errorCount != 0  ? "ROLLBACK; -- due to errors\n" : "COMMIT;\n");
+                handle.write( helper.errorCount != 0  ? "ROLLBACK; -- due to errors\n" : "COMMIT;\n")
 
             } catch {
                 print("Failed to write dump file!\(error)")
@@ -81,13 +79,11 @@ extension ExportViewController {
         }
     }
 
-
-
     public func exportAsDatabase() {
 
         let savePanel = NSSavePanel()
         savePanel.canCreateDirectories = true
-        
+
         let response = savePanel.runModal()
 
         guard response == .OK, let url = savePanel.url else {
@@ -96,13 +92,11 @@ extension ExportViewController {
 
         performSegue(withIdentifier: NSStoryboardSegue.Identifier(rawValue: "showProgress"), sender: self)
 
-
         guard let progressViewController = self.progressViewController else {
             return
         }
         progressViewController.setOperationText(to: NSLocalizedString("Creating Database", comment: "Create database step"))
         let manager = FileManager.default
-
 
         var into = try? Database(type: .aux(path: url))
         if into == nil, manager.fileExists(atPath: url.path) {
@@ -115,8 +109,6 @@ extension ExportViewController {
                 return
             }
         }
-
-
 
         guard let intoDatabase = into else {
             let alert = NSAlert()
@@ -137,14 +129,14 @@ extension ExportViewController {
                 try intoDatabase.beginTransaction()
                 let count = self.tablesToExport.count
                 var databases = Set<Database>()
-                
-                for (index,tableNode) in self.tablesToExport.enumerated() {
+
+                for (index, tableNode) in self.tablesToExport.enumerated() {
 
                     if let database = tableNode.table.database {
                         databases.insert(database)
                     }
                     DispatchQueue.main.async {
-                        progressViewController.setOperationText(to:String(format: NSLocalizedString("Creating Table: %@", comment: "Create Table step %@ replaced with table name"), tableNode.name))
+                        progressViewController.setOperationText(to: String(format: NSLocalizedString("Creating Table: %@", comment: "Create Table step %@ replaced with table name"), tableNode.name))
                         progressViewController.updateProgress(to: Double(index) / Double(count))
                     }
 
@@ -168,9 +160,7 @@ extension ExportViewController {
                         errorCount += 1
                         continue
 
-
                     }
-
 
                     guard let insertStatement = tableNode.importStatement(with: exportQuery),
                         let insertQuery = try? Query(connection: intoDatabase.connection, query: insertStatement) else {
@@ -182,8 +172,8 @@ extension ExportViewController {
                     do {
 
                         DispatchQueue.main.async {
-                            progressViewController.setOperationText(to:String(format: NSLocalizedString("Exporting data for: %@", comment: "export data step %@ replaced with table name"), tableNode.name))
-                            
+                            progressViewController.setOperationText(to: String(format: NSLocalizedString("Exporting data for: %@", comment: "export data step %@ replaced with table name"), tableNode.name))
+
                         }
 
                         try insertQuery.processData(from: exportQuery)
@@ -217,7 +207,6 @@ extension ExportViewController {
                         print("Failed to create sqlite_master sql:\(error)")
                     }
                 }
-                
 
                 if errorCount == 0 {
                     do {
@@ -231,11 +220,10 @@ extension ExportViewController {
                 } else {
                     DispatchQueue.main.async {
 
-
                         let alert = NSAlert()
                         alert.messageText = NSLocalizedString("Export completed with errors", comment: "Export error message")
                         alert.informativeText = NSLocalizedString("During export unexpected errors occured. Would you like to abort and roll back the changes, or continue and commit what has been done", comment: "Error message when there were errors during import")
-                        alert.addButton(withTitle: NSLocalizedString("Commit", comment:" continue with changes even with errors"))
+                        alert.addButton(withTitle: NSLocalizedString("Commit", comment: " continue with changes even with errors"))
                         alert.addButton(withTitle: NSLocalizedString("Abort", comment: "Abort button title"))
                         let response = alert.runModal()
                         if response.rawValue == 1000 {
@@ -256,7 +244,6 @@ extension ExportViewController {
                     }
                 }
 
-
             } catch {
                 DispatchQueue.main.async {
                     let alert = NSAlert()
@@ -270,8 +257,7 @@ extension ExportViewController {
                 self.dismissViewController(progressViewController)
             }
         }
-        
-        
+
     }
 
 }

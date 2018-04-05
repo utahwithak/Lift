@@ -16,7 +16,6 @@ class LiftMainViewController: LiftViewController {
     }
 }
 
-
 extension LiftMainViewController: DetailsContentProvider {
 
 }

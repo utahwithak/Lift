@@ -39,7 +39,6 @@ class PrimaryKeyTableConstraint: IndexedTableConstraint {
 
     override func sql(with columns: [String]) -> String? {
 
-
         let cleanedIndexed = indexedColumns.filter { (index) -> Bool in
             return columns.contains(index.nameProvider.columnName.cleanedVersion)
         }

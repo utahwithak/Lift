@@ -15,7 +15,7 @@ class CreateViewViewController: LiftViewController {
     public var dropQualifiedName: String?
 
     @objc dynamic var databases: [String] {
-        return document?.database.allDatabases.map( { $0.name }) ?? []
+        return document?.database.allDatabases.map({ $0.name }) ?? []
     }
 
     @IBOutlet weak var tableView: NSTableView!
@@ -70,12 +70,10 @@ extension CreateViewViewController: StatementWaitingViewDelegate {
     }
 }
 
-
 class CreateViewArrayController: NSArrayController {
      // overridden to add a new object to the content objects and to the arranged objects
     override func newObject() -> Any {
         let count = (arrangedObjects as? NSArray)?.count
-        return SQLiteName(rawValue:"Column \( (count ?? 0) + 1)")
+        return SQLiteName(rawValue: "Column \( (count ?? 0) + 1)")
     }
 }
-

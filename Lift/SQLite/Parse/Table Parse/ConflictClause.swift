@@ -30,7 +30,6 @@ enum ConflictResolution {
     }
 }
 
-
 class ConflictClause {
 
     let resolution: ConflictResolution
@@ -65,7 +64,7 @@ class ConflictClause {
     private init(copying: ConflictClause) {
         self.resolution = copying.resolution
     }
-    
+
     var copy: ConflictClause {
         return ConflictClause(copying: self)
     }

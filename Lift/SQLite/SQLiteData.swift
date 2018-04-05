@@ -16,7 +16,6 @@ enum SQLiteDataType: Int {
     case blob
 }
 
-
 enum SQLiteData {
     case null
     case integer(Int)
@@ -85,10 +84,10 @@ enum SQLiteData {
     }
 }
 extension SQLiteData: Equatable {
-    
+
 }
 
-func ==(lhs:SQLiteData, rhs: SQLiteData) -> Bool {
+func ==(lhs: SQLiteData, rhs: SQLiteData) -> Bool {
     switch (lhs, rhs) {
     case (.text(let l), .text(let r)):
         return l == r

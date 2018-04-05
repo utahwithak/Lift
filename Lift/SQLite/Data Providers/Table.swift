@@ -14,7 +14,6 @@ extension Notification.Name {
     static let TableDidBeginRefreshingRowCount = NSNotification.Name("TableDidStartRefreshingRowCount")
     static let TableDidEndRefreshingRowCount = NSNotification.Name("TableDidStartRefreshingRowCount")
 
-
 }
 
 class Table: DataProvider {
@@ -41,7 +40,7 @@ class Table: DataProvider {
 
         // Foreign Keys
 
-        let foreignKeyQuery = try Query(connection: connection, query:  "PRAGMA \(database.name.sqliteSafeString()).foreign_key_list(\(name.sqliteSafeString()))")
+        let foreignKeyQuery = try Query(connection: connection, query: "PRAGMA \(database.name.sqliteSafeString()).foreign_key_list(\(name.sqliteSafeString()))")
         var curID = -1
         //id|seq|table|from|to|on_update|on_delete|match
         var curFrom = [String]()
@@ -73,12 +72,12 @@ class Table: DataProvider {
         if !curTo.isEmpty {
             connections.append(ForeignKeyConnection(fromTable: name, fromColumns: curFrom, toTable: curToTable, toColumns: curTo))
         }
-        
+
         foreignKeys = connections
 
         try super.init(database: database, data: data, connection: connection)
 
-        columns.forEach{ $0.table = self }
+        columns.forEach { $0.table = self }
         for column in columns {
             column.definition = definition?.columns.first(where: { $0.name.cleanedVersion == column.name })
         }
@@ -86,7 +85,7 @@ class Table: DataProvider {
 
     }
 
-    var isEditable: Bool {
+    override var isEditable: Bool {
         return !name.hasPrefix("sqlite_")
     }
 
@@ -113,13 +112,12 @@ class Table: DataProvider {
 
     }
 
-
     func tableCreationStatement(with columns: [Column]) -> String {
 
         if let definition = definition {
             return definition.createStatement(with: columns.map({ $0.name }), checkExisting: true)
         } else {
-            let columnCreation = columns.map({ $0.simpleColumnCreationStatement } ).joined(separator: ", ")
+            let columnCreation = columns.map({ $0.simpleColumnCreationStatement }).joined(separator: ", ")
             return "CREATE TABLE IF NOT EXISTS \(name.sqliteSafeString()) (\(columnCreation));"
         }
 
@@ -173,12 +171,10 @@ class Table: DataProvider {
             }
 
         })
-        
+
     }
 
-
     func export(to worksheet: Sheet, columns: [Column], with options: XLSXExportOptions) throws {
-
 
         let query = try exportQuery(for: columns)
 
@@ -231,8 +227,6 @@ class Table: DataProvider {
         })
     }
 
-
-
     func exportToXML(columns: [Column], with options: XMLExportOptions) throws -> XMLElement {
 
         let query = try exportQuery(for: columns)
@@ -256,7 +250,6 @@ class Table: DataProvider {
             }
         }
 
-
         let dataElement = XMLElement(name: options.dataSectionName)
         tableElement.addChild(dataElement)
 
@@ -268,15 +261,15 @@ class Table: DataProvider {
                 let element: XMLElement
                 switch data {
                 case .null:
-                    element = XMLElement(name:"null", stringValue:options.nullPlaceHolder)
+                    element = XMLElement(name: "null", stringValue: options.nullPlaceHolder)
                 case .integer(let val):
-                    element = XMLElement(name:"integer", stringValue:"\(val)")
+                    element = XMLElement(name: "integer", stringValue: "\(val)")
                 case .float(let doub):
-                    element = XMLElement(name:"double", stringValue:"\(doub)")
+                    element = XMLElement(name: "double", stringValue: "\(doub)")
                 case .text(let str):
-                    element = XMLElement(name:"text", stringValue:str)
+                    element = XMLElement(name: "text", stringValue: str)
                 case .blob(let data):
-                    element = XMLElement(name:"blob", stringValue: options.exportRawBlobData ? data.hexEncodedString() : options.blobDataPlaceHolder)
+                    element = XMLElement(name: "blob", stringValue: options.exportRawBlobData ? data.hexEncodedString() : options.blobDataPlaceHolder)
                 }
 
                 rowElement.addChild(element)
@@ -287,7 +280,6 @@ class Table: DataProvider {
 
         return tableElement
     }
-
 
     func exportToJSON(columns: [Column], with options: JSONExportOptions) throws -> [String: Any] {
 
@@ -317,7 +309,6 @@ class Table: DataProvider {
 
             var arrayElements = [Any?]()
             var dictElements = [String: Any?]()
-
 
             for (i, name) in names.enumerated() {
 
@@ -366,5 +357,5 @@ class Table: DataProvider {
         return tableData
 
     }
-    
+
 }

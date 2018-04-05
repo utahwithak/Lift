@@ -20,7 +20,7 @@ class Statement {
 
     let columnNames: [String]
 
-    let connection : sqlite3
+    let connection: sqlite3
 
     var bindIndex: Int32 = 1
 
@@ -73,7 +73,7 @@ class Statement {
     private func finalize() {
         reset()
         if sqlite3_finalize(statement) != SQLITE_OK {
-            let str = String(cString:sqlite3_errmsg(connection))
+            let str = String(cString: sqlite3_errmsg(connection))
             print("ERROR ON FINALIZE:\(str)")
         }
     }
@@ -85,7 +85,6 @@ class Statement {
 
         bindIndex = 1
     }
-
 
     /// step through the statement. Calling `sqlite3_step` with this statement.
     ///
@@ -101,8 +100,8 @@ class Statement {
         case SQLITE_ROW:
             return false
         default:
-            
-            throw SQLiteError(connection: connection, code: rc, sql:"Step Error")
+
+            throw SQLiteError(connection: connection, code: rc, sql: "Step Error")
         }
 
     }
@@ -148,7 +147,7 @@ class Statement {
     }
 
     func double(at index: Int) -> Double {
-        return sqlite3_column_double( statement, Int32(index) );
+        return sqlite3_column_double( statement, Int32(index) )
     }
 
     func blob(at index: Int) -> Data {
@@ -158,7 +157,6 @@ class Statement {
         let size = sqlite3_column_bytes(statement, Int32(index))
         return Data(bytes: ptr, count: Int(size))
     }
-
 
     func argumentName(for index: Int) -> String {
         let name = columnNames[index].replacingOccurrences(of: " ", with: "")
@@ -206,7 +204,6 @@ class Statement {
 
         return index
     }
-
 
     private func checkedOperation(on connection: sqlite3? = nil, operation: () -> Int32) throws {
         let rc = operation()
@@ -320,6 +317,5 @@ class Statement {
             reset()
         }
     }
-
 
 }

@@ -23,13 +23,11 @@ extension ExportViewController {
 
         performSegue(withIdentifier: NSStoryboardSegue.Identifier(rawValue: "showProgress"), sender: self)
 
-
         guard let progressViewController = self.progressViewController else {
             return
         }
 
-        progressViewController.setOperationText(to:String(format: NSLocalizedString("Exporting CSV", comment: "Export CSV Title")))
-
+        progressViewController.setOperationText(to: String(format: NSLocalizedString("Exporting CSV", comment: "Export CSV Title")))
 
         let manager = FileManager.default
 
@@ -51,10 +49,10 @@ extension ExportViewController {
                 try manager.createDirectory(at: url.deletingPathExtension(), withIntermediateDirectories: true, attributes: nil)
                 let count = self.tablesToExport.count
 
-                for (index, table) in self.tablesToExport.enumerated(){
+                for (index, table) in self.tablesToExport.enumerated() {
                     //create CSV File for this table
                     DispatchQueue.main.async {
-                        progressViewController.setOperationText(to:String(format: NSLocalizedString("Exporting Table: %@", comment: "Create Table step %@ replaced with table name"), table.name))
+                        progressViewController.setOperationText(to: String(format: NSLocalizedString("Exporting Table: %@", comment: "Create Table step %@ replaced with table name"), table.name))
                         progressViewController.updateProgress(to: Double(index) / Double(count))
 
                     }
@@ -76,19 +74,17 @@ extension ExportViewController {
 
                 }
 
-
             } catch {
                 print("Fail:\(error)")
                 DispatchQueue.main.async {
                     let alert = NSAlert()
                     alert.messageText = NSLocalizedString("Error exporting data", comment: "Generic export error")
                     alert.informativeText = NSLocalizedString("Unable to save CSV File, failed with error:\n\(error.localizedDescription)", comment: "CSV export error informative message")
-                    
-                    
+
                     alert.addButton(withTitle: "Ok")
                     alert.runModal()
                 }
-                
+
             }
             DispatchQueue.main.async {
                 self.dismissViewController(progressViewController)

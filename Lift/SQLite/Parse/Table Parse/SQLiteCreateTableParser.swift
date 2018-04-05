@@ -21,7 +21,7 @@ enum ParserError: Error {
 class SQLiteCreateTableParser {
 
     private init() {}
-    
+
     /// Parses creation found here: http://www.sqlite.org/lang_createtable.html
     ///
     /// - Parameter statement: Table creation SQL, can be retreived from sqlite_master table
@@ -35,7 +35,6 @@ class SQLiteCreateTableParser {
         guard stringScanner.scanString("CREATE ", into: nil) else {
             throw ParserError.notCreateStatement
         }
-
 
         let currentTable = TableDefinition()
 
@@ -113,14 +112,13 @@ class SQLiteCreateTableParser {
             scanner.charactersToBeSkipped = skipChars
         }
 
-        scanner.scanCharacters(from:CharacterSet.whitespacesAndNewlines, into: nil)
+        scanner.scanCharacters(from: CharacterSet.whitespacesAndNewlines, into: nil)
 
         var buffer: NSString?
 
         var name = ""
 
         // scanned off the start portion of start
-
 
         if scanner.scanCharacters(from: qouteCharacters, into: &buffer) {
 
@@ -172,7 +170,6 @@ class SQLiteCreateTableParser {
 
                 }
 
-
             }
         } else if scanner.scanString("[", into: &buffer) {
             guard let openingChars = buffer as String? else {
@@ -189,8 +186,7 @@ class SQLiteCreateTableParser {
                 throw ParserError.unexpectedError("unexpectedly unable to get end of string")
             }
             name += endchar
-            return SQLiteName(rawValue:name)
-
+            return SQLiteName(rawValue: name)
 
         }
 
@@ -199,7 +195,7 @@ class SQLiteCreateTableParser {
 
         while !scanner.isAtEnd {
 
-            let scannedPortions = scanner.scanCharacters(from: validChars , into: &buffer)
+            let scannedPortions = scanner.scanCharacters(from: validChars, into: &buffer)
 
             if !scannedPortions {
                 return SQLiteName(rawValue: name)
@@ -251,6 +247,4 @@ class SQLiteCreateTableParser {
 
     }
 
- 
-    
 }

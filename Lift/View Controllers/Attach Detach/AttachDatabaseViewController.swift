@@ -10,7 +10,6 @@ import Cocoa
 
 class AttachDatabaseViewController: LiftViewController {
 
-
     @IBOutlet weak var destinationView: DestinationView!
 
     @objc dynamic var name: String = ""
@@ -39,8 +38,6 @@ class AttachDatabaseViewController: LiftViewController {
 
     }
 
-
-
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         if let waitingView = segue.destinationController as? StatementWaitingViewController {
 
@@ -64,7 +61,6 @@ class AttachDatabaseViewController: LiftViewController {
     }
 
 }
-
 
 extension AttachDatabaseViewController: DestinationViewDelegate {
 

@@ -30,7 +30,7 @@ class WelcomeViewController: NSViewController {
         spanel.canSelectHiddenExtension = true
         spanel.treatsFilePackagesAsDirectories = true
         spanel.begin { (response) in
-            if response == .OK, let url = spanel.url  {
+            if response == .OK, let url = spanel.url {
                 do {
                     FileManager.default.createFile(atPath: url.path, contents: nil, attributes: nil)
                     let document = try LiftDocument(contentsOf: url, ofType: "db")
@@ -56,7 +56,7 @@ class WelcomeViewController: NSViewController {
         NSWorkspace.shared.activateFileViewerSelecting([urlToShow])
 
     }
-    
+
     @IBAction func performClose(_ sender: Any) {
         view.window?.close()
     }
@@ -64,7 +64,7 @@ class WelcomeViewController: NSViewController {
     override func viewDidLoad() {
 
         super.viewDidLoad()
-        observationContext = NSDocumentController.shared.observe(\.recentDocumentURLs, options: [.initial,.new], changeHandler: { [weak self] (controller, change) in
+        observationContext = NSDocumentController.shared.observe(\.recentDocumentURLs, options: [.initial, .new], changeHandler: { [weak self] (controller, change) in
             self?.recentURLs = controller.recentDocumentURLs
 
         })

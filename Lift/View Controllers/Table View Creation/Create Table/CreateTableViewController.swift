@@ -16,7 +16,7 @@ class CreateTableViewController: LiftViewController {
     @IBOutlet weak var definitionTabView: NSTabView!
 
     @objc dynamic var databases: [String] {
-        return document?.database.allDatabases.map( { $0.name }) ?? []
+        return document?.database.allDatabases.map({ $0.name }) ?? []
     }
 
     @IBOutlet var selectStatementView: SQLiteTextView!
@@ -36,11 +36,10 @@ class CreateTableViewController: LiftViewController {
             if index == 1 {
                 let statement = "CREATE TABLE \(table.qualifiedNameForQuery) AS \(selectStatementView.string)"
                 waitingView.operation = .statement(statement)
-                
+
             } else {
                 waitingView.operation = .statement(table.createStatment)
             }
-
 
             waitingView.representedObject = representedObject
 
@@ -51,9 +50,7 @@ class CreateTableViewController: LiftViewController {
         definitionTabView.selectTabViewItem(at: sender.selectedSegment)
     }
 
-
 }
-
 
 extension CreateTableViewController: StatementWaitingViewDelegate {
     func waitingView(_ view: StatementWaitingViewController, finishedSuccessfully: Bool) {
@@ -65,7 +62,6 @@ extension CreateTableViewController: StatementWaitingViewDelegate {
         }
     }
 }
-
 
 class CreateColumnArrayController: NSArrayController {
     // overridden to add a new object to the content objects and to the arranged objects

@@ -94,7 +94,7 @@ class SimpleCreateColumnView: NSTableCellView {
                 return
             }
             column.columnConstraints.append(NotNullColumnConstraint())
-        } else if let index = column.columnConstraints.index(where: { $0 is NotNullColumnConstraint} ) {
+        } else if let index = column.columnConstraints.index(where: { $0 is NotNullColumnConstraint}) {
             column.columnConstraints.remove(at: index)
         }
     }

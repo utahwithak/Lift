@@ -25,7 +25,6 @@ class IndexedTableConstraint: TableConstraint {
 
         super.init(name: name)
 
-
     }
 
     init(initialColumn name: ColumnNameProvider) {
@@ -52,7 +51,7 @@ class IndexedTableConstraint: TableConstraint {
 
         columns.append(first)
         var hasMore = scanner.scanString(",", into: nil)
-        while hasMore  {
+        while hasMore {
             do {
                 if let nextColumn = try IndexedColumn(from: scanner) {
                     columns.append(nextColumn)

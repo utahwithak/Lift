@@ -31,7 +31,6 @@ typealias sqlite3 = OpaquePointer
 class Database: NSObject {
     private static var inMemoryCount = 0
 
-
     convenience init(type: DatabaseType) throws {
 
         switch  type {
@@ -76,8 +75,6 @@ class Database: NSObject {
 
     public private(set) var tempDatabase: Database?
     public private(set) var mainDB: Database?
-
-
 
     public private(set) var history = [String]()
 
@@ -185,14 +182,13 @@ class Database: NSObject {
 
             }
 
-            systemTables.append(try Table(database: self, data: [.text("table"), .text("sqlite_master"),.text("sqlite_master"), .integer(0), .text("CREATE TABLE sqlite_master(type text,name text,tbl_name text, rootpage integer,sql text)")], connection: connection))
+            systemTables.append(try Table(database: self, data: [.text("table"), .text("sqlite_master"), .text("sqlite_master"), .integer(0), .text("CREATE TABLE sqlite_master(type text,name text,tbl_name text, rootpage integer,sql text)")], connection: connection))
         } catch {
             print("Failed to refresh:\(error)")
         }
 
-
         DispatchQueue.main.async {
-            NotificationCenter.default.post(name: .DatabaseReloaded, object: self)  
+            NotificationCenter.default.post(name: .DatabaseReloaded, object: self)
         }
 
     }
@@ -254,13 +250,12 @@ class Database: NSObject {
         guard name == "main" else {
             return []
         }
-        
+
         var dbs = attachedDatabases
         dbs.insert(self, at: 0)
         if let tempDB = tempDatabase {
             dbs.insert(tempDB, at: 1)
         }
-
 
         return dbs
     }
@@ -301,7 +296,6 @@ class Database: NSObject {
             }
         }
     }
-
 
     public func attachDatabase(at path: URL, with name: String) throws -> Bool {
         let cleanedPath = path.path.sqliteSafeString()
@@ -374,9 +368,8 @@ class Database: NSObject {
         return try execute(statement: "PRAGMA foreign_key_check")
     }
 
-
     // MARK: - Transactions
-    public func exec(_ statement: String) throws  {
+    public func exec(_ statement: String) throws {
 
         defer {
             refreshAutoCommit()
@@ -391,14 +384,14 @@ class Database: NSObject {
 
     public func beginTransaction() throws {
         try exec("BEGIN TRANSACTION;")
-        
+
     }
 
     public func endTransaction() throws {
         try exec("COMMIT;")
 
     }
-    
+
     public func rollback() {
         do {
             try exec("ROLLBACK;")

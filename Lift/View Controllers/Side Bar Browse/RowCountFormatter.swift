@@ -13,7 +13,7 @@ class RowCountFormatter: ValueTransformer {
         guard let rowCount = value as? Int else {
             return ""
         }
-        
+
         if rowCount == 1 {
             return NSLocalizedString("1 row", comment: "Subtitle for single row")
         } else {

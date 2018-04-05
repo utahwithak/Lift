@@ -42,7 +42,7 @@ enum DetailSection {
 extension DetailSection: Equatable { }
 func ==(lhs: DetailSection, rhs: DetailSection) -> Bool {
     switch (lhs, rhs) {
-    case (.database, .database), (.table,.table):
+    case (.database, .database), (.table, .table):
         return true
     case (.custom(let lI, let lVc ), .custom(let rI, let rVc)):
         return lI == rI && lVc == rVc
@@ -50,7 +50,6 @@ func ==(lhs: DetailSection, rhs: DetailSection) -> Bool {
         return false
     }
 }
-
 
 class SideBarDetailsViewController: LiftViewController {
 
@@ -63,7 +62,7 @@ class SideBarDetailsViewController: LiftViewController {
 
     override var representedObject: Any? {
         didSet {
-            sections = [.database,.table]
+            sections = [.database, .table]
         }
     }
 
@@ -96,10 +95,9 @@ class SideBarDetailsViewController: LiftViewController {
         view.addConstraint(NSLayoutConstraint(item: segmentedControl, attribute: .top, relatedBy: .equal, toItem: view, attribute: .top, multiplier: 1, constant: 0))
         segmentedControl.addConstraint(NSLayoutConstraint(item: segmentedControl, attribute: .height, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 30))
 
-
         self.segmentedControl = segmentedControl
 
-        for (index,section) in sections.enumerated() {
+        for (index, section) in sections.enumerated() {
             if index < oldValues.count && section == oldValues[index] && index < tabControl.numberOfTabViewItems, let vc = tabControl.tabViewItem(at: index).viewController {
                 vc.representedObject = representedObject
                 continue

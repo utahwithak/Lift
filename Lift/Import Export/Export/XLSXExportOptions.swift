@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 class XLSXExportOptions: ExportOptions {
     @objc dynamic var exportNULLValues: Bool = false
     @objc dynamic var includeColumnNames: Bool = true

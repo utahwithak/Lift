@@ -31,13 +31,11 @@ extension ExportViewController {
 
         performSegue(withIdentifier: NSStoryboardSegue.Identifier(rawValue: "showProgress"), sender: self)
 
-
         guard let progressViewController = self.progressViewController else {
             return
         }
 
-        progressViewController.setOperationText(to:String(format: NSLocalizedString("Exporting XML", comment: "Export XML Title")))
-
+        progressViewController.setOperationText(to: String(format: NSLocalizedString("Exporting XML", comment: "Export XML Title")))
 
         let manager = FileManager.default
 
@@ -56,7 +54,6 @@ extension ExportViewController {
 
                 var rootElement: XMLElement?
 
-
                 // if we are creating separate files per table, make the folder for them
                 //
                 if self.xmlOptions.separateFilePerTable {
@@ -67,17 +64,16 @@ extension ExportViewController {
 
                 let options = self.xmlOptions.exportOptions
 
-                for (index, table) in self.tablesToExport.enumerated(){
+                for (index, table) in self.tablesToExport.enumerated() {
                     //create CSV File for this table
                     DispatchQueue.main.async {
-                        progressViewController.setOperationText(to:String(format: NSLocalizedString("Exporting Table: %@", comment: "Create Table step %@ replaced with table name"), table.name))
+                        progressViewController.setOperationText(to: String(format: NSLocalizedString("Exporting Table: %@", comment: "Create Table step %@ replaced with table name"), table.name))
                         progressViewController.updateProgress(to: Double(index) / Double(count))
 
                     }
 
                     // Create the XML Element
                     let tableElement = try table.exportXML(with: self.xmlOptions)
-
 
                     if self.xmlOptions.separateFilePerTable {
 
@@ -96,7 +92,6 @@ extension ExportViewController {
                         rootElement?.addChild(tableElement)
                     }
 
-
                 }
                 if let root = rootElement {
                     let databaseDoc = ExportViewController.defaultXMLDocument()
@@ -105,19 +100,17 @@ extension ExportViewController {
                     try data.write(to: url)
                 }
 
-
             } catch {
                 print("Fail:\(error)")
                 DispatchQueue.main.async {
                     let alert = NSAlert()
                     alert.messageText = NSLocalizedString("Error exporting data", comment: "Generic export error")
                     alert.informativeText = NSLocalizedString("Unable to save XML File", comment: "CSV export error informative message")
-                    
-                    
+
                     alert.addButton(withTitle: "Ok")
                     alert.runModal()
                 }
-                
+
             }
             DispatchQueue.main.async {
                 self.dismissViewController(progressViewController)
@@ -126,5 +119,4 @@ extension ExportViewController {
 
     }
 
-    
 }

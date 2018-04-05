@@ -10,12 +10,12 @@ import XCTest
 @testable import Lift
 
 class LiftTests: XCTestCase {
-    
+
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
@@ -29,20 +29,18 @@ class LiftTests: XCTestCase {
             XCTAssert(tab.columns[0].type?.rawValue ?? "" == "ty1 ty2 ty3 \"asdf fwqer\"")
             XCTAssert(tab.columns[0].columnConstraints[0] is UniqueColumnConstraint)
 
-
             tab = try SQLiteCreateTableParser.parseSQL("Create TABLE something(col type (1234, 4321))")
             XCTAssert(tab.columns[0].type?.rawValue ?? "" == "type (1234, 4321)")
 
-
             tab = try SQLiteCreateTableParser.parseSQL("Create TABLE sometabl(\"collumn \"\" with quote\" \"crazy type\" with lots of names(14243))")
             XCTAssert(tab.columns[0].type?.rawValue ?? "" == "\"crazy type\" with lots of names(14243)")
-            
+
         } catch {
             XCTFail("Should have thrown")
         }
 
     }
-    
+
     func testEvilQuotes() {
         do {
             var tab = try SQLiteCreateTableParser.parseSQL("Create TABLE `back ``ticks`(\"evil \"\"``'\"\"\")")
@@ -98,7 +96,7 @@ class LiftTests: XCTestCase {
             _ = try SQLiteCreateTableParser.parseSQL("Create Table    \t(")
             XCTFail("Should have thrown")
         } catch { }
-        
+
         do {
             _ = try SQLiteCreateTableParser.parseSQL("Create temp Table(")
             XCTFail("Should have thrown")
@@ -109,14 +107,12 @@ class LiftTests: XCTestCase {
 
     func testStartOfCreateStatement() {
 
-
         do {
             let def = try SQLiteCreateTableParser.parseSQL("CREATE table t1 (column3")
             XCTFail("Should not have created def")
 
         } catch {
         }
-
 
         do {
             let def = try SQLiteCreateTableParser.parseSQL("CREATE TEMP table   someTable   \t( \"column 2\")")
@@ -142,11 +138,8 @@ class LiftTests: XCTestCase {
             let simplTab = try SQLiteCreateTableParser.parseSQL("create table \" Simple Table With Spaces \"(pure, evil);")
             XCTAssert(simplTab.tableName == "\" Simple Table With Spaces \"")
 
-
             let badTab = try SQLiteCreateTableParser.parseSQL("create table \"  Table With ( \"\"( \\( )) \"\")\"\"\"\"\"(pure, evil);")
             XCTAssert(badTab.tableName == "\"  Table With ( \"\"( \\( )) \"\")\"\"\"\"\"")
-
-
 
         } catch {
             XCTFail("Should have acceppted all")
@@ -171,7 +164,6 @@ class LiftTests: XCTestCase {
 
             def = try SQLiteCreateTableParser.parseSQL("CREATE TABLE t1(simple\"\"Na_me, evil)")
             XCTAssert(def.columns[0].name == "simple")
-
 
         } catch {
             XCTFail("Should have acceppted all")
@@ -232,7 +224,6 @@ class LiftTests: XCTestCase {
             XCTAssert((def.tableConstraints[0] as! PrimaryKeyTableConstraint).indexedColumns[0].columnName == "colo2")
             XCTAssert(((def.tableConstraints[0] as! PrimaryKeyTableConstraint).indexedColumns.last?.columnName.rawValue ?? "") == "\"some column\"")
 
-
             def = try SQLiteCreateTableParser.parseSQL("CREATE TABLE tableT(\"some column\" INTEGER, colo2 INT, CONSTRAINT abcd PRIMARY KEY (colo2, \"some column\") ON CONFLICT ROLLBACK)")
             XCTAssert(!def.tableConstraints.isEmpty)
             XCTAssert(def.tableConstraints.first is PrimaryKeyTableConstraint)
@@ -277,9 +268,6 @@ class LiftTests: XCTestCase {
                 XCTFail("Should have had a resolution")
             }
 
-
-
-
         } catch {
             XCTFail("Should have acceppted all: \(error)")
         }
@@ -298,7 +286,6 @@ class LiftTests: XCTestCase {
         return allMatch
     }
 
-
     func testUniqueTableConstraints() {
         do {
             let def = try SQLiteCreateTableParser.parseSQL("CREATE TABLE   simpleTable   \t( cola, colb, colc, cold, CONSTRAINT abcd UNIQUE ( cola, colb) ON CONFLICT ABORT, PRIMARY KEY (colc), CONSTRAINT uniqu2 UNIQUE (cold))")
@@ -314,7 +301,7 @@ class LiftTests: XCTestCase {
             if let firstUnique = constraints[0] as? UniqueTableConstraint {
                 XCTAssert(firstUnique.name?.rawValue ?? "" == "abcd")
                 XCTAssert(firstUnique.indexedColumns.count == 2)
-                XCTAssert(checkArray(expected: ["cola","colb"], got: firstUnique.indexedColumns.map({ $0.columnName.rawValue })))
+                XCTAssert(checkArray(expected: ["cola", "colb"], got: firstUnique.indexedColumns.map({ $0.columnName.rawValue })))
                 if let conf = firstUnique.conflictClause {
                     XCTAssert(conf.resolution == .abort)
                 } else {
@@ -345,12 +332,10 @@ class LiftTests: XCTestCase {
                 XCTFail("Invalid constraint type")
             }
 
-
         } catch {
             XCTFail("Should have created def\(error)")
         }
     }
-
 
     func testCheckTableExpressions() {
         do {
@@ -366,22 +351,19 @@ class LiftTests: XCTestCase {
 
             XCTAssert(constraints.reduce(true, {$0 && $1 is CheckTableConstraint}))
 
-            
-
         } catch {
             XCTFail("Should have created def")
         }
     }
 
-
     func testForeignKeyTableConstraints() {
         do {
             var table = try SQLiteCreateTableParser.parseSQL("CREATE TABLE table1(cola,colb,colc,cold, FOREIGN KEY (cola, colb) REFERENCES table2 (cola1, colb1) ON DELETE SET NULL ON UPDATE NO ACTION MATCH \"some crazy\"\" name\" NOT DEFERRABLE INITIALLY DEFERRED)")
 
-            var clause = ForeignKeyClause(destination: "table2", columns: ["cola1","colb1"])
+            var clause = ForeignKeyClause(destination: "table2", columns: ["cola1", "colb1"])
             clause.actionStatements.append( ForeignKeyActionStatement(type: .delete, result: .setNull))
             clause.actionStatements.append( ForeignKeyActionStatement(type: .update, result: .noAction))
-            clause.matchStatements.append(ForeignKeyMatchStatement(name:"\"some crazy\"\" name\""))
+            clause.matchStatements.append(ForeignKeyMatchStatement(name: "\"some crazy\"\" name\""))
             clause.deferStatement = ForeignKeyDeferStatement(deferrable: false, type: .initiallyDeferred)
             var byHand = ForeignKeyTableConstraint(name: nil, columns: ["cola", "colb"], clause: clause)
 
@@ -393,10 +375,9 @@ class LiftTests: XCTestCase {
                   XCTFail("Didn't parse table cosntraint")
             }
 
-
             table = try SQLiteCreateTableParser.parseSQL("CREATE TABLE table1(cola,colb,colc,cold, FOREIGN KEY (\"column a\", \"column b\") REFERENCES \"some other table\" (\"some other column\", \"column in some other table\"))")
 
-            clause = ForeignKeyClause(destination: "\"some other table\"", columns: ["\"some other column\"","\"column in some other table\""])
+            clause = ForeignKeyClause(destination: "\"some other table\"", columns: ["\"some other column\"", "\"column in some other table\""])
             byHand = ForeignKeyTableConstraint(name: nil, columns: ["\"column a\"", "\"column b\""], clause: clause)
             if let tableconst = table.tableConstraints.last as? ForeignKeyTableConstraint {
                 XCTAssert( tableconst == byHand)
@@ -414,11 +395,9 @@ class LiftTests: XCTestCase {
                 XCTFail("Didn't parse table cosntraint")
             }
 
-
         } catch {
             XCTFail("Couldn't parse foreign key")
         }
-
 
     }
 
@@ -426,10 +405,10 @@ class LiftTests: XCTestCase {
         do {
             var table = try SQLiteCreateTableParser.parseSQL("CREATE TABLE table1(cola,colb,colc,cold, CONSTRAINT uni UNIQUE (cola COLLATE \"some name\" ASC, colb), CHECK(cola = 23), FOREIGN KEY (cola, colb) REFERENCES table2 (cola1, colb1) ON DELETE SET NULL ON UPDATE NO ACTION MATCH \"some crazy\"\" name\" NOT DEFERRABLE INITIALLY DEFERRED)")
 
-            var clause = ForeignKeyClause(destination: "table2", columns: ["cola1","colb1"])
+            var clause = ForeignKeyClause(destination: "table2", columns: ["cola1", "colb1"])
             clause.actionStatements.append( ForeignKeyActionStatement(type: .delete, result: .setNull))
             clause.actionStatements.append( ForeignKeyActionStatement(type: .update, result: .noAction))
-            clause.matchStatements.append(ForeignKeyMatchStatement(name:"\"some crazy\"\" name\""))
+            clause.matchStatements.append(ForeignKeyMatchStatement(name: "\"some crazy\"\" name\""))
             clause.deferStatement = ForeignKeyDeferStatement(deferrable: false, type: .initiallyDeferred)
             var byHand = ForeignKeyTableConstraint(name: nil, columns: ["cola", "colb"], clause: clause)
 
@@ -460,11 +439,10 @@ class LiftTests: XCTestCase {
                 XCTFail("Didn't parse table cosntraint")
             }
 
-
             table = try SQLiteCreateTableParser.parseSQL("CREATE TABLE table1(cola \"PRIMARY KEY\" PRIMARY KEY AUTOINCREMENT,colb UNIQUE ON CONFLICT ROLLBACK, colc, UNIQUE (cola,colb), CONSTRAINT ftab FOREIGN KEY (\"column a\", \"column b\") REFERENCES \"some other table\" (\"some other column\", \"column in some other table\"))")
 
-            clause = ForeignKeyClause(destination: "\"some other table\"", columns: ["\"some other column\"","\"column in some other table\""])
-            byHand = ForeignKeyTableConstraint(name: SQLiteName(rawValue:"ftab"), columns: ["\"column a\"", "\"column b\""], clause: clause)
+            clause = ForeignKeyClause(destination: "\"some other table\"", columns: ["\"some other column\"", "\"column in some other table\""])
+            byHand = ForeignKeyTableConstraint(name: SQLiteName(rawValue: "ftab"), columns: ["\"column a\"", "\"column b\""], clause: clause)
             if let tableconst = table.tableConstraints.last as? ForeignKeyTableConstraint {
                 XCTAssert( tableconst == byHand)
             } else {
@@ -474,13 +452,12 @@ class LiftTests: XCTestCase {
             table = try SQLiteCreateTableParser.parseSQL("CREATE TABLE table1(cola INTEGER,colb TEXT, CONSTRAINT ftab FOREIGN KEY (cola, colb) REFERENCES \"some other table\")")
 
             clause = ForeignKeyClause(destination: "\"some other table\"", columns: [])
-            byHand = ForeignKeyTableConstraint(name: SQLiteName(rawValue:"ftab"), columns: ["cola", "colb"], clause: clause)
+            byHand = ForeignKeyTableConstraint(name: SQLiteName(rawValue: "ftab"), columns: ["cola", "colb"], clause: clause)
             if let tableconst = table.tableConstraints.last as? ForeignKeyTableConstraint {
                 XCTAssert( tableconst == byHand)
             } else {
                 XCTFail("Didn't parse table cosntraint")
             }
-
 
         } catch {
             XCTFail("Couldn't parse foreign key")

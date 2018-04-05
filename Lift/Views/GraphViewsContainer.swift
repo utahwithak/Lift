@@ -38,35 +38,31 @@ class GraphViewsContainer: NSView {
 
         moveView(with: event)
 
-
     }
-
 
     func moveView(with event: NSEvent) {
 
-
         guard let selectedView = selectedView else {
-            return;
+            return
         }
 
         let movingArrows = arrowViews.filter {
             return $0.to.view?.view == selectedView || $0.from.view?.view == selectedView
         }
 
-
         var isMoving = false
         var lastPoint = convert(event.locationInWindow, from: nil)
 
-        while let curEvent = self.window?.nextEvent(matching: [.leftMouseUp, .leftMouseDragged]),  curEvent.type != .leftMouseUp {
+        while let curEvent = self.window?.nextEvent(matching: [.leftMouseUp, .leftMouseDragged]), curEvent.type != .leftMouseUp {
             self.autoscroll(with: curEvent)
-            let curPoint = convert(curEvent.locationInWindow,from: nil)
+            let curPoint = convert(curEvent.locationInWindow, from: nil)
             if (!isMoving && ((fabs(curPoint.x - lastPoint.x) >= 2.0) || (fabs(curPoint.y - lastPoint.y) >= 2.0))) {
                 isMoving = true
             }
             if isMoving {
                 var allNeedRefresh = false
 
-                if !NSEqualPoints(lastPoint, curPoint) {
+                if !lastPoint == curPoint {
                     selectedView.frame = NSOffsetRect(selectedView.frame, (curPoint.x - lastPoint.x), (curPoint.y - lastPoint.y))
                     if selectedView.frame.minX < 0 {
                         frame.size.width -= selectedView.frame.minX
@@ -85,7 +81,7 @@ class GraphViewsContainer: NSView {
                         allNeedRefresh = true
                     }
                 }
-                lastPoint = curPoint;
+                lastPoint = curPoint
 
                 if allNeedRefresh {
                     arrowViews.forEach({ $0.refreshPath() })
@@ -108,7 +104,6 @@ class GraphViewsContainer: NSView {
         return nil
     }
 
-
     func selectView(_ view: NSView) {
         clearSelection()
         selectedView = view
@@ -123,7 +118,6 @@ class GraphViewsContainer: NSView {
         selectedView = nil
     }
 
-
     func bringSubviewToFront(_ view: NSView) {
         view.removeFromSuperview()
         addSubview(view, positioned: .above, relativeTo: nil)
@@ -136,13 +130,10 @@ class GraphViewsContainer: NSView {
         __NSRectFill(dirtyRect)
         NSColor(calibratedRed: 0.763, green: 0.96, blue: 1, alpha: 1).set()
 
-
-
-
         let gridWidth = thisViewSize.size.width
         let gridHeight = thisViewSize.size.height
 
-        var i: CGFloat = 0;
+        var i: CGFloat = 0
         NSBezierPath.defaultLineWidth = 1
 
         let gridOffset: CGFloat = 20
@@ -161,7 +152,6 @@ class GraphViewsContainer: NSView {
             let startPoint = CGPoint(x: x, y: lineShift)
             let endPoint = CGPoint(x: x, y: gridHeight + lineShift)
             NSBezierPath.strokeLine(from: startPoint, to: endPoint)
-
 
         }
 

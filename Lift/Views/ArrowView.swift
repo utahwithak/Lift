@@ -1,4 +1,3 @@
-
 //
 //  ArrowView.swift
 //  Exhume
@@ -60,7 +59,7 @@ class ArrowView: NSView {
             for fromPoint in fromColumnPoints {
                 path?.move(to: fromPoint)
                 let c1 = CGPoint(x: fromPoint.x + 25, y: fromPoint.y)
-                let c2 = CGPoint(x: fromConnectionPoint.x - 25,y: fromConnectionPoint.y)
+                let c2 = CGPoint(x: fromConnectionPoint.x - 25, y: fromConnectionPoint.y)
                 path?.curve(to: fromConnectionPoint, controlPoint1: c1, controlPoint2: c2)
             }
 
@@ -81,7 +80,7 @@ class ArrowView: NSView {
             for toPoint in inPoints {
                 path?.move(to: toConnectionPoint)
                 let c1 = CGPoint(x: toConnectionPoint.x + 25, y: toConnectionPoint.y)
-                let c2 = CGPoint(x: toPoint.x - 25,y: toPoint.y)
+                let c2 = CGPoint(x: toPoint.x - 25, y: toPoint.y)
                 path?.curve(to: toPoint, controlPoint1: c1, controlPoint2: c2)
             }
 
@@ -94,8 +93,8 @@ class ArrowView: NSView {
             let fromPoint = fromView.outPoint(for: fromCol)
             let toPoint = toView.inPoint(for: toCol)
 
-            let fromX = CGPoint(x: fromPoint.x + 50, y: fromPoint.y);
-            let toX = CGPoint(x: toPoint.x - 50, y: toPoint.y);
+            let fromX = CGPoint(x: fromPoint.x + 50, y: fromPoint.y)
+            let toX = CGPoint(x: toPoint.x - 50, y: toPoint.y)
 
             path = NSBezierPath()
             path?.move(to: fromPoint)
@@ -110,7 +109,5 @@ class ArrowView: NSView {
     }
 
     public private(set) var path: NSBezierPath?
-
-
 
 }

@@ -19,7 +19,7 @@ class CollateColumnConstraint: ColumnConstraint {
         }
 
         collationName = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
-        
+
         super.init(name: name)
     }
 
@@ -41,4 +41,3 @@ class CollateColumnConstraint: ColumnConstraint {
         return CollateColumnConstraint(copying: self)
     }
 }
-

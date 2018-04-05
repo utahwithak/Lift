@@ -27,7 +27,7 @@ class ColumnConstraint {
         }
 
         scanner.scanCharacters(from: CharacterSet.whitespacesAndNewlines, into: nil)
-        
+
         let curIndex = scanner.scanLocation
         let nextPart = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
         scanner.scanLocation = curIndex
@@ -51,9 +51,9 @@ class ColumnConstraint {
         }
 
     }
-    
+
     var sql: String {
         return ""
     }
-    
+
 }

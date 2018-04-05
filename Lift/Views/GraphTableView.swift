@@ -40,7 +40,7 @@ class GraphTableView: NSViewController {
         columnNames = table.columns.map { $0.name }
         tableHeightConstraint.constant = CGFloat(columnNames.count * 21) + 3
     }
-    
+
     func inPoint(for column: String) -> CGPoint {
         if isCollapsed {
             return CGPoint(x: view.frame.origin.x, y: view.frame.origin.y + view.frame.height - 20)
@@ -69,9 +69,7 @@ class GraphTableView: NSViewController {
         return CGPoint(x: view.frame.origin.x + view.frame.width, y: view.frame.origin.y + (tableHeightConstraint.constant - columnRect.origin.y) - columnRect.height / 2)
     }
 
-
 }
-
 
 extension GraphTableView: NSTableViewDelegate {
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {

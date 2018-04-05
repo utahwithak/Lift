@@ -17,7 +17,6 @@ class HiddenSegmentedControl: NSSegmentedControl {
     }
 }
 
-
 class HiddenSegmentedCell: NSSegmentedCell {
 
     var frames = [Int: NSRect]()
@@ -41,7 +40,6 @@ class HiddenSegmentedCell: NSSegmentedCell {
         (0..<segmentCount).forEach { super.setSelected(false, forSegment: $0)}
         super.setSelected(selected, forSegment: segment)
 
-
     }
 
     override func drawSegment(_ segment: Int, inFrame frame: NSRect, with controlView: NSView) {
@@ -57,4 +55,3 @@ class HiddenSegmentedCell: NSSegmentedCell {
         get {return .blueControlTint}
     }
 }
-

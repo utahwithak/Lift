@@ -43,7 +43,7 @@ class SQLiteName: NSObject {
             return rawValue
         }
     }
-    
+
 }
 
 func +(lhs: SQLiteName, rhs: SQLiteName) -> SQLiteName {

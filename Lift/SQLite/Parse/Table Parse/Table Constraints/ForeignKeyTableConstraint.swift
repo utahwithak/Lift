@@ -42,7 +42,6 @@ class ForeignKeyTableConstraint: TableConstraint {
 
     }
 
-
     init(name: SQLiteName?, columns: [String], clause: ForeignKeyClause) {
         fromColumns = columns.map({ SQLiteName(rawValue: $0)})
         self.clause = clause
@@ -102,11 +101,5 @@ func ==(lhs: ForeignKeyTableConstraint, rhs: ForeignKeyTableConstraint) -> Bool 
         return false
     }
 
-
     return lhs.clause == rhs.clause
 }
-
-
-
-
-

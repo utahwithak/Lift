@@ -28,7 +28,7 @@ class ExportViewController: LiftViewController {
 
     @objc dynamic var exportTrees = [ExportDatabaseNode]()
 
-    var tablesToExport: [ExportTableNode]  {
+    var tablesToExport: [ExportTableNode] {
         return exportTrees.flatMap { ($0.children as! [ExportTableNode]).filter({ $0.export }) }
     }
 
@@ -51,7 +51,6 @@ class ExportViewController: LiftViewController {
     var exportType: ExportType {
         return ExportType(rawValue: exportTypeSelection.intValue)!
     }
-
 
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         progressViewController = segue.destinationController as? ProgressViewController
@@ -83,7 +82,6 @@ class ExportViewController: LiftViewController {
             csvOptions.lineEnding = "\n"
         }
     }
-
 
     @IBAction func toggleXLSXBlobOptions(_ sender: NSButton) {
         xlsxOptions.exportRawBlobData = sender.tag == 0

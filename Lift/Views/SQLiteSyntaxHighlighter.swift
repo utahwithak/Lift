@@ -8,7 +8,6 @@
 
 import Cocoa
 
-
 class SQLiteSyntaxHighlighter {
 
     private static let SQLiteKeywords: [String] = ["ABORT", "ACTION", "ADD", "AFTER", "ALL", "ALTER", "ANALYZE", "AND", "AS", "ASC", "ATTACH", "AUTOINCREMENT", "BEFORE", "BEGIN", "BETWEEN", "BY", "CASCADE", "CASE", "CAST", "CHECK", "COLLATE", "COLUMN", "COMMIT", "CONFLICT", "CONSTRAINT", "CREATE", "CROSS", "CURRENT_DATE", "CURRENT_TIME", "CURRENT_TIMESTAMP", "DATABASE", "DEFAULT", "DEFERRABLE", "DEFERRED", "DELETE", "DESC", "DETACH", "DISTINCT", "DROP", "EACH", "ELSE", "END", "ESCAPE", "EXCEPT", "EXCLUSIVE", "EXISTS", "EXPLAIN", "FAIL", "FOR", "FOREIGN", "FROM", "FULL", "GLOB", "GROUP", "HAVING", "IF", "IGNORE", "IMMEDIATE", "IN", "INDEX", "INDEXED", "INITIALLY", "INNER", "INSERT", "INSTEAD", "INTERSECT", "INTO", "IS", "ISNULL", "JOIN", "KEY", "LEFT", "LIKE", "LIMIT", "MATCH", "NATURAL", "NO", "NOT", "NOTNULL", "NULL", "OF", "OFFSET", "ON", "OR", "ORDER", "OUTER", "PLAN", "PRAGMA", "PRIMARY", "QUERY", "RAISE", "RECURSIVE", "REFERENCES", "REGEXP", "REINDEX", "RELEASE", "RENAME", "REPLACE", "RESTRICT", "RIGHT", "ROLLBACK", "ROW", "SAVEPOINT", "SELECT", "SET", "TABLE", "TEMP", "TEMPORARY", "THEN", "TO", "TRANSACTION", "TRIGGER", "UNION", "UNIQUE", "UPDATE", "USING", "VACUUM", "VALUES", "VIEW", "VIRTUAL", "WHEN", "WHERE", "WITH", "WITHOUT", "ROWID"]
@@ -39,28 +38,26 @@ class SQLiteSyntaxHighlighter {
 
     private let decimalPoint = ".".utf16.first
 
-
     // Colors
-    public var commandsColor: [NSAttributedStringKey: NSColor] = [.foregroundColor: NSColor(calibratedRed:0.031, green:0.0, blue:0.855, alpha:1.0)]
+    public var commandsColor: [NSAttributedStringKey: NSColor] = [.foregroundColor: NSColor(calibratedRed: 0.031, green: 0.0, blue: 0.855, alpha: 1.0)]
 
-    public var commentsColor: [NSAttributedStringKey: NSColor]  = [.foregroundColor: NSColor(calibratedRed:0.0, green:0.45, blue:0.0, alpha:1.0)]
+    public var commentsColor: [NSAttributedStringKey: NSColor]  = [.foregroundColor: NSColor(calibratedRed: 0.0, green: 0.45, blue: 0.0, alpha: 1.0)]
 
-    public var instructionsColor: [NSAttributedStringKey: NSColor]  = [.foregroundColor: NSColor(calibratedRed:0.45, green:0.45, blue:0.45, alpha:1.0)]
+    public var instructionsColor: [NSAttributedStringKey: NSColor]  = [.foregroundColor: NSColor(calibratedRed: 0.45, green: 0.45, blue: 0.45, alpha: 1.0)]
 
-    public var keywordsColor: [NSAttributedStringKey: NSColor]  = [.foregroundColor: NSColor(calibratedRed:0.737, green:0.0, blue:0.647, alpha:1.0)]
+    public var keywordsColor: [NSAttributedStringKey: NSColor]  = [.foregroundColor: NSColor(calibratedRed: 0.737, green: 0.0, blue: 0.647, alpha: 1.0)]
 
-    public var autocompleteWordsColor: [NSAttributedStringKey: NSColor]  = [.foregroundColor: NSColor(calibratedRed:0.84, green:0.41, blue:0.006, alpha:1.0)]
+    public var autocompleteWordsColor: [NSAttributedStringKey: NSColor]  = [.foregroundColor: NSColor(calibratedRed: 0.84, green: 0.41, blue: 0.006, alpha: 1.0)]
 
-    public var stringsColor: [NSAttributedStringKey: NSColor]  = [.foregroundColor: NSColor(calibratedRed:0.804, green:0.071, blue:0.153, alpha:1.0)]
+    public var stringsColor: [NSAttributedStringKey: NSColor]  = [.foregroundColor: NSColor(calibratedRed: 0.804, green: 0.071, blue: 0.153, alpha: 1.0)]
 
-    public var variablesColor: [NSAttributedStringKey: NSColor]  = [.foregroundColor: NSColor(calibratedRed:0.73, green:0.0, blue:0.74, alpha:1.0)]
+    public var variablesColor: [NSAttributedStringKey: NSColor]  = [.foregroundColor: NSColor(calibratedRed: 0.73, green: 0.0, blue: 0.74, alpha: 1.0)]
 
-    public var attributesColor: [NSAttributedStringKey: NSColor]  = [.foregroundColor: NSColor(calibratedRed:0.50, green:0.5, blue:0.2, alpha:1.0)]
+    public var attributesColor: [NSAttributedStringKey: NSColor]  = [.foregroundColor: NSColor(calibratedRed: 0.50, green: 0.5, blue: 0.2, alpha: 1.0)]
 
-    public var lineHighlightColor: [NSAttributedStringKey: NSColor]  = [.backgroundColor:NSColor(calibratedRed:0.96, green:0.96, blue:0.71, alpha:1.0)]
+    public var lineHighlightColor: [NSAttributedStringKey: NSColor]  = [.backgroundColor:NSColor(calibratedRed: 0.96, green: 0.96, blue: 0.71, alpha: 1.0)]
 
-    public var numbersColor: [NSAttributedStringKey: NSColor]  = [.foregroundColor: NSColor(calibratedRed:0.031, green:0.0, blue:0.855, alpha:1.0)];
-
+    public var numbersColor: [NSAttributedStringKey: NSColor]  = [.foregroundColor: NSColor(calibratedRed: 0.031, green: 0.0, blue: 0.855, alpha: 1.0)]
 
     private var layoutManager: NSLayoutManager?
 
@@ -69,16 +66,13 @@ class SQLiteSyntaxHighlighter {
     private let secondStringMatcher: NSRegularExpression?
     private let firstStringMatcher: NSRegularExpression?
 
-
     init(for textView: NSTextView) {
         layoutManager = textView.layoutManager
 
-        secondStringMatcher = try? NSRegularExpression(pattern: String(format:"%@[^%@\\\\\\r\\n]*+(?:\\\\(?:.|$)[^%@\\\\]*+)*+%@", secondString, secondString, secondString, secondString) , options: [])
-        firstStringMatcher = try? NSRegularExpression(pattern: String(format:"%@[^%@\\\\\\r\\n]*+(?:\\\\(?:.|$)[^%@\\\\\\r\\n]*+)*+%@", firstString, self.firstString, firstString, firstString), options:[])
+        secondStringMatcher = try? NSRegularExpression(pattern: String(format: "%@[^%@\\\\\\r\\n]*+(?:\\\\(?:.|$)[^%@\\\\]*+)*+%@", secondString, secondString, secondString, secondString), options: [])
+        firstStringMatcher = try? NSRegularExpression(pattern: String(format: "%@[^%@\\\\\\r\\n]*+(?:\\\\(?:.|$)[^%@\\\\\\r\\n]*+)*+%@", firstString, self.firstString, firstString, firstString), options: [])
 
         NotificationCenter.default.addObserver(self, selector: #selector(textDidChange), name: NSText.didChangeNotification, object: textView)
-
-
 
     }
 
@@ -86,7 +80,7 @@ class SQLiteSyntaxHighlighter {
         guard let textView = notification.object as? NSTextView else {
             return
         }
-        
+
         highlight(textView)
     }
 
@@ -97,7 +91,7 @@ class SQLiteSyntaxHighlighter {
         }
 
         let visibleRange = layoutManager.glyphRange(forBoundingRect: visibleRect, in: container)
-        let beginningOfFirstVisibleLine = (textView.string as NSString).lineRange(for: NSRange(location: visibleRange.location,length: 0)).location
+        let beginningOfFirstVisibleLine = (textView.string as NSString).lineRange(for: NSRange(location: visibleRange.location, length: 0)).location
         let endOfLastVisibleLine = NSMaxRange((completeString as NSString).lineRange(for: NSRange(location: NSMaxRange(visibleRange), length: 0)))
         recolor(range: NSRange(location: beginningOfFirstVisibleLine, length: endOfLastVisibleLine - beginningOfFirstVisibleLine))
 
@@ -131,21 +125,21 @@ class SQLiteSyntaxHighlighter {
         // setup
         let documentString =  completeString as NSString
         let documentStringLength = documentString.length
-        let effectiveRange = range;
-        var searchSyntaxLength = 0;
-        var colorStartLocation = 0, colorEndLocation = 0, endOfLine = 0;
+        let effectiveRange = range
+        var searchSyntaxLength = 0
+        var colorStartLocation = 0, colorEndLocation = 0, endOfLine = 0
         var queryLocation = 0
 
         // setup working locations based on the effective range
         let rangeLocation = effectiveRange.location
-        let maxRangeLocation = NSMaxRange(effectiveRange);
+        let maxRangeLocation = NSMaxRange(effectiveRange)
 
         // assign range string
         let rangeString = documentString.substring(with: effectiveRange)
         let rangeStringLength = (rangeString as NSString).length
 
         guard rangeStringLength != 0 else {
-            return;
+            return
         }
 
         // allocate the range scanner
@@ -173,25 +167,25 @@ class SQLiteSyntaxHighlighter {
             colorEndLocation = rangeScanner.scanLocation
 
             if colorStartLocation == colorEndLocation {
-                break;
+                break
             }
 
             // don't Color if preceding character is a letter.
             // this prevents us from Coloring numbers in variable names,
-            queryLocation = colorStartLocation + rangeLocation;
+            queryLocation = colorStartLocation + rangeLocation
             if queryLocation > 0, let testCharacter = Unicode.Scalar((documentString as NSString).character(at: queryLocation - 1)) {
 
                 // numbers can occur in variable, class and function names
                 // eg: var_1 should not be Colored as a number
 
                 if nameCharacterSet.contains(testCharacter) {
-                    continue;
+                    continue
                 }
             }
 
             // don't Color a trailing decimal point as some languages may use it as a line terminator
             if colorEndLocation > 0 {
-                queryLocation = colorEndLocation - 1;
+                queryLocation = colorEndLocation - 1
 
                 if (rangeString as NSString).character(at: queryLocation) == decimalPoint {
                     colorEndLocation -= 1
@@ -221,18 +215,17 @@ class SQLiteSyntaxHighlighter {
                 colorEndLocation = rangeScanner.scanLocation
 
                 if colorEndLocation > rangeStringLength || colorStartLocation == colorEndLocation {
-                    break;
+                    break
                 }
 
                 let keywordTestString = documentString.substring(with: NSRange(location: colorStartLocation + rangeLocation, length: colorEndLocation - colorStartLocation)).uppercased()
 
                 if keywords.contains(keywordTestString) {
-                    setColor(keywordsColor, for: NSRange(location: colorStartLocation + rangeLocation, length: rangeScanner.scanLocation - colorStartLocation));
+                    setColor(keywordsColor, for: NSRange(location: colorStartLocation + rangeLocation, length: rangeScanner.scanLocation - colorStartLocation))
                 }
             }
 
         }
-
 
         //
         // Autocomplete
@@ -251,7 +244,7 @@ class SQLiteSyntaxHighlighter {
                 colorEndLocation = rangeScanner.scanLocation
 
                 if colorEndLocation > rangeStringLength || colorStartLocation == colorEndLocation {
-                    break;
+                    break
                 }
 
                 let autocompleteTestString = documentString.substring(with: NSRange(location: colorStartLocation + rangeLocation, length: colorEndLocation - colorStartLocation))
@@ -260,7 +253,6 @@ class SQLiteSyntaxHighlighter {
                     setColor(autocompleteWordsColor, for: NSRange(location: colorStartLocation + rangeLocation, length: rangeScanner.scanLocation - colorStartLocation))
                 }
             }
-
 
         }
 
@@ -279,7 +271,6 @@ class SQLiteSyntaxHighlighter {
             })
         }
 
-
         //
         // First string
         //
@@ -296,7 +287,6 @@ class SQLiteSyntaxHighlighter {
 
                     //
                     // Color single-line comments
-
 
                 // reset scanner
                 rangeScanner.scanLocation = 0
@@ -330,7 +320,6 @@ class SQLiteSyntaxHighlighter {
                     }
                 }
 
-
                     //
                     // Second string, second pass
                     //
@@ -341,7 +330,7 @@ class SQLiteSyntaxHighlighter {
                 }
 
                 if let attributes = layoutManager?.temporaryAttributes(atCharacterIndex: foundRange.location + rangeLocation, effectiveRange: nil), (attributes as NSDictionary).isEqual(commentsColor) || (attributes as NSDictionary).isEqual(stringsColor) {
-                    return;
+                    return
                 }
 
                 self.setColor(stringsColor, for: NSRange(location: foundRange.location + rangeLocation, length: foundRange.length))

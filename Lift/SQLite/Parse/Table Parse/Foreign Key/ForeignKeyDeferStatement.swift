@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 enum DeferType {
     case notSpecified
     case initiallyDeferred
@@ -43,7 +42,7 @@ struct ForeignKeyDeferStatement: Equatable {
                 throw ParserError.unexpectedError("Parsing defer statement and didn't get immediate or deferred!?")
             }
         }
-        
+
     }
     var sql: String {
         var builder = isDeferrable ? "DEFERRABLE" : "NOT DEFERRABLE"

@@ -9,7 +9,7 @@
 import AppKit
 
 class NewRowValue: NSObject {
-    
+
     enum NewValueType {
         case data(SQLiteData)
         case null
@@ -136,11 +136,11 @@ class NewRowValue: NSObject {
         case .null:
             text = NSLocalizedString("Value will be set to NULL", comment: "updating the value to null")
         case .date:
-            text = NSLocalizedString("Value will be set to CURRENT_DATE", comment:"updating the value to the current date")
+            text = NSLocalizedString("Value will be set to CURRENT_DATE", comment: "updating the value to the current date")
         case .time:
-            text = NSLocalizedString("Value will be set to CURRENT_TIME", comment:"update to time")
+            text = NSLocalizedString("Value will be set to CURRENT_TIME", comment: "update to time")
         case .timeStamp:
-            text = NSLocalizedString("Value will be set to CURRENT_TIMESTAMP", comment:"Update to current time stamp")
+            text = NSLocalizedString("Value will be set to CURRENT_TIMESTAMP", comment: "Update to current time stamp")
         }
 
     }
@@ -179,7 +179,7 @@ class NewRowValueTypeConversion: NSObject {
         case .float:
             return [realType, textType, integerType, dataType]
         case .blob(let data):
-            
+
             var conversionTypes = [NewRowValueTypeConversion]()
             conversionTypes.append(dataType)
             if String(bytes: data, encoding: .utf8) != nil {
@@ -199,7 +199,7 @@ class NewRowValueTypeConversion: NSObject {
 
     @objc dynamic let name: String
     let dataType: SQLiteDataType
-    init(name: String, type: SQLiteDataType){
+    init(name: String, type: SQLiteDataType) {
         self.name = name
         self.dataType = type
     }
@@ -221,7 +221,7 @@ class NewRowValueTypeConversion: NSObject {
                 return data
             }
         case .integer(let int):
-            if conversion === integerType{
+            if conversion === integerType {
                 return data
             } else if conversion === realType {
                 return .float(Double(int))
@@ -263,4 +263,3 @@ class NewRowValueTypeConversion: NSObject {
 
     }
 }
-

@@ -16,7 +16,6 @@ extension String {
 
 extension Database {
 
-
     public func importDump(from path: URL) throws {
         guard let bytes = try? Data(contentsOf: path, options: .mappedIfSafe) else {
 
@@ -29,7 +28,7 @@ extension Database {
             let start = rawPtr.assumingMemoryBound(to: Int8.self)
             var statementCount = 0
 
-            var remainder:UnsafePointer<Int8>? = UnsafePointer(start)
+            var remainder: UnsafePointer<Int8>? = UnsafePointer(start)
             var statement: OpaquePointer?
             while let remaining = remainder, sqlite3_prepare_v2(connection, remaining, -1, &statement, &remainder) == SQLITE_OK, let stmt = statement {
                 statementCount += 1
@@ -46,10 +45,8 @@ extension Database {
         }
 
         refresh()
-        
 
     }
-    
 
     public func dump(query: String, to helper: DumpHelper) throws {
         var zErr: UnsafeMutablePointer<Int8>?
@@ -61,16 +58,16 @@ extension Database {
             if let errPtr = zErr {
                 let str = String(cString: errPtr)
                 helper.handle.write( "/****** \(str) ******/\n")
-                sqlite3_free(zErr);
+                sqlite3_free(zErr)
                 zErr = nil
             }
             let zQ2 = "\(query) ORDER BY rowid DESC"
-            rc = sqlite3_exec(connection, zQ2, dump_callback, &weakSelf, &zErr);
+            rc = sqlite3_exec(connection, zQ2, dump_callback, &weakSelf, &zErr)
             if rc != SQLITE_OK, let errPtr = zErr {
-                helper.handle.write( "/****** ERROR: \(String(cString: errPtr)) ******/\n");
+                helper.handle.write( "/****** ERROR: \(String(cString: errPtr)) ******/\n")
             }
 
-            sqlite3_free(zErr);
+            sqlite3_free(zErr)
         }
     }
 
@@ -108,16 +105,16 @@ extension Database {
                 azCol.append(nil)
             }
 
-            if sqlite3_column_int(pStmt, 5) == 1{
+            if sqlite3_column_int(pStmt, 5) == 1 {
                 nPK += 1
-                if nPK == 1 && String(cString: sqlite3_column_text(pStmt,2)) ==  "INTEGER" {
-                    isIPK = true;
+                if nPK == 1 && String(cString: sqlite3_column_text(pStmt, 2)) ==  "INTEGER" {
+                    isIPK = true
                 } else {
-                    isIPK = false;
+                    isIPK = false
                 }
             }
         }
-        sqlite3_finalize(pStmt);
+        sqlite3_finalize(pStmt)
 
         /* The decision of whether or not a rowid really needs to be preserved
          ** is tricky.  We never need to preserve a rowid for a WITHOUT ROWID table
@@ -133,19 +130,19 @@ extension Database {
              ** there is a "pk" entry in "PRAGMA index_list".  There will be
              ** no "pk" index if the PRIMARY KEY really is an alias for the ROWID.
              */
-            zSql = "SELECT 1 FROM pragma_index_list(\"\(table.SQLiteEscapedString)\") WHERE origin='pk'";
-            rc = sqlite3_prepare_v2(connection, zSql, -1, &pStmt, nil);
+            zSql = "SELECT 1 FROM pragma_index_list(\"\(table.SQLiteEscapedString)\") WHERE origin='pk'"
+            rc = sqlite3_prepare_v2(connection, zSql, -1, &pStmt, nil)
 
             if rc != SQLITE_OK {
                 return nil
             }
 
-            rc = sqlite3_step(pStmt);
-            sqlite3_finalize(pStmt);
-            preserveRowid = rc == SQLITE_ROW;
+            rc = sqlite3_step(pStmt)
+            sqlite3_finalize(pStmt)
+            preserveRowid = rc == SQLITE_ROW
         }
 
-        if( preserveRowid ){
+        if( preserveRowid ) {
             /* Only preserve the rowid if we can find a name to use for the
              ** rowid */
             let azRowid = [ "rowid", "_rowid_", "oid" ]
@@ -157,7 +154,7 @@ extension Database {
                      ** ordinary column in the table.  Verify that azRowid[j] is a valid
                      ** name for the rowid before adding it to azCol[0].  WITHOUT ROWID
                      ** tables will fail this last check */
-                    rc = sqlite3_table_column_metadata(connection, nil ,table, rowid, nil, nil, nil, nil, nil);
+                    rc = sqlite3_table_column_metadata(connection, nil, table, rowid, nil, nil, nil, nil, nil)
                     if rc == SQLITE_OK {
                         azCol[0] = rowid
                     }
@@ -165,10 +162,9 @@ extension Database {
                 }
             }
         }
-        return azCol;
+        return azCol
     }
 }
-
 
 class DumpHelper {
     let handle: Writer
@@ -179,20 +175,18 @@ class DumpHelper {
     var database: Database!
     let progressHandler: (String) -> Void
 
-    init(handle: Writer, progressHandler: @escaping (String)-> Void) {
+    init(handle: Writer, progressHandler: @escaping (String) -> Void) {
         self.handle = handle
         handle.open()
         self.progressHandler = progressHandler
     }
-    
+
     deinit {
         handle.close()
     }
 }
 
-
-
-fileprivate func dump_callback( pArg: UnsafeMutableRawPointer?, nArg: Int32, azArg:UnsafeMutablePointer<UnsafeMutablePointer<Int8>?>?, azNotUsed:UnsafeMutablePointer<UnsafeMutablePointer<Int8>?>?) -> Int32 {
+private func dump_callback( pArg: UnsafeMutableRawPointer?, nArg: Int32, azArg: UnsafeMutablePointer<UnsafeMutablePointer<Int8>?>?, azNotUsed: UnsafeMutablePointer<UnsafeMutablePointer<Int8>?>?) -> Int32 {
 
     guard let helper = pArg?.assumingMemoryBound(to: DumpHelper.self).pointee else {
         return 1
@@ -209,7 +203,7 @@ fileprivate func dump_callback( pArg: UnsafeMutableRawPointer?, nArg: Int32, azA
         } else if sqlite3_strglob("sqlite_stat?", zTable) == 0 {
             helper.handle.write( "ANALYZE sqlite_master;\n")
         } else if zTable.hasPrefix("sqlite_") {
-            return 0;
+            return 0
         } else if zSql.hasPrefix("CREATE VIRTUAL TABLE") {
 
             if !helper.writableSchema {
@@ -218,12 +212,12 @@ fileprivate func dump_callback( pArg: UnsafeMutableRawPointer?, nArg: Int32, azA
             }
             let zIns = "INSERT INTO sqlite_master(type,name,tbl_name,rootpage,sql) VALUES('table','\(zTable.SQLiteEscapedString)','\(zTable.SQLiteEscapedString)',0,'\(zSql.SQLiteEscapedString)');\n"
             helper.handle.write( zIns)
-            return 0;
+            return 0
         } else {
-            if( sqlite3_strglob("CREATE TABLE ['\"]*", zSql)==0 ){
+            if( sqlite3_strglob("CREATE TABLE ['\"]*", zSql)==0 ) {
                 let trimmed = zSql.replacingOccurrences(of: "CREATE TABLE ", with: "")
-                helper.handle.write( "CREATE TABLE IF NOT EXISTS \(trimmed);\n");
-            }else{
+                helper.handle.write( "CREATE TABLE IF NOT EXISTS \(trimmed);\n")
+            } else {
                 helper.handle.write( "\(zSql);\n")
             }
 
@@ -235,7 +229,7 @@ fileprivate func dump_callback( pArg: UnsafeMutableRawPointer?, nArg: Int32, azA
 
             guard let azCol = helper.database.tableColumnList(for: zTable, options: helper) else {
                 helper.errorCount += 1
-                return 0;
+                return 0
             }
             let colString = azCol.compactMap({$0}).map({"\"\($0.SQLiteEscapedString)\""}).joined(separator: ",")
 
@@ -261,7 +255,7 @@ fileprivate func dump_callback( pArg: UnsafeMutableRawPointer?, nArg: Int32, azA
                 if rowData.isEmpty {
                     return
                 }
-                
+
                 let strVals = rowData.map {
                     switch $0 {
                     case .null:
@@ -279,16 +273,13 @@ fileprivate func dump_callback( pArg: UnsafeMutableRawPointer?, nArg: Int32, azA
 
                 helper.handle.write( "INSERT INTO \(sTable) VALUES(\(strVals));\n")
 
-
-
-                
             })
-            
+
         }
     } catch {
         print("Dump fail:\(error)")
         helper.errorCount += 1
     }
-    return 0;
-    
+    return 0
+
 }

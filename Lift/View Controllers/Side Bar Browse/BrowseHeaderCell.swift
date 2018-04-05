@@ -9,7 +9,7 @@
 import Cocoa
 
 class BrowseHeaderCell: NSTableCellView {
-    
+
     override func awakeFromNib() {
         textField?.font = NSFont.systemFont(ofSize: 17)
     }

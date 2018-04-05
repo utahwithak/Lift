@@ -71,7 +71,6 @@ class TabButton: NSButton {
         }
     }
 
-
     public var titleColor: NSColor {
         get {
             return tabCell.titleColor
@@ -114,7 +113,6 @@ class TabButton: NSButton {
             }
         }
     }
-
 
     @objc dynamic func constrainSize(with cell: TabCell) {
         if cell.minWidth > 0 {

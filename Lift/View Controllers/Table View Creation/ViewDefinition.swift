@@ -11,7 +11,7 @@ import Foundation
 class ViewDefinition: NSObject {
     @objc dynamic public var isTemp = false {
         didSet {
-            if isTemp && (databaseName != nil || databaseName?.rawValue != "temp"){
+            if isTemp && (databaseName != nil || databaseName?.rawValue != "temp") {
                 databaseName = SQLiteName(rawValue: "temp")
             } else {
                 databaseName = nil

@@ -19,7 +19,7 @@ class ProgressViewController: NSViewController {
     func setOperationText(to value: String) {
         operation = value
     }
-    
+
     func updateProgress(to value: Double) {
         progress = NSNumber(value: value)
     }

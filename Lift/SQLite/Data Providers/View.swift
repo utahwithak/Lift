@@ -11,9 +11,13 @@ import Foundation
 class View: DataProvider {
     public private(set) var definition: ViewDefinition?
 
+    override var isEditable: Bool {
+        return definition != nil
+    }
+
     override init(database: Database, data: [SQLiteData], connection: sqlite3) throws {
         try super.init(database: database, data: data, connection: connection)
         definition = try? SQLiteCreateViewParser.parse(sql: sql)
     }
-    
+
 }

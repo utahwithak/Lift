@@ -44,7 +44,7 @@ class PrimaryKeyColumnConstraint: ConflictColumnConstraint {
     private init(copying: PrimaryKeyColumnConstraint) {
         autoincrement = copying.autoincrement
         sortOrder = copying.sortOrder
-        
+
         super.init(copying: copying)
     }
 
@@ -54,7 +54,7 @@ class PrimaryKeyColumnConstraint: ConflictColumnConstraint {
 
     override var sql: String {
         var builder = ""
-        if let name = constraintName?.sql{
+        if let name = constraintName?.sql {
             builder += "CONSTRAINT \(name) "
         }
         builder += "PRIMARY KEY "

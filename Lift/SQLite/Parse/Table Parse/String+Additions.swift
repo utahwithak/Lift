@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 extension String {
 //
 //    public var unescapeXMLString: String {
@@ -39,7 +38,6 @@ extension String {
 
     func CSVFormattedString(qouted: Bool, separator: String) -> String {
 
-
         let safeQoute = qouted || self.rangeOfCharacter(from: CharacterSet.newlines) != nil ||  self.contains(separator)
 
         let content: String
@@ -49,7 +47,6 @@ extension String {
         } else {
             return safeQoute ? String(format: "\"%@\"", self) : self
         }
-
 
     }
 
@@ -106,7 +103,6 @@ extension String {
                 }
             }
 
-
             switch char {
             case "\"":
                 if charStack.last == "(" {
@@ -114,7 +110,6 @@ extension String {
                 } else {
                     sawQoute = true
                 }
-
 
             case "(":
 
@@ -136,7 +131,6 @@ extension String {
         }
         return charStack.isEmpty
     }
-
 
     /// Checks if the first char matches the last. allows for doulbe quotes
     ///

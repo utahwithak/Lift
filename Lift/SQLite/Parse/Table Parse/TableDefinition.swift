@@ -57,7 +57,7 @@ class TableDefinition: NSObject {
     @objc dynamic public var hasValidName: Bool {
         return !tableName.isEmpty
     }
-    
+
     @objc dynamic public var columns = [ColumnDefinition]() {
         didSet {
             columns.forEach({ $0.table = self })
@@ -71,7 +71,6 @@ class TableDefinition: NSObject {
     func copyForEditing() -> TableDefinition {
         return TableDefinition(originalDefinition: self)
     }
-
 
     var qualifiedNameForQuery: String {
         if let schemaName = databaseName {

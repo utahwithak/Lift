@@ -12,7 +12,7 @@ protocol JumpDelegate: NSObjectProtocol {
     func jumpView(_ view: JumpToRowViewController, jumpTo: Int?)
 }
 class JumpToRowViewController: NSViewController {
-    
+
     @IBOutlet weak var jumpToRowField: NSTextField!
 
     weak var delegate: JumpDelegate?

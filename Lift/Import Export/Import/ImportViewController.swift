@@ -13,7 +13,6 @@ protocol ImportViewDelegate: class {
     func importView(_ importVC: ImportViewController, showSQL text: String)
 }
 
-
 class ImportViewController: LiftViewController {
 
     @objc dynamic var importPath: URL?
@@ -24,7 +23,7 @@ class ImportViewController: LiftViewController {
     @IBOutlet var tabControlHeightConstraint: NSLayoutConstraint!
 
     public weak var delegate: ImportViewDelegate?
-    
+
     @IBAction func chooseImportPath(_ sender: Any) {
 
         let chooser = NSOpenPanel()
@@ -98,7 +97,7 @@ class ImportViewController: LiftViewController {
 
         if isDir.boolValue {
             // open files in the folder for processing
-            if let enumerator = FileManager.default.enumerator(at: url, includingPropertiesForKeys:nil) {
+            if let enumerator = FileManager.default.enumerator(at: url, includingPropertiesForKeys: nil) {
                 for case let fileURL as URL in enumerator {
                     checkForImport(from: fileURL)
                 }
@@ -267,7 +266,6 @@ class ImportViewController: LiftViewController {
                 tableData.append(rowData)
             }
 
-
             let tableInfo = ImportTableInformation(proprties: props, data: tableData)
 
             importInfos.append(tableInfo)
@@ -295,7 +293,7 @@ extension ImportViewController: TextImportDelegate {
         importView.data = CSV
         importView.title = textVC.title
         importView.representedObject = representedObject
-        
+
         let index = tabView.indexOfTabViewItem(item)
 
         let newView = NSTabViewItem(viewController: importView)
@@ -322,7 +320,6 @@ extension ImportViewController: ImportDataDelegate {
         }
     }
 }
-
 
 extension ImportViewController: TabControlDatasource {
     func numberOfTabsFor(_ control: TabControl) -> Int {
@@ -354,7 +351,6 @@ extension ImportViewController: TabControlDatasource {
         return true
     }
 
-
     func tabControl(_ control: TabControl, menuFor item: Any) -> NSMenu? {
         return nil
     }
@@ -374,7 +370,6 @@ extension ImportViewController: TabControlDatasource {
 
     }
 }
-
 
 extension Sheet {
     func sqliteData() -> [[Any?]] {
@@ -404,4 +399,3 @@ extension XMLElement {
         return children?.first(where: { $0.name == name}) as? XMLElement
     }
 }
-

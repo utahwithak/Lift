@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 class SQLiteExportOptions: NSObject {
 
     @objc dynamic var exportTriggers: Bool = false

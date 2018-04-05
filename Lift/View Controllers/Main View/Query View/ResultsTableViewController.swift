@@ -13,13 +13,13 @@ class ResultsTableViewController: NSViewController {
 
     @IBOutlet weak var tableView: NSTableView!
     @IBOutlet weak var durationLabel: NSTextField!
-    
+
     override func viewDidLoad() {
         while tableView.numberOfColumns > 0 {
             tableView.removeTableColumn(tableView.tableColumns[0])
         }
 
-        for (index,name) in results.columnNames.enumerated() {
+        for (index, name) in results.columnNames.enumerated() {
 
             let identifier = NSUserInterfaceItemIdentifier("\(index)")
             TableDataViewController.identifierMap[identifier] = index
@@ -46,7 +46,7 @@ class ResultsTableViewController: NSViewController {
             }
 
             let minutes = (Int(ti) / 60) % 60
-            let hours = (Int(ti) / 3600);
+            let hours = (Int(ti) / 3600)
             guard let description = numberFormatter.string(from: results.rows.count as NSNumber) else {
                 return
             }
@@ -88,7 +88,6 @@ class ResultsTableViewController: NSViewController {
     }
 }
 
-
 extension ResultsTableViewController: NSTableViewDataSource {
     func numberOfRows(in tableView: NSTableView) -> Int {
         return results.rows.count
@@ -106,7 +105,7 @@ extension ResultsTableViewController: NSTableViewDelegate {
             return nil
         }
 
-        let object = results.object(at: row, column:column)
+        let object = results.object(at: row, column: column)
         textField.stringValue = object.displayValue
         let justification: NSTextAlignment
         var color: NSColor?
@@ -125,7 +124,7 @@ extension ResultsTableViewController: NSTableViewDelegate {
             justification = .right
             color = TableDataViewController.numberColor
         }
-        
+
         if textField.alignment != justification {
             textField.alignment = justification
         }
