@@ -34,13 +34,13 @@ enum DetailSection {
             return NSStoryboard.SceneIdentifier("databaseDetails")
         case .table:
             return NSStoryboard.SceneIdentifier("tableDetailView")
-        case .custom(_, _):
+        case .custom:
             return nil
         }
     }
 }
 extension DetailSection: Equatable { }
-func ==(lhs: DetailSection, rhs: DetailSection) -> Bool {
+func == (lhs: DetailSection, rhs: DetailSection) -> Bool {
     switch (lhs, rhs) {
     case (.database, .database), (.table, .table):
         return true

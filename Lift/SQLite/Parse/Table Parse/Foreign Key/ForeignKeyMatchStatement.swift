@@ -25,6 +25,6 @@ struct ForeignKeyMatchStatement: Equatable {
     }
 }
 
-func ==(lhs: ForeignKeyMatchStatement, rhs: ForeignKeyMatchStatement) -> Bool {
+func == (lhs: ForeignKeyMatchStatement, rhs: ForeignKeyMatchStatement) -> Bool {
     return lhs.name == rhs.name
 }

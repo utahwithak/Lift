@@ -24,9 +24,9 @@ class TableDataViewController: LiftMainViewController {
     }
 
     lazy var predicateViewController: TablePredicateViewController = {
-        let predicateview = self.storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("tablePredicateView")) as! TablePredicateViewController
+        let predicateview = self.storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("tablePredicateView")) as? TablePredicateViewController
 
-        return predicateview
+        return predicateview!
     }()
 
     let foreignKeyColumnColor = NSColor(calibratedRed: 0.71, green: 0.843, blue: 1.0, alpha: 0.5).cgColor
@@ -262,12 +262,11 @@ class TableDataViewController: LiftMainViewController {
         tableView.headerView = CustomTableHeaderView(frame: tableView.headerView?.frame ?? NSRect.zero)
 
         view.postsFrameChangedNotifications = true
-        NotificationCenter.default.addObserver(forName: NSView.frameDidChangeNotification, object: view, queue: nil) { [weak self] _ in
-            guard let mySelf = self else {
-                return
-            }
-            mySelf.visibleRowCountBuffer = mySelf.tableView.rows(in: mySelf.tableView.visibleRect).length * 4
-        }
+        NotificationCenter.default.addObserver(self, selector: #selector(frameChanged), name: NSView.frameDidChangeNotification, object: view)
+    }
+
+    @objc private func frameChanged(_ noti: Notification) {
+        visibleRowCountBuffer = tableView.rows(in: tableView.visibleRect).length * 4
     }
 
     @objc private func jumpToForeignKey(_ item: NSMenuItem) {

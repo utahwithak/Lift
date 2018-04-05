@@ -45,7 +45,7 @@ class LongPressButton: NSButton {
         }
 
         showingMenu = false
-        longPressTimer = Timer(timeInterval: delay, repeats: false, block: {[weak self] timer in
+        longPressTimer = Timer(timeInterval: delay, repeats: false, block: {[weak self] _ in
 
             if let menu = self?.menu {
                 NSMenu.popUpContextMenu(menu, with: event, for: self!)

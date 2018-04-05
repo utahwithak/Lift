@@ -200,16 +200,8 @@ class TableViewNode: BrowseViewNode {
         return provider?.isEditable ?? false
     }
 
-    weak var provider: DataProvider? {
-
-        didSet {
-            NotificationCenter.default.removeObserver(self, name: .TableDidBeginRefreshingRowCount, object: oldValue)
-            NotificationCenter.default.removeObserver(self, name: .TableDidEndRefreshingRowCount, object: oldValue)
-            NotificationCenter.default.removeObserver(self, name: .TableDidChangeRowCount, object: oldValue)
-
-        }
-    }
-
+    weak var provider: DataProvider?
+    private var tokens = [NSObjectProtocol]()
     init(provider: DataProvider) {
 
         refreshingCount = provider.refreshingRowCount
@@ -223,7 +215,7 @@ class TableViewNode: BrowseViewNode {
         }
 
         if let curCount =  provider.rowCount {
-            rowCount = NSNumber(integerLiteral: curCount)
+            rowCount = NSNumber(value: curCount)
             refreshingCount = false
         }
 
@@ -233,32 +225,39 @@ class TableViewNode: BrowseViewNode {
 
     }
 
+    func stopListening() {
+        tokens.forEach { NotificationCenter.default.removeObserver($0) }
+        tokens.removeAll(keepingCapacity: true)
+    }
+
     func startListening() {
-        NotificationCenter.default.addObserver(forName: .TableDidBeginRefreshingRowCount, object: provider, queue: nil) { [weak self] _ in
+        stopListening()
+        let token1 =  NotificationCenter.default.addObserver(forName: .TableDidBeginRefreshingRowCount, object: provider, queue: nil) { [weak self] _ in
             DispatchQueue.main.async {
                 self?.refreshingCount = true
             }
 
         }
 
-        NotificationCenter.default.addObserver(forName: .TableDidEndRefreshingRowCount, object: provider, queue: nil) { [weak self] _ in
+        let token2 = NotificationCenter.default.addObserver(forName: .TableDidEndRefreshingRowCount, object: provider, queue: nil) { [weak self] _ in
             DispatchQueue.main.async {
                 self?.refreshingCount = false
             }
         }
 
-        NotificationCenter.default.addObserver(forName: .TableDidChangeRowCount, object: provider, queue: nil) { [weak self, weak provider] _ in
+        let token3 = NotificationCenter.default.addObserver(forName: .TableDidChangeRowCount, object: provider, queue: nil) { [weak self, weak provider] _ in
             guard let table = provider, let mySelf = self else {
                 return
             }
             DispatchQueue.main.async {
                 if let num = table.rowCount {
-                    mySelf.rowCount = NSNumber(integerLiteral: num)
+                    mySelf.rowCount = NSNumber(value: num)
                 } else {
                     mySelf.rowCount = nil
                 }
             }
         }
+        tokens = [token1, token2, token3]
     }
 
     func refresh(with provider: DataProvider) {
@@ -268,7 +267,7 @@ class TableViewNode: BrowseViewNode {
         refreshingCount = provider.refreshingRowCount
 
         if let curCount =  provider.rowCount {
-            rowCount = NSNumber(integerLiteral: curCount)
+            rowCount = NSNumber(value: curCount)
             refreshingCount = false
         }
 

@@ -250,7 +250,7 @@ class LineNumberView: NSRulerView {
                 if let rects = rects, rectCount > 0 {
                     // Note that the ruler view is only as tall as the visible
                     // portion. Need to compensate for the clipview's coordinates.
-                    let ypos = yinset + NSMinY(rects[0]) - visibleRect.minY
+                    let ypos = yinset + rects[0].minY - visibleRect.minY
 
                     // Line numbers are internally stored starting at 0
                     let labelText = NSString(format: "%jd", line + 1)
@@ -259,9 +259,9 @@ class LineNumberView: NSRulerView {
 
                     // Draw string flush right, centered vertically within the line
                     let textRect = NSRect(x: boundWidth - stringSize.width - LineNumberView.RULER_MARGIN,
-                                          y: ypos + (NSHeight(rects[0]) - stringSize.height) / 2.0,
+                                          y: ypos + (rects[0].height - stringSize.height) / 2.0,
                                       width: boundWidth - LineNumberView.RULER_MARGIN * 2.0,
-                                     height: NSHeight(rects[0]))
+                                     height: rects[0].height)
                     labelText.draw(with: textRect, options: [.usesLineFragmentOrigin], attributes: textAttributes, context: context)
                 }
             }

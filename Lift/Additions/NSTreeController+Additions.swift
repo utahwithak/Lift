@@ -19,7 +19,7 @@ extension NSTreeController {
             return nil
         }
         for node in nodes {
-            if (anObject == node.representedObject as! NSObject) {
+            if anObject == node.representedObject as? NSObject {
                 return node.indexPath
             }
 

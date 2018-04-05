@@ -12,23 +12,17 @@ extension ExportViewController {
 
     func exportAsCSV() {
         let savePanel = NSSavePanel()
-
         savePanel.canCreateDirectories = true
-
         let response = savePanel.runModal()
 
         guard response == .OK, let url = savePanel.url else {
             return
         }
-
         performSegue(withIdentifier: NSStoryboardSegue.Identifier(rawValue: "showProgress"), sender: self)
-
         guard let progressViewController = self.progressViewController else {
             return
         }
-
         progressViewController.setOperationText(to: String(format: NSLocalizedString("Exporting CSV", comment: "Export CSV Title")))
-
         let manager = FileManager.default
 
         if manager.fileExists(atPath: url.path) {
@@ -41,9 +35,7 @@ extension ExportViewController {
         }
 
         DispatchQueue.global(qos: .userInitiated).async {
-
             do {
-
                 var errorCount = 0
 
                 try manager.createDirectory(at: url.deletingPathExtension(), withIntermediateDirectories: true, attributes: nil)
@@ -84,7 +76,6 @@ extension ExportViewController {
                     alert.addButton(withTitle: "Ok")
                     alert.runModal()
                 }
-
             }
             DispatchQueue.main.async {
                 self.dismissViewController(progressViewController)

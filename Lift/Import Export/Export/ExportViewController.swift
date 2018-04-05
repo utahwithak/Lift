@@ -29,7 +29,15 @@ class ExportViewController: LiftViewController {
     @objc dynamic var exportTrees = [ExportDatabaseNode]()
 
     var tablesToExport: [ExportTableNode] {
-        return exportTrees.flatMap { ($0.children as! [ExportTableNode]).filter({ $0.export }) }
+
+        var tableNodes = [ExportTableNode]()
+        for child in exportTrees {
+            if let tables = child.children as? [ExportTableNode] {
+                tableNodes.append(contentsOf: tables.filter({ $0.export }))
+            }
+        }
+
+        return tableNodes
     }
 
     @IBOutlet var treeController: NSTreeController!

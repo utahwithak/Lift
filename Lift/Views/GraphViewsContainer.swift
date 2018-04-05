@@ -56,18 +56,18 @@ class GraphViewsContainer: NSView {
         while let curEvent = self.window?.nextEvent(matching: [.leftMouseUp, .leftMouseDragged]), curEvent.type != .leftMouseUp {
             self.autoscroll(with: curEvent)
             let curPoint = convert(curEvent.locationInWindow, from: nil)
-            if (!isMoving && ((fabs(curPoint.x - lastPoint.x) >= 2.0) || (fabs(curPoint.y - lastPoint.y) >= 2.0))) {
+            if !isMoving && ((fabs(curPoint.x - lastPoint.x) >= 2.0) || (fabs(curPoint.y - lastPoint.y) >= 2.0)) {
                 isMoving = true
             }
             if isMoving {
                 var allNeedRefresh = false
 
-                if !lastPoint == curPoint {
-                    selectedView.frame = NSOffsetRect(selectedView.frame, (curPoint.x - lastPoint.x), (curPoint.y - lastPoint.y))
+                if lastPoint != curPoint {
+                    selectedView.frame = selectedView.frame.offsetBy(dx: curPoint.x - lastPoint.x, dy: curPoint.y - lastPoint.y)
                     if selectedView.frame.minX < 0 {
                         frame.size.width -= selectedView.frame.minX
                         for view in subviews {
-                            view.frame = NSOffsetRect(view.frame, -1 * selectedView.frame.minX, 0)
+                            view.frame = view.frame.offsetBy(dx: -1 * selectedView.frame.minX, dy: 0)
                         }
                         allNeedRefresh = true
 
@@ -76,7 +76,7 @@ class GraphViewsContainer: NSView {
                     if selectedView.frame.minY < 0 {
                         frame.size.height -= selectedView.frame.minY
                         for view in subviews {
-                            view.frame = NSOffsetRect(view.frame, 0, -1 * selectedView.frame.minY)
+                            view.frame = view.frame.offsetBy(dx: 0, dy: -1 * selectedView.frame.minY)
                         }
                         allNeedRefresh = true
                     }
@@ -96,12 +96,7 @@ class GraphViewsContainer: NSView {
     }
 
     func viewUnder(point: CGPoint) -> NSView? {
-        for subView in subviews {
-            if NSPointInRect(point, subView.frame) {
-                return subView
-            }
-        }
-        return nil
+        return subviews.first(where: { $0.frame.contains(point) })
     }
 
     func selectView(_ view: NSView) {

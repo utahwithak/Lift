@@ -12,19 +12,13 @@ class SideBarBrowseViewController: LiftViewController {
 
     @IBOutlet weak var outlineView: NSOutlineView!
     override var representedObject: Any? {
+
         didSet {
             refreshNodes()
             if let document = document {
                 let database = document.database
                 NotificationCenter.default.addObserver(self, selector: #selector(attachedDatabasesChanged), name: .AttachedDatabasesChanged, object: database)
-                NotificationCenter.default.addObserver(forName: .DatabaseReloaded, object: nil, queue: nil, using: { notification in
-                    guard let database = notification.object as? Database, self.document?.database.allDatabases.contains(where: { $0 === database }) ?? false else {
-                        return
-                    }
-
-                    self.refreshNodes()
-
-                })
+                NotificationCenter.default.addObserver(self, selector: #selector(databaseReloaded), name: .DatabaseReloaded, object: database)
             }
         }
     }
@@ -84,6 +78,15 @@ class SideBarBrowseViewController: LiftViewController {
 
     @objc private func attachedDatabasesChanged(_ notification: Notification) {
         refreshNodes()
+    }
+
+    @objc private func databaseReloaded(_ notification: Notification) {
+        guard let database = notification.object as? Database, self.document?.database.allDatabases.contains(where: { $0 === database }) ?? false else {
+            return
+        }
+
+        self.refreshNodes()
+
     }
 
     @objc dynamic var selectedIndexes = [IndexPath]() {

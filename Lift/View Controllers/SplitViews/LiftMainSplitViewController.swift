@@ -38,7 +38,7 @@ class LiftMainSplitViewController: LiftSplitViewController {
         case .left:
             splitViewItems[0].animator().isCollapsed = collapsed
         case .bottom:
-            (splitViewItems[1].viewController as! LiftSplitViewController).splitViewItems[1].animator().isCollapsed = collapsed
+            (splitViewItems[1].viewController as? LiftSplitViewController)?.splitViewItems[1].animator().isCollapsed = collapsed
         case .right:
             splitViewItems[2].animator().isCollapsed = collapsed
         }

@@ -8,7 +8,7 @@
 
 import Cocoa
 
-protocol DestinationViewDelegate {
+protocol DestinationViewDelegate: class {
   func processURLs(_ urls: [URL], center: NSPoint)
 }
 
@@ -18,7 +18,7 @@ class DestinationView: NSView {
     static let lineWidth: CGFloat = 10.0
   }
 
-  var delegate: DestinationViewDelegate?
+  weak var delegate: DestinationViewDelegate?
 
   override func awakeFromNib() {
     setup()

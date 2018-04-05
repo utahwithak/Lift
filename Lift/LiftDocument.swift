@@ -10,8 +10,6 @@ import Cocoa
 
 class LiftDocument: NSDocument {
 
-    private var observationListener: NSObjectProtocol?
-
     @objc dynamic public private(set) var database: Database {
         didSet {
             updateListeners()
@@ -19,7 +17,11 @@ class LiftDocument: NSDocument {
     }
 
     override init() {
-        database = try! Database(type: .inMemory(name: "main"))
+        do {
+            database = try Database(type: .inMemory(name: "main"))
+        } catch {
+            fatalError("Unable to create in-memory database!?")
+        }
         super.init()
         updateListeners()
 
@@ -33,8 +35,8 @@ class LiftDocument: NSDocument {
             let Class: AnyClass = Swift.type(of: delegate as AnyObject)
             let method = class_getMethodImplementation(Class, shouldCloseSelector)
 
-            typealias signature = @convention(c) (Any, Selector, AnyObject, Bool, UnsafeMutableRawPointer?) -> Void
-            let function = unsafeBitCast(method, to: signature.self)
+            typealias Signature = @convention(c) (Any, Selector, AnyObject, Bool, UnsafeMutableRawPointer?) -> Void
+            let function = unsafeBitCast(method, to: Signature.self)
 
             function(delegate, shouldCloseSelector, self, allowed, contextInfo)
         }
@@ -96,7 +98,9 @@ class LiftDocument: NSDocument {
     override func makeWindowControllers() {
         // Returns the Storyboard that contains your Document window.
         let storyboard = NSStoryboard(name: NSStoryboard.Name("Main"), bundle: nil)
-        let windowController = storyboard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("Document Window Controller")) as! NSWindowController
+        guard let windowController = storyboard.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("Document Window Controller")) as? NSWindowController else {
+            fatalError("Unable to create document window controller")
+        }
         self.addWindowController(windowController)
     }
 
@@ -207,15 +211,18 @@ class LiftDocument: NSDocument {
     }
 
     private func updateListeners() {
-        observationListener = NotificationCenter.default.addObserver(forName: .AutocommitStatusChanged, object: database, queue: OperationQueue.main ) { [weak self] (notitifcation) in
-            guard let mySelf = self else {
-                return
-            }
 
-            if mySelf.database.autocommitStatus == .inTransaction {
-                mySelf.updateChangeCount(NSDocument.ChangeType.changeDone)
+        NotificationCenter.default.removeObserver(self, name: .AutocommitStatusChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(autocommitStatusChanged), name: .AutocommitStatusChanged, object: database)
+
+    }
+
+    @objc private func autocommitStatusChanged(_ notification: Notification) {
+        DispatchQueue.main.async {
+            if self.database.autocommitStatus == .inTransaction {
+                self.updateChangeCount(NSDocument.ChangeType.changeDone)
             } else {
-                mySelf.updateChangeCount(NSDocument.ChangeType.changeCleared)
+                self.updateChangeCount(NSDocument.ChangeType.changeCleared)
             }
         }
     }

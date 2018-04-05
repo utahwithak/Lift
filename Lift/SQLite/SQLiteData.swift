@@ -33,7 +33,7 @@ enum SQLiteData {
             return int
         case .text(let str):
             return Int(str)
-        case .blob(_):
+        case .blob:
             return nil
         }
     }
@@ -87,7 +87,7 @@ extension SQLiteData: Equatable {
 
 }
 
-func ==(lhs: SQLiteData, rhs: SQLiteData) -> Bool {
+func == (lhs: SQLiteData, rhs: SQLiteData) -> Bool {
     switch (lhs, rhs) {
     case (.text(let l), .text(let r)):
         return l == r

@@ -142,7 +142,7 @@ extension Database {
             preserveRowid = rc == SQLITE_ROW
         }
 
-        if( preserveRowid ) {
+        if preserveRowid {
             /* Only preserve the rowid if we can find a name to use for the
              ** rowid */
             let azRowid = [ "rowid", "_rowid_", "oid" ]

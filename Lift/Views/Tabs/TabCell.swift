@@ -52,13 +52,13 @@ class BorderedButtonCell: NSButtonCell {
     }
 
     override func copy(with zone: NSZone? = nil) -> Any {
-        let copy = super.copy(with: zone) as! BorderedButtonCell
+        let copy = super.copy(with: zone) as? BorderedButtonCell
 
-        copy.borderMask = borderMask
+        copy!.borderMask = borderMask
 //        copy.borderColor = borderColor
-        copy.borderWidth = borderWidth
+        copy!.borderWidth = borderWidth
 
-        return copy
+        return copy!
 
     }
     public static let defaultBorderColor = NSColor(calibratedWhite: 0.75, alpha: 1)
@@ -69,7 +69,7 @@ class BorderedButtonCell: NSButtonCell {
         }
     }
 
-    public var borderColor = BorderedButtonCell.defaultBorderColor.copy() as! NSColor {
+    public var borderColor = BorderedButtonCell.defaultBorderColor.copy() as? NSColor ?? NSColor(calibratedWhite: 0.75, alpha: 1) {
         didSet {
             controlView?.needsDisplay = true
         }
@@ -293,9 +293,9 @@ class TabCell: BorderedButtonCell {
 
     override var attributedTitle: NSAttributedString {
         get {
-            let title = super.attributedTitle.mutableCopy() as! NSMutableAttributedString
-            title.addAttributes([.foregroundColor: state == .on ? titleHighlightColor : titleColor], range: NSRange(location: 0, length: title.length))
-            return title
+            let title = super.attributedTitle.mutableCopy() as? NSMutableAttributedString
+            title?.addAttributes([.foregroundColor: state == .on ? titleHighlightColor : titleColor], range: NSRange(location: 0, length: title?.length ?? 0))
+            return title ?? NSAttributedString()
         }
         set {
             super.attributedTitle = newValue

@@ -28,7 +28,7 @@ class TabButton: NSButton {
     }
 
     var tabCell: TabCell! {
-        return cell as! TabCell
+        return cell as? TabCell
     }
 
     public var showsMenu: Bool {

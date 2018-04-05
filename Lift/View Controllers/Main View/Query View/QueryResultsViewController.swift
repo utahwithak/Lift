@@ -14,9 +14,9 @@ class QueryResultsViewController: LiftViewController {
     @IBOutlet weak var holder: NSTabView!
 
     lazy var overviewViewController: ResultsOverviewViewController = {
-        let overView =  storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("resultsOverviewViewController")) as! ResultsOverviewViewController
-        overView.title = "Results"
-        return overView
+        let overView =  storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("resultsOverviewViewController")) as? ResultsOverviewViewController
+        overView?.title = "Results"
+        return overView!
     }()
 
     override func viewDidLoad() {

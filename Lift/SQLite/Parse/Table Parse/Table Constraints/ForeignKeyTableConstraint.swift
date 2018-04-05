@@ -85,16 +85,14 @@ class ForeignKeyTableConstraint: TableConstraint {
     }
 }
 
-func ==(lhs: ForeignKeyTableConstraint, rhs: ForeignKeyTableConstraint) -> Bool {
+func == (lhs: ForeignKeyTableConstraint, rhs: ForeignKeyTableConstraint) -> Bool {
 
     if lhs.fromColumns.count != rhs.fromColumns.count {
         return false
     }
 
-    for i in 0..<lhs.fromColumns.count {
-        if lhs.fromColumns[i] != rhs.fromColumns[i] {
-            return false
-        }
+    for i in 0..<lhs.fromColumns.count where lhs.fromColumns[i] != rhs.fromColumns[i] {
+        return false
     }
 
     if lhs.name?.cleanedVersion != rhs.name?.cleanedVersion {

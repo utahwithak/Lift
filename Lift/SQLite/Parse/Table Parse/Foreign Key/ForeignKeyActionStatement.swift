@@ -90,6 +90,6 @@ struct ForeignKeyActionStatement: Equatable {
     }
 }
 
-func ==(lhs: ForeignKeyActionStatement, rhs: ForeignKeyActionStatement) -> Bool {
+func == (lhs: ForeignKeyActionStatement, rhs: ForeignKeyActionStatement) -> Bool {
     return lhs.type == rhs.type && lhs.result == rhs.result
 }

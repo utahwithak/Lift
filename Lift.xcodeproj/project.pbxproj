@@ -328,6 +328,7 @@
 		8F9565D61FB36F45008FE038 /* Writer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Writer.swift; sourceTree = "<group>"; };
 		8F9565D71FB36F45008FE038 /* XMLElement+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "XMLElement+Additions.swift"; sourceTree = "<group>"; };
 		8F9565DA1FB37136008FE038 /* ProgressViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressViewController.swift; sourceTree = "<group>"; };
+		8F975C9A20768BB300667844 /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftlint.yml; sourceTree = "<group>"; };
 		8FA148D71F8D038D00644638 /* ForiegnKeyConnection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForiegnKeyConnection.swift; sourceTree = "<group>"; };
 		8FA148DD1F8D2FD500644638 /* AttachDatabaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttachDatabaseViewController.swift; sourceTree = "<group>"; };
 		8FA148DF1F8D312500644638 /* DetachDatabaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetachDatabaseViewController.swift; sourceTree = "<group>"; };
@@ -667,6 +668,7 @@
 				8F11B7971F83DC57008E19D7 /* Lift-Bridging-Header.h */,
 				8F11B79E1F83DDBE008E19D7 /* SwiftXLSX.xcodeproj */,
 				8F7C52381F7D39E5004A91BC /* Lift.entitlements */,
+				8F975C9A20768BB300667844 /* .swiftlint.yml */,
 			);
 			path = Lift;
 			sourceTree = "<group>";
@@ -896,6 +898,7 @@
 				8F7C52261F7D39E4004A91BC /* Frameworks */,
 				8F7C52271F7D39E4004A91BC /* Resources */,
 				8F11B7AC1F83DDEE008E19D7 /* Embed Frameworks */,
+				8F975C9820768B3D00667844 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -1038,6 +1041,22 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		8F975C9820768B3D00667844 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint --path Lift\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		8F7C52251F7D39E4004A91BC /* Sources */ = {

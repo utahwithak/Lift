@@ -62,7 +62,7 @@ class EditRowData: NSObject {
             return "CURRENT_DATE"
         case .defaultValue:
             return nil
-        case .file(_), .data(_), .null:
+        case .file, .data, .null:
             return "$\(index)" // bind an argument
         case .time:
             return "CURRENT_TIME"

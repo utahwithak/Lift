@@ -12,25 +12,16 @@ extension ExportViewController {
 
     func exportJSON() {
         let savePanel = NSSavePanel()
-
         savePanel.canCreateDirectories = true
-
-        let response = savePanel.runModal()
-
-        guard response == .OK, let url = savePanel.url else {
+        guard savePanel.runModal() == .OK, let url = savePanel.url else {
             return
         }
-
         performSegue(withIdentifier: NSStoryboardSegue.Identifier(rawValue: "showProgress"), sender: self)
 
-        guard let progressViewController = self.progressViewController else {
-            return
-        }
-
+        guard let progressViewController = self.progressViewController else { return }
         progressViewController.setOperationText(to: String(format: NSLocalizedString("Exporting JSON", comment: "Export JSON Title")))
 
         let manager = FileManager.default
-
         if manager.fileExists(atPath: url.path) {
             do {
                 try manager.trashItem(at: url, resultingItemURL: nil)
@@ -39,7 +30,6 @@ extension ExportViewController {
                 return
             }
         }
-
         DispatchQueue.global(qos: .userInitiated).async {
             defer {
                 DispatchQueue.main.async {
@@ -68,12 +58,9 @@ extension ExportViewController {
                     let object = try table.exportJSON(with: self.jsonOptions)
 
                     if self.jsonOptions.separateFilePerTable {
-
                         let tableURL = url.deletingPathExtension().appendingPathComponent(table.name).appendingPathExtension("json")
-
                         let data = try JSONSerialization.data(withJSONObject: object, options: self.jsonOptions.prettyPrint ? .prettyPrinted : [])
                         try data.write(to: tableURL)
-
                     } else {
                         if root == nil {
                             root =  [[String: Any]]()
@@ -96,9 +83,7 @@ extension ExportViewController {
                     alert.runModal()
                 }
             }
-
         }
-
     }
 
 }

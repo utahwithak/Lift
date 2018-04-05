@@ -129,10 +129,10 @@ class ColumnDefinition: NSObject {
             buffer = nil
 
             if var name = type, scanner.scanCharacters(from: openParenChars, into: &buffer), (buffer?.hasSuffix("(") ?? false) {
-                name = name + (buffer as String? ?? "")
+                name += (buffer as String? ?? "")
 
                 scanner.scanUpTo(")", into: &buffer)
-                name = name + (buffer as String? ?? "")
+                name += (buffer as String? ?? "")
 
                 if !scanner.scanString(")", into: &buffer) {
                     throw ParserError.unexpectedError("No close paren")

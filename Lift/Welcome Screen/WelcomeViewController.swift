@@ -64,7 +64,7 @@ class WelcomeViewController: NSViewController {
     override func viewDidLoad() {
 
         super.viewDidLoad()
-        observationContext = NSDocumentController.shared.observe(\.recentDocumentURLs, options: [.initial, .new], changeHandler: { [weak self] (controller, change) in
+        observationContext = NSDocumentController.shared.observe(\.recentDocumentURLs, options: [.initial, .new], changeHandler: { [weak self] (controller, _) in
             self?.recentURLs = controller.recentDocumentURLs
 
         })

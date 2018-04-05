@@ -21,7 +21,7 @@ struct RowData {
             switch $0 {
             case .text(let strVal):
                 return CellData(type: .text, displayValue: strVal)
-            case .blob(_):
+            case .blob:
                 return CellData(type: .blob, displayValue: "<blob>")
             case .null:
                 return CellData(type: .null, displayValue: "null")

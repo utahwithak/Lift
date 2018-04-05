@@ -93,7 +93,7 @@ struct ForeignKeyClause {
     }
 }
 
-func ==(lhs: ForeignKeyClause, rhs: ForeignKeyClause) -> Bool {
+func == (lhs: ForeignKeyClause, rhs: ForeignKeyClause) -> Bool {
     if !(lhs.foreignTable == rhs.foreignTable) {
         return false
     }
@@ -102,10 +102,8 @@ func ==(lhs: ForeignKeyClause, rhs: ForeignKeyClause) -> Bool {
         return false
     }
 
-    for i in 0..<lhs.toColumns.count {
-        if lhs.toColumns[i] != rhs.toColumns[i] {
-            return false
-        }
+    for i in 0..<lhs.toColumns.count where lhs.toColumns[i] != rhs.toColumns[i] {
+        return false
     }
 
     if let lhD = lhs.deferStatement, let rhD = rhs.deferStatement, lhD != rhD {
@@ -116,20 +114,17 @@ func ==(lhs: ForeignKeyClause, rhs: ForeignKeyClause) -> Bool {
         return false
     }
 
-    for i in 0..<lhs.actionStatements.count {
-        if lhs.actionStatements[i] != rhs.actionStatements[i] {
-            return false
-        }
+    for i in 0..<lhs.actionStatements.count where lhs.actionStatements[i] != rhs.actionStatements[i] {
+        return false
+
     }
 
     if lhs.matchStatements.count != rhs.matchStatements.count {
         return false
     }
 
-    for i in 0..<lhs.matchStatements.count {
-        if lhs.matchStatements[i] != rhs.matchStatements[i] {
-            return false
-        }
+    for i in 0..<lhs.matchStatements.count where lhs.matchStatements[i] != rhs.matchStatements[i] {
+        return false
     }
 
     return true

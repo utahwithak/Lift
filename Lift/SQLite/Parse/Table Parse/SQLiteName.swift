@@ -44,13 +44,17 @@ class SQLiteName: NSObject {
         }
     }
 
+    static func += (lhs: inout SQLiteName, rhs: String) {
+        lhs.rawValue += rhs
+    }
+
 }
 
-func +(lhs: SQLiteName, rhs: SQLiteName) -> SQLiteName {
+func + (lhs: SQLiteName, rhs: SQLiteName) -> SQLiteName {
     return SQLiteName(rawValue: lhs.rawValue + rhs.rawValue)
 }
 
-func +(lhs: SQLiteName, rhs: String) -> SQLiteName {
+func + (lhs: SQLiteName, rhs: String) -> SQLiteName {
     return SQLiteName(rawValue: lhs.rawValue + rhs)
 }
 

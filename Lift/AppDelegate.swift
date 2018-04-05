@@ -26,11 +26,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     @IBAction func showWelcomeToLiftWindow(_ sender: Any) {
-        for window in NSApp.windows {
-            if window.contentViewController is WelcomeViewController {
-                window.makeKeyAndOrderFront(self)
-                return
-            }
+        for window in NSApp.windows where window.contentViewController is WelcomeViewController {
+            window.makeKeyAndOrderFront(self)
+            return
         }
     }
 

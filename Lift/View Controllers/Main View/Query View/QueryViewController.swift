@@ -16,32 +16,34 @@ class QueryViewController: LiftMainViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         sqlView.setup()
+        NotificationCenter.default.addObserver(self, selector: #selector(databaseReloaded), name: .DatabaseReloaded, object: nil)
 
-        NotificationCenter.default.addObserver(forName: .DatabaseReloaded, object: nil, queue: nil, using: { notification in
-            guard let database = notification.object as? Database, self.document?.database.allDatabases.contains(where: { $0 === database }) ?? false else {
-                return
-            }
-
-            if let ids = self.document?.keywords() {
-                self.sqlView.setIdentifiers(ids)
-            }
-        })
     }
 
-    lazy var resultsViewController: QueryResultsViewController = {
-        return self.storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("queryResultsViewController")) as! QueryResultsViewController
+    @objc private func databaseReloaded(_ noti: Notification) {
+        guard let database = noti.object as? Database, self.document?.database.allDatabases.contains(where: { $0 === database }) ?? false else {
+            return
+        }
+
+        if let ids = self.document?.keywords() {
+            self.sqlView.setIdentifiers(ids)
+        }
+    }
+
+    lazy var resultsViewController: QueryResultsViewController? = {
+        return self.storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("queryResultsViewController")) as? QueryResultsViewController
     }()
 
-    lazy var snippetViewController: SnippetViewController = {
-        let vc =  self.storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("snippetViewController")) as! SnippetViewController
-        vc.snippetDataProvider = self
+    lazy var snippetViewController: SnippetViewController? = {
+        let vc =  self.storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("snippetViewController")) as? SnippetViewController
+        vc?.snippetDataProvider = self
         return vc
     }()
 
     @IBAction func executeStatements(_ sender: Any) {
 
         isCanceled = false
-        resultsViewController.startQueries()
+        resultsViewController?.startQueries()
 
         guard let connection = document?.database.connection else {
             return
@@ -87,7 +89,7 @@ class QueryViewController: LiftMainViewController {
                     return self.shouldContinueAfterErrors
                 case .success(let executeResult):
                     DispatchQueue.main.async {
-                        self.resultsViewController.addResult(executeResult)
+                        self.resultsViewController?.addResult(executeResult)
                     }
                     if let error = executeResult.error {
                         errors.append(error)
@@ -114,7 +116,7 @@ class QueryViewController: LiftMainViewController {
                     }
                 }
 
-                self.resultsViewController.didFinish()
+                self.resultsViewController?.didFinish()
                 self.document?.refresh()
             }
 
@@ -124,7 +126,11 @@ class QueryViewController: LiftMainViewController {
 
     override var preferredSections: [DetailSection] {
         var sections = super.preferredSections
-        sections.append(.custom(NSImage(named: .bookmarksTemplate)!, self.snippetViewController))
+        if let snippetVC = self.snippetViewController {
+            sections.append(.custom(NSImage(named: .bookmarksTemplate)!, snippetVC))
+        } else {
+            print("Unable to create snippetVC!?")
+        }
 
         return sections
     }
@@ -134,7 +140,7 @@ class QueryViewController: LiftMainViewController {
 extension QueryViewController: BottomEditorContentProvider {
 
     var editorViewController: LiftViewController {
-        return self.resultsViewController
+        return self.resultsViewController!
     }
 
 }

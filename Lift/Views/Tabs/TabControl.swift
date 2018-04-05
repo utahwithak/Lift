@@ -129,11 +129,11 @@ class TabControl: NSControl {
         scrollLeftButton.cell?.sendAction(on: [.leftMouseDown, .periodic])
         scrollRightButton.cell?.sendAction(on: [.leftMouseDown, .periodic])
 
-        let views: [String: Any] = ["scrollView":scrollView, "addButton":addButton, "scrollLeftButton":scrollLeftButton, "scrollRightButton":scrollRightButton]
+        let views: [String: Any] = ["scrollView": scrollView, "addButton": addButton, "scrollLeftButton": scrollLeftButton, "scrollRightButton": scrollRightButton]
         subviews = [addButton, scrollView, scrollLeftButton, scrollRightButton]
         self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[addButton]-(-1)-[scrollView]-(-1)-[scrollLeftButton][scrollRightButton]|", options: [], metrics: nil, views: views))
         for view in subviews {
-            self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[view]|", options: [], metrics: nil, views: ["view":view]))
+            self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[view]|", options: [], metrics: nil, views: ["view": view]))
         }
         self.addWidthConstraint = NSLayoutConstraint(item: addButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 48)
         addButton.addConstraint(self.addWidthConstraint!)
@@ -168,7 +168,7 @@ class TabControl: NSControl {
 
             if let cell = button.cell as? TabCell, let menu = datasource.tabControl?(self, menuFor: item) {
                 cell.menu = menu
-                button.addTrackingArea(NSTrackingArea(rect: scrollView.bounds, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self, userInfo: ["item" : item]))
+                button.addTrackingArea(NSTrackingArea(rect: scrollView.bounds, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self, userInfo: ["item": item]))
             }
             newTabs.append(button)
         }
@@ -181,8 +181,8 @@ class TabControl: NSControl {
 
         if let documentView = scrollView.documentView {
             let clipView = scrollView.contentView
-            clipView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[documentView]|", options: [], metrics: nil, views: ["documentView":documentView]))
-            clipView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[documentView]", options: [], metrics: nil, views: ["documentView":documentView]))
+            clipView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[documentView]|", options: [], metrics: nil, views: ["documentView": documentView]))
+            clipView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[documentView]", options: [], metrics: nil, views: ["documentView": documentView]))
             clipView.addConstraint(NSLayoutConstraint(item: documentView, attribute: .right, relatedBy: .greaterThanOrEqual, toItem: clipView, attribute: .right, multiplier: 1, constant: 0))
         }
 
@@ -231,10 +231,8 @@ class TabControl: NSControl {
 
         let visibleRect = tabView.visibleRect
 
-        for button in tabView.subviews.reversed() {
-            if button.frame.minX < visibleRect.minX {
-                return button
-            }
+        for button in tabView.subviews.reversed() where button.frame.minX < visibleRect.minX {
+            return button
         }
         return nil
     }
@@ -245,12 +243,7 @@ class TabControl: NSControl {
         }
         let visibleRect = tabView.visibleRect
 
-        for view in tabView.subviews {
-            if view.frame.maxX > visibleRect.maxX {
-                return view
-            }
-        }
-        return nil
+        return tabView.subviews.first(where: { $0.frame.maxX > visibleRect.maxX})
     }
 
     @objc private func goRight(_ sender: NSButton) {
@@ -420,7 +413,7 @@ class TabControl: NSControl {
         tabView.addSubview(draggingTab)
         tabView.addConstraints(draggingConstraints)
 
-        (tab.cell as! TabCell).dragging = true
+        (tab.cell as? TabCell)?.dragging = true
         var prevPoint = dragPoint
         var dragged = false
         var reordered = false
@@ -481,7 +474,7 @@ class TabControl: NSControl {
         }, completionHandler: {
 
             draggingTab.removeFromSuperview()
-            (tab.cell as! TabCell).dragging = false
+            (tab.cell as? TabCell)?.dragging = false
             tab.cell?.controlView = tab
 
             if reordered, self.datasource?.tabControl(self, didReorderItems: orderedItems) ?? true {
@@ -560,7 +553,7 @@ class TabControl: NSControl {
             guard let button = buttonViews.first(where: {($0.cell?.representedObject as? NSObject) == (item as? NSObject) }) else {
                 fatalError("Missing tab!")
             }
-            tabView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[view]|", options: [], metrics: nil, views: ["view":button]))
+            tabView.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[view]|", options: [], metrics: nil, views: ["view": button]))
             tabView.addConstraint(NSLayoutConstraint(item: button, attribute: .leading, relatedBy: .equal, toItem: prev ?? tabView, attribute: prev != nil ? .trailing : .leading, multiplier: 1, constant: prev == nil ? 0 : -1 ))
             prev = button
         }
@@ -590,7 +583,9 @@ class TabControl: NSControl {
             return
         }
 
-        let cell = button.cell as! TabCell
+        guard let cell = button.cell as? TabCell else {
+            return
+        }
         let titleRect = cell.editingRect(forBounds: button.bounds)
 
         let editingField = NSTextField(frame: titleRect)
@@ -603,7 +598,9 @@ class TabControl: NSControl {
 
         editingField.textColor = NSColor.darkGray.blended(withFraction: 0.5, of: NSColor.black)
 
-        let textFieldCell = editingField.cell as! NSTextFieldCell
+        guard let textFieldCell = editingField.cell as? NSTextFieldCell else {
+            return
+        }
 
         textFieldCell.isBordered = false
         textFieldCell.isScrollable = true

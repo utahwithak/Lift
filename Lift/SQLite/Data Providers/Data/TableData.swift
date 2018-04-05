@@ -40,7 +40,7 @@ enum SimpleUpdateType {
             return NSLocalizedString("Current Timestamp", comment: "set to current timestamp")
         case .defaultValue:
             return NSLocalizedString("Default Value", comment: "set to default value")
-        case .argument(_):
+        case .argument:
             return NSLocalizedString("Custom Value", comment: "set to a Custom value")
 
         }
@@ -72,7 +72,7 @@ final class TableData: NSObject {
 
     private var currentQuery: Query?
 
-    public var delegate: TableDataDelegate?
+    public weak var delegate: TableDataDelegate?
 
     private let provider: DataProvider
 
@@ -267,7 +267,7 @@ final class TableData: NSObject {
             if let args = lastValues {
                 try query.bindArguments(args)
             }
-            query.processInBackground(completion: { (rowData, error) in
+            query.processInBackground(completion: { (rowData, _) in
 
                 if rowData.count < loadSize && keepGoing() {
                     self.finishedLoadingAfter = true

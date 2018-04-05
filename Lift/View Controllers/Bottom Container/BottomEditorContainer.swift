@@ -29,8 +29,8 @@ class BottomEditorContainer: LiftViewController {
             controller.view.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(controller.view)
             childViewControllers.append(controller)
-            view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[view]|", options: [], metrics: nil, views: ["view":controller.view]))
-            view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[view]|", options: [], metrics: nil, views: ["view":controller.view]))
+            view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[view]|", options: [], metrics: nil, views: ["view": controller.view]))
+            view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[view]|", options: [], metrics: nil, views: ["view": controller.view]))
         }
     }
 }

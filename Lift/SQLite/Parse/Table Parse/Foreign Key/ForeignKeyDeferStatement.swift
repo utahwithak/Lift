@@ -59,6 +59,6 @@ struct ForeignKeyDeferStatement: Equatable {
     }
 }
 
-func ==(lhs: ForeignKeyDeferStatement, rhs: ForeignKeyDeferStatement) -> Bool {
+func == (lhs: ForeignKeyDeferStatement, rhs: ForeignKeyDeferStatement) -> Bool {
     return lhs.isDeferrable == rhs.isDeferrable && lhs.type == rhs.type
 }

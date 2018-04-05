@@ -46,7 +46,7 @@ enum LiftError: CustomNSError {
         case .invalidTable:             return -9
         case .noDatabase:               return -10
         case .unknownBindType:          return -11
-        case .invalidImportXML(_):       return -12
+        case .invalidImportXML:       return -12
         }
     }
 

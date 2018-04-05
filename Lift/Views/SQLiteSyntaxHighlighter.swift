@@ -55,7 +55,7 @@ class SQLiteSyntaxHighlighter {
 
     public var attributesColor: [NSAttributedStringKey: NSColor]  = [.foregroundColor: NSColor(calibratedRed: 0.50, green: 0.5, blue: 0.2, alpha: 1.0)]
 
-    public var lineHighlightColor: [NSAttributedStringKey: NSColor]  = [.backgroundColor:NSColor(calibratedRed: 0.96, green: 0.96, blue: 0.71, alpha: 1.0)]
+    public var lineHighlightColor: [NSAttributedStringKey: NSColor]  = [.backgroundColor: NSColor(calibratedRed: 0.96, green: 0.96, blue: 0.71, alpha: 1.0)]
 
     public var numbersColor: [NSAttributedStringKey: NSColor]  = [.foregroundColor: NSColor(calibratedRed: 0.031, green: 0.0, blue: 0.855, alpha: 1.0)]
 
@@ -262,7 +262,7 @@ class SQLiteSyntaxHighlighter {
         //
 
         if let matcher = secondStringMatcher {
-            matcher.enumerateMatches(in: rangeString, options: .reportProgress, range: NSRange(location: 0, length: (rangeString as NSString).length - 1), using: { (result, flags, stop) in
+            matcher.enumerateMatches(in: rangeString, options: .reportProgress, range: NSRange(location: 0, length: (rangeString as NSString).length - 1), using: { (result, _, _) in
                 guard let foundRange = result?.range, foundRange.location != NSNotFound && foundRange.length > 0 else {
                     return
                 }
@@ -276,7 +276,7 @@ class SQLiteSyntaxHighlighter {
         //
 
         if let matcher = firstStringMatcher {
-            matcher.enumerateMatches(in: rangeString, options: .reportProgress, range: NSRange(location: 0, length: (rangeString as NSString).length - 1), using: { (result, flags, stop) in
+            matcher.enumerateMatches(in: rangeString, options: .reportProgress, range: NSRange(location: 0, length: (rangeString as NSString).length - 1), using: { (result, _, _) in
                 guard let foundRange = result?.range, foundRange.location != NSNotFound && foundRange.length > 0 else {
                     return
                 }
@@ -301,7 +301,7 @@ class SQLiteSyntaxHighlighter {
 
                     var colorize = true
                     // If the comment is within an already Colored string then disregard it
-                    if (colorStartLocation + rangeLocation + searchSyntaxLength < documentStringLength) {
+                    if colorStartLocation + rangeLocation + searchSyntaxLength < documentStringLength {
                         if let attributes = layoutManager?.temporaryAttributes(atCharacterIndex: colorStartLocation + rangeLocation, effectiveRange: nil), (stringsColor as NSDictionary).isEqual(attributes) {
                             if colorStartLocation < maxRangeLocation {
                                 rangeScanner.scanLocation = colorStartLocation + 1
@@ -324,7 +324,7 @@ class SQLiteSyntaxHighlighter {
                     // Second string, second pass
                     //
         if let matcher = secondStringMatcher {
-            matcher.enumerateMatches(in: rangeString, options: .reportProgress, range: NSRange(location: 0, length: (rangeString as NSString).length), using: { (result, flags, stop) in
+            matcher.enumerateMatches(in: rangeString, options: .reportProgress, range: NSRange(location: 0, length: (rangeString as NSString).length), using: { (result, _, _) in
                 guard let foundRange = result?.range, foundRange.location != NSNotFound && foundRange.length > 0 else {
                     return
                 }
