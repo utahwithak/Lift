@@ -280,7 +280,6 @@ extension ImportViewController: TextImportDelegate {
     func textImport(_ textVC: TextImportViewController, processAsSQL text: String) {
         delegate?.importView(self, showSQL: text)
     }
-
     func textImport(_ textVC: TextImportViewController, showImportFor CSV: [[String]]) {
         guard let item = tabView.selectedTabViewItem else {
             return
@@ -370,7 +369,6 @@ extension ImportViewController: TabControlDatasource {
 
     }
 }
-
 extension Sheet {
     func sqliteData() -> [[Any?]] {
         guard let flatData = self.flatData() else {

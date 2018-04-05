@@ -85,6 +85,14 @@ class LiftWindowController: NSWindowController {
 
     }
 
+    func toggleBottomBar() {
+        guard let splitView = contentViewController as? LiftMainSplitViewController else {
+            return
+        }
+        splitView.setLocation(.bottom, collapsed: !splitView.isBottomCollapsed)
+
+    }
+
     func showBottomBar() {
         guard let splitView = contentViewController as? LiftMainSplitViewController else {
             return

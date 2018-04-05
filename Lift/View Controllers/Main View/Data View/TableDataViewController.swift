@@ -436,11 +436,7 @@ class TableDataViewController: LiftMainViewController {
     }
 
     @IBAction func showFilter(_ sender: NSButton) {
-        if sender.state == .on {
-            windowController?.showBottomBar()
-        } else {
-            windowController?.hideBottomBar()
-        }
+        windowController?.toggleBottomBar()
     }
 
 }

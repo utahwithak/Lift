@@ -37,10 +37,14 @@ class LiftMainSplitViewController: LiftSplitViewController {
         switch location {
         case .left:
             splitViewItems[0].animator().isCollapsed = collapsed
+            splitDelegate?.didUpdateState(for: .left, collapsed: collapsed)
         case .bottom:
             (splitViewItems[1].viewController as? LiftSplitViewController)?.splitViewItems[1].animator().isCollapsed = collapsed
+            splitDelegate?.didUpdateState(for: .bottom, collapsed: collapsed)
+
         case .right:
             splitViewItems[2].animator().isCollapsed = collapsed
+            splitDelegate?.didUpdateState(for: .right, collapsed: collapsed)
         }
     }
 
@@ -52,6 +56,9 @@ class LiftMainSplitViewController: LiftSplitViewController {
 
     }
 
+    var isBottomCollapsed: Bool {
+        return  (splitViewItems[1].viewController as? LiftSplitViewController)?.splitViewItems[1].isCollapsed ?? false
+    }
 }
 
 extension LiftMainSplitViewController: LiftSplitViewDelegate {
