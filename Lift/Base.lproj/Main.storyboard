@@ -3228,6 +3228,7 @@ Gw
                         <constraints>
                             <constraint firstItem="rOV-kd-014" firstAttribute="top" secondItem="OOo-Rg-a0d" secondAttribute="bottom" constant="8" id="0sd-MH-vKf"/>
                             <constraint firstItem="YKN-kt-5dM" firstAttribute="top" secondItem="QoS-jH-ex4" secondAttribute="bottom" constant="-2" id="1rd-wh-dbb"/>
+                            <constraint firstItem="zpE-hm-YuZ" firstAttribute="top" secondItem="YKN-kt-5dM" secondAttribute="bottom" constant="8" id="3jx-Wb-9vM"/>
                             <constraint firstItem="Y1W-qb-vqs" firstAttribute="top" secondItem="qaQ-cf-TFF" secondAttribute="bottom" constant="20" id="4PD-4v-aVX"/>
                             <constraint firstAttribute="bottom" secondItem="Y1W-qb-vqs" secondAttribute="bottom" constant="20" id="5au-Q9-u72"/>
                             <constraint firstItem="YKN-kt-5dM" firstAttribute="leading" secondItem="QoS-jH-ex4" secondAttribute="leading" id="6V0-ar-fup"/>
@@ -3259,8 +3260,6 @@ Gw
                             <constraint firstItem="8cp-ON-gOc" firstAttribute="leading" secondItem="Gjq-kJ-Qj5" secondAttribute="leading" constant="20" id="d8Y-cD-Lqy"/>
                             <constraint firstItem="WXR-8a-vbt" firstAttribute="leading" secondItem="OAB-11-Azq" secondAttribute="leading" id="dmH-gS-PyB"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="OAB-11-Azq" secondAttribute="trailing" constant="20" symbolic="YES" id="gOk-r4-EkI"/>
-                            <constraint firstItem="YAD-Ro-Fco" firstAttribute="leading" secondItem="Enf-CL-0oi" secondAttribute="trailing" constant="9" id="hbC-oI-73g"/>
-                            <constraint firstItem="zpE-hm-YuZ" firstAttribute="top" secondItem="OOo-Rg-a0d" secondAttribute="bottom" constant="137" id="ll2-f1-GN1"/>
                             <constraint firstAttribute="trailing" secondItem="jXS-48-Eic" secondAttribute="trailing" constant="20" id="pey-gZ-FhG"/>
                             <constraint firstItem="OAB-11-Azq" firstAttribute="leading" secondItem="jXS-48-Eic" secondAttribute="leading" id="pgk-Wh-2Q7"/>
                             <constraint firstItem="Enf-CL-0oi" firstAttribute="top" secondItem="F5p-q2-3df" secondAttribute="top" id="sWf-0i-k1G"/>
@@ -3269,10 +3268,10 @@ Gw
                             <constraint firstItem="csd-Bc-dX2" firstAttribute="width" secondItem="YKN-kt-5dM" secondAttribute="width" id="xoR-u7-NFK"/>
                             <constraint firstItem="csd-Bc-dX2" firstAttribute="centerY" secondItem="YKN-kt-5dM" secondAttribute="centerY" id="y7e-ff-PJZ"/>
                             <constraint firstItem="DYK-mQ-XM0" firstAttribute="baseline" secondItem="OAB-11-Azq" secondAttribute="baseline" id="yA9-Sp-Nec"/>
-                            <constraint firstItem="zpE-hm-YuZ" firstAttribute="trailing" secondItem="jXS-48-Eic" secondAttribute="trailing" id="yh6-av-Pho"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="createViewButton" destination="Y1W-qb-vqs" id="Gob-eS-aDN"/>
                         <outlet property="tableView" destination="QoS-jH-ex4" id="3yf-Rr-H41"/>
                     </connections>
                 </viewController>
@@ -3319,11 +3318,11 @@ Gw
             <objects>
                 <viewController id="TZq-2n-Jfb" customClass="SideBarDetailsViewController" customModule="Lift" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="v4K-Hc-KEb">
-                        <rect key="frame" x="0.0" y="0.0" width="261" height="315"/>
+                        <rect key="frame" x="0.0" y="0.0" width="171" height="315"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4J7-EK-3kt" customClass="HiddenSegmentedControl" customModule="Lift" customModuleProvider="target">
-                                <rect key="frame" x="78" y="284" width="104" height="31"/>
+                                <rect key="frame" x="34" y="284" width="104" height="31"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="of0-tE-qxh"/>
                                 </constraints>
@@ -3339,15 +3338,15 @@ Gw
                                 </segmentedCell>
                             </segmentedControl>
                             <box verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="RbM-Qo-KIb">
-                                <rect key="frame" x="0.0" y="283" width="261" height="5"/>
+                                <rect key="frame" x="0.0" y="283" width="171" height="5"/>
                             </box>
                             <tabView type="noTabsNoBorder" translatesAutoresizingMaskIntoConstraints="NO" id="zq6-4Z-01K">
-                                <rect key="frame" x="0.0" y="0.0" width="261" height="285"/>
+                                <rect key="frame" x="0.0" y="0.0" width="171" height="285"/>
                                 <font key="font" metaFont="system"/>
                                 <tabViewItems>
                                     <tabViewItem label="Tab" identifier="" id="5Mv-1R-6tR">
                                         <view key="view" id="UAY-Ez-ad2">
-                                            <rect key="frame" x="0.0" y="0.0" width="261" height="285"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="171" height="285"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </view>
                                     </tabViewItem>
@@ -3381,7 +3380,7 @@ Gw
                 <customObject id="KM6-re-Efa" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController id="uov-R2-Fu2"/>
             </objects>
-            <point key="canvasLocation" x="670.5" y="1392.5"/>
+            <point key="canvasLocation" x="715.5" y="1392.5"/>
         </scene>
         <!--Table Detail View Controller-->
         <scene sceneID="Rxf-NH-t9V">
@@ -3467,7 +3466,7 @@ Gw
                                                     <rect key="frame" x="6" y="85" width="205" height="135"/>
                                                     <clipView key="contentView" copiesOnScroll="NO" id="RMz-Ai-ekY">
                                                         <rect key="frame" x="1" y="1" width="203" height="133"/>
-                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
                                                             <textView editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" findStyle="panel" allowsNonContiguousLayout="YES" id="kdb-tx-rDV" customClass="SQLiteTextView" customModule="Lift" customModuleProvider="target">
                                                                 <rect key="frame" x="0.0" y="0.0" width="203" height="133"/>
@@ -3502,6 +3501,14 @@ Gw
                                                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
+                                                    <connections>
+                                                        <action selector="alterTable:" target="2WB-cA-ZJn" id="gZd-CY-t8x"/>
+                                                        <binding destination="2WB-cA-ZJn" name="hidden" keyPath="self.selectedTable.isEditable" id="nyQ-uq-9tc">
+                                                            <dictionary key="options">
+                                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                            </dictionary>
+                                                        </binding>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -3546,6 +3553,7 @@ Gw
                 </viewController>
                 <customObject id="SDZ-V2-yar" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController id="x0F-Ia-lCV"/>
+                <userDefaultsController id="s3b-XR-lMd"/>
             </objects>
             <point key="canvasLocation" x="1187.5" y="1392"/>
         </scene>
@@ -6474,6 +6482,6 @@ Gw
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="14O-lj-Dcu"/>
-        <segue reference="Psl-tF-5nh"/>
+        <segue reference="H4b-xA-F2W"/>
     </inferredMetricsTieBreakers>
 </document>

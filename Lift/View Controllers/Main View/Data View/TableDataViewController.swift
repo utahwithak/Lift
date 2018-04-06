@@ -380,28 +380,55 @@ class TableDataViewController: LiftMainViewController {
 
     }
 
-    fileprivate func set(row: Int, rawCol: Int, to value: SimpleUpdateType) {
+    /// Update the row/column to the value
+    ///
+    /// - Parameters:
+    ///   - row: Row of the data we want to edit
+    ///   - rawCol: the raw tableview column. We then convert to the real column based on identifier
+    ///   - value: new value we want to set it to
+    /// - Returns: `true` if successful and we want to keep editing, `false` otherwise.
+    fileprivate func set(row: Int, rawCol: Int, to value: SimpleUpdateType) -> Bool {
         guard let data = data else {
-            return
+            return false
         }
 
         guard let realColumn = TableDataViewController.identifierMap[tableView.tableColumns[rawCol].identifier] else {
-            return
+            return false
         }
 
         do {
             switch try data.set(row: row, column: realColumn, to: value) {
             case .updated:
                 tableView.reloadData(forRowIndexes: IndexSet([row]), columnIndexes: IndexSet([rawCol]))
+                return true
             case .removed:
-                print("removed")
+                tableView.deselectAll(self)
+                tableView.removeRows(at: IndexSet([row]), withAnimation: .effectFade)
+                let alert = NSAlert()
+                alert.informativeText = NSLocalizedString("Row has been moved, would you like to refresh the table to find it?", comment: "Message when editing a row that disappears")
+                alert.messageText = NSLocalizedString("Row Moved", comment: "Alert title")
+                alert.addButton(withTitle: NSLocalizedString("Reload", comment: "button title"))
+                alert.addButton(withTitle: NSLocalizedString("Cancel", comment: "button title"))
+                let response = alert.runModal()
+                if response == .alertFirstButtonReturn {
+                    for column in tableView.tableColumns {
+                        tableView.removeTableColumn(column)
+                    }
+                    tableScrollView?.lineNumberView.rowCount = 0
+                    tableView.removeRows(at: IndexSet(0..<tableView.numberOfRows), withAnimation: .effectFade)
+                    resetTableView()
+                    return false
+                } else {
+                    return true
+                }
             case .failed:
                 print("failed!")
+                return false
             }
         } catch {
             presentError(error)
             tableView.reloadData(forRowIndexes: IndexSet([row]), columnIndexes: IndexSet([rawCol]))
-
+            return false
         }
     }
 
@@ -663,7 +690,7 @@ extension TableDataViewController: NSMenuDelegate {
             return
         }
 
-        set(row: selectionBox.startRow, rawCol: selectionBox.startColumn, to: type)
+        _ = set(row: selectionBox.startRow, rawCol: selectionBox.startColumn, to: type)
     }
 
     @objc private func editSelectedRow(_ sender: NSMenuItem) {
@@ -786,7 +813,9 @@ extension TableDataViewController: NSTextFieldDelegate {
             return
         }
 
-        set(row: selectionBox.startRow, rawCol: selectionBox.startColumn, to: .argument(textField.stringValue))
+        guard set(row: selectionBox.startRow, rawCol: selectionBox.startColumn, to: .argument(textField.stringValue)) else {
+            return
+        }
         textField.isEditable = false
 
         if let rawMovement = obj.userInfo?["NSTextMovement"] as? Int, let movement = NSTextMovement(rawValue: rawMovement) {

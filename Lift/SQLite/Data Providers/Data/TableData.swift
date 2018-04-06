@@ -62,7 +62,7 @@ final class TableData: NSObject {
 
     private let baseQuery: String
 
-    public var pageSize = 1000
+    public var pageSize = 10000
 
     public private(set) var finishedLoadingAfter = false
 
@@ -210,6 +210,10 @@ final class TableData: NSObject {
     }
 
     public func loadInitial(customStart: CustomTableStart? = nil) throws {
+        finishedLoadingPrevious = false
+        finishedLoadingAfter = false
+        lastValues = nil
+        firstValues = nil
 
         let query = try Query(connection: provider.connection, query: buildInitialQuery(customQuery: customStart?.query))
 

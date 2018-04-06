@@ -14,10 +14,16 @@ class CreateViewViewController: LiftViewController {
 
     public var dropQualifiedName: String?
 
+    @IBOutlet weak var createViewButton: NSButton!
     @objc dynamic var databases: [String] {
         return document?.database.allDatabases.map({ $0.name }) ?? []
     }
 
+    override func viewDidLoad() {
+        if dropQualifiedName != nil {
+            createViewButton.title = NSLocalizedString("Update View", comment: "Update view button title when we're modifing an existing view")
+        }
+    }
     @IBOutlet weak var tableView: NSTableView!
 
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {

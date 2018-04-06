@@ -19,7 +19,7 @@ class DataProvider: NSObject {
 
     weak var database: Database?
 
-    var isEditable: Bool {
+    @objc dynamic var isEditable: Bool {
         return false
     }
 

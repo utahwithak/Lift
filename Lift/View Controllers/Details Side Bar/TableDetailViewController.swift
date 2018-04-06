@@ -61,6 +61,27 @@ class TableDetailViewController: LiftViewController {
         }
     }
 
+    @IBAction func alterTable(_ sender: Any) {
+        if let view = selectedTable as? View, let definition = view.definition {
+            guard let editController = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("createViewViewController")) as? CreateViewViewController else {
+                return
+            }
+            editController.dropQualifiedName = view.qualifiedNameForQuery
+            editController.representedObject = representedObject
+            editController.viewDefinition = definition
+            presentViewControllerAsSheet(editController)
+        } else if let table = selectedTable as? Table, let tableDef = table.definition {
+            guard let editController = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("createTableViewController")) as? CreateTableViewController else {
+                return
+            }
+            editController.representedObject = representedObject
+            editController.table = tableDef.copyForEditing()
+            presentViewControllerAsSheet(editController)
+        } else {
+            print("UNABLE TO GET DEF!! WHATS UP!?")
+        }
+    }
+
     @IBAction func toggleSQLView(_ sender: NSButton) {
 
         if sender.state == .on {

@@ -362,22 +362,22 @@ extension SideBarBrowseViewController: NSMenuDelegate {
 
     private func edit(provider: DataProvider) {
         if let view = (provider as? View)?.definition {
-        guard let editController = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("createViewViewController")) as? CreateViewViewController else {
-        return
-        }
-        editController.dropQualifiedName = provider.qualifiedNameForQuery
-        editController.representedObject = representedObject
-        editController.viewDefinition = view
-        presentViewControllerAsSheet(editController)
+            guard let editController = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("createViewViewController")) as? CreateViewViewController else {
+                return
+            }
+            editController.dropQualifiedName = provider.qualifiedNameForQuery
+            editController.representedObject = representedObject
+            editController.viewDefinition = view
+            presentViewControllerAsSheet(editController)
         } else if let tableDef = (provider as? Table)?.definition {
-        guard let editController = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("createTableViewController")) as? CreateTableViewController else {
-        return
-        }
-        editController.representedObject = representedObject
-        editController.table = tableDef.copyForEditing()
-        presentViewControllerAsSheet(editController)
+            guard let editController = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("createTableViewController")) as? CreateTableViewController else {
+                return
+            }
+            editController.representedObject = representedObject
+            editController.table = tableDef.copyForEditing()
+            presentViewControllerAsSheet(editController)
         } else {
-        print("UNABLE TO GET DEF!! WHATS UP!?")
+            print("UNABLE TO GET DEF!! WHATS UP!?")
         }
     }
 

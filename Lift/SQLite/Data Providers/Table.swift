@@ -86,7 +86,7 @@ class Table: DataProvider {
     }
 
     override var isEditable: Bool {
-        return !name.hasPrefix("sqlite_")
+        return !name.hasPrefix("sqlite_") && definition != nil
     }
 
     func foreignKeys(from columnName: String) -> [ForeignKeyConnection] {
