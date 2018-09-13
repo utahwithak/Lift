@@ -18,7 +18,7 @@ extension ExportViewController {
         guard response == .OK, let url = savePanel.url else {
             return
         }
-        performSegue(withIdentifier: NSStoryboardSegue.Identifier(rawValue: "showProgress"), sender: self)
+        performSegue(withIdentifier: "showProgress", sender: self)
         guard let progressViewController = self.progressViewController else {
             return
         }
@@ -78,7 +78,7 @@ extension ExportViewController {
                 }
             }
             DispatchQueue.main.async {
-                self.dismissViewController(progressViewController)
+                self.dismiss(progressViewController)
             }
         }
     }

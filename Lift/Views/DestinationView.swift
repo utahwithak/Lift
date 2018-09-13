@@ -47,7 +47,7 @@ class DestinationView: NSView {
 
     var canAccept = false
 
-    let pasteBoard = draggingInfo.draggingPasteboard()
+    let pasteBoard = draggingInfo.draggingPasteboard
 
     if pasteBoard.canReadObject(forClasses: [NSURL.self], options: nil) {
       canAccept = true
@@ -82,10 +82,10 @@ class DestinationView: NSView {
 
     //1.
     isReceivingDrag = false
-    let pasteBoard = draggingInfo.draggingPasteboard()
+    let pasteBoard = draggingInfo.draggingPasteboard
 
     //2.
-    let point = convert(draggingInfo.draggingLocation(), from: nil)
+    let point = convert(draggingInfo.draggingLocation, from: nil)
     //3.
     if let urls = pasteBoard.readObjects(forClasses: [NSURL.self], options: nil) as? [URL], urls.count > 0 {
       delegate?.processURLs(urls, center: point)

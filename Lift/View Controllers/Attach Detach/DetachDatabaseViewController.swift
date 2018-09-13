@@ -49,10 +49,10 @@ class DetachDatabaseViewController: LiftViewController {
 }
 extension DetachDatabaseViewController: StatementWaitingViewDelegate {
     func waitingView(_ view: StatementWaitingViewController, finishedSuccessfully: Bool) {
-        dismissViewController(view)
+        dismiss(view)
 
         if finishedSuccessfully {
-            dismissViewController(self)
+            dismiss(self)
         }
     }
 }

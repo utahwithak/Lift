@@ -52,7 +52,7 @@ class LongPressButton: NSButton {
                 self?.showingMenu = true
             }
         })
-        RunLoop.current.add(longPressTimer!, forMode: .commonModes)
+        RunLoop.current.add(longPressTimer!, forMode: RunLoop.Mode.common)
 
     }
     override func mouseUp(with event: NSEvent) {

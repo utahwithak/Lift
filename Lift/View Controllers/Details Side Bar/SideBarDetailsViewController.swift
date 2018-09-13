@@ -22,7 +22,7 @@ enum DetailSection {
         case .database:
             return #imageLiteral(resourceName: "smallDB")
         case .table:
-            return NSImage(named: .listViewTemplate)!
+            return NSImage(named: NSImage.listViewTemplateName)!
         case .custom(let image, _):
             return image
         }
@@ -31,9 +31,9 @@ enum DetailSection {
     var identifier: NSStoryboard.SceneIdentifier? {
         switch self {
         case .database:
-            return NSStoryboard.SceneIdentifier("databaseDetails")
+            return "databaseDetails"
         case .table:
-            return NSStoryboard.SceneIdentifier("tableDetailView")
+            return "tableDetailView"
         case .custom:
             return nil
         }

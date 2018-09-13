@@ -124,9 +124,9 @@ class DatabaseViewNode: BrowseViewNode {
             path = database.path
         }
 
-        tableGroup.image = NSImage(named: NSImage.Name.listViewTemplate)
-        viewGroup.image = NSImage(named: NSImage.Name.quickLookTemplate)
-        systemTableGroup.image = NSImage(named: NSImage.Name.actionTemplate)
+        tableGroup.image = NSImage(named: NSImage.listViewTemplateName)
+        viewGroup.image = NSImage(named: NSImage.quickLookTemplateName)
+        systemTableGroup.image = NSImage(named: NSImage.actionTemplateName)
 
         for table in database.tables.sorted(by: { $0.name < $1.name }) {
             tableGroup.children.append( TableViewNode(provider: table))

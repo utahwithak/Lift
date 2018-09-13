@@ -20,6 +20,6 @@ class JumpToRowViewController: NSViewController {
     @IBAction func jump(_ sender: Any) {
         let rowEntered = Int(jumpToRowField.stringValue)
         delegate?.jumpView(self, jumpTo: rowEntered)
-        dismissViewController(self)
+        dismiss(self)
     }
 }

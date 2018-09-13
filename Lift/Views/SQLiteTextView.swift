@@ -70,7 +70,7 @@ class SQLiteTextView: NSTextView {
             highlighter.highlight(self)
         }
 
-        let pasteBoard = draggingInfo.draggingPasteboard()
+        let pasteBoard = draggingInfo.draggingPasteboard
 
         if let urls = pasteBoard.readObjects(forClasses: [NSURL.self], options: nil) as? [URL], urls.count > 0 {
             for url in urls {

@@ -29,7 +29,7 @@ class TextImportViewController: NSViewController {
 
     @IBAction func parseAsCSV(_ sender: Any) {
 
-        guard let waitingVC = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("waitingOperationView")) as? WaitingOperationViewController else {
+        guard let waitingVC = storyboard?.instantiateController(withIdentifier: "waitingOperationView") as? WaitingOperationViewController else {
             return
         }
         guard let data = (text as String).data(using: encoding) else {
@@ -48,7 +48,7 @@ class TextImportViewController: NSViewController {
         }
 
         waitingVC.indeterminate = false
-        presentViewControllerAsSheet(waitingVC)
+        presentAsSheet(waitingVC)
 
         DispatchQueue.global(qos: .userInitiated).async {
 
@@ -68,13 +68,13 @@ class TextImportViewController: NSViewController {
 
             if let error = self.error {
                 DispatchQueue.main.async {
-                    self.dismissViewController(waitingVC)
+                    self.dismiss(waitingVC)
                     self.presentError(error)
                 }
 
             } else {
                 DispatchQueue.main.async {
-                    self.dismissViewController(waitingVC)
+                    self.dismiss(waitingVC)
                     if !parser.canceled {
                         self.delegate?.textImport(self, showImportFor: self.parsedData)
                     }

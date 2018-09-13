@@ -108,11 +108,11 @@ class SideBarBrowseViewController: LiftViewController {
     }
 
     @IBAction func showCreateView(_ sender: Any?) {
-        performSegue(withIdentifier: NSStoryboardSegue.Identifier("createView"), sender: sender)
+        performSegue(withIdentifier: "createView", sender: sender)
     }
 
     @IBAction func showCreateTable(_ sender: Any?) {
-        performSegue(withIdentifier: NSStoryboardSegue.Identifier("createTable"), sender: sender)
+        performSegue(withIdentifier: "createTable", sender: sender)
     }
 
     @IBAction func dropSelectedTable(_ sender: NSButton) {
@@ -201,11 +201,11 @@ extension SideBarBrowseViewController: NSMenuDelegate {
     }
 
     @objc private func showAttachDatabase(_ item: NSMenuItem) {
-        performSegue(withIdentifier: NSStoryboardSegue.Identifier("showAttach"), sender: self)
+        performSegue(withIdentifier: "showAttach", sender: self)
     }
 
     @objc private func showDetachDatabase(_ item: NSMenuItem) {
-        performSegue(withIdentifier: NSStoryboardSegue.Identifier("showDetach"), sender: self)
+        performSegue(withIdentifier: "showDetach", sender: self)
     }
 
     @objc private func dropProvider(_ item: NSMenuItem) {
@@ -240,7 +240,7 @@ extension SideBarBrowseViewController: NSMenuDelegate {
     }
 
     private func transfer(provider: DataProvider, with type: Table.TransferType) {
-        guard let waitingView = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("waitingOperationView")) as? WaitingOperationViewController else {
+        guard let waitingView = storyboard?.instantiateController(withIdentifier: "waitingOperationView") as? WaitingOperationViewController else {
             return
         }
         var validOp = true
@@ -254,17 +254,17 @@ extension SideBarBrowseViewController: NSMenuDelegate {
 
         waitingView.cancelHandler = cancelOp
 
-        presentViewControllerAsSheet(waitingView)
+        presentAsSheet(waitingView)
 
         DispatchQueue.global(qos: .userInteractive).async {
             do {
                 try provider.transfer(with: type, keepGoing: keepGoing)
                 DispatchQueue.main.async {
-                    self.dismissViewController(waitingView)
+                    self.dismiss(waitingView)
                 }
             } catch {
                 DispatchQueue.main.async {
-                    self.dismissViewController(waitingView)
+                    self.dismiss(waitingView)
                     self.presentError(error)
                 }
 
@@ -362,20 +362,20 @@ extension SideBarBrowseViewController: NSMenuDelegate {
 
     private func edit(provider: DataProvider) {
         if let view = (provider as? View)?.definition {
-            guard let editController = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("createViewViewController")) as? CreateViewViewController else {
+            guard let editController = storyboard?.instantiateController(withIdentifier: "createViewViewController") as? CreateViewViewController else {
                 return
             }
             editController.dropQualifiedName = provider.qualifiedNameForQuery
             editController.representedObject = representedObject
             editController.viewDefinition = view
-            presentViewControllerAsSheet(editController)
+            presentAsSheet(editController)
         } else if let tableDef = (provider as? Table)?.definition {
-            guard let editController = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("createTableViewController")) as? CreateTableViewController else {
+            guard let editController = storyboard?.instantiateController(withIdentifier: "createTableViewController") as? CreateTableViewController else {
                 return
             }
             editController.representedObject = representedObject
             editController.table = tableDef.copyForEditing()
-            presentViewControllerAsSheet(editController)
+            presentAsSheet(editController)
         } else {
             print("UNABLE TO GET DEF!! WHATS UP!?")
         }

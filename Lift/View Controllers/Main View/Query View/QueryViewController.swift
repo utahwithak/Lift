@@ -31,11 +31,11 @@ class QueryViewController: LiftMainViewController {
     }
 
     lazy var resultsViewController: QueryResultsViewController? = {
-        return self.storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("queryResultsViewController")) as? QueryResultsViewController
+        return self.storyboard?.instantiateController(withIdentifier: "queryResultsViewController") as? QueryResultsViewController
     }()
 
     lazy var snippetViewController: SnippetViewController? = {
-        let vc =  self.storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("snippetViewController")) as? SnippetViewController
+        let vc =  self.storyboard?.instantiateController(withIdentifier: "snippetViewController") as? SnippetViewController
         vc?.snippetDataProvider = self
         return vc
     }()
@@ -49,7 +49,7 @@ class QueryViewController: LiftMainViewController {
             return
         }
 
-        guard let waitingView = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("waitingOperationView")) as? WaitingOperationViewController else {
+        guard let waitingView = storyboard?.instantiateController(withIdentifier: "waitingOperationView") as? WaitingOperationViewController else {
             return
         }
         waitingView.cancelHandler = { [weak self, weak waitingView] in
@@ -60,12 +60,12 @@ class QueryViewController: LiftMainViewController {
             mySelf.isCanceled = true
 
             if let waitingView = waitingView {
-                mySelf.dismissViewController(waitingView)
+                mySelf.dismiss(waitingView)
             }
 
         }
 
-        presentViewControllerAsSheet(waitingView)
+        presentAsSheet(waitingView)
 
         waitingView.indeterminate = false
 
@@ -103,8 +103,8 @@ class QueryViewController: LiftMainViewController {
 
             DispatchQueue.main.async {
 
-                if waitingView.presenting != nil {
-                    self.dismissViewController(waitingView)
+                if waitingView.presentingViewController != nil {
+                    self.dismiss(waitingView)
                 }
 
                 if !self.shouldContinueAfterErrors, let error = errors.first, !(error as NSError).isUserCanceledError {
@@ -127,7 +127,7 @@ class QueryViewController: LiftMainViewController {
     override var preferredSections: [DetailSection] {
         var sections = super.preferredSections
         if let snippetVC = self.snippetViewController {
-            sections.append(.custom(NSImage(named: .bookmarksTemplate)!, snippetVC))
+            sections.append(.custom(NSImage(named: NSImage.bookmarksTemplateName)!, snippetVC))
         } else {
             print("Unable to create snippetVC!?")
         }

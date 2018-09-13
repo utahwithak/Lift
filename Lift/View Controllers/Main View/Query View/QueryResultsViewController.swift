@@ -14,7 +14,7 @@ class QueryResultsViewController: LiftViewController {
     @IBOutlet weak var holder: NSTabView!
 
     lazy var overviewViewController: ResultsOverviewViewController = {
-        let overView =  storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("resultsOverviewViewController")) as? ResultsOverviewViewController
+        let overView =  storyboard?.instantiateController(withIdentifier: "resultsOverviewViewController") as? ResultsOverviewViewController
         overView?.title = "Results"
         return overView!
     }()
@@ -43,7 +43,7 @@ class QueryResultsViewController: LiftViewController {
 
         overviewViewController.results.append(result)
 
-        if !result.rows.isEmpty, let resultsView = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("ResultsTableViewController")) as? ResultsTableViewController {
+        if !result.rows.isEmpty, let resultsView = storyboard?.instantiateController(withIdentifier: "ResultsTableViewController") as? ResultsTableViewController {
             resultsView.results = result
             resultsView.title = String(format: NSLocalizedString("Result Set %i", comment: "Title for results from a query"), overviewViewController.results.count)
             holder.addTabViewItem(NSTabViewItem(viewController: resultsView))

@@ -9,8 +9,8 @@
 import Cocoa
 
 extension NSStoryboard.SceneIdentifier {
-    static let attachDatabase = NSStoryboard.SceneIdentifier("attachDatabase")
-    static let detachDatabase =  NSStoryboard.SceneIdentifier("detachDatabase")
+    static let attachDatabase = "attachDatabase"
+    static let detachDatabase =  "detachDatabase"
 }
 
 extension Notification.Name {
@@ -74,7 +74,7 @@ class LiftWindowController: NSWindowController {
             return
         }
 
-        guard let otherWindowController = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("Document Window Controller")) as? NSWindowController, let window = otherWindowController.window else {
+        guard let otherWindowController = storyboard?.instantiateController(withIdentifier: "Document Window Controller") as? NSWindowController, let window = otherWindowController.window else {
             return
         }
         self.window?.addTabbedWindow(window, ordered: .above)
@@ -193,7 +193,7 @@ class LiftWindowController: NSWindowController {
 
         if let viewcontroller = storyboard?.instantiateController(withIdentifier: identifier) as? LiftViewController {
             viewcontroller.representedObject = document
-            contentViewController?.presentViewControllerAsSheet(viewcontroller)
+            contentViewController?.presentAsSheet(viewcontroller)
         }
 
     }
@@ -250,9 +250,9 @@ class LiftWindowController: NSWindowController {
         let image: NSImage?
         switch database.autocommitStatus {
         case .autocommit:
-            image = NSImage(named: NSImage.Name("branch"))
+            image = NSImage(named: "branch")
         case .inTransaction:
-            image = NSImage(named: NSImage.Name("commit"))
+            image = NSImage(named: "commit")
         }
         autocommitSegmentedControl.setImage(image, forSegment: 0)
 
@@ -266,17 +266,17 @@ class LiftWindowController: NSWindowController {
     }
 
     @IBAction func showDatabaseLog( _ sender: Any) {
-        guard let logViewController = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("logView")) as? LogViewController else {
+        guard let logViewController = storyboard?.instantiateController(withIdentifier: "logView") as? LogViewController else {
             return
         }
         logViewController.representedObject = document
 
-        contentViewController?.presentViewControllerAsSheet(logViewController)
+        contentViewController?.presentAsSheet(logViewController)
     }
 
     @IBAction func checkDatabase( _ sender: Any) {
 
-        guard let waitingView = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("statementWaitingView")) as? StatementWaitingViewController else {
+        guard let waitingView = storyboard?.instantiateController(withIdentifier: "statementWaitingView") as? StatementWaitingViewController else {
             return
         }
 
@@ -313,12 +313,12 @@ class LiftWindowController: NSWindowController {
         waitingView.delegate = self
         waitingView.operation = .customCall(operation)
         waitingView.representedObject = document
-        contentViewController?.presentViewControllerAsSheet(waitingView)
+        contentViewController?.presentAsSheet(waitingView)
     }
 
     @IBAction func cleanDatabase( _ sender: Any) {
 
-        guard let waitingView = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("statementWaitingView")) as? StatementWaitingViewController else {
+        guard let waitingView = storyboard?.instantiateController(withIdentifier: "statementWaitingView") as? StatementWaitingViewController else {
             return
         }
 
@@ -330,7 +330,7 @@ class LiftWindowController: NSWindowController {
         waitingView.delegate = self
         waitingView.operation = .customCall(operation)
         waitingView.representedObject = document
-        contentViewController?.presentViewControllerAsSheet(waitingView)
+        contentViewController?.presentAsSheet(waitingView)
 
     }
 
@@ -342,7 +342,7 @@ class LiftWindowController: NSWindowController {
             chooser.canChooseDirectories = true
             chooser.canChooseFiles = true
 
-            guard let vc = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("importViewController")) as? ImportViewController else {
+            guard let vc = storyboard?.instantiateController(withIdentifier: "importViewController") as? ImportViewController else {
                 return
             }
 
@@ -353,7 +353,7 @@ class LiftWindowController: NSWindowController {
                 vc.importPath = url
                 vc.delegate = self
                 vc.representedObject = self.document
-                self.contentViewController?.presentViewControllerAsSheet(vc)
+                self.contentViewController?.presentAsSheet(vc)
             }
 
             if let window = window {
@@ -364,12 +364,12 @@ class LiftWindowController: NSWindowController {
             }
 
         default:
-            guard let vc = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("exportViewController")) as? LiftViewController else {
+            guard let vc = storyboard?.instantiateController(withIdentifier: "exportViewController") as? LiftViewController else {
                 return
             }
 
             vc.representedObject = document
-            contentViewController?.presentViewControllerAsSheet(vc)
+            contentViewController?.presentAsSheet(vc)
 
         }
 
@@ -379,7 +379,7 @@ class LiftWindowController: NSWindowController {
 
 extension LiftWindowController: StatementWaitingViewDelegate {
     func waitingView(_ view: StatementWaitingViewController, finishedSuccessfully: Bool) {
-        contentViewController?.dismissViewController(view)
+        contentViewController?.dismiss(view)
     }
 
 }
@@ -402,7 +402,7 @@ extension LiftWindowController: LiftSplitViewDelegate {
 extension LiftWindowController: NSDraggingDestination {
 
     func shouldAllowDrag(_ draggingInfo: NSDraggingInfo) -> Bool {
-        return draggingInfo.draggingPasteboard().canReadObject(forClasses: [NSURL.self], options: nil)
+        return draggingInfo.draggingPasteboard.canReadObject(forClasses: [NSURL.self], options: nil)
     }
 
     func draggingEntered(_ sender: NSDraggingInfo) -> NSDragOperation {
@@ -415,13 +415,13 @@ extension LiftWindowController: NSDraggingDestination {
 
     func performDragOperation(_ draggingInfo: NSDraggingInfo) -> Bool {
 
-        let pasteBoard = draggingInfo.draggingPasteboard()
+        let pasteBoard = draggingInfo.draggingPasteboard
 
         if let urls = pasteBoard.readObjects(forClasses: [NSURL.self], options: nil) as? [URL], let url = urls.first {
 
             if let viewcontroller = storyboard?.instantiateController(withIdentifier: .attachDatabase) as? AttachDatabaseViewController {
                 viewcontroller.representedObject = document
-                contentViewController?.presentViewControllerAsSheet(viewcontroller)
+                contentViewController?.presentAsSheet(viewcontroller)
                 viewcontroller.path = url
             }
 
@@ -436,7 +436,7 @@ extension LiftWindowController: NSDraggingDestination {
 
 extension LiftWindowController: ImportViewDelegate {
     func importView(_ importVC: ImportViewController, showSQL text: String) {
-        contentViewController?.dismissViewController(importVC)
+        contentViewController?.dismiss(importVC)
         showQueryView(with: text)
     }
 }

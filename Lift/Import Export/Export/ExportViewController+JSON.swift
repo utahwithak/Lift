@@ -16,7 +16,7 @@ extension ExportViewController {
         guard savePanel.runModal() == .OK, let url = savePanel.url else {
             return
         }
-        performSegue(withIdentifier: NSStoryboardSegue.Identifier(rawValue: "showProgress"), sender: self)
+        performSegue(withIdentifier: "showProgress", sender: self)
 
         guard let progressViewController = self.progressViewController else { return }
         progressViewController.setOperationText(to: String(format: NSLocalizedString("Exporting JSON", comment: "Export JSON Title")))
@@ -33,7 +33,7 @@ extension ExportViewController {
         DispatchQueue.global(qos: .userInitiated).async {
             defer {
                 DispatchQueue.main.async {
-                    self.dismissViewController(progressViewController)
+                    self.dismiss(progressViewController)
                 }
             }
 

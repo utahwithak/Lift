@@ -10,7 +10,7 @@ import AppKit
 
 class CustomRowEditorViewController: NSViewController {
 
-    static let storyboardIdentifier = NSStoryboard.SceneIdentifier("editRowViewController")
+    static let storyboardIdentifier = "editRowViewController"
 
     @IBOutlet weak var insertTypeConstraint: NSLayoutConstraint!
     var row: RowData?
@@ -101,7 +101,7 @@ class CustomRowEditorViewController: NSViewController {
             builder += " VALUES (" + values.joined(separator: ", ") + ")"
 
         }
-        guard let waitingView = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("statementWaitingView")) as? StatementWaitingViewController else {
+        guard let waitingView = storyboard?.instantiateController(withIdentifier: "statementWaitingView") as? StatementWaitingViewController else {
             return
         }
 
@@ -114,7 +114,7 @@ class CustomRowEditorViewController: NSViewController {
         waitingView.delegate = self
         waitingView.operation = .customCall(operation)
         waitingView.representedObject = representedObject
-        presentViewControllerAsSheet(waitingView)
+        presentAsSheet(waitingView)
 
     }
 
@@ -143,7 +143,7 @@ class CustomRowEditorViewController: NSViewController {
             arguments["$whereArg\(i)"] = row?.data[i]
         }
 
-        guard let waitingView = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("statementWaitingView")) as? StatementWaitingViewController else {
+        guard let waitingView = storyboard?.instantiateController(withIdentifier: "statementWaitingView") as? StatementWaitingViewController else {
             return
         }
 
@@ -156,7 +156,7 @@ class CustomRowEditorViewController: NSViewController {
         waitingView.delegate = self
         waitingView.operation = .customCall(operation)
         waitingView.representedObject = representedObject
-        presentViewControllerAsSheet(waitingView)
+        presentAsSheet(waitingView)
 
     }
 
@@ -196,10 +196,10 @@ class CustomRowEditorViewController: NSViewController {
 
 extension CustomRowEditorViewController: StatementWaitingViewDelegate {
     func waitingView(_ view: StatementWaitingViewController, finishedSuccessfully: Bool) {
-        dismissViewController(view)
+        dismiss(view)
 
         if finishedSuccessfully {
-            dismissViewController(self)
+            dismiss(self)
             table.refreshTableCount()
             if let document = representedObject as? LiftDocument {
                 document.database.refresh()

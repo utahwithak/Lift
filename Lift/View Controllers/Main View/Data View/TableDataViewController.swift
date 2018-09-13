@@ -24,7 +24,7 @@ class TableDataViewController: LiftMainViewController {
     }
 
     lazy var predicateViewController: TablePredicateViewController = {
-        let predicateview = self.storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("tablePredicateView")) as? TablePredicateViewController
+        let predicateview = self.storyboard?.instantiateController(withIdentifier: "tablePredicateView") as? TablePredicateViewController
 
         return predicateview!
     }()
@@ -216,7 +216,7 @@ class TableDataViewController: LiftMainViewController {
             return
         }
 
-        guard let waitingVC = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("waitingOperationView")) as? WaitingOperationViewController else {
+        guard let waitingVC = storyboard?.instantiateController(withIdentifier: "waitingOperationView") as? WaitingOperationViewController else {
             return
         }
 
@@ -226,7 +226,7 @@ class TableDataViewController: LiftMainViewController {
 
         waitingVC.cancelHandler = cancelOp
         waitingVC.indeterminate = true
-        presentViewControllerAsSheet(waitingVC)
+        presentAsSheet(waitingVC)
 
         DispatchQueue.global(qos: .userInitiated).async {
             var pasteBoardString: String?
@@ -237,7 +237,7 @@ class TableDataViewController: LiftMainViewController {
                 pasteBoardString = fromData.csv(inSelection: selection, map: columnMap, keepGoingCheck: keepGoing)
             }
             DispatchQueue.main.async {
-                self.dismissViewController(waitingVC)
+                self.dismiss(waitingVC)
 
                 if let pbStr = pasteBoardString {
                     NSPasteboard.general.declareTypes([.string], owner: nil)
@@ -458,7 +458,7 @@ class TableDataViewController: LiftMainViewController {
         customRowEditor.sortCount = 0
         customRowEditor.columnNames = table.columns.map({ $0.name })
         customRowEditor.creatingRow = true
-        presentViewControllerAsSheet(customRowEditor)
+        presentAsSheet(customRowEditor)
 
     }
 
@@ -628,6 +628,7 @@ extension TableDataViewController: NSMenuDelegate {
         guard let selectionBox = tableView.selectionBoxes.first else {
             return
         }
+
         if selectionBox.isSingleCell {
             let columnIndex = selectionBox.startColumn
             let tableColumn = tableView.tableColumns[columnIndex]
@@ -660,6 +661,10 @@ extension TableDataViewController: NSMenuDelegate {
                 }
 
                 if table.isEditable {
+                    let editRow = NSMenuItem(title: NSLocalizedString("Edit Row", comment: "menu item for editing entire row"), action: #selector(editSelectedRow), keyEquivalent: "")
+                    editRow.representedObject = table
+                    menu.addItem(editRow)
+
                     let setToMenu = NSMenuItem(title: NSLocalizedString("Set To...", comment: "set to menu item title, opens to show default values"), action: nil, keyEquivalent: "")
                     let subMenu = NSMenu()
                     setToMenu.submenu = subMenu
@@ -670,9 +675,29 @@ extension TableDataViewController: NSMenuDelegate {
                     }
                     menu.addItem(setToMenu)
 
-                    let editRow = NSMenuItem(title: NSLocalizedString("Edit Row", comment: "menu item for editing entire row"), action: #selector(editSelectedRow), keyEquivalent: "")
-                    editRow.representedObject = table
-                    menu.addItem(editRow)
+                    let identifier = tableView.tableColumns[selectionBox.endColumn].identifier
+
+                    guard let colIndex = TableDataViewController.identifierMap[identifier] else {
+                        return
+                    }
+
+                    if let rowData = data?.rawData(at: selectionBox.endRow, column: colIndex) {
+                        // drop the first one since it is the existing type.
+                        //
+                        let conversionsAvailable = NewRowValueTypeConversion.conversionTypes(for: rowData).dropFirst()
+                        if !conversionsAvailable.isEmpty {
+                            let convertMenu = NSMenuItem(title: NSLocalizedString("Convert Value To...", comment: "set to menu item title, opens to show conversion types"), action: nil, keyEquivalent: "")
+                            let subMenu = NSMenu()
+                            convertMenu.submenu = subMenu
+                            for type in conversionsAvailable {
+                                let convertItem = NSMenuItem(title: type.name, action: #selector(convertToType), keyEquivalent: "")
+                                convertItem.representedObject = type
+                                subMenu.addItem(convertItem)
+                            }
+                            menu.addItem(convertMenu)
+                        }
+                    }
+
                 }
 
             }
@@ -683,6 +708,23 @@ extension TableDataViewController: NSMenuDelegate {
             menu.addItem(withTitle: NSLocalizedString("Copy as JSON", comment: "Copy JSON menu item"), action: #selector(copyAsJSON), keyEquivalent: "")
         }
 
+    }
+
+    @objc private func convertToType(_ sender: NSMenuItem) {
+        guard let selectionBox = tableView.selectionBoxes.first, let type = sender.representedObject as? NewRowValueTypeConversion else {
+            return
+        }
+
+        let identifier = tableView.tableColumns[selectionBox.endColumn].identifier
+
+        guard let colIndex = TableDataViewController.identifierMap[identifier] else {
+            return
+        }
+
+        if let rowData = data?.rawData(at: selectionBox.endRow, column: colIndex) {
+            let newData = NewRowValueTypeConversion.convert(data: rowData, with: type)
+            _ = set(row: selectionBox.startRow, rawCol: selectionBox.startColumn, to: .rawData(newData))
+        }
     }
 
     @objc private func setToType(_ sender: NSMenuItem) {
@@ -708,7 +750,7 @@ extension TableDataViewController: NSMenuDelegate {
         editViewController.columnNames = columnNames
         editViewController.row = rowData
 
-        presentViewControllerAsSheet(editViewController)
+        presentAsSheet(editViewController)
 
     }
 
@@ -745,7 +787,7 @@ extension TableDataViewController: JumpDelegate {
             } else {
                 // Page in as many rows as we can... up to row
 
-                guard let waitingVC = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("waitingOperationView")) as? WaitingOperationViewController else {
+                guard let waitingVC = storyboard?.instantiateController(withIdentifier: "waitingOperationView") as? WaitingOperationViewController else {
                     return
                 }
 
@@ -761,8 +803,8 @@ extension TableDataViewController: JumpDelegate {
                 waitingVC.cancelHandler = cancelOp
                 waitingVC.indeterminate = true
                 let completion = {
-                    if waitingVC.presenting == self {
-                        self.dismissViewController(waitingVC)
+                    if waitingVC.presentingViewController == self {
+                        self.dismiss(waitingVC)
                     }
                     self.tableScrollView.lineNumberView.rowCount = data.count
 
@@ -781,7 +823,7 @@ extension TableDataViewController: JumpDelegate {
                 }
                 let isLoading = data.loadToRowVisible(row, completion: completion, keepGoing: keepGoing)
                 if isLoading {
-                    presentViewControllerAsSheet(waitingVC)
+                    presentAsSheet(waitingVC)
                 }
 
             }
@@ -792,7 +834,7 @@ extension TableDataViewController: JumpDelegate {
 }
 
 extension TableDataViewController: NSTextFieldDelegate {
-    override func controlTextDidBeginEditing(_ obj: Notification) {
+    func controlTextDidBeginEditing(_ obj: Notification) {
         guard let selectionBox = tableView.selectionBoxes.first, selectionBox.isSingleCell else {
             return
         }
@@ -804,7 +846,7 @@ extension TableDataViewController: NSTextFieldDelegate {
         textField.textColor = NSColor.black
     }
 
-    override func controlTextDidEndEditing(_ obj: Notification) {
+    func controlTextDidEndEditing(_ obj: Notification) {
         guard let selectionBox = tableView.selectionBoxes.first, selectionBox.isSingleCell else {
             return
         }

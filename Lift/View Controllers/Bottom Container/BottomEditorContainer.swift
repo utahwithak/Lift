@@ -22,13 +22,13 @@ class BottomEditorContainer: LiftViewController {
 
     private func updateContent() {
         view.subviews = []
-        childViewControllers.removeAll(keepingCapacity: true)
+        children.removeAll(keepingCapacity: true)
 
         if let provider = provider {
             let controller = provider.editorViewController
             controller.view.translatesAutoresizingMaskIntoConstraints = false
             view.addSubview(controller.view)
-            childViewControllers.append(controller)
+            children.append(controller)
             view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[view]|", options: [], metrics: nil, views: ["view": controller.view]))
             view.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[view]|", options: [], metrics: nil, views: ["view": controller.view]))
         }

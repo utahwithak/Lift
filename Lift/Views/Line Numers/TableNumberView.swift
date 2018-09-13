@@ -13,8 +13,6 @@ class TableNumberView: NSRulerView {
     private static let DEFAULT_THICKNESS: CGFloat = 22.0
     private static let RULER_MARGIN: CGFloat = 5.0
 
-    private var backgroundColor = NSColor.white
-
     var rowCount: Int = 0 {
         didSet {
             if rowCount > rows.count {
@@ -59,7 +57,7 @@ class TableNumberView: NSRulerView {
     func drawBackground() {
         let bounds = self.bounds
 
-        backgroundColor.set()
+        NSColor(named: "sidebarBackground")?.set()
 
         __NSRectFill(bounds)
         NSColor(calibratedWhite: 0.58, alpha: 1).set()
@@ -84,10 +82,10 @@ class TableNumberView: NSRulerView {
         return ceil(max(TableNumberView.DEFAULT_THICKNESS, stringSize.width + TableNumberView.RULER_MARGIN * 2))
     }
 
-   let textAttributes: [NSAttributedStringKey: Any] = {
+   let textAttributes: [NSAttributedString.Key: Any] = {
         let paraStyle = NSMutableParagraphStyle()
         paraStyle.alignment = .right
-        return [.font: NSFont(name: "Menlo", size: NSFont.systemFontSize(for: .mini))!, .foregroundColor: NSColor(calibratedWhite: 0.42, alpha: 1), .paragraphStyle: paraStyle]
+        return [.font: NSFont(name: "Menlo", size: NSFont.systemFontSize(for: .mini))!, .foregroundColor: NSColor.textColor, .paragraphStyle: paraStyle]
     }()
 
     let context = NSStringDrawingContext()

@@ -22,6 +22,7 @@ class TableDefinition: NSObject {
         databaseName = orig.databaseName?.copy
         tableName = orig.tableName
         columns = orig.columns.map({ $0.duplicateForEditing() })
+        columns.forEach({ $0.table = self })
 
     }
 

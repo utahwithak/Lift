@@ -25,6 +25,8 @@ enum SimpleUpdateType {
     case current_timestamp
     case defaultValue
     case argument(String)
+    case rawData(SQLiteData)
+
 
     static let allVals: [SimpleUpdateType] = [.null, .current_time, .current_date, .current_timestamp, .defaultValue]
 
@@ -42,7 +44,8 @@ enum SimpleUpdateType {
             return NSLocalizedString("Default Value", comment: "set to default value")
         case .argument:
             return NSLocalizedString("Custom Value", comment: "set to a Custom value")
-
+        case .rawData:
+            return ""
         }
     }
 }
@@ -418,7 +421,9 @@ final class TableData: NSObject {
         case .argument(let argVal):
             query += "$arg"
             args["$arg"] = .text(argVal)
-
+        case .rawData(let data):
+            query += "$arg"
+            args["$arg"] = data
         }
 
         let rowData = data[row]

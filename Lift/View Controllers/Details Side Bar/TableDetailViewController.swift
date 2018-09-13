@@ -63,20 +63,20 @@ class TableDetailViewController: LiftViewController {
 
     @IBAction func alterTable(_ sender: Any) {
         if let view = selectedTable as? View, let definition = view.definition {
-            guard let editController = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("createViewViewController")) as? CreateViewViewController else {
+            guard let editController = storyboard?.instantiateController(withIdentifier: "createViewViewController") as? CreateViewViewController else {
                 return
             }
             editController.dropQualifiedName = view.qualifiedNameForQuery
             editController.representedObject = representedObject
             editController.viewDefinition = definition
-            presentViewControllerAsSheet(editController)
+            presentAsSheet(editController)
         } else if let table = selectedTable as? Table, let tableDef = table.definition {
-            guard let editController = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("createTableViewController")) as? CreateTableViewController else {
+            guard let editController = storyboard?.instantiateController(withIdentifier: "createTableViewController") as? CreateTableViewController else {
                 return
             }
             editController.representedObject = representedObject
             editController.table = tableDef.copyForEditing()
-            presentViewControllerAsSheet(editController)
+            presentAsSheet(editController)
         } else {
             print("UNABLE TO GET DEF!! WHATS UP!?")
         }

@@ -19,7 +19,7 @@ extension ExportViewController {
             return
         }
 
-        performSegue(withIdentifier: NSStoryboardSegue.Identifier(rawValue: "showProgress"), sender: self)
+        performSegue(withIdentifier: "showProgress", sender: self)
 
         guard let progressViewController = self.progressViewController else {
             return
@@ -30,14 +30,14 @@ extension ExportViewController {
 
         guard manager.createFile(atPath: url.path, contents: nil, attributes: nil), let handle = FileHandle(forWritingAtPath: url.path) else {
             print("Failed to create file")
-            dismissViewController(progressViewController)
+            dismiss(progressViewController)
             return
         }
         DispatchQueue.global(qos: .userInitiated).async {
 
             defer {
                 DispatchQueue.main.async {
-                    self.dismissViewController(progressViewController)
+                    self.dismiss(progressViewController)
                 }
 
             }
@@ -90,7 +90,7 @@ extension ExportViewController {
             return
         }
 
-        performSegue(withIdentifier: NSStoryboardSegue.Identifier(rawValue: "showProgress"), sender: self)
+        performSegue(withIdentifier: "showProgress", sender: self)
 
         guard let progressViewController = self.progressViewController else {
             return
@@ -105,7 +105,7 @@ extension ExportViewController {
                 into = try? Database(type: .aux(path: url))
             } catch {
                 presentError(error)
-                dismissViewController(progressViewController)
+                dismiss(progressViewController)
                 return
             }
         }
@@ -115,7 +115,7 @@ extension ExportViewController {
             alert.messageText = NSLocalizedString("Unable to create database", comment: "Error message when attempting to export SQLite but can't create database")
             alert.addButton(withTitle: "Ok")
             alert.runModal()
-            dismissViewController(progressViewController)
+            dismiss(progressViewController)
             return
         }
 
@@ -254,7 +254,7 @@ extension ExportViewController {
                 }
             }
             DispatchQueue.main.async {
-                self.dismissViewController(progressViewController)
+                self.dismiss(progressViewController)
             }
         }
 

@@ -162,7 +162,7 @@ class TabCell: BorderedButtonCell {
 
     public var maxWidth: CGFloat = 720
 
-    static let popupImage = NSImage(named: NSImage.Name("PullDownTemplate"))!.tintedImage(with: NSColor.darkGray)
+    static let popupImage = NSImage(named: "PullDownTemplate")!.tintedImage(with: NSColor.darkGray)
 
     static let popupSize = TabCell.popupImage.size
 

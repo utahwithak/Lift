@@ -54,17 +54,17 @@ class ImportViewController: LiftViewController {
 
     override func viewDidAppear() {
         super.viewDidAppear()
-        if importPath != nil, let waitingVC = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("progressViewController")) as? ProgressViewController {
+        if importPath != nil, let waitingVC = storyboard?.instantiateController(withIdentifier: "progressViewController") as? ProgressViewController {
 
             waitingVC.operation = NSLocalizedString("Preparing for import...", comment: "Loading file file for import waiting label text")
             waitingVC.indeterminant = true
-            presentViewControllerAsSheet(waitingVC)
+            presentAsSheet(waitingVC)
 
             DispatchQueue.global(qos: .userInitiated).async {
                 self.refreshContent()
 
                 DispatchQueue.main.async {
-                    self.dismissViewController(waitingVC)
+                    self.dismiss(waitingVC)
                 }
             }
         }
@@ -124,7 +124,7 @@ class ImportViewController: LiftViewController {
             switch importType {
             case .text(let text, let encoding):
 
-                guard let vc = self.storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("textInitialViewController")) as? TextImportViewController else {
+                guard let vc = self.storyboard?.instantiateController(withIdentifier: "textInitialViewController") as? TextImportViewController else {
                     return
                 }
                 vc.encoding = encoding
@@ -136,7 +136,7 @@ class ImportViewController: LiftViewController {
 
                 for sheet in workbook.sheets {
 
-                    guard let importView = self.storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("importDataView")) as? ImportDataViewController else {
+                    guard let importView = self.storyboard?.instantiateController(withIdentifier: "importDataView") as? ImportDataViewController else {
                         return
                     }
                     importView.delegate = self
@@ -153,7 +153,7 @@ class ImportViewController: LiftViewController {
                     let tables = try self.parseXML(document: document)
                     for table in tables {
 
-                        guard let importView = self.storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("importDataView")) as? ImportDataViewController else {
+                        guard let importView = self.storyboard?.instantiateController(withIdentifier: "importDataView") as? ImportDataViewController else {
                             return
                         }
                         importView.delegate = self
@@ -285,7 +285,7 @@ extension ImportViewController: TextImportDelegate {
             return
         }
 
-        guard let importView = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("importDataView")) as? ImportDataViewController else {
+        guard let importView = storyboard?.instantiateController(withIdentifier: "importDataView") as? ImportDataViewController else {
             return
         }
         importView.delegate = self

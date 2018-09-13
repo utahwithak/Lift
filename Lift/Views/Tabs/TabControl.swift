@@ -102,22 +102,22 @@ class TabControl: NSControl {
 
         let darkenCell = DarkenBackgroundButton(textCell: "")
         darkenCell.borderMask = [.bottom, .right]
-        addButton = button(withImage: NSImage(named: NSImage.Name.addTemplate)!, target: self, action: #selector(add), cell: darkenCell)
+        addButton = button(withImage: NSImage(named: NSImage.addTemplateName)!, target: self, action: #selector(add), cell: darkenCell)
         addButton.setButtonType(.momentaryChange)
 
         let leftCell = BorderedButtonCell(textCell: "")
         leftCell.borderMask = [.left]
         leftCell.backgroundColor = TabCell.defaultBackgroundColor
-        scrollLeftButton = button(withImage: NSImage(named: NSImage.Name.leftFacingTriangleTemplate)!, target: self, action: #selector(goLeft), cell: leftCell)
+        scrollLeftButton = button(withImage: NSImage(named: NSImage.leftFacingTriangleTemplateName)!, target: self, action: #selector(goLeft), cell: leftCell)
         scrollLeftButton.setButtonType(.momentaryChange)
 
-        leftCell.image = NSImage(named: NSImage.Name.leftFacingTriangleTemplate)!
+        leftCell.image = NSImage(named: NSImage.leftFacingTriangleTemplateName)!
         scrollLeftButton.cell =  leftCell
 
         let rightCell = BorderedButtonCell(textCell: "")
         rightCell.borderMask = []
         rightCell.backgroundColor = TabCell.defaultBackgroundColor
-        scrollRightButton = button(withImage: NSImage(named: NSImage.Name.rightFacingTriangleTemplate)!, target: self, action: #selector(goRight), cell: rightCell)
+        scrollRightButton = button(withImage: NSImage(named: NSImage.rightFacingTriangleTemplateName)!, target: self, action: #selector(goRight), cell: rightCell)
         scrollRightButton.setButtonType(.momentaryChange)
 
         addButton.menu = nil
@@ -353,7 +353,7 @@ class TabControl: NSControl {
             } else if datasource?.tabControl(self, canReorder: item) ?? true, let window = window {
                 // watch for a drag event and initiate dragging if a drag is found...
 
-                if window.nextEvent(matching: [.leftMouseUp, .leftMouseDragged], until: NSDate.distantFuture, inMode: .eventTrackingRunLoopMode, dequeue: false)?.type == .leftMouseDragged {
+                if window.nextEvent(matching: [.leftMouseUp, .leftMouseDragged], until: NSDate.distantFuture, inMode: RunLoop.Mode.eventTracking, dequeue: false)?.type == .leftMouseDragged {
                     reorder(tab: tab, with: currentEvent)
                     return
                 }
@@ -457,7 +457,7 @@ class TabControl: NSControl {
             if swapped {
                 NSAnimationContext.runAnimationGroup({context in
                     context.allowsImplicitAnimation = true
-                    context.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
+                    context.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeIn)
                     self.layoutTabs(items: orderedItems)
                     tabView.addConstraints(draggingConstraints)
                     tabView.layoutSubtreeIfNeeded()
@@ -469,7 +469,7 @@ class TabControl: NSControl {
         draggingTab.removeConstraints(draggingTab.constraints)
 
         NSAnimationContext.runAnimationGroup({context in
-            context.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseIn)
+            context.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeIn)
             draggingTab.animator().frame = tab.frame
         }, completionHandler: {
 
@@ -616,7 +616,7 @@ class TabControl: NSControl {
 }
 
 extension TabControl: NSTextFieldDelegate {
-    override func controlTextDidEndEditing(_ obj: Notification) {
+    func controlTextDidEndEditing(_ obj: Notification) {
         defer {
             editingField?.delegate = nil
             editingField?.removeFromSuperview()

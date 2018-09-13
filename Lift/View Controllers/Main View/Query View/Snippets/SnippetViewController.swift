@@ -13,8 +13,8 @@ protocol SnippetDataDelegate: class {
 
 class SnippetViewController: LiftViewController {
 
-    private let newSnippetIdentifier = NSStoryboardSegue.Identifier("newSnippet")
-    private let editSnippetIdentifer = NSStoryboardSegue.Identifier("editSnippet")
+    private let newSnippetIdentifier = "newSnippet"
+    private let editSnippetIdentifer = "editSnippet"
 
     @IBOutlet weak var tableView: NSTableView!
 
@@ -92,13 +92,13 @@ class SnippetViewController: LiftViewController {
     }
 
     @IBAction func createNewSnippetFromSQL(_ sender: Any) {
-        guard let delegate = snippetDataProvider, let editorView = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("snippetEditorView")) as? SnippetEditorViewController else {
+        guard let delegate = snippetDataProvider, let editorView = storyboard?.instantiateController(withIdentifier: "snippetEditorView") as? SnippetEditorViewController else {
             return
         }
 
         editorView.snippet = Snippet(name: "Current SQL", description: "", sql: delegate.currentSQL )
         editorView.delegate = self
-        presentViewControllerAsSheet(editorView)
+        presentAsSheet(editorView)
 
     }
 
@@ -155,7 +155,7 @@ extension SnippetViewController: NSTableViewDataSource {
 
 extension SnippetViewController: SnippetEditorDelegate {
     func editor(_ editor: SnippetEditorViewController, didEdit snippet: Snippet, at index: Int?) {
-        dismissViewController(editor)
+        dismiss(editor)
         if let index = index {
             SnippetManager.shared.replace(at: index, with: snippet)
         } else {

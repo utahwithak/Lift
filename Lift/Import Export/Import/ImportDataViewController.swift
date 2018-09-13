@@ -209,7 +209,7 @@ class ImportDataViewController: LiftViewController {
 
         var isCanceled = false
 
-        guard let waitingVC = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("waitingOperationView")) as? WaitingOperationViewController else {
+        guard let waitingVC = storyboard?.instantiateController(withIdentifier: "waitingOperationView") as? WaitingOperationViewController else {
             return
         }
 
@@ -220,13 +220,13 @@ class ImportDataViewController: LiftViewController {
         waitingVC.cancelHandler = cancelOp
         waitingVC.indeterminate = false
         let rowCount = Double(data.count)
-        presentViewControllerAsSheet(waitingVC)
+        presentAsSheet(waitingVC)
 
         DispatchQueue.global(qos: .userInitiated).async {
 
             defer {
                 DispatchQueue.main.async {
-                    self.dismissViewController(waitingVC)
+                    self.dismiss(waitingVC)
                 }
 
             }

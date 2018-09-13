@@ -19,6 +19,13 @@ enum ImportType {
     case text(String, String.Encoding)
 
     static func importType(for url: URL) -> ImportType {
+        SQLiteDocumentPresenter.addPresenters(for: url)
+        if let db = try? Database(type: .aux(path: url)) {
+            db.refresh()
+            if !db.tables.isEmpty {
+                return .sqlite
+            }
+        }
 
         guard var data = try? Data(contentsOf: url, options: .mappedIfSafe) else {
             return .failed

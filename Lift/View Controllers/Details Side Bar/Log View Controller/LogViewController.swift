@@ -40,7 +40,7 @@ class LogViewController: LiftViewController {
 }
 
 extension LogViewController: NSTableViewDelegate {
-    static let attributes: [NSAttributedStringKey: Any] = [.font: NSFont.systemFont(ofSize: 13)]
+    static let attributes: [NSAttributedString.Key: Any] = [.font: NSFont.systemFont(ofSize: 13)]
 
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
 

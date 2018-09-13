@@ -13,13 +13,7 @@ class LineNumberView: NSRulerView {
     private static let DEFAULT_THICKNESS: CGFloat = 22.0
     private static let RULER_MARGIN: CGFloat = 5.0
 
-    private var backgroundColor = NSColor.white
-
     private var  invalidCharacterIndex = 0
-
-    var font: NSFont?
-
-    var textColor: NSColor?
 
     init(scrollView: NSScrollView) {
         super.init(scrollView: scrollView, orientation: .verticalRuler)
@@ -36,17 +30,9 @@ class LineNumberView: NSRulerView {
         self.clientView = self.scrollView?.documentView
     }
 
-    private var defaultFont: NSFont {
+    private lazy var defaultFont: NSFont = {
         return NSFont(name: "Menlo", size: NSFont.systemFontSize(for: .mini))!
-    }
-
-    private var defaultTextColor: NSColor {
-        return NSColor.init(calibratedWhite: 0.42, alpha: 1)
-    }
-
-    private var defaultAlternateTextColor: NSColor {
-        return NSColor.white
-    }
+    }()
 
     override var clientView: NSView? {
         didSet {
@@ -104,10 +90,8 @@ class LineNumberView: NSRulerView {
         return ceil(max(LineNumberView.DEFAULT_THICKNESS, stringSize.width + LineNumberView.RULER_MARGIN * 2))
     }
 
-    lazy var textAttributes: [NSAttributedStringKey: Any] = {
-        let font = self.font ?? defaultFont
-        let color = textColor ?? defaultTextColor
-        return [.font: font, .foregroundColor: color]
+    lazy var textAttributes: [NSAttributedString.Key: Any] = {
+        return [.font: defaultFont, .foregroundColor: NSColor.textColor]
     }()
 
     private func invalidateLineIndices(from characterIndex: Int) {
@@ -193,7 +177,7 @@ class LineNumberView: NSRulerView {
     func drawBackground() {
         let bounds = self.bounds
 
-        backgroundColor.set()
+        NSColor(named: "sidebarBackground")?.set()
 
         __NSRectFill(bounds)
         NSColor(calibratedWhite: 0.58, alpha: 1).set()

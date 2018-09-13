@@ -46,6 +46,7 @@
 		8F4C40DD1F87B657003BF006 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4C40DC1F87B657003BF006 /* Result.swift */; };
 		8F51324E20504DE800E2A759 /* AttributedStringFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F51324D20504DE800E2A759 /* AttributedStringFormatter.swift */; };
 		8F5891E51FA392960076C86D /* LogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5891E41FA392960076C86D /* LogViewController.swift */; };
+		8F5D7BF12077B16D009EE355 /* NewRowValueTypeConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5D7BF02077B16D009EE355 /* NewRowValueTypeConversion.swift */; };
 		8F6273E21F85C291007055D9 /* SQLiteTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6273E11F85C291007055D9 /* SQLiteTextView.swift */; };
 		8F6273E51F85C2C0007055D9 /* SQLiteSyntaxHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6273E41F85C2C0007055D9 /* SQLiteSyntaxHighlighter.swift */; };
 		8F63DE1A1FBB237F008F2DA0 /* NSError+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F63DE191FBB237F008F2DA0 /* NSError+Additions.swift */; };
@@ -252,6 +253,7 @@
 		8F4C40DC1F87B657003BF006 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		8F51324D20504DE800E2A759 /* AttributedStringFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedStringFormatter.swift; sourceTree = "<group>"; };
 		8F5891E41FA392960076C86D /* LogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogViewController.swift; sourceTree = "<group>"; };
+		8F5D7BF02077B16D009EE355 /* NewRowValueTypeConversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRowValueTypeConversion.swift; sourceTree = "<group>"; };
 		8F6273E11F85C291007055D9 /* SQLiteTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteTextView.swift; sourceTree = "<group>"; };
 		8F6273E41F85C2C0007055D9 /* SQLiteSyntaxHighlighter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteSyntaxHighlighter.swift; sourceTree = "<group>"; };
 		8F63DE191FBB237F008F2DA0 /* NSError+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSError+Additions.swift"; sourceTree = "<group>"; };
@@ -438,6 +440,7 @@
 				8F178CA01FA0DB790057387A /* JumpToRowViewController.swift */,
 				8F51324B20504DCC00E2A759 /* Custom Row Editing */,
 				8F44A8AE1FBDE14B00FB652B /* Predicate Editor */,
+				8F5D7BF02077B16D009EE355 /* NewRowValueTypeConversion.swift */,
 			);
 			path = "Data View";
 			sourceTree = "<group>";
@@ -958,16 +961,18 @@
 				TargetAttributes = {
 					8F7C52281F7D39E4004A91BC = {
 						CreatedOnToolsVersion = 9.0;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
 					};
 					8F7C523C1F7D39E5004A91BC = {
 						CreatedOnToolsVersion = 9.0;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 8F7C52281F7D39E4004A91BC;
 					};
 					8F7C52471F7D39E5004A91BC = {
 						CreatedOnToolsVersion = 9.0;
+						LastSwiftMigration = 1000;
 						ProvisioningStyle = Automatic;
 						TestTargetID = 8F7C52281F7D39E4004A91BC;
 					};
@@ -1054,7 +1059,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\nswiftlint --path Lift\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint --path Lift\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1080,6 +1085,7 @@
 				8FA148DE1F8D2FD500644638 /* AttachDatabaseViewController.swift in Sources */,
 				8FAF33501FA2AE6A003ACFC7 /* NSTabView+Additions.swift in Sources */,
 				8FBFF3541FA0BFAD00317830 /* QueryViewController.swift in Sources */,
+				8F5D7BF12077B16D009EE355 /* NewRowValueTypeConversion.swift in Sources */,
 				8F09DB061FB5D84100A19894 /* Database+Dump.swift in Sources */,
 				8F4C40DD1F87B657003BF006 /* Result.swift in Sources */,
 				8F4BECC91FB68B00003DAA5E /* NSImage+Additions.swift in Sources */,
@@ -1386,7 +1392,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Lift/Lift-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Debug;
 		};
@@ -1407,7 +1413,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Lift/Lift-Bridging-Header.h";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 			};
 			name = Release;
 		};
@@ -1423,7 +1429,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.datumapps.LiftTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Lift.app/Contents/MacOS/Lift";
 			};
 			name = Debug;
@@ -1440,7 +1446,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.datumapps.LiftTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Lift.app/Contents/MacOS/Lift";
 			};
 			name = Release;
@@ -1456,7 +1462,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.datumapps.LiftUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_TARGET_NAME = Lift;
 			};
 			name = Debug;
@@ -1472,7 +1478,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.datumapps.LiftUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TEST_TARGET_NAME = Lift;
 			};
 			name = Release;

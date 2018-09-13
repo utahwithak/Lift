@@ -54,7 +54,7 @@ class TableGraphViewController: LiftMainViewController {
 
     func reloadView() {
         var frameMap = [String: CGRect]()
-        for childController in childViewControllers {
+        for childController in children {
 
             if let graphView = childController as? GraphTableView {
                 frameMap[graphView.table.qualifiedNameForQuery] = graphView.view.frame
@@ -64,7 +64,7 @@ class TableGraphViewController: LiftMainViewController {
         for view in container.subviews {
             view.removeFromSuperview()
         }
-        childViewControllers.removeAll(keepingCapacity: true)
+        children.removeAll(keepingCapacity: true)
 
         container.arrowViews.removeAll(keepingCapacity: true)
 
@@ -77,7 +77,7 @@ class TableGraphViewController: LiftMainViewController {
         for database in db.allDatabases {
 
             for table in database.tables {
-                guard let cell = storyboard?.instantiateController(withIdentifier: NSStoryboard.SceneIdentifier("graphTableViewCell")) as? GraphTableView else {
+                guard let cell = storyboard?.instantiateController(withIdentifier: "graphTableViewCell") as? GraphTableView else {
                     fatalError("Need to create graph table view cell!")
                 }
                 cell.table = table
@@ -85,7 +85,7 @@ class TableGraphViewController: LiftMainViewController {
                 cell.view.translatesAutoresizingMaskIntoConstraints = false
 
                 container.addSubview(cell.view)
-                childViewControllers.append(cell)
+                children.append(cell)
 
                 if cell.view.frame.height > maxHeight {
                     maxHeight = cell.view.frame.height
@@ -110,7 +110,7 @@ class TableGraphViewController: LiftMainViewController {
 
         }
 
-        for childController in childViewControllers {
+        for childController in children {
             if let graphView = childController as? GraphTableView, let pastRect = frameMap[graphView.table.qualifiedNameForQuery] {
                 graphView.view.frame = pastRect
             }
@@ -122,13 +122,13 @@ class TableGraphViewController: LiftMainViewController {
         for database in db.allDatabases {
 
             for table in database.tables {
-                guard let fromViewController = childViewControllers.first(where: { ($0 as? GraphTableView)?.table === table }) as? GraphTableView else {
+                guard let fromViewController = children.first(where: { ($0 as? GraphTableView)?.table === table }) as? GraphTableView else {
                     continue
                 }
 
                 for connection in table.foreignKeys {
                     let fromPoint = ArrowPoint(view: fromViewController, columns: connection.fromColumns)
-                    guard let toViewController = childViewControllers.first(where: { ($0 as? GraphTableView)?.table.name == connection.toTable }) as? GraphTableView else {
+                    guard let toViewController = children.first(where: { ($0 as? GraphTableView)?.table.name == connection.toTable }) as? GraphTableView else {
                         continue
                     }
 
@@ -143,7 +143,7 @@ class TableGraphViewController: LiftMainViewController {
 extension TableGraphViewController: GraphContainerViewDelegate {
     func containerView(_ containerView: GraphViewsContainer, didSelect view: NSView?) {
         if let view = view {
-            if let vcIndex = childViewControllers.index(where: { $0.view == view}), let graphView = childViewControllers[vcIndex] as? GraphTableView {
+            if let vcIndex = children.index(where: { $0.view == view}), let graphView = children[vcIndex] as? GraphTableView {
                 windowController?.selectedTable = graphView.table
             }
         } else {
