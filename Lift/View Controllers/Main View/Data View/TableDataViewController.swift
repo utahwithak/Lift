@@ -29,8 +29,6 @@ class TableDataViewController: LiftMainViewController {
         return predicateview!
     }()
 
-    let foreignKeyColumnColor = NSColor(calibratedRed: 0.71, green: 0.843, blue: 1.0, alpha: 0.5).cgColor
-
     var data: TableData?
 
     var visibleRowCountBuffer: Int = 0
@@ -554,7 +552,7 @@ extension TableDataViewController: NSTableViewDataSource {
         }
 
         if foreignKeyIdentifiers.contains(column) {
-            cell.layer?.backgroundColor = foreignKeyColumnColor
+            cell.layer?.backgroundColor = NSColor(named: "foreignKeyHighlight")?.cgColor
         } else {
             cell.layer?.backgroundColor = nil
         }

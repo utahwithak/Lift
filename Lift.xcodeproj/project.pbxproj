@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		8F09DB061FB5D84100A19894 /* Database+Dump.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F09DB041FB5D84100A19894 /* Database+Dump.swift */; };
+		8F0D315E214ACCFD00ADE9F8 /* Icon1024-128@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F0D315D214ACCFD00ADE9F8 /* Icon1024-128@2x.png */; };
 		8F11B7911F83D2A9008E19D7 /* LiftWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F11B7901F83D2A9008E19D7 /* LiftWindowController.swift */; };
 		8F11B7951F83DC1C008E19D7 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F11B7941F83DC1C008E19D7 /* Database.swift */; };
 		8F11B79A1F83DC58008E19D7 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = 8F11B7991F83DC58008E19D7 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w -DSQLITE_ENABLE_FTS3 -DSQLITE_ENABLE_FTS3_PARENTHESIS"; }; };
@@ -214,6 +215,7 @@
 
 /* Begin PBXFileReference section */
 		8F09DB041FB5D84100A19894 /* Database+Dump.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Database+Dump.swift"; sourceTree = "<group>"; };
+		8F0D315D214ACCFD00ADE9F8 /* Icon1024-128@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon1024-128@2x.png"; sourceTree = "<group>"; };
 		8F11B7901F83D2A9008E19D7 /* LiftWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiftWindowController.swift; sourceTree = "<group>"; };
 		8F11B7941F83DC1C008E19D7 /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		8F11B7971F83DC57008E19D7 /* Lift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Lift-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -668,6 +670,7 @@
 				8F11B7961F83DC3E008E19D7 /* SQLite */,
 				8F7C52321F7D39E5004A91BC /* Assets.xcassets */,
 				8F7C52371F7D39E5004A91BC /* Info.plist */,
+				8F0D315D214ACCFD00ADE9F8 /* Icon1024-128@2x.png */,
 				8F11B7971F83DC57008E19D7 /* Lift-Bridging-Header.h */,
 				8F11B79E1F83DDBE008E19D7 /* SwiftXLSX.xcodeproj */,
 				8F7C52381F7D39E5004A91BC /* Lift.entitlements */,
@@ -1027,6 +1030,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8F7C52331F7D39E5004A91BC /* Assets.xcassets in Resources */,
+				8F0D315E214ACCFD00ADE9F8 /* Icon1024-128@2x.png in Resources */,
 				8F7C52361F7D39E5004A91BC /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -121,9 +121,9 @@ class GraphViewsContainer: NSView {
     override func draw(_ dirtyRect: NSRect) {
         let thisViewSize = self.bounds
 
-        NSColor.white.set()
+        NSColor(named: "graphViewBackground")?.set()
         __NSRectFill(dirtyRect)
-        NSColor(calibratedRed: 0.763, green: 0.96, blue: 1, alpha: 1).set()
+        NSColor(named: "graphViewGridLines")?.set()
 
         let gridWidth = thisViewSize.size.width
         let gridHeight = thisViewSize.size.height

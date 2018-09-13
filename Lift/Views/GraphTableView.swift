@@ -27,11 +27,11 @@ class GraphTableView: NSViewController {
         nameLabel.stringValue = table.name
         subtitleLabel.stringValue = table.database?.name ?? ""
 
-        view.layer?.backgroundColor = NSColor.white.cgColor
+        view.layer?.backgroundColor = NSColor(named: "sidebarBackground")?.cgColor
         view.layer?.cornerRadius = 12
         view.layer?.borderColor = NSColor.darkGray.cgColor
         let dropShadow = NSShadow()
-        dropShadow.shadowColor = NSColor.lightGray
+        dropShadow.shadowColor = NSColor.shadowColor
         dropShadow.shadowOffset = NSSize(width: 0, height: -10)
         dropShadow.shadowBlurRadius = 10
 

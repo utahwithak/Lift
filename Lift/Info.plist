@@ -12,7 +12,7 @@
 				<string>*</string>
 			</array>
 			<key>CFBundleTypeIconFile</key>
-			<string></string>
+			<string>Icon1024-128@2x</string>
 			<key>CFBundleTypeName</key>
 			<string>DocumentType</string>
 			<key>CFBundleTypeOSTypes</key>
@@ -49,5 +49,31 @@
 	<string>Main</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>UTExportedTypeDeclarations</key>
+	<array>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>Database File</string>
+			<key>UTTypeIconFile</key>
+			<string>Icon1024-128@2x</string>
+			<key>UTTypeIdentifier</key>
+			<string>com.datumapps.lift</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<array>
+					<string>*</string>
+				</array>
+				<key>public.mime-type</key>
+				<array>
+					<string>application/x-sqlite3</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
 </dict>
 </plist>
