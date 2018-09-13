@@ -56,7 +56,7 @@ class GraphViewsContainer: NSView {
         while let curEvent = self.window?.nextEvent(matching: [.leftMouseUp, .leftMouseDragged]), curEvent.type != .leftMouseUp {
             self.autoscroll(with: curEvent)
             let curPoint = convert(curEvent.locationInWindow, from: nil)
-            if !isMoving && ((fabs(curPoint.x - lastPoint.x) >= 2.0) || (fabs(curPoint.y - lastPoint.y) >= 2.0)) {
+            if !isMoving && ((abs(curPoint.x - lastPoint.x) >= 2.0) || (abs(curPoint.y - lastPoint.y) >= 2.0)) {
                 isMoving = true
             }
             if isMoving {

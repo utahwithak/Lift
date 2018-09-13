@@ -144,7 +144,7 @@ class LineNumberView: NSRulerView {
         // See if we need to adjust the width of the view
         let oldThickness = ruleThickness
         let newThickness = requiredThickness
-        if fabs(oldThickness - newThickness) > 1 {
+        if abs(oldThickness - newThickness) > 1 {
             DispatchQueue.main.async {
                 self.ruleThickness = newThickness
             }

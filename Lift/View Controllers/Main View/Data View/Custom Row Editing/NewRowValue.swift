@@ -159,4 +159,3 @@ class NewRowValue: NSObject {
 
     }
 }
-

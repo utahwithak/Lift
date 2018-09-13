@@ -26,7 +26,7 @@ func + (lhs: SelectionBox, rhs: Int) -> SelectionBox {
 
 extension CGRect {
     init(p1: CGPoint, p2: CGPoint) {
-        self.init(x: min(p1.x, p2.x), y: min(p1.y, p2.y), width: fabs(p1.x - p2.x), height: fabs(p1.y - p2.y))
+        self.init(x: min(p1.x, p2.x), y: min(p1.y, p2.y), width: abs(p1.x - p2.x), height: abs(p1.y - p2.y))
     }
 }
 

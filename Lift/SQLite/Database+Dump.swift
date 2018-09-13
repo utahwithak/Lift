@@ -214,7 +214,7 @@ private func dump_callback( pArg: UnsafeMutableRawPointer?, nArg: Int32, azArg: 
             helper.handle.write( zIns)
             return 0
         } else {
-            if( sqlite3_strglob("CREATE TABLE ['\"]*", zSql)==0 ) {
+            if sqlite3_strglob("CREATE TABLE ['\"]*", zSql) == 0 {
                 let trimmed = zSql.replacingOccurrences(of: "CREATE TABLE ", with: "")
                 helper.handle.write( "CREATE TABLE IF NOT EXISTS \(trimmed);\n")
             } else {

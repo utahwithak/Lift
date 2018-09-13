@@ -27,7 +27,6 @@ enum SimpleUpdateType {
     case argument(String)
     case rawData(SQLiteData)
 
-
     static let allVals: [SimpleUpdateType] = [.null, .current_time, .current_date, .current_timestamp, .defaultValue]
 
     var title: String {

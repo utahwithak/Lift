@@ -75,7 +75,7 @@ class SideBarDetailsViewController: LiftViewController {
     var sections: [DetailSection] = [.database, .table] {
         didSet {
             let pastIndex = segmentedControl.selectedSegment
-            var pastVal: DetailSection? = nil
+            var pastVal: DetailSection?
             if pastIndex >= 0 && pastIndex < oldValue.count {
                 pastVal = oldValue[pastIndex]
             }
