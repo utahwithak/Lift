@@ -1,6 +1,7 @@
 #include <CoreFoundation/CoreFoundation.h>
 #include <CoreServices/CoreServices.h>
 #include <QuickLook/QuickLook.h>
+#import "HTMLPreviewBuilder.h"
 
 OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thumbnail, CFURLRef url, CFStringRef contentTypeUTI, CFDictionaryRef options, CGSize maxSize);
 void CancelThumbnailGeneration(void *thisInterface, QLThumbnailRequestRef thumbnail);
@@ -13,7 +14,19 @@ void CancelThumbnailGeneration(void *thisInterface, QLThumbnailRequestRef thumbn
 
 OSStatus GenerateThumbnailForURL(void *thisInterface, QLThumbnailRequestRef thumbnail, CFURLRef url, CFStringRef contentTypeUTI, CFDictionaryRef options, CGSize maxSize)
 {
-    // To complete your generator please implement the function GenerateThumbnailForURL in GenerateThumbnailForURL.c
+    @autoreleasepool {
+
+        // Set up the object that creates the HTML preview
+        HTMLPreviewBuilder *builder = [[HTMLPreviewBuilder alloc] init];
+
+        NSString *html = [builder htmlPreviewForPath:(__bridge NSURL*)url];
+        if(html == nil)
+            return noErr;
+
+        QLThumbnailRequestSetThumbnailWithDataRepresentation(thumbnail,
+                                                             (__bridge CFDataRef)[html dataUsingEncoding:NSUTF8StringEncoding],
+                                                             kUTTypeHTML, NULL,NULL);
+    }
     return noErr;
 }
 

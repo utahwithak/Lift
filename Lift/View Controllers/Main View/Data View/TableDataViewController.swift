@@ -60,22 +60,19 @@ class TableDataViewController: LiftMainViewController {
 
     private var queryString: String? {
         didSet {
+            clearTable()
+
             if queryString?.isEmpty ?? true {
                 filterButton.image = #imageLiteral(resourceName: "filter")
                 data = selectedTable?.basicData
-                data?.delegate = self
-                resetTableView()
-
             } else {
                 filterButton.image = #imageLiteral(resourceName: "highlightedFilter")
                 if let provider = selectedTable {
-                    clearTable()
                     data = TableData(provider: provider, customQuery: queryString)
-                    data?.delegate = self
-                    resetTableView()
                 }
-
             }
+            data?.delegate = self
+            resetTableView()
         }
     }
 
@@ -134,6 +131,9 @@ class TableDataViewController: LiftMainViewController {
         }
 
         copySelection(selectionBox, fromData: data, asJson: false, columnMap: columnMap)
+    }
+    @IBAction func performFindPanelAction(_ sender: Any?) {
+        showFilter(nil)
     }
 
     @IBAction func dropSelected(_ sender: Any) {
@@ -460,7 +460,7 @@ class TableDataViewController: LiftMainViewController {
 
     }
 
-    @IBAction func showFilter(_ sender: NSButton) {
+    @IBAction func showFilter(_ sender: NSButton?) {
         windowController?.toggleBottomBar()
     }
 

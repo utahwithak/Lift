@@ -13,12 +13,52 @@
 			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>Icon1024-128@2x</string>
+			<key>CFBundleTypeMIMETypes</key>
+			<array>
+				<string>application/x-sqlite3</string>
+			</array>
 			<key>CFBundleTypeName</key>
-			<string>DocumentType</string>
+			<string>SQLite Database</string>
 			<key>CFBundleTypeOSTypes</key>
 			<array>
 				<string>????</string>
 			</array>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSTypeIsPackage</key>
+			<integer>0</integer>
+			<key>NSDocumentClass</key>
+			<string>$(PRODUCT_MODULE_NAME).LiftDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>db</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>Icon1024-128@2x</string>
+			<key>CFBundleTypeMIMETypes</key>
+			<array>
+				<string>public.data</string>
+			</array>
+			<key>CFBundleTypeName</key>
+			<string>Database</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSTypeIsPackage</key>
+			<integer>0</integer>
+			<key>NSDocumentClass</key>
+			<string>$(PRODUCT_MODULE_NAME).LiftDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeExtensions</key>
+			<array>
+				<string>sqlite3</string>
+			</array>
+			<key>CFBundleTypeIconFile</key>
+			<string>Icon1024-128@2x</string>
+			<key>CFBundleTypeName</key>
+			<string>SQLite Database</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>NSDocumentClass</key>

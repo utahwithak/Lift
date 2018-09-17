@@ -171,6 +171,7 @@ class GraphViewsContainer: NSView {
         NSColor.black.set()
         NSBezierPath.defaultLineWidth = 3
         for view in arrowViews {
+            view.path?.lineWidth = 3
             view.path?.stroke()
         }
     }

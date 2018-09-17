@@ -15,6 +15,7 @@ class TablePredicateViewController: LiftViewController {
     private var rowTemplate: NSPredicateEditorRowTemplate!
 
     @IBOutlet var columnNameController: NSArrayController!
+
     override var selectedTable: DataProvider? {
         didSet {
             updateEditor()
@@ -105,7 +106,6 @@ class TablePredicateViewController: LiftViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        predicateEditor.wantsLayer = true
         predicateEditor.bind(NSBindingName.value, to: self, withKeyPath: #keyPath(TablePredicateViewController.predicate), options: nil)
     }
 
@@ -172,7 +172,6 @@ class TablePredicateViewController: LiftViewController {
     }
 
     @IBAction func clearPredicate(_ sender: Any) {
-
          predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [])
     }
 

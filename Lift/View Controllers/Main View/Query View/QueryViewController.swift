@@ -10,14 +10,14 @@ import Cocoa
 
 class QueryViewController: LiftMainViewController {
     @IBOutlet var sqlView: SQLiteTextView!
-
+    private var potentialCompletions = [SQLiteTextView.CompletionResult]()
     private var isCanceled = false
     @objc dynamic var shouldContinueAfterErrors = false
     override func viewDidLoad() {
         super.viewDidLoad()
         sqlView.setup()
         NotificationCenter.default.addObserver(self, selector: #selector(databaseReloaded), name: .DatabaseReloaded, object: nil)
-
+        sqlView.completionDelegate = self
     }
 
     @objc private func databaseReloaded(_ noti: Notification) {
@@ -25,9 +25,8 @@ class QueryViewController: LiftMainViewController {
             return
         }
 
-        if let ids = self.document?.keywords() {
-            self.sqlView.setIdentifiers(ids)
-        }
+        refreshCompletions()
+
     }
 
     lazy var resultsViewController: QueryResultsViewController? = {
@@ -135,6 +134,37 @@ class QueryViewController: LiftMainViewController {
         return sections
     }
 
+    private static let keywordCompletions: [SQLiteTextView.CompletionResult] = {
+        let keywords = ["ABORT", "ACTION", "ADD", "AFTER", "ALL", "ALTER", "ANALYZE", "AND", "AS", "ASC", "ATTACH", "AUTOINCREMENT", "BEFORE", "BEGIN", "BETWEEN", "BY", "CASCADE", "CASE", "CAST", "CHECK", "COLLATE", "COLUMN", "COMMIT", "CONFLICT", "CONSTRAINT", "CREATE", "CROSS", "CURRENT_DATE", "CURRENT_TIME", "CURRENT_TIMESTAMP", "DATABASE", "DEFAULT", "DEFERRABLE", "DEFERRED", "DELETE", "DESC", "DETACH", "DISTINCT", "DROP", "EACH", "ELSE", "END", "ESCAPE", "EXCEPT", "EXCLUSIVE", "EXISTS", "EXPLAIN", "FAIL", "FOR", "FOREIGN", "FROM", "FULL", "GLOB", "GROUP", "HAVING", "IF", "IGNORE", "IMMEDIATE", "IN", "INDEX", "INDEXED", "INITIALLY", "INNER", "INSERT", "INSTEAD", "INTERSECT", "INTO", "IS", "ISNULL", "JOIN", "KEY", "LEFT", "LIKE", "LIMIT", "MATCH", "NATURAL", "NO", "NOT", "NOTNULL", "NULL", "OF", "OFFSET", "ON", "OR", "ORDER", "OUTER", "PLAN", "PRAGMA", "PRIMARY", "QUERY", "RAISE", "RECURSIVE", "REFERENCES", "REGEXP", "REINDEX", "RELEASE", "RENAME", "REPLACE", "RESTRICT", "RIGHT", "ROLLBACK", "ROW", "SAVEPOINT", "SELECT", "SET", "TABLE", "TEMP", "TEMPORARY", "THEN", "TO", "TRANSACTION", "TRIGGER", "UNION", "UNIQUE", "UPDATE", "USING", "VACUUM", "VALUES", "VIEW", "VIRTUAL", "WHEN", "WHERE", "WITH", "WITHOUT", "INTEGER", "TEXT", "BLOB", "NULL", "REAL"]
+        return keywords.map { SQLiteTextView.CompletionResult.keyword($0) }
+    }()
+
+    private func refreshCompletions() {
+
+        var ids = Set<String>()
+
+        var potentials = QueryViewController.keywordCompletions
+        guard let document = document else {
+            return
+        }
+
+        for db in document.database.allDatabases {
+            potentials.append(.database(db.name))
+            ids.insert(db.name)
+            for table in db.tables {
+                ids.insert(table.name)
+                potentials.append(.table(table.name, database: db.name))
+                for column in table.columns {
+                    ids.insert(column.name)
+                    potentials.append(.column(column.name, table: table.name))
+                }
+            }
+        }
+        sqlView.setIdentifiers(ids)
+        potentials.sort(by: { $0.completion < $1.completion })
+        self.potentialCompletions = potentials
+    }
+
 }
 
 extension QueryViewController: BottomEditorContentProvider {
@@ -149,4 +179,31 @@ extension QueryViewController: SnippetDataDelegate {
         return sqlView.string
     }
 
+}
+
+extension QueryViewController: SQLiteTextViewCompletionDelegate {
+    func completionsFor(range: NSRange, in textView: SQLiteTextView) -> [SQLiteTextView.CompletionResult] {
+
+        let partialWord = (textView.string as NSString).substring(with: range)
+
+        if partialWord.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+            return self.potentialCompletions
+        } else {
+            // last will be empty string from the "." so we drop that and get the actual last
+            //
+            if partialWord.last == ".", let parent = partialWord.components(separatedBy: ".").dropLast().last {
+                return potentialCompletions.filter {
+                    return $0.parentText?.lowercased() == parent.lowercased()
+                }
+            } else if let lastComponent = partialWord.components(separatedBy: ".").last {
+                return potentialCompletions.filter {
+                    return $0.completion.lowercased().hasPrefix(lastComponent.lowercased())
+                }
+            } else {
+                return potentialCompletions.filter {
+                    return $0.completion.lowercased().hasPrefix(partialWord.lowercased())
+                }
+            }
+        }
+    }
 }

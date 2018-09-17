@@ -44,10 +44,10 @@ class TableGraphViewController: LiftMainViewController {
     @IBAction func zoomChange(_ sender: NSSegmentedControl) {
         switch sender.selectedSegment {
         case 1:
-            scrollView.animator().magnification = scrollView.magnification + 0.05
+            scrollView.animator().magnification = scrollView.magnification + 0.1
 
         default:
-            scrollView.animator().magnification = scrollView.magnification - 0.05
+            scrollView.animator().magnification = scrollView.magnification - 0.1
         }
 
     }
@@ -100,8 +100,10 @@ class TableGraphViewController: LiftMainViewController {
 
         var x: CGFloat = 0
         var y: CGFloat = 0
+        var tablerect = CGRect.zero
         for view in container.subviews {
             view.frame.origin = CGPoint(x: x * 260 + CGFloat(width) * 200, y: y * (maxHeight + 200) + CGFloat(width) * 200)
+            tablerect = tablerect.union(view.frame)
             x += 1
             if Int(x) == width {
                 x = 0
@@ -113,6 +115,7 @@ class TableGraphViewController: LiftMainViewController {
         for childController in children {
             if let graphView = childController as? GraphTableView, let pastRect = frameMap[graphView.table.qualifiedNameForQuery] {
                 graphView.view.frame = pastRect
+                tablerect = tablerect.union(pastRect)
             }
         }
 
@@ -137,6 +140,8 @@ class TableGraphViewController: LiftMainViewController {
                 }
             }
         }
+        scrollView.documentView?.scroll(NSPoint(x: tablerect.midX, y: tablerect.midY))
+
     }
 }
 

@@ -11,6 +11,8 @@ import Cocoa
 class SideBarBrowseViewController: LiftViewController {
 
     @IBOutlet weak var outlineView: NSOutlineView!
+    @IBOutlet weak var searchLeadingConstraint: NSLayoutConstraint!
+
     override var representedObject: Any? {
 
         didSet {
@@ -99,7 +101,6 @@ class SideBarBrowseViewController: LiftViewController {
     }
 
     override func mouseDown(with event: NSEvent) {
-        print("Mouse down!")
         super.mouseDown(with: event)
     }
 
@@ -483,4 +484,26 @@ extension SideBarBrowseViewController: NSMenuDelegate {
 
     }
 
+}
+
+extension SideBarBrowseViewController: NSSearchFieldDelegate {
+    func control(_ control: NSControl, textShouldBeginEditing fieldEditor: NSText) -> Bool {
+
+        return true
+    }
+    func controlTextDidBeginEditing(_ obj: Notification) {
+        searchLeadingConstraint.animator().constant = 5
+    }
+
+    func controlTextDidEndEditing(_ obj: Notification) {
+        searchLeadingConstraint.animator().constant = 95
+    }
+
+    func searchFieldDidStartSearching(_ sender: NSSearchField) {
+
+    }
+
+    func searchFieldDidEndSearching(_ sender: NSSearchField) {
+
+    }
 }
