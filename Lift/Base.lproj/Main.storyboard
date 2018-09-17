@@ -4479,10 +4479,10 @@ Gw
                             <constraint firstItem="ZLL-ee-ZyH" firstAttribute="top" secondItem="own-s7-gPV" secondAttribute="bottom" constant="-1" id="8MD-dI-NaN"/>
                             <constraint firstItem="weo-FO-6dZ" firstAttribute="leading" secondItem="ZLL-ee-ZyH" secondAttribute="trailing" id="Ccj-ll-fWA"/>
                             <constraint firstAttribute="bottom" secondItem="ZLL-ee-ZyH" secondAttribute="bottom" id="TKH-h6-aLy"/>
-                            <constraint firstItem="CzW-3a-6A7" firstAttribute="leading" secondItem="56L-Uj-Vl3" secondAttribute="leading" constant="90" id="VlH-MO-2W9"/>
                             <constraint firstAttribute="trailing" secondItem="CzW-3a-6A7" secondAttribute="trailing" constant="5" id="ZpT-yo-93L"/>
                             <constraint firstItem="own-s7-gPV" firstAttribute="top" secondItem="56L-Uj-Vl3" secondAttribute="top" id="d6E-w7-lRu"/>
                             <constraint firstItem="oyB-NO-kYh" firstAttribute="leading" secondItem="weo-FO-6dZ" secondAttribute="trailing" id="hf9-3c-suK"/>
+                            <constraint firstItem="CzW-3a-6A7" firstAttribute="leading" secondItem="oyB-NO-kYh" secondAttribute="trailing" id="lYK-HA-opv"/>
                             <constraint firstItem="weo-FO-6dZ" firstAttribute="centerY" secondItem="ZLL-ee-ZyH" secondAttribute="centerY" id="mbA-iu-UvN"/>
                             <constraint firstItem="own-s7-gPV" firstAttribute="leading" secondItem="56L-Uj-Vl3" secondAttribute="leading" constant="-1" id="saZ-ms-Dtz"/>
                             <constraint firstAttribute="bottom" secondItem="CzW-3a-6A7" secondAttribute="bottom" constant="3" id="spc-x5-5D5"/>
@@ -4492,7 +4492,7 @@ Gw
                     </view>
                     <connections>
                         <outlet property="outlineView" destination="New-S5-vFv" id="LAu-d3-Z4r"/>
-                        <outlet property="searchLeadingConstraint" destination="VlH-MO-2W9" id="krI-kZ-4Fa"/>
+                        <outlet property="tableFilterField" destination="CzW-3a-6A7" id="omA-cg-bdh"/>
                         <outlet property="treeController" destination="xkL-HF-Tzl" id="4dW-xI-vPK"/>
                         <segue destination="Vy1-dh-UOw" kind="sheet" identifier="createTable" id="ViG-Q2-UT3"/>
                         <segue destination="VPR-Ms-cZT" kind="sheet" identifier="createView" id="qEr-md-pz8"/>

@@ -186,7 +186,6 @@ class SQLiteTextView: NSTextView {
             return
         }
 
-        let current = autoCompletionData
         autoCompletionData = completionData
 
         var p = NSRange(location: 0, length: 0)

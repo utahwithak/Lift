@@ -64,7 +64,7 @@ class Database: NSObject {
     }
 
     public let connection: sqlite3
-    public let name: String
+    @objc dynamic public let name: String
 
     public private(set) var path: String = ""
 

@@ -11,8 +11,8 @@ import Cocoa
 class SideBarBrowseViewController: LiftViewController {
 
     @IBOutlet weak var outlineView: NSOutlineView!
-    @IBOutlet weak var searchLeadingConstraint: NSLayoutConstraint!
 
+    @IBOutlet weak var tableFilterField: NSSearchField!
     override var representedObject: Any? {
 
         didSet {
@@ -28,6 +28,7 @@ class SideBarBrowseViewController: LiftViewController {
     @objc dynamic var nodes = [BrowseViewNode]()
 
     @IBOutlet var treeController: NSTreeController!
+    private var outlinePredicate: NSPredicate?
 
     func refreshNodes() {
         guard let document = document else {
@@ -35,14 +36,13 @@ class SideBarBrowseViewController: LiftViewController {
             return
         }
         if let headerNode = nodes.first as? HeaderViewNode {
-            headerNode.refresh(with: document)
-
+            headerNode.refresh(with: document, filteredWith: outlinePredicate)
         } else {
             nodes.removeAll(keepingCapacity: true)
             let header = HeaderViewNode(name: NSLocalizedString("Databases", comment: "Databases header cell title"))
 
             for database in document.database.allDatabases {
-                header.children.append(DatabaseViewNode(database: database))
+                header.children.append(DatabaseViewNode(database: database, filteredWith: outlinePredicate))
             }
             nodes.append(header)
         }
@@ -487,23 +487,21 @@ extension SideBarBrowseViewController: NSMenuDelegate {
 }
 
 extension SideBarBrowseViewController: NSSearchFieldDelegate {
-    func control(_ control: NSControl, textShouldBeginEditing fieldEditor: NSText) -> Bool {
+    func controlTextDidChange(_ obj: Notification) {
 
-        return true
-    }
-    func controlTextDidBeginEditing(_ obj: Notification) {
-        searchLeadingConstraint.animator().constant = 5
-    }
+        if (obj.object as? NSSearchField) == self.tableFilterField {
 
-    func controlTextDidEndEditing(_ obj: Notification) {
-        searchLeadingConstraint.animator().constant = 95
-    }
-
-    func searchFieldDidStartSearching(_ sender: NSSearchField) {
-
-    }
-
-    func searchFieldDidEndSearching(_ sender: NSSearchField) {
-
+            let predicate: NSPredicate?
+            if tableFilterField.stringValue.isEmpty {
+                predicate = nil
+            } else {
+                predicate = NSPredicate(format: "name contains[c] %@", tableFilterField.stringValue)
+            }
+            outlinePredicate = predicate
+            refreshNodes()
+            if predicate != nil {
+                outlineView.expandItem(nil, expandChildren: true)
+            }
+        }
     }
 }

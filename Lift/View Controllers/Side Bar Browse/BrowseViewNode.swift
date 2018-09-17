@@ -29,7 +29,7 @@ class BrowseViewNode: NSObject {
 
 class HeaderViewNode: BrowseViewNode {
 
-    func refresh(with document: LiftDocument) {
+    func refresh(with document: LiftDocument, filteredWith predicate: NSPredicate?) {
         guard let dbNodes = children as? [DatabaseViewNode] else {
             return
         }
@@ -42,7 +42,7 @@ class HeaderViewNode: BrowseViewNode {
             let database = allDbs[newIndex]
             if let index = dbNodes.index(where: { $0.database?.name == database.name}) {
                 toRemove.remove(index)
-                dbNodes[index].reload(with: database)
+                dbNodes[index].reload(with: database, with: predicate)
                 toAdd.remove(newIndex)
             }
         }
@@ -52,24 +52,49 @@ class HeaderViewNode: BrowseViewNode {
         }
 
         for toAdd in toAdd {
-            children.append(DatabaseViewNode(database: allDbs[toAdd]))
+            children.append(DatabaseViewNode(database: allDbs[toAdd], filteredWith: predicate))
         }
 
-        children.sort { (l, r) -> Bool in
-            guard let lhs = (l as? DatabaseViewNode)?.database, let rhs = (r as? DatabaseViewNode)?.database else {
-                return false
+        if !toAdd.isEmpty {
+            children.sort { (l, r) -> Bool in
+                guard let lhs = (l as? DatabaseViewNode)?.database, let rhs = (r as? DatabaseViewNode)?.database else {
+                    return false
+                }
+
+                return allDbs.index(of: lhs)! < allDbs.index(of: rhs)!
             }
-
-            return allDbs.index(of: lhs)! < allDbs.index(of: rhs)!
         }
 
+        if let predicate = predicate {
+            for case let database as DatabaseViewNode in children {
+                database.filterWith(predicate: predicate)
+            }
+        }
     }
 }
 
 class GroupViewNode: BrowseViewNode {
     @objc dynamic var image: NSImage?
+    func filter(with predicate: NSPredicate) {
+        var filteredChildren = [TableViewNode]()
+        for case let table as TableViewNode in children {
+            if predicate.evaluate(with: table) {
+                filteredChildren.append(table)
+            } else {
+                let tableChildren = table.children.filter(predicate.evaluate)
+                if !tableChildren.isEmpty {
+                    table.children = tableChildren
+                    filteredChildren.append(table)
+                } else {
 
-    func refresh( with providers: [DataProvider]) {
+                }
+
+            }
+        }
+        children = filteredChildren
+    }
+
+    func refresh( with providers: [DataProvider], with predicate: NSPredicate?) {
         var toAdd = IndexSet(0..<providers.count)
         if !children.isEmpty {
             var toRemove = IndexSet(0..<children.count)
@@ -83,7 +108,7 @@ class GroupViewNode: BrowseViewNode {
                     guard let table = children[oldIndex] as? TableViewNode else {
                         continue
                     }
-                    table.refresh(with: newTable)
+                    table.refresh(with: newTable, with: predicate)
                 }
 
             }
@@ -91,13 +116,15 @@ class GroupViewNode: BrowseViewNode {
                 children.remove(at: toRemove)
             }
         }
-
-        for toAdd in toAdd {
-            children.append(TableViewNode(provider: providers[toAdd]))
-        }
-
-        children.sort { (l, r) -> Bool in
-            return l.name.localizedCaseInsensitiveCompare(r.name) == .orderedAscending
+        if !toAdd.isEmpty {
+            var newNodes = toAdd.map({ TableViewNode(provider: providers[$0]) })
+            newNodes = newNodes.filter({ predicate?.evaluate(with: $0) ?? true })
+            if !newNodes.isEmpty {
+                children.append(contentsOf: newNodes)
+                children.sort { (l, r) -> Bool in
+                    return l.name.localizedCaseInsensitiveCompare(r.name) == .orderedAscending
+                }
+            }
         }
 
     }
@@ -113,7 +140,7 @@ class DatabaseViewNode: BrowseViewNode {
     let viewGroup = GroupViewNode(name: NSLocalizedString("Views", comment: "View group header name"))
     let systemTableGroup = GroupViewNode(name: NSLocalizedString("System Tables", comment: "System Table group header name"))
 
-    init(database: Database) {
+    init(database: Database, filteredWith predicate: NSPredicate?) {
         self.database = database
 
         super.init(name: database.name)
@@ -142,22 +169,34 @@ class DatabaseViewNode: BrowseViewNode {
 
         refreshChildren()
 
+        if let predicate = predicate {
+            filterWith(predicate: predicate)
+        }
+
     }
 
-    func reload(with database: Database) {
+    func filterWith(predicate: NSPredicate) {
+        tableGroup.filter(with: predicate)
+        viewGroup.filter(with: predicate)
+        systemTableGroup.filter(with: predicate)
+
+        refreshChildren()
+    }
+
+    func reload(with database: Database, with predicate: NSPredicate?) {
         self.database = database
 
-        if let url = URL(string: database.path) {
+        if let url = URL(string: database.path), url.lastPathComponent != path {
             path = url.lastPathComponent
-        } else {
+        } else if path != database.path {
             path = database.path
         }
 
-        tableGroup.refresh(with: database.tables)
+        tableGroup.refresh(with: database.tables, with: predicate)
 
-        viewGroup.refresh(with: database.views)
+        viewGroup.refresh(with: database.views, with: predicate)
 
-        systemTableGroup.refresh(with: database.systemTables)
+        systemTableGroup.refresh(with: database.systemTables, with: predicate)
 
         refreshChildren()
 
@@ -219,9 +258,7 @@ class TableViewNode: BrowseViewNode {
             refreshingCount = false
         }
 
-        for column in provider.columns {
-            children.append( ColumnNode(parent: provider, name: column.name, type: column.type))
-        }
+        children = provider.columns.map { ColumnNode(parent: provider, name: $0.name, type: $0.type) }
 
     }
 
@@ -260,7 +297,7 @@ class TableViewNode: BrowseViewNode {
         tokens = [token1, token2, token3]
     }
 
-    func refresh(with provider: DataProvider) {
+    func refresh(with provider: DataProvider, with predicate: NSPredicate?) {
         self.provider = provider
 
         startListening()
@@ -270,7 +307,7 @@ class TableViewNode: BrowseViewNode {
             rowCount = NSNumber(value: curCount)
             refreshingCount = false
         }
-
+        children = provider.columns.map { ColumnNode(parent: provider, name: $0.name, type: $0.type) }.filter({ predicate?.evaluate(with: $0) ?? true })
     }
 }
 
