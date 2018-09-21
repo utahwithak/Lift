@@ -300,7 +300,8 @@ class Table: DataProvider {
             }
 
             tableProperties["columns"] = columnElements
-            tableData["properities"] = tableProperties
+            tableData["properties"] = tableProperties
+            tableData["originalSQL"] = sql
         }
 
         let names = columns.map { $0.name }

@@ -16,6 +16,8 @@ class ImportDataViewController: LiftViewController {
 
     let skipColumnTitle = NSLocalizedString("Don't Import", comment: "Don't import this column title")
 
+    var parsedColumns: [ImportViewController.TableProperties.Column]?
+
     var data: [[Any?]]!
     @IBOutlet var columnArrayController: NSArrayController!
     @IBOutlet var tableArrayController: NSArrayController!
@@ -40,11 +42,7 @@ class ImportDataViewController: LiftViewController {
 
                 }
             } else if creatingNewTable {
-                if let names = data.first as? [String] {
-                    for i in 0..<names.count {
-                        columnChoices[i].columnName = names[i]
-                    }
-                }
+                refreshColumnChoices()
             }
         }
     }
@@ -63,22 +61,15 @@ class ImportDataViewController: LiftViewController {
             tableView.removeTableColumn(tableView.tableColumns[0])
         }
 
-        if let firstRow = data.first {
-            for i in 0..<firstRow.count {
-                let newColumn = NSTableColumn(identifier: NSUserInterfaceItemIdentifier("\(i)"))
-                let format = NSLocalizedString("Column %i", comment: "import column title, %@ replaced with the column number")
-                newColumn.title = String(format: format, i + 1)
-                tableView.addTableColumn(newColumn)
-                columnChoices.append(ImportColumnChoice())
-            }
-            if let names = firstRow as? [String] {
-                skipFirstRow = true
-                for i in 0..<names.count {
-                    columnChoices[i].columnName = names[i]
-                }
-            }
-
+        let maxColumn = data.reduce(0, { max($0, $1.count)})
+        for i in 0..<maxColumn {
+            let newColumn = NSTableColumn(identifier: NSUserInterfaceItemIdentifier("\(i)"))
+            newColumn.title = defaultColumnName(for: i)
+            tableView.addTableColumn(newColumn)
+            columnChoices.append(ImportColumnChoice())
         }
+
+        refreshColumnChoices()
 
         importIntoChoices.append(newTableChoice)
 
@@ -105,6 +96,29 @@ class ImportDataViewController: LiftViewController {
         delegate?.closeImportView(self)
     }
 
+    private func defaultColumnName(for i: Int) -> String {
+        let format = NSLocalizedString("Column %i", comment: "import column title, %@ replaced with the column number")
+        return String(format: format, i + 1)
+    }
+    private func refreshColumnChoices() {
+
+        for i in 0..<columnChoices.count {
+            columnChoices[i].columnName = defaultColumnName(for: i)
+        }
+
+        if let columns = parsedColumns {
+            skipFirstRow = false
+            for (i, column) in columns.enumerated() where i < columnChoices.count {
+                columnChoices[i].columnName = column.name
+            }
+        } else if let names = data.first as? [String] {
+            skipFirstRow = true
+            for i in 0..<names.count {
+                columnChoices[i].columnName = names[i]
+            }
+        }
+
+    }
     @IBAction func importData(_ sender: Any) {
 
         guard let database = document?.database else {
@@ -329,11 +343,10 @@ extension ImportDataViewController: NSTableViewDelegate {
                     return nil
                 }
                 view.removeAllItems()
-                if let firstRow = data.first?.compactMap({ $0 }).map({ "\($0)" }) {
-                    view.addItems(withObjectValues: firstRow)
-                    view.addItem(withObjectValue: skipColumnTitle)
-                    view.selectItem(at: column)
-                }
+                let firstRow = columnChoices.map({ $0.columnName })
+                view.addItems(withObjectValues: firstRow)
+                view.addItem(withObjectValue: skipColumnTitle)
+                view.selectItem(at: column)
 
                 view.bind(NSBindingName.value, to: columnChoices[column], withKeyPath: #keyPath(ImportColumnChoice.columnName), options: nil)
                 return view

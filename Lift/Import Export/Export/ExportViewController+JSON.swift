@@ -77,7 +77,7 @@ extension ExportViewController {
                 DispatchQueue.main.async {
                     let alert = NSAlert()
                     alert.messageText = NSLocalizedString("Error exporting data", comment: "Generic export error")
-                    alert.informativeText = NSLocalizedString("Unable to save XML File", comment: "CSV export error informative message")
+                    alert.informativeText = NSLocalizedString("Unable to save JSON File", comment: "CSV export error informative message")
 
                     alert.addButton(withTitle: "Ok")
                     alert.runModal()

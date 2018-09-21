@@ -1108,6 +1108,9 @@
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
+                                <connections>
+                                    <binding destination="MIF-Z1-DtN" name="hidden" keyPath="self.hasImports" id="k1s-WB-gjS"/>
+                                </connections>
                             </textField>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="0Ug-sx-SeV" customClass="TabControl" customModule="Lift" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="241" width="476" height="28"/>
@@ -1138,7 +1141,7 @@
                                 </tabViewItems>
                             </tabView>
                             <pathControl verticalHuggingPriority="750" allowsExpansionToolTips="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ZqY-Lx-yoR">
-                                <rect key="frame" x="134" y="289" width="230" height="22"/>
+                                <rect key="frame" x="134" y="289" width="226" height="22"/>
                                 <constraints>
                                     <constraint firstAttribute="width" relation="lessThanOrEqual" constant="300" id="wLD-f4-1v5"/>
                                 </constraints>
@@ -1146,6 +1149,9 @@
                                     <font key="font" metaFont="system"/>
                                     <url key="url" string="file://localhost/Applications/"/>
                                 </pathCell>
+                                <connections>
+                                    <binding destination="MIF-Z1-DtN" name="value" keyPath="self.importPath" id="n8P-gf-cSw"/>
+                                </connections>
                             </pathControl>
                         </subviews>
                         <constraints>
@@ -1177,6 +1183,7 @@
                 </viewController>
                 <customObject id="EPh-xa-mo7" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController id="Cym-lG-kIl"/>
+                <userDefaultsController id="dth-Jp-uU6"/>
             </objects>
             <point key="canvasLocation" x="-2316" y="-331"/>
         </scene>

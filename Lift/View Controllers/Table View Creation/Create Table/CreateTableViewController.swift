@@ -130,6 +130,6 @@ class CreateColumnArrayController: NSArrayController {
     // overridden to add a new object to the content objects and to the arranged objects
     override func newObject() -> Any {
         let count = (arrangedObjects as? NSArray)?.count
-        return CreateColumnDefinition(name:  "Column \( (count ?? 0) + 1)", table: table)
+        return CreateColumnDefinition(name: "Column \( (count ?? 0) + 1)", table: table)
     }
 }

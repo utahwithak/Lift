@@ -22,6 +22,8 @@ class ImportViewController: LiftViewController {
     @IBOutlet var tabViewHeightConstraint: NSLayoutConstraint!
     @IBOutlet var tabControlHeightConstraint: NSLayoutConstraint!
 
+    @objc dynamic var hasImports = false
+
     public weak var delegate: ImportViewDelegate?
 
     @IBAction func chooseImportPath(_ sender: Any) {
@@ -75,6 +77,8 @@ class ImportViewController: LiftViewController {
         tabView.isHidden = true
         tabViewHeightConstraint.constant = 0
         tabControlHeightConstraint.constant = 0
+        self.hasImports = false
+
     }
 
     private func showContentView() {
@@ -82,6 +86,7 @@ class ImportViewController: LiftViewController {
         tabView.animator().isHidden = false
         tabViewHeightConstraint.constant = 150
         tabControlHeightConstraint.constant = 28
+        self.hasImports = true
 
         tabControl.reloadData()
     }
@@ -157,9 +162,29 @@ class ImportViewController: LiftViewController {
                             return
                         }
                         importView.delegate = self
-
+                        importView.parsedColumns = table.properties.columns
                         importView.data = table.data
-                        importView.title = table.proprties.name
+                        importView.title = table.properties.name
+                        importView.representedObject = self.representedObject
+
+                        let newView = NSTabViewItem(viewController: importView)
+                        self.tabView.addTabViewItem(newView)
+                    }
+                } catch {
+                    self.presentError(error)
+                }
+            case .json(let jsonData):
+                do {
+                    let tables = try self.parseJSON(data: jsonData)
+                    for table in tables {
+
+                        guard let importView = self.storyboard?.instantiateController(withIdentifier: "importDataView") as? ImportDataViewController else {
+                            return
+                        }
+                        importView.delegate = self
+                        importView.parsedColumns = table.properties.columns
+                        importView.data = table.data
+                        importView.title = table.properties.name
                         importView.representedObject = self.representedObject
 
                         let newView = NSTabViewItem(viewController: importView)
@@ -175,16 +200,20 @@ class ImportViewController: LiftViewController {
     }
 
     struct ImportTableInformation {
-        let proprties: TableProperties
+        let properties: TableProperties
         let data: [[Any?]]
     }
 
     struct TableProperties {
         var name: String
-        var columns = [(String, String)]()
+        var columns = [Column]()
         var fullSQL: String?
         init(name: String) {
             self.name = name
+        }
+        struct Column {
+            let name: String
+            let type: String
         }
     }
 
@@ -210,7 +239,7 @@ class ImportViewController: LiftViewController {
                     for (colIndex, columnElement) in columns.enumerated() {
                         let columnName = columnElement.child(named: "name")?.stringValue ?? "Column \(colIndex + 1)"
                         let type = columnElement.child(named: "type")?.stringValue ?? ""
-                        props.columns.append((columnName, type))
+                        props.columns.append(TableProperties.Column(name: columnName, type: type))
                     }
                 }
 
@@ -218,7 +247,6 @@ class ImportViewController: LiftViewController {
             guard let rows = tableElement.child(named: "data")?.elements(forName: "row") else {
                 throw LiftError.invalidImportXML("Missing <data> section containing rows")
             }
-
             var tableData = [[Any?]]()
             for rowElement in rows {
                 var rowData = [Any?]()
@@ -266,12 +294,62 @@ class ImportViewController: LiftViewController {
                 tableData.append(rowData)
             }
 
-            let tableInfo = ImportTableInformation(proprties: props, data: tableData)
+            let tableInfo = ImportTableInformation(properties: props, data: tableData)
 
             importInfos.append(tableInfo)
         }
 
         return importInfos
+    }
+
+    private func parseTable(data jsonData: [String: Any]) -> ImportTableInformation {
+        var properties = TableProperties(name: "Unknown Table")
+        var order = [String]()
+        if let tableProperty = jsonData["properties"] as? [String: Any] {
+            if let name = tableProperty["name"] as? String {
+                properties.name = name
+            }
+            if let columns = tableProperty["columns"] as? [[String: String]] {
+                for columnInfo in columns {
+                    if let name = columnInfo["name"] {
+                        properties.columns.append(TableProperties.Column(name: name, type: columnInfo["type"] ?? ""))
+                        order.append(name)
+                    }
+                }
+            }
+        }
+        var allRowData = [[Any?]]()
+        if let data = jsonData["data"] as? [Any] {
+            for row in data {
+                switch row {
+                case let dictionary as [String: Any]:
+                    if order.isEmpty {
+                        order = dictionary.keys.sorted()
+                    }
+                    var rowArray = [Any?]()
+                    for column in order {
+                        rowArray.append(dictionary[column])
+                    }
+                    allRowData.append(rowArray)
+                case let arrayData as [Any?]:
+                    allRowData.append(arrayData)
+                default:
+                    allRowData.append([])
+                }
+            }
+        }
+        return ImportTableInformation(properties: properties, data: allRowData)
+    }
+
+    private func parseJSON(data: Any) throws -> [ImportTableInformation] {
+        if let tableData = data as? [String: Any] {
+            return [parseTable(data: tableData)]
+        } else if let arrayOfTables = data as? [[String: Any]] {
+            return arrayOfTables.map { parseTable(data: $0)}
+        } else {
+            throw LiftError.invalidImportJSON(NSLocalizedString("Isn't a dictionary, or an array of dictionaries.", comment: "Invalid json error"))
+        }
+
     }
 
 }

@@ -13,7 +13,7 @@ enum ImportType {
 
     case failed
     case xml(XMLDocument)
-    case json
+    case json(Any)
     case sqlite
     case xlsx(XLSXDocument)
     case text(String, String.Encoding)
@@ -32,8 +32,9 @@ enum ImportType {
         }
 
         do {
-            _ = try JSONSerialization.jsonObject(with: data, options: [])
-            return .json
+            let json = try JSONSerialization.jsonObject(with: data, options: [])
+            return .json(json)
+
         } catch {
             print("file's not JSON")
         }

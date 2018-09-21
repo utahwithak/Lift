@@ -415,7 +415,7 @@ extension SideBarBrowseViewController: NSMenuDelegate {
                     menu.addItem(detatch)
                 }
 
-                if !database.path.isEmpty {
+                if !database.path.isEmpty && database.path != "In Memory" {
                     let detatch = NSMenuItem(title: "Show in Finder", action: #selector(showInFinder), keyEquivalent: "")
                     detatch.representedObject = URL(fileURLWithPath: database.path)
                     menu.addItem(detatch)

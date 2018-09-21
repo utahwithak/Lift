@@ -16,7 +16,14 @@ class BrowseViewNode: NSObject {
         self.name = name
     }
 
-    @objc dynamic var children = [BrowseViewNode]()
+    @objc dynamic var children = [BrowseViewNode]() {
+        willSet {
+            willChangeValue(for: \.childCount)
+        }
+        didSet {
+            didChangeValue(for: \.childCount)
+        }
+    }
 
     @objc dynamic var childCount: Int {
         return children.count
@@ -126,7 +133,6 @@ class GroupViewNode: BrowseViewNode {
                 }
             }
         }
-
     }
 }
 
