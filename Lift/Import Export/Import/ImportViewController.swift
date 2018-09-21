@@ -217,10 +217,19 @@ class ImportViewController: LiftViewController {
         }
     }
 
-    private func parseXML(document: XMLDocument) throws -> [ImportTableInformation] {
 
-        guard let tables = document.rootElement()?.elements(forName: "table"), !tables.isEmpty else {
-            throw LiftError.invalidImportXML("Missing table elements, <root> <table></table> <root>")
+    private func parseXML(document: XMLDocument) throws -> [ImportTableInformation] {
+        let tables: [XMLElement]
+        if let rootElement = document.rootElement(), rootElement.name == "table" {
+            tables = [rootElement]
+        } else if let childTables = document.rootElement()?.elements(forName: "table") {
+            tables = childTables
+        } else {
+            tables = []
+        }
+
+        guard !tables.isEmpty else {
+            throw LiftError.invalidImportXML("Missing table elements, ")
         }
 
         var importInfos = [ImportTableInformation]()
