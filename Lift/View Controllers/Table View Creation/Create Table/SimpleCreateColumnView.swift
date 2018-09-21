@@ -93,10 +93,9 @@ class SimpleCreateColumnView: NSTableCellView {
 
         let table = column.table
 
-        if columnOptions.isSelected(forSegment: 0) {
-            // ensure it is added to the primary key table constraint as well as any other columns that may have column constraints
-            if let tablePrimary = table.tableConstraints.primaryKey {
-                tablePrimary.add(column: column)
+        if columnOptions.isSelected(forSegment: 1) {
+            if let tableUnique = table.tableConstraints.unique {
+                tableUnique.add(column: column)
             } else {
                 //get any existing primary key constraint
                 let newConstraint = CreateTableConstraintDefinitions.CreateUnique()
