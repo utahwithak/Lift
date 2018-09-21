@@ -152,6 +152,8 @@ class ImportViewController: LiftViewController {
 
                     let newView = NSTabViewItem(viewController: importView)
                     self.tabView.addTabViewItem(newView)
+                    self.showContentView()
+
                 }
             case .xml(let document):
                 do {
@@ -169,6 +171,8 @@ class ImportViewController: LiftViewController {
 
                         let newView = NSTabViewItem(viewController: importView)
                         self.tabView.addTabViewItem(newView)
+                        self.showContentView()
+
                     }
                 } catch {
                     self.presentError(error)
@@ -189,12 +193,47 @@ class ImportViewController: LiftViewController {
 
                         let newView = NSTabViewItem(viewController: importView)
                         self.tabView.addTabViewItem(newView)
+                        self.showContentView()
                     }
                 } catch {
                     self.presentError(error)
                 }
-            default:
-                print("type:\(importType)")
+            case .sqlite(let otherDB):
+                do {
+                    for table in otherDB.tables {
+                        let query = try table.exportQuery(for: table.columns)
+                        query.loadInBackground(completion: { result in
+                            switch result {
+                            case .success(let data):
+                                if data.isEmpty {
+                                    return
+                                }
+                                guard let importView = self.storyboard?.instantiateController(withIdentifier: "importDataView") as? ImportDataViewController else {
+                                    return
+                                }
+                                importView.delegate = self
+                                importView.parsedColumns = table.columns.map { ImportViewController.TableProperties.Column(name: $0.name, type: $0.type)}
+                                importView.data = data.map({ $0.map({ $0.toAny })})
+                                importView.title = table.name
+                                importView.representedObject = self.representedObject
+                                let newView = NSTabViewItem(viewController: importView)
+                                self.tabView.addTabViewItem(newView)
+                                self.showContentView()
+
+                            case .failure(let error):
+                                print("Failed to query table:\(error)")
+                            }
+                        })
+                    }
+                } catch {
+                    self.presentError(error)
+                }
+                print("database")
+            case .failed:
+                let alert = NSAlert()
+                alert.informativeText = NSLocalizedString("Unable to parse the import file", comment: "Alert message when import failes")
+                alert.messageText = NSLocalizedString("Failed to Import", comment: "Alert title when parsing fails")
+                alert.runModal()
             }
         }
     }
@@ -216,7 +255,6 @@ class ImportViewController: LiftViewController {
             let type: String
         }
     }
-
 
     private func parseXML(document: XMLDocument) throws -> [ImportTableInformation] {
         let tables: [XMLElement]

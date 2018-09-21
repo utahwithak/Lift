@@ -14,7 +14,7 @@ enum ImportType {
     case failed
     case xml(XMLDocument)
     case json(Any)
-    case sqlite
+    case sqlite(Database)
     case xlsx(XLSXDocument)
     case text(String, String.Encoding)
 
@@ -23,7 +23,7 @@ enum ImportType {
         if let db = try? Database(type: .aux(path: url)) {
             db.refresh()
             if !db.tables.isEmpty {
-                return .sqlite
+                return .sqlite(db)
             }
         }
 

@@ -82,6 +82,20 @@ enum SQLiteData {
             return .blob
         }
     }
+    var toAny: Any? {
+        switch self {
+        case .null:
+            return nil
+        case .float(let f):
+            return f
+        case .integer(let i):
+            return i
+        case .text(let t):
+            return t
+        case .blob(let blob):
+            return blob
+        }
+    }
 }
 extension SQLiteData: Equatable {
 
