@@ -8,9 +8,9 @@
 
 import Foundation
 
-class CheckColumnConstraint: ColumnConstraint {
-
-    var checkExpression: String
+struct CheckColumnConstraint: ColumnConstraint {
+    let constraintName: SQLiteName?
+    let checkExpression: String
 
     init(with name: SQLiteName?, from scanner: Scanner) throws {
 
@@ -19,20 +19,10 @@ class CheckColumnConstraint: ColumnConstraint {
         }
 
         checkExpression = try SQLiteCreateTableParser.parseExp(from: scanner)
-
-        super.init(name: name)
+        self.constraintName = name
     }
 
-    private init(copying: CheckColumnConstraint) {
-        checkExpression = copying.checkExpression
-        super.init(name: copying.constraintName)
-    }
-
-    override func copy() -> ColumnConstraint {
-        return CheckColumnConstraint(copying: self)
-    }
-
-    override var sql: String {
+    var sql: String {
         var builder = ""
         if let name = constraintName {
             builder += "CONSTRAINT \(name) "

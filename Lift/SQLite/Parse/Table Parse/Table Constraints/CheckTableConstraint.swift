@@ -10,6 +10,8 @@ import Foundation
 
 class CheckTableConstraint: TableConstraint {
 
+    var name: String?
+
     var checkExpression: String
 
     init(with name: SQLiteName?, from scanner: Scanner) throws {
@@ -20,13 +22,15 @@ class CheckTableConstraint: TableConstraint {
 
         checkExpression = try SQLiteCreateTableParser.parseExp(from: scanner)
 
-        super.init(name: name)
+        self.name = name
     }
-    override var sql: String {
+
+    var sql: String {
         var builder = ""
         if let name = name?.sql {
             builder += "CONSTRAINT \(name) "
         }
         return builder + "CHECK \(checkExpression) "
     }
+
 }

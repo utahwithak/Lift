@@ -24,7 +24,7 @@ extension Database {
         }
     }
 
-    @objc dynamic public var foreignKeysEnabled: Bool {
+    @objc dynamic public var areForeignKeysEnabled: Bool {
         get {
             return SQLite3ConfigHelper.foreignKeysEnabled(for: connection)
         }

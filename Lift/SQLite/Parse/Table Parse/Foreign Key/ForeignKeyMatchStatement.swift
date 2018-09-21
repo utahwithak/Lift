@@ -13,7 +13,7 @@ struct ForeignKeyMatchStatement: Equatable {
     let name: String
 
     init(from scanner: Scanner) throws {
-        name = try SQLiteCreateTableParser.parseStringOrName(from: scanner).rawValue
+        name = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
     }
 
     init(name: String) {

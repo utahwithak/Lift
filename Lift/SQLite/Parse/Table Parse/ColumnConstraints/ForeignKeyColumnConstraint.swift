@@ -8,16 +8,16 @@
 
 import Foundation
 
-class ForeignKeyColumnConstraint: ColumnConstraint {
-
-    var clause: ForeignKeyClause
+struct ForeignKeyColumnConstraint: ColumnConstraint {
+    let constraintName: String?
+    let clause: ForeignKeyClause
 
     init(with name: SQLiteName?, from scanner: Scanner) throws {
         clause = try ForeignKeyClause(from: scanner)
-        super.init(name: name)
+        constraintName = name
     }
 
-    override var sql: String {
+    var sql: String {
         var builder = ""
         if let name = constraintName {
             builder += "CONSTRAINT \(name) "
@@ -26,12 +26,4 @@ class ForeignKeyColumnConstraint: ColumnConstraint {
         return builder + clause.sql
     }
 
-    private init(copying: ForeignKeyColumnConstraint) {
-        clause = copying.clause
-        super.init(name: copying.constraintName)
-    }
-
-    override func copy() -> ColumnConstraint {
-        return ForeignKeyColumnConstraint(copying: self)
-    }
 }

@@ -36,7 +36,7 @@ class SQLiteCreateTableParser {
             throw ParserError.notCreateStatement
         }
 
-        let currentTable = TableDefinition()
+        var currentTable = TableDefinition()
 
         if stringScanner.scanString("TEMPORARY ", into: nil) || stringScanner.scanString("TEMP ", into: nil) {
             currentTable.isTemp = true
@@ -46,7 +46,7 @@ class SQLiteCreateTableParser {
             throw ParserError.notATableStatement
         }
 
-        currentTable.tableName = try SQLiteCreateTableParser.parseStringOrName(from: stringScanner).rawValue
+        currentTable.tableName = try SQLiteCreateTableParser.parseStringOrName(from: stringScanner)
 
         guard stringScanner.scanString("(", into: nil) else {
             throw ParserError.noDefinitions
@@ -70,9 +70,9 @@ class SQLiteCreateTableParser {
             do {
                 let nextName = try parseStringOrName(from: stringScanner)
                 stringScanner.scanLocation = currentLocation
-                switch nextName.rawValue.lowercased() {
+                switch nextName.lowercased() {
                 case "constraint", "primary", "unique", "check", "foreign":
-                    let constraint = try TableConstraint.parseConstraint(from: stringScanner)
+                    let constraint = try parseTableConstraint(from: stringScanner)
                     currentTable.tableConstraints.append(constraint)
                     parsedAConstraint = true
                 default:
@@ -102,6 +102,31 @@ class SQLiteCreateTableParser {
         return currentTable
     }
 
+    private static func parseTableConstraint(from scanner: Scanner) throws -> TableConstraint {
+        var name: SQLiteName?
+
+        if scanner.scanString("constraint", into: nil) {
+            name = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
+        }
+
+        let curIndex = scanner.scanLocation
+        let nextPart = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
+        scanner.scanLocation = curIndex
+        switch nextPart.lowercased() {
+        case "primary":
+            return try PrimaryKeyTableConstraint(with: name, from: scanner)
+        case "unique":
+            return try UniqueTableConstraint(with: name, from: scanner)
+        case "check":
+            return try CheckTableConstraint(with: name, from: scanner)
+        case "foreign":
+            return try ForeignKeyTableConstraint(with: name, from: scanner)
+        default:
+            throw ParserError.unexpectedError("Unexpected table constraint type!")
+        }
+
+    }
+
     private static let qouteCharacters = CharacterSet(charactersIn: "\"'`")
 
     public static func parseStringOrName(from scanner: Scanner) throws -> SQLiteName {
@@ -129,7 +154,7 @@ class SQLiteCreateTableParser {
 
             name = openingChars
             if name.count > 1 && name.balancedQoutedString() {
-               return SQLiteName(rawValue: name)
+               return name
             }
 
             // scan till the end of "
@@ -157,7 +182,7 @@ class SQLiteCreateTableParser {
 
                     // we finished
                     if quoteCount % 2 == 1 {
-                        return SQLiteName(rawValue: name)
+                        return name
                     }
 
                 } else {
@@ -186,7 +211,7 @@ class SQLiteCreateTableParser {
                 throw ParserError.unexpectedError("unexpectedly unable to get end of string")
             }
             name += endchar
-            return SQLiteName(rawValue: name)
+            return name
 
         }
 
@@ -198,7 +223,7 @@ class SQLiteCreateTableParser {
             let scannedPortions = scanner.scanCharacters(from: validChars, into: &buffer)
 
             if !scannedPortions {
-                return SQLiteName(rawValue: name)
+                return name
             }
 
             guard let str = buffer as String? else {
@@ -208,7 +233,7 @@ class SQLiteCreateTableParser {
             name += str
         }
 
-        return SQLiteName(rawValue: name)
+        return name
 
     }
 

@@ -30,7 +30,7 @@ enum ConflictResolution {
     }
 }
 
-class ConflictClause {
+struct ConflictClause {
 
     let resolution: ConflictResolution
 
@@ -61,6 +61,7 @@ class ConflictClause {
     var sql: String {
         return "ON CONFLICT \(resolution.sql) "
     }
+
     private init(copying: ConflictClause) {
         self.resolution = copying.resolution
     }

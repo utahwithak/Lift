@@ -80,6 +80,6 @@ class CreateViewArrayController: NSArrayController {
      // overridden to add a new object to the content objects and to the arranged objects
     override func newObject() -> Any {
         let count = (arrangedObjects as? NSArray)?.count
-        return SQLiteName(rawValue: "Column \( (count ?? 0) + 1)")
+        return "Column \( (count ?? 0) + 1)"
     }
 }

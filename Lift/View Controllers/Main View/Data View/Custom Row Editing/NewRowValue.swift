@@ -108,24 +108,24 @@ class NewRowValue: NSObject {
             case .data(let dat):
                 if dat.type != .null && text != dat.forEditing {
                     newValueType = .data(.text(text))
-                    textColor = .black
+                    textColor = .textColor
                 }
             default:
                 return
             }
         }
     }
-    @objc dynamic var textColor = NSColor.black
+    @objc dynamic var textColor = NSColor.textColor
 
     func refreshDisplayValue() {
-        textColor = .lightGray
+        textColor = .disabledControlTextColor
         switch newValueType {
         case .data(let data):
             if data.type == .null {
                 text = NSLocalizedString("Value will be set to NULL", comment: "updating the value to null")
             } else {
                 text = data.forEditing
-                textColor = .black
+                textColor = .textColor
             }
         case .defaultValue:
             text = NSLocalizedString("Value will be set to the default value", comment: "setting column to default value")

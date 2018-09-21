@@ -8,42 +8,15 @@
 
 import Foundation
 
-class IndexedTableConstraint: TableConstraint {
+protocol IndexedTableConstraint: TableConstraint {
 
-    var indexedColumns: [IndexedColumn]
+    var indexedColumns: [IndexedColumn] { get set }
 
-    var conflictClause: ConflictClause?
+    var conflictClause: ConflictClause? { get set }
+}
 
-    init(with name: SQLiteName?, from scanner: Scanner) throws {
-        indexedColumns = try IndexedTableConstraint.parseIndexColumns(from: scanner)
-
-        guard scanner.scanString(")", into: nil) else {
-            throw ParserError.unexpectedError("Failed to correctly parse index columns for an indexed table constraint!")
-        }
-
-        conflictClause = try ConflictClause(from: scanner)
-
-        super.init(name: name)
-
-    }
-
-    init(initialColumn name: ColumnNameProvider) {
-        indexedColumns = [IndexedColumn(provider: name)]
-        super.init(name: nil)
-    }
-
-    public func removeColumn(named: ColumnNameProvider) {
-        indexedColumns = indexedColumns.filter({ $0.nameProvider !== named })
-    }
-
-    public func addColumn(named: ColumnNameProvider) {
-        indexedColumns.append(IndexedColumn(provider: named))
-    }
-    public func contains(_ provider: ColumnNameProvider) -> Bool {
-        return indexedColumns.contains(where: { $0.nameProvider === provider })
-    }
-
-    private static func parseIndexColumns(from scanner: Scanner) throws -> [IndexedColumn] {
+extension IndexedTableConstraint {
+    public static func parseIndexColumns(from scanner: Scanner) throws -> [IndexedColumn] {
         var columns = [IndexedColumn]()
         guard let first = try IndexedColumn(from: scanner) else {
             throw ParserError.unexpectedError("No indexColumn found!")

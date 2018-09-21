@@ -7,12 +7,17 @@
 //
 
 import Foundation
-class TableConstraint: NSObject {
+protocol TableConstraint {
+    var name: SQLiteName? { get set}
+    var sql: String { get }
 
-    var name: SQLiteName?
+    func sql(with columns: [String]) -> String?
+}
 
-    init(name: SQLiteName?) {
-        self.name = name
+extension TableConstraint {
+
+    func sql(with colmuns: [String]) -> String? {
+        return sql
     }
 
     static func parseConstraint(from scanner: Scanner) throws -> TableConstraint {
@@ -25,7 +30,7 @@ class TableConstraint: NSObject {
         let curIndex = scanner.scanLocation
         let nextPart = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
         scanner.scanLocation = curIndex
-        switch nextPart.rawValue.lowercased() {
+        switch nextPart.lowercased() {
         case "primary":
             return try PrimaryKeyTableConstraint(with: name, from: scanner)
         case "unique":
@@ -38,13 +43,5 @@ class TableConstraint: NSObject {
             throw ParserError.unexpectedError("Unexpected table constraint type!")
         }
 
-    }
-
-    var sql: String {
-        return ""
-    }
-
-    func sql(with columns: [String]) -> String? {
-        return sql
     }
 }

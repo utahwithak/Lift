@@ -37,7 +37,7 @@ class Table: DataProvider {
             print("Failed to parse sql!:\(error)")
             definition = nil
         }
-
+        definition?.databaseName = database.name
         // Foreign Keys
 
         let foreignKeyQuery = try Query(connection: connection, query: "PRAGMA \(database.name.sqliteSafeString()).foreign_key_list(\(name.sqliteSafeString()))")

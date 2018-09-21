@@ -50,7 +50,7 @@ extension ExportViewController {
                     }
                 }
 
-                helper.preserveRowId = self.sqliteOptions.maintainRowID
+                helper.preserveRowId = true
                 /* When playing back a "dump", the content might appear in an order
                  ** which causes immediate foreign key constraints to be violated.
                  ** So disable foreign-key constraint enforcement to prevent problems. */
@@ -119,7 +119,7 @@ extension ExportViewController {
             return
         }
 
-        intoDatabase.foreignKeysEnabled = false
+        intoDatabase.areForeignKeysEnabled = false
         SQLiteDocumentPresenter.addPresenters(for: url)
 
         DispatchQueue.global(qos: .userInitiated).async {

@@ -8,39 +8,52 @@
 
 import Foundation
 
-class PrimaryKeyTableConstraint: IndexedTableConstraint {
+struct PrimaryKeyTableConstraint: IndexedTableConstraint {
 
-    override init(with name: SQLiteName?, from scanner: Scanner) throws {
+    public var name: SQLiteName?
+    var indexedColumns: [IndexedColumn]
+
+    var conflictClause: ConflictClause?
+
+    init(with name: SQLiteName?, from scanner: Scanner) throws {
+        self.name = name
+
         if !scanner.scanString("primary", into: nil) || !scanner.scanString("key", into: nil) || !scanner.scanString("(", into: nil) {
             throw ParserError.unexpectedError("Invalid table primary key")
         }
 
-        try super.init(with: name, from: scanner)
+        indexedColumns = try PrimaryKeyTableConstraint.parseIndexColumns(from: scanner)
+
+        guard scanner.scanString(")", into: nil) else {
+            throw ParserError.unexpectedError("Failed to correctly parse index columns for an indexed table constraint!")
+        }
+
+        conflictClause = try ConflictClause(from: scanner)
+
+    }
+    init(name: String?) {
+        self.name = name
+        indexedColumns = []
     }
 
-    override init(initialColumn name: ColumnNameProvider) {
-        super.init(initialColumn: name)
-
-    }
-
-    override var sql: String {
+    var sql: String {
         var builder = ""
         if let name = name?.sql {
             builder += "CONSTRAINT \(name) "
         }
         builder += "PRIMARY KEY ("
         builder += indexedColumns.map({ $0.sql}).joined(separator: ", ")
-        builder += ") "
+        builder += ")"
         if let conflict = conflictClause {
-            builder += conflict.sql
+            builder += " \(conflict.sql)"
         }
         return builder
     }
 
-    override func sql(with columns: [String]) -> String? {
+    func sql(with columns: [String]) -> String? {
 
         let cleanedIndexed = indexedColumns.filter { (index) -> Bool in
-            return columns.contains(index.nameProvider.columnName.cleanedVersion)
+            return columns.contains(index.nameProvider.name.cleanedVersion)
         }
 
         if cleanedIndexed.isEmpty {
@@ -55,7 +68,7 @@ class PrimaryKeyTableConstraint: IndexedTableConstraint {
         builder += cleanedIndexed.map({$0.sql}).joined(separator: ", ")
         builder += ")"
         if let conflict = conflictClause?.sql, !conflict.isEmpty {
-            builder += " " + conflict
+            builder += " \(conflict)"
         }
         return builder
 

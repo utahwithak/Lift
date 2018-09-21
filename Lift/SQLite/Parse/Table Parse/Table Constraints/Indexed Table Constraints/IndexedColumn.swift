@@ -8,15 +8,17 @@
 
 import Foundation
 
-enum IndexColumnSortOrder {
+enum IndexColumnSortOrder: Int {
     case notSpecified
     case ASC
     case DESC
 }
 
-class IndexedColumn {
+struct IndexedColumn {
     var nameProvider: ColumnNameProvider
+
     var collationName: SQLiteName?
+
     var sortOrder: IndexColumnSortOrder
 
     init(provider: ColumnNameProvider) {
@@ -49,7 +51,7 @@ class IndexedColumn {
     }
 
     var sql: String {
-        var builder = "\(nameProvider.columnName.sql)"
+        var builder = "\(nameProvider.name.sql)"
         if let name = collationName {
             builder += " COLLATE \(name.sql)"
         }

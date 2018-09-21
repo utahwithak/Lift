@@ -8,47 +8,25 @@
 
 import Foundation
 
-protocol ColumnNameProvider: class {
-    var columnName: SQLiteName { get }
+protocol ColumnNameProvider {
+    var name: SQLiteName { get }
 }
 
 extension SQLiteName: ColumnNameProvider {
-    var columnName: SQLiteName {
+    var name: SQLiteName {
         return self
     }
 }
 
-class ColumnDefinition: NSObject {
+struct ColumnDefinition {
 
-    @objc dynamic public var name: SQLiteName
+    public var name: SQLiteName
 
-    @objc dynamic public var type: SQLiteName?
-
-    public weak var table: TableDefinition?
+    public var type: SQLiteName?
 
     public var columnConstraints = [ColumnConstraint]()
 
-    @objc dynamic public var defaultExpression: String? {
-        get {
-            return (columnConstraints.first(where: { $0 is DefaultColumnConstraint}) as? DefaultColumnConstraint)?.value.sql
-        }
-        set {
-
-            if let defIndex = columnConstraints.index(where: { $0 is DefaultColumnConstraint }), let defaultConstraint = columnConstraints[defIndex] as? DefaultColumnConstraint {
-                guard let val = newValue, !val.isEmpty else {
-                    columnConstraints.remove(at: defIndex)
-                    return
-                }
-                defaultConstraint.value = DefaultValue(text: val)
-            } else if let newValue = newValue, !newValue.isEmpty {
-                let newconstraint = DefaultColumnConstraint(value: DefaultValue(text: newValue))
-                columnConstraints.append(newconstraint)
-            }
-        }
-    }
-
     init?(from scanner: Scanner) throws {
-        originalColumn = nil
         name = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
         if name.isEmpty {
             return nil
@@ -56,33 +34,18 @@ class ColumnDefinition: NSObject {
 
         type = try ColumnDefinition.parseType(from: scanner)
 
-        while let constraint = try ColumnConstraint.parseConstraint(from: scanner) {
+        while let constraint = try ColumnDefinition.parseColumnConstraint(from: scanner) {
             columnConstraints.append(constraint)
         }
 
     }
 
-    public let originalColumn: ColumnDefinition?
-
-    override init() {
-        self.name = SQLiteName(rawValue: "New Column")
-        originalColumn = nil
+    init() {
+        self.name = "New Column"
     }
 
     init(name: String) {
-        self.name = SQLiteName(rawValue: name)
-        originalColumn = nil
-    }
-
-    private init(copying: ColumnDefinition) {
-        self.originalColumn = copying
-        name = copying.name.copy
-        type = copying.type?.copy
-        columnConstraints = copying.columnConstraints.map({ $0.copy() })
-    }
-
-    func duplicateForEditing() -> ColumnDefinition {
-        return ColumnDefinition(copying: self)
+        self.name = name
     }
 
     private static func parseType(from scanner: Scanner) throws -> SQLiteName? {
@@ -100,7 +63,7 @@ class ColumnDefinition: NSObject {
 
             let nextPart = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
 
-            switch nextPart.rawValue.lowercased() {
+            switch nextPart.lowercased() {
 
             case "constraint", "primary", "not", "unique", "check", "default", "collate", "foreign":
                 scanner.scanLocation = curIndex
@@ -112,11 +75,11 @@ class ColumnDefinition: NSObject {
                 }
 
                 if let whiteSpace = lastWhiteSpace, let curType = type {
-                    type = SQLiteName(rawValue: curType.rawValue + whiteSpace)
+                    type = curType + whiteSpace
                 }
 
                 if let curType = type {
-                    type = SQLiteName(rawValue: curType.rawValue + nextPart.rawValue)
+                    type = curType + nextPart
                 } else {
                     type = nextPart
                 }
@@ -155,16 +118,48 @@ class ColumnDefinition: NSObject {
         return type
     }
 
+    static func parseColumnConstraint(from scanner: Scanner) throws -> ColumnConstraint? {
+        var name: SQLiteName?
+
+        if scanner.scanString("constraint", into: nil) {
+            name = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
+        }
+
+        scanner.scanCharacters(from: CharacterSet.whitespacesAndNewlines, into: nil)
+
+        let curIndex = scanner.scanLocation
+        let nextPart = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
+        scanner.scanLocation = curIndex
+        switch nextPart.lowercased() {
+        case "primary":
+            return try PrimaryKeyColumnConstraint(with: name, from: scanner)
+        case "not":
+            return try NotNullColumnConstraint(with: name, from: scanner)
+        case "unique":
+            return try UniqueColumnConstraint(with: name, from: scanner)
+        case "check":
+            return try CheckColumnConstraint(with: name, from: scanner)
+        case "default":
+            return try DefaultColumnConstraint(with: name, from: scanner)
+        case "collate":
+            return try CollateColumnConstraint(with: name, from: scanner)
+        case "references":
+            return try ForeignKeyColumnConstraint(with: name, from: scanner)
+        default:
+            return nil
+        }
+    }
+
     var creationStatement: String {
 
         var builder = "\(name.sql)"
         if let includedType = type {
-            builder += " \(includedType.rawValue)"
+            builder += " \(includedType)"
         }
         let constrantText = columnConstraints.map({ $0.sql}).joined(separator: " ")
 
         if !constrantText.isEmpty {
-            builder += " " + constrantText
+            builder += " \(constrantText)"
         }
 
         return builder
@@ -173,7 +168,4 @@ class ColumnDefinition: NSObject {
 }
 
 extension ColumnDefinition: ColumnNameProvider {
-    var columnName: SQLiteName {
-        return name
-    }
 }

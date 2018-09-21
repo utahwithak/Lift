@@ -95,7 +95,7 @@ class Database: NSObject {
         super.init()
 
         if name == "main" {
-            foreignKeysEnabled = true
+            areForeignKeysEnabled = true
             extensionsAllowed = true
             // enable tracing
             let tmpSelf = self
@@ -153,8 +153,8 @@ class Database: NSObject {
             tables.removeAll(keepingCapacity: true)
             systemTables.removeAll(keepingCapacity: true)
             views.removeAll(keepingCapacity: true)
-            let clearedName = SQLiteName(rawValue: name)
-            let refreshDBQuery = try Query(connection: self.connection, query: "SELECT * from \(clearedName.rawValue).sqlite_master where type in ('table', 'view') ORDER BY name;")
+            let clearedName = name
+            let refreshDBQuery = try Query(connection: self.connection, query: "SELECT * from \(clearedName).sqlite_master where type in ('table', 'view') ORDER BY name;")
 
             try refreshDBQuery.processRows { (data) in
                 //type|name|tbl_name|rootpage|sql

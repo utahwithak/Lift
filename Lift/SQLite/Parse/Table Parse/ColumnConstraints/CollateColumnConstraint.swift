@@ -8,8 +8,8 @@
 
 import Foundation
 
-class CollateColumnConstraint: ColumnConstraint {
-
+struct CollateColumnConstraint: ColumnConstraint {
+    let constraintName: String?
     let collationName: SQLiteName
 
     init(with name: SQLiteName?, from scanner: Scanner) throws {
@@ -19,25 +19,15 @@ class CollateColumnConstraint: ColumnConstraint {
         }
 
         collationName = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
-
-        super.init(name: name)
+        self.constraintName = name
     }
 
-    override var sql: String {
+    var sql: String {
         var builder = ""
         if let name = constraintName {
             builder += "CONSTRAINT \(name) "
         }
 
         return builder + "COLLATE \(collationName.sql)"
-    }
-
-    private init(copying: CollateColumnConstraint) {
-        collationName = copying.collationName.copy
-        super.init(name: copying.constraintName)
-    }
-
-    override func copy() -> ColumnConstraint {
-        return CollateColumnConstraint(copying: self)
     }
 }

@@ -8,74 +8,37 @@
 
 import Foundation
 
-class TableDefinition: NSObject {
+struct TableDefinition {
 
-    init(originalDefinition: TableDefinition? = nil) {
-        self.originalDefinition = originalDefinition
-        super.init()
-
-        guard let orig = originalDefinition else {
-            return
-        }
-        isTemp = orig.isTemp
-        withoutRowID = orig.withoutRowID
-        databaseName = orig.databaseName?.copy
-        tableName = orig.tableName
-        columns = orig.columns.map({ $0.duplicateForEditing() })
-        columns.forEach({ $0.table = self })
-
-    }
-
-    @objc dynamic public var isTemp = false {
+    public var isTemp = false {
         didSet {
             if isTemp {
-                databaseName = SQLiteName(rawValue: "temp")
+                databaseName = "temp"
             } else {
                 databaseName = nil
             }
         }
     }
 
-    @objc dynamic public var withoutRowID = false
+    public var withoutRowID = false
 
-    @objc dynamic public var databaseName: SQLiteName? {
+    public var databaseName: String? {
         didSet {
-            if isTemp && databaseName?.rawValue != "temp" {
+            if isTemp && databaseName != "temp" {
                 isTemp = false
             }
         }
     }
 
-    @objc dynamic public var tableName = "" {
-        willSet {
-            willChangeValue(forKey: #keyPath(hasValidName))
-        }
-        didSet {
-            didChangeValue(forKey: #keyPath(hasValidName))
-        }
-    }
+    public var tableName = ""
 
-    @objc dynamic public var hasValidName: Bool {
-        return !tableName.isEmpty
-    }
+    public var columns = [ColumnDefinition]()
 
-    @objc dynamic public var columns = [ColumnDefinition]() {
-        didSet {
-            columns.forEach({ $0.table = self })
-        }
-    }
-
-    @objc dynamic public var tableConstraints = [TableConstraint]()
-
-    public let originalDefinition: TableDefinition?
-
-    func copyForEditing() -> TableDefinition {
-        return TableDefinition(originalDefinition: self)
-    }
+    public var tableConstraints = [TableConstraint]()
 
     var qualifiedNameForQuery: String {
         if let schemaName = databaseName {
-            return "\(schemaName.sql).\(tableName.sqliteSafeString())"
+            return "\(schemaName.sql).\(tableName.sql)"
         } else {
             return tableName.sqliteSafeString()
         }

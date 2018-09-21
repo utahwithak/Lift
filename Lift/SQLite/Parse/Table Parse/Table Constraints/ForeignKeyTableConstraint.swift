@@ -8,11 +8,13 @@
 
 import Foundation
 
-class ForeignKeyTableConstraint: TableConstraint {
+struct ForeignKeyTableConstraint: TableConstraint {
 
     var fromColumns = [SQLiteName]()
 
     var clause: ForeignKeyClause
+
+    var name: SQLiteName?
 
     init(with name: SQLiteName?, from scanner: Scanner) throws {
         if !scanner.scanString("foreign", into: nil) || !scanner.scanString("key", into: nil) || !scanner.scanString("(", into: nil) {
@@ -38,24 +40,24 @@ class ForeignKeyTableConstraint: TableConstraint {
 
         clause = try ForeignKeyClause(from: scanner)
 
-        super.init(name: name)
+        self.name = name
 
     }
 
-    init(name: SQLiteName?, columns: [String], clause: ForeignKeyClause) {
-        fromColumns = columns.map({ SQLiteName(rawValue: $0)})
+    init(name: SQLiteName?, columns: [SQLiteName], clause: ForeignKeyClause) {
+        fromColumns = columns
         self.clause = clause
-        super.init(name: name)
+        self.name = name
     }
 
-    override var sql: String {
+    var sql: String {
         var builder = "FOREIGN KEY ("
         builder += fromColumns.map({ $0.sql}).joined(separator: ", ")
         builder += ") " + clause.sql
         return builder
     }
 
-    override func sql(with columns: [String]) -> String? {
+    func sql(with columns: [String]) -> String? {
 
         var clauseCopy = clause
 

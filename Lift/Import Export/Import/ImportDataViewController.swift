@@ -49,7 +49,7 @@ class ImportDataViewController: LiftViewController {
         }
     }
     @objc dynamic var closeTabOnImport = true
-    @objc dynamic var createInTempDatabase = true
+    @objc dynamic var createInTempDatabase = false
     @objc dynamic var convertEmptyStringToNull = false
     @objc dynamic var convertHexStringToBlob = false
     @objc dynamic var skipFirstRow = false
@@ -173,7 +173,7 @@ class ImportDataViewController: LiftViewController {
                 return
             }
 
-            let tableBuilder = TableDefinition()
+            var tableBuilder = TableDefinition()
             tableBuilder.tableName = tableName
 
             tableBuilder.isTemp = createInTempDatabase

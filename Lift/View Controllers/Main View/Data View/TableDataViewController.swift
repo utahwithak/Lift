@@ -841,7 +841,7 @@ extension TableDataViewController: NSTextFieldDelegate {
             return
         }
 
-        textField.textColor = NSColor.black
+        textField.textColor = NSColor.textColor
     }
 
     func controlTextDidEndEditing(_ obj: Notification) {

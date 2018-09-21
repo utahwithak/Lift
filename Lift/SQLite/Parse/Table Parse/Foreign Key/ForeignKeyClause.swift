@@ -31,11 +31,11 @@ struct ForeignKeyClause {
             throw ParserError.unexpectedError("Expected references for FK clause!?")
         }
 
-        foreignTable = try SQLiteCreateTableParser.parseStringOrName(from: scanner).rawValue
+        foreignTable = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
 
         if scanner.scanString("(", into: nil) {
             repeat {
-                let name = try SQLiteCreateTableParser.parseStringOrName(from: scanner).rawValue
+                let name = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
 
                 guard !name.isEmpty else {
                     throw ParserError.unexpectedError("Empty foreign key column name!")

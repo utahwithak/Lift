@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum PrimaryKeySortOrder {
+enum PrimaryKeySortOrder: Int {
     case notSpecified
     case ASC
     case DESC
@@ -16,10 +16,14 @@ enum PrimaryKeySortOrder {
 
 class PrimaryKeyColumnConstraint: ConflictColumnConstraint {
 
-    var autoincrement = false
+    var autoincrement: Bool
     var sortOrder: PrimaryKeySortOrder
 
-    override init(with name: SQLiteName?, from scanner: Scanner) throws {
+    var constraintName: SQLiteName?
+
+    var conflictClause: ConflictClause?
+
+    init(with name: SQLiteName?, from scanner: Scanner) throws {
         guard scanner.scanString("primary", into: nil) else {
             throw ParserError.unexpectedError("Expected primary in primary key constraint!")
         }
@@ -27,6 +31,8 @@ class PrimaryKeyColumnConstraint: ConflictColumnConstraint {
         guard scanner.scanString("key", into: nil) else {
             throw ParserError.unexpectedError("Expected key in primary key constraint!")
         }
+
+        constraintName = name
 
         if scanner.scanString("asc", into: nil) {
             sortOrder = .ASC
@@ -36,23 +42,18 @@ class PrimaryKeyColumnConstraint: ConflictColumnConstraint {
             sortOrder = .notSpecified
         }
 
-        try super.init(with: name, from: scanner)
-
+        conflictClause = try ConflictClause(from: scanner)
         autoincrement = scanner.scanString("AUTOINCREMENT", into: nil)
     }
 
-    private init(copying: PrimaryKeyColumnConstraint) {
-        autoincrement = copying.autoincrement
-        sortOrder = copying.sortOrder
-
-        super.init(copying: copying)
+    init(name: String?, sortOrder: PrimaryKeySortOrder, autoincrement: Bool, conflict: ConflictClause?) {
+        self.constraintName = name
+        self.sortOrder = sortOrder
+        self.autoincrement = autoincrement
+        conflictClause = conflict
     }
 
-    override func copy() -> ColumnConstraint {
-        return PrimaryKeyColumnConstraint(copying: self)
-    }
-
-    override var sql: String {
+    var sql: String {
         var builder = ""
         if let name = constraintName?.sql {
             builder += "CONSTRAINT \(name) "

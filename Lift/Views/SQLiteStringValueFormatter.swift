@@ -13,14 +13,14 @@ class SQLiteStringValueFormatter: ValueTransformer {
         guard let name = value as? SQLiteName else {
             return ""
         }
-        return name.rawValue
+        return name
     }
 
     override func reverseTransformedValue(_ value: Any?) -> Any? {
         guard let str = value as? String else {
-            return SQLiteName(rawValue: String(describing: value))
+            return String(describing: value)
         }
 
-        return SQLiteName(rawValue: str)
+        return str
     }
 }

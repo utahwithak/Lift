@@ -375,7 +375,7 @@ extension SideBarBrowseViewController: NSMenuDelegate {
                 return
             }
             editController.representedObject = representedObject
-            editController.table = tableDef.copyForEditing()
+            editController.table = CreateTableDefinition(existingDefinition: tableDef)
             presentAsSheet(editController)
         } else {
             print("UNABLE TO GET DEF!! WHATS UP!?")

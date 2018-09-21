@@ -100,7 +100,7 @@ extension QueryResultsViewController: TabControlDatasource {
     }
 
     func tabControl(_ control: TabControl, canEdit item: Any) -> Bool {
-        return true
+        return false
     }
 
     func tabControl(_ control: TabControl, setTitle title: String, for item: Any) {

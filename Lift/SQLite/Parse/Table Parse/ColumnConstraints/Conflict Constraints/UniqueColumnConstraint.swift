@@ -10,23 +10,25 @@ import Foundation
 
 class UniqueColumnConstraint: ConflictColumnConstraint {
 
-    override init(with name: SQLiteName?, from scanner: Scanner) throws {
+    let constraintName: SQLiteName?
+
+    let conflictClause: ConflictClause?
+
+    init(with name: SQLiteName?, from scanner: Scanner) throws {
         guard scanner.scanString("unique", into: nil) else {
             throw ParserError.unexpectedError("Expected Unique column constraint!")
         }
+        conflictClause = try ConflictClause(from: scanner)
 
-        try super.init(with: name, from: scanner)
-
+        constraintName = name
     }
 
-    private init(copying: UniqueColumnConstraint) {
-        super.init(copying: copying)
+    init(name: SQLiteName?, conflict: ConflictClause?) {
+        constraintName = name
+        conflictClause = conflict
     }
 
-    override func copy() -> ColumnConstraint {
-        return UniqueColumnConstraint(copying: self)
-    }
-    override var sql: String {
+    var sql: String {
         var builder = ""
         if let name = constraintName?.sql {
             builder += "CONSTRAINT \(name) "

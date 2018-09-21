@@ -13,7 +13,6 @@ class SimpleCreateColumnView: NSTableCellView {
     @IBOutlet weak var columnOptions: NSSegmentedControl!
 
     @IBAction func selectedIndexChanged(_ sender: NSSegmentedControl) {
-
         checkPrimaryKey()
         checkUnique()
         checkNonNull()
@@ -22,64 +21,101 @@ class SimpleCreateColumnView: NSTableCellView {
     override var objectValue: Any? {
         set {
             super.objectValue = newValue
-            if let column = column, let table = column.table {
-                if let primaryTable = table.tableConstraints.first(where: { $0 is PrimaryKeyTableConstraint}) as? PrimaryKeyTableConstraint {
-                    columnOptions.setSelected(primaryTable.contains(column), forSegment: 0)
-                }
-                if let unique = table.tableConstraints.first(where: { $0 is UniqueTableConstraint}) as? UniqueTableConstraint {
-                    columnOptions.setSelected(unique.contains(column), forSegment: 1)
-                }
-
-                columnOptions.setSelected(column.columnConstraints.contains(where: { $0 is NotNullColumnConstraint}), forSegment: 2)
+            guard let column = column else {
+                return
             }
+            if column.constraints.primaryKey != nil {
+                columnOptions.setSelected(true, forSegment: 0)
+            } else if let contains = column.table.tableConstraints.primaryKey?.contains(column), contains {
+                columnOptions.setSelected(true, forSegment: 0)
+            } else {
+                columnOptions.setSelected(false, forSegment: 0)
+            }
+
+            if column.constraints.unique != nil {
+                columnOptions.setSelected(true, forSegment: 1)
+            } else if let contains = column.table.tableConstraints.unique?.contains(column), contains {
+                columnOptions.setSelected(true, forSegment: 1)
+            } else {
+                columnOptions.setSelected(false, forSegment: 1)
+            }
+
+            columnOptions.setSelected(column.constraints.nonNull != nil, forSegment: 2)
+
         }
         get {
             return super.objectValue
         }
     }
 
-    var column: ColumnDefinition? {
-        return objectValue as? ColumnDefinition
+    var column: CreateColumnDefinition? {
+        return objectValue as? CreateColumnDefinition
     }
 
     private func checkPrimaryKey() {
-        guard let column = column, let table = column.table else {
+        guard let column = column else {
             return
         }
 
-        let pkeyIndex = table.tableConstraints.index(where: { $0 is PrimaryKeyTableConstraint})
+        let table = column.table
+
         if columnOptions.isSelected(forSegment: 0) {
-            if let index = pkeyIndex, let primaryTableConstraint = table.tableConstraints[index] as? PrimaryKeyTableConstraint {
-                primaryTableConstraint.addColumn(named: column)
+            // ensure it is added to the primary key table constraint as well as any other columns that may have column constraints
+            if let tablePrimary = table.tableConstraints.primaryKey {
+                tablePrimary.add(column: column)
             } else {
-                let newConstrant = PrimaryKeyTableConstraint(initialColumn: column)
-                table.tableConstraints.append(newConstrant)
+                //get any existing primary key constraint
+                let newConstraint = CreateTableConstraintDefinitions.CreatePrimaryKey()
+                if let existingPrimaryKey = table.columns.filter({ $0.constraints.primaryKey != nil }).first {
+                    newConstraint.add(column: existingPrimaryKey)
+                    existingPrimaryKey.constraints.primaryKey = nil
+                }
+                newConstraint.add(column: column)
+                table.tableConstraints.primaryKey = newConstraint
             }
-        } else if let index = pkeyIndex, let primaryTableConstraint = table.tableConstraints[index] as? PrimaryKeyTableConstraint {
-            primaryTableConstraint.removeColumn(named: column)
-            if primaryTableConstraint.indexedColumns.isEmpty {
-                table.tableConstraints.remove(at: index)
+
+        } else {
+            column.constraints.primaryKey = nil
+
+            if let tablePrimary = table.tableConstraints.primaryKey {
+                tablePrimary.remove(column: column)
+                if tablePrimary.columns.isEmpty {
+                    table.tableConstraints.primaryKey = nil
+                }
             }
         }
     }
 
     private func checkUnique() {
-        guard let column = column, let table = column.table else {
+        guard let column = column else {
             return
         }
 
-        let pkeyIndex = table.tableConstraints.index(where: { $0 is UniqueTableConstraint})
-        if columnOptions.isSelected(forSegment: 1) {
-            if let index = pkeyIndex, let constraint = table.tableConstraints[index] as? UniqueTableConstraint {
-                constraint.addColumn(named: column)
+        let table = column.table
+
+        if columnOptions.isSelected(forSegment: 0) {
+            // ensure it is added to the primary key table constraint as well as any other columns that may have column constraints
+            if let tablePrimary = table.tableConstraints.primaryKey {
+                tablePrimary.add(column: column)
             } else {
-                let newConstrant = UniqueTableConstraint(initialColumn: column)
-                table.tableConstraints.append(newConstrant)
+                //get any existing primary key constraint
+                let newConstraint = CreateTableConstraintDefinitions.CreateUnique()
+                for existingUnique in table.columns.filter({ $0.constraints.unique != nil }) {
+                    newConstraint.add(column: existingUnique)
+                    existingUnique.constraints.unique = nil
+                }
+
+                newConstraint.add(column: column)
+                table.tableConstraints.unique = newConstraint
             }
-        } else if let index = pkeyIndex, let constraint = table.tableConstraints[index] as? UniqueTableConstraint {
-            constraint.removeColumn(named: column)
-            if constraint.indexedColumns.isEmpty {
-                table.tableConstraints.remove(at: index)
+
+        } else {
+            column.constraints.unique = nil
+            if let constraints = table.tableConstraints.unique {
+                constraints.remove(column: column)
+                if constraints.columns.isEmpty {
+                    table.tableConstraints.unique = nil
+                }
             }
         }
     }
@@ -88,14 +124,10 @@ class SimpleCreateColumnView: NSTableCellView {
         guard let column = column else {
             return
         }
-
         if columnOptions.isSelected(forSegment: 2) {
-            guard column.columnConstraints.index(where: { $0 is NotNullColumnConstraint}) == nil else {
-                return
-            }
-            column.columnConstraints.append(NotNullColumnConstraint())
-        } else if let index = column.columnConstraints.index(where: { $0 is NotNullColumnConstraint}) {
-            column.columnConstraints.remove(at: index)
+            column.constraints.nonNull = CreateColumnConstraintDefinitions.CreateNonNull()
+        } else {
+            column.constraints.nonNull = nil
         }
     }
 }

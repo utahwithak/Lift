@@ -8,37 +8,54 @@
 
 import Foundation
 
-class UniqueTableConstraint: IndexedTableConstraint {
-    override init(with name: SQLiteName?, from scanner: Scanner) throws {
+struct UniqueTableConstraint: IndexedTableConstraint {
+
+    public var name: SQLiteName?
+
+    public var indexedColumns: [IndexedColumn]
+
+    public var conflictClause: ConflictClause?
+
+    init(with name: SQLiteName?, from scanner: Scanner) throws {
+        self.name = name
+
         if !scanner.scanString("unique", into: nil) || !scanner.scanString("(", into: nil) {
             throw ParserError.unexpectedError("Invalid table Unique key")
         }
-        try super.init(with: name, from: scanner)
+
+        indexedColumns = try PrimaryKeyTableConstraint.parseIndexColumns(from: scanner)
+
+        guard scanner.scanString(")", into: nil) else {
+            throw ParserError.unexpectedError("Failed to correctly parse index columns for an indexed table constraint!")
+        }
+
+        conflictClause = try ConflictClause(from: scanner)
+
     }
 
-    override init(initialColumn name: ColumnNameProvider) {
-        super.init(initialColumn: name)
-
+    init(name: String?) {
+        self.name = name
+        indexedColumns = []
     }
 
-    override var sql: String {
+    var sql: String {
         var builder = ""
         if let name = name?.sql {
             builder += "CONSTRAINT \(name) "
         }
         builder += "UNIQUE ("
         builder += indexedColumns.map({ $0.sql}).joined(separator: ", ")
-        builder += ") "
+        builder += ")"
         if let conflict = conflictClause {
-            builder += conflict.sql
+            builder += " \(conflict.sql)"
         }
         return builder
     }
 
-    override func sql(with columns: [String]) -> String? {
+    func sql(with columns: [String]) -> String? {
 
         let cleanedIndexed = indexedColumns.filter { (index) -> Bool in
-            return columns.contains(index.nameProvider.columnName.cleanedVersion)
+            return columns.contains(index.nameProvider.name.cleanedVersion)
         }
 
         if cleanedIndexed.isEmpty {
@@ -51,9 +68,9 @@ class UniqueTableConstraint: IndexedTableConstraint {
         }
         builder += "UNIQUE ("
         builder += cleanedIndexed.map({ $0.sql}).joined(separator: ", ")
-        builder += ") "
+        builder += ")"
         if let conflict = conflictClause {
-            builder += conflict.sql
+            builder += " \(conflict.sql)"
         }
         return builder
 

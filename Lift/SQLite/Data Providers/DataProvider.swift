@@ -101,7 +101,7 @@ class DataProvider: NSObject {
 
     var qualifiedNameForQuery: String {
         if let schemaName = database?.name {
-            let dbname = SQLiteName(rawValue: schemaName)
+            let dbname = schemaName
             return "\(dbname.sql).\(name.sqliteSafeString())"
         } else {
             return name.sqliteSafeString()

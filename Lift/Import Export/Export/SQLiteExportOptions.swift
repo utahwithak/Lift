@@ -12,6 +12,6 @@ class SQLiteExportOptions: NSObject {
 
     @objc dynamic var exportTriggers: Bool = false
 
-    @objc dynamic var maintainRowID: Bool = true
+    @objc dynamic var exportIndexes: Bool = false
 
 }
