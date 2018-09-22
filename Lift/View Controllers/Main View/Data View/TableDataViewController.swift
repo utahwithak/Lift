@@ -137,7 +137,14 @@ class TableDataViewController: LiftMainViewController {
     }
 
     @IBAction func dropSelected(_ sender: Any) {
-        guard let database = document?.database else {
+        guard let database = document?.database, let table = selectedTable as? Table, table.isEditable else {
+            return
+        }
+        guard let selectionBox = tableView.selectionBoxes.first else {
+            return
+        }
+
+        guard let data = data else {
             return
         }
         var drop = true
@@ -148,15 +155,17 @@ class TableDataViewController: LiftMainViewController {
 
             alert.informativeText = NSLocalizedString("Are you sure you want to drop these rows?", comment: "Confirmation for dropping rows")
             alert.alertStyle = .warning
+            alert.addButton(withTitle: "OK")
+            alert.addButton(withTitle: "Cancel")
             let response = alert.runModal()
 
-            drop = response == .OK
+            drop = response == NSApplication.ModalResponse.alertFirstButtonReturn
         }
 
         guard drop else {
             return
         }
-        let savePointName = "DropRows\(Date().timeIntervalSince1970)"
+        let savePointName = "DropRows\(Int(Date.timeIntervalSinceReferenceDate))"
         var customSavePoint = true
         do {
             try database.beginSavepoint(named: savePointName)
@@ -175,23 +184,78 @@ class TableDataViewController: LiftMainViewController {
             alert.informativeText = String(format: NSLocalizedString("Unable to open a savepoint to help protect against corruption. %@\nError:%@", comment: "Confirmation for dropping rows outside of explicit savepoint"), optionString, error.localizedDescription)
 
             alert.alertStyle = .warning
+            alert.addButton(withTitle: "OK")
+            alert.addButton(withTitle: "Cancel")
             let response = alert.runModal()
 
-            drop = response == .OK
+            drop = response == .alertFirstButtonReturn
         }
 
-        guard drop else {
+        guard drop, let waitingVC = storyboard?.instantiateController(withIdentifier: "waitingOperationView") as? WaitingOperationViewController else {
             return
         }
 
-        if customSavePoint {
-            do {
-                try database.releaseSavepoint(named: savePointName)
-            } catch {
-                NSApp.presentError(error)
-            }
+        var validOp = true
+        let cancelOp: () -> Void = {
+            validOp = false
         }
 
+        waitingVC.cancelHandler = cancelOp
+        waitingVC.indeterminate = false
+
+        presentAsSheet(waitingVC)
+
+        DispatchQueue.global(qos: .userInitiated).async {
+
+            do {
+                var cur = 1.0
+                let max = Double(selectionBox.endRow - selectionBox.startRow)
+                let keepGoing: () -> Bool = { [weak waitingVC] in
+                    DispatchQueue.main.async {
+                        waitingVC?.value = cur / max
+                        cur += 1
+                    }
+                    return validOp
+                }
+                try data.dropSelection(selectionBox, keepGoing: keepGoing)
+                if customSavePoint {
+                    if keepGoing() {
+                        try database.releaseSavepoint(named: savePointName)
+                    } else {
+                        try database.rollbackSavepoint(named: savePointName)
+                    }
+                }
+            } catch {
+                DispatchQueue.main.async {
+
+                    let alert = NSAlert()
+                    alert.messageText = NSLocalizedString("Failed To Drop Rows", comment: "Drop failure prompt title")
+
+                    alert.informativeText = error.localizedDescription
+                    alert.alertStyle = .warning
+
+                    if customSavePoint {
+                        alert.addButton(withTitle: "Rollback")
+                        alert.addButton(withTitle: "Stay in savepoint")
+                    } else {
+                        alert.addButton(withTitle: "Ok")
+                    }
+                    let response = alert.runModal()
+                    if customSavePoint && response == .alertFirstButtonReturn {
+                        do {
+                            try database.rollbackSavepoint(named: savePointName)
+                        } catch {
+                            NSApp.presentError(error)
+                        }
+
+                    }
+                }
+            }
+            DispatchQueue.main.async {
+                table.refreshTableCount()
+                self.dismiss(waitingVC)
+            }
+        }
     }
 
     private func copySelection(_ selection: SelectionBox, fromData: TableData, asJson copyAsJSON: Bool, columnMap: [Int: Int]) {

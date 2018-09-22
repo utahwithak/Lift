@@ -254,10 +254,7 @@ class TableViewNode: BrowseViewNode {
         self.provider = provider
 
         super.init(name: provider.name)
-
-        if refreshingCount {
-            startListening()
-        }
+        startListening()
 
         if let curCount =  provider.rowCount {
             rowCount = NSNumber(value: curCount)

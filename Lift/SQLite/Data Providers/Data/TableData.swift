@@ -398,6 +398,26 @@ final class TableData: NSObject {
         return data[row]
     }
 
+    func dropSelection(_ selectionBox: SelectionBox, keepGoing: () -> Bool) throws {
+
+        let queryTemplate = "DELETE FROM \(provider.qualifiedNameForQuery) WHERE (\(sortColumns)) = (\(argString))"
+        let deleteStatement = try Statement(connection: provider.connection, text: queryTemplate)
+
+        for row in selectionBox.startRow...selectionBox.endRow {
+
+            try deleteStatement.bind(rowdata(at: row).data[0..<sortCount])
+            guard try deleteStatement.step() else {
+                print("INVALID DROP!")
+                return
+            }
+            if !keepGoing() {
+                return
+            }
+            deleteStatement.reset()
+        }
+
+    }
+
     func set(row: Int, column: Int, to value: SimpleUpdateType) throws -> UpdateResult {
         guard let columnName = columnNames?[column] else {
             return .failed

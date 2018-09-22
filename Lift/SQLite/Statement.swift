@@ -100,7 +100,6 @@ class Statement {
         case SQLITE_ROW:
             return false
         default:
-
             throw SQLiteError(connection: connection, code: rc, sql: "Step Error")
         }
 

@@ -358,5 +358,4 @@ class Table: DataProvider {
         return tableData
 
     }
-
 }
