@@ -335,6 +335,7 @@ class LiftWindowController: NSWindowController {
     }
 
     @IBAction func showImportExport(_ sender: NSSegmentedControl) {
+        let storyboard = NSStoryboard(name: "ImportExport", bundle: Bundle.main)
         switch sender.selectedSegment {
         case 0:
 
@@ -342,7 +343,7 @@ class LiftWindowController: NSWindowController {
             chooser.canChooseDirectories = true
             chooser.canChooseFiles = true
 
-            guard let vc = storyboard?.instantiateController(withIdentifier: "importViewController") as? ImportViewController else {
+            guard let vc = storyboard.instantiateController(withIdentifier: "importViewController") as? ImportViewController else {
                 return
             }
 
@@ -364,7 +365,7 @@ class LiftWindowController: NSWindowController {
             }
 
         default:
-            guard let vc = storyboard?.instantiateController(withIdentifier: "exportViewController") as? LiftViewController else {
+            guard let vc = storyboard.instantiateController(withIdentifier: "exportViewController") as? LiftViewController else {
                 return
             }
 

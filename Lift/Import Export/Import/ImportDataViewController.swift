@@ -222,8 +222,8 @@ class ImportDataViewController: LiftViewController {
         }
 
         var isCanceled = false
-
-        guard let waitingVC = storyboard?.instantiateController(withIdentifier: "waitingOperationView") as? WaitingOperationViewController else {
+        let storyboard = NSStoryboard(name: "Main", bundle: Bundle.main)
+        guard let waitingVC = storyboard.instantiateController(withIdentifier: "waitingOperationView") as? WaitingOperationViewController else {
             return
         }
 

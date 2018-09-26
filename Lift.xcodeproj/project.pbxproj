@@ -52,6 +52,7 @@
 		8F4C40DA1F87B3CE003BF006 /* StatementWaitingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4C40D91F87B3CE003BF006 /* StatementWaitingViewController.swift */; };
 		8F4C40DD1F87B657003BF006 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4C40DC1F87B657003BF006 /* Result.swift */; };
 		8F51324E20504DE800E2A759 /* AttributedStringFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F51324D20504DE800E2A759 /* AttributedStringFormatter.swift */; };
+		8F534CF5215BB8A2002FAA5F /* ImportExport.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F534CF4215BB8A2002FAA5F /* ImportExport.storyboard */; };
 		8F5891E51FA392960076C86D /* LogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5891E41FA392960076C86D /* LogViewController.swift */; };
 		8F5D7BF12077B16D009EE355 /* NewRowValueTypeConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5D7BF02077B16D009EE355 /* NewRowValueTypeConversion.swift */; };
 		8F6273E21F85C291007055D9 /* SQLiteTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6273E11F85C291007055D9 /* SQLiteTextView.swift */; };
@@ -287,6 +288,7 @@
 		8F4C40D91F87B3CE003BF006 /* StatementWaitingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatementWaitingViewController.swift; sourceTree = "<group>"; };
 		8F4C40DC1F87B657003BF006 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		8F51324D20504DE800E2A759 /* AttributedStringFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedStringFormatter.swift; sourceTree = "<group>"; };
+		8F534CF4215BB8A2002FAA5F /* ImportExport.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ImportExport.storyboard; sourceTree = "<group>"; };
 		8F5891E41FA392960076C86D /* LogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogViewController.swift; sourceTree = "<group>"; };
 		8F5D7BF02077B16D009EE355 /* NewRowValueTypeConversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRowValueTypeConversion.swift; sourceTree = "<group>"; };
 		8F6273E11F85C291007055D9 /* SQLiteTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteTextView.swift; sourceTree = "<group>"; };
@@ -730,6 +732,7 @@
 			children = (
 				8F7C522C1F7D39E5004A91BC /* AppDelegate.swift */,
 				8F7C52341F7D39E5004A91BC /* Main.storyboard */,
+				8F534CF4215BB8A2002FAA5F /* ImportExport.storyboard */,
 				8F7C52301F7D39E5004A91BC /* LiftDocument.swift */,
 				8F11B7901F83D2A9008E19D7 /* LiftWindowController.swift */,
 				8FEFD4C21F9F7FB000C6C75A /* LiftDocumentController.swift */,
@@ -1157,6 +1160,7 @@
 				8F7C52331F7D39E5004A91BC /* Assets.xcassets in Resources */,
 				8F0D315E214ACCFD00ADE9F8 /* Icon1024-128@2x.png in Resources */,
 				8F7C52361F7D39E5004A91BC /* Main.storyboard in Resources */,
+				8F534CF5215BB8A2002FAA5F /* ImportExport.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
