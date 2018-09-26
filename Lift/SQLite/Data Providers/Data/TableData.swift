@@ -11,6 +11,7 @@ import Foundation
 protocol TableDataDelegate: class {
     func tableDataDidPageNextIn(_ data: TableData, count: Int)
     func tableDataDidPagePreviousIn(_ data: TableData, count: Int)
+    func tableData(_ data: TableData, didRemoveRows indexSet: IndexSet)
 }
 
 struct CustomTableStart {
@@ -402,7 +403,6 @@ final class TableData: NSObject {
 
         let queryTemplate = "DELETE FROM \(provider.qualifiedNameForQuery) WHERE (\(sortColumns)) = (\(argString))"
         let deleteStatement = try Statement(connection: provider.connection, text: queryTemplate)
-
         for row in selectionBox.startRow...selectionBox.endRow {
 
             try deleteStatement.bind(rowdata(at: row).data[0..<sortCount])
@@ -410,12 +410,18 @@ final class TableData: NSObject {
                 print("INVALID DROP!")
                 return
             }
+
             if !keepGoing() {
                 return
             }
             deleteStatement.reset()
         }
-
+        if keepGoing() {
+            DispatchQueue.main.async {
+                self.data.removeSubrange(selectionBox.startRow...selectionBox.endRow)
+                self.delegate?.tableData(self, didRemoveRows: IndexSet(selectionBox.startRow...selectionBox.endRow))
+            }
+        }
     }
 
     func set(row: Int, column: Int, to value: SimpleUpdateType) throws -> UpdateResult {

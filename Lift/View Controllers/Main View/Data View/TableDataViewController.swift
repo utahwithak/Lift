@@ -233,15 +233,9 @@ class TableDataViewController: LiftMainViewController {
 
                     alert.informativeText = error.localizedDescription
                     alert.alertStyle = .warning
-
+                    alert.addButton(withTitle: "Ok")
+                    _ = alert.runModal()
                     if customSavePoint {
-                        alert.addButton(withTitle: "Rollback")
-                        alert.addButton(withTitle: "Stay in savepoint")
-                    } else {
-                        alert.addButton(withTitle: "Ok")
-                    }
-                    let response = alert.runModal()
-                    if customSavePoint && response == .alertFirstButtonReturn {
                         do {
                             try database.rollbackSavepoint(named: savePointName)
                         } catch {
@@ -561,6 +555,12 @@ extension TableDataViewController: TableDataDelegate {
         tableView.insertRows(at: IndexSet(0..<count), withAnimation: [])
         visibleRowCountBuffer = tableView.rows(in: tableView.visibleRect).length * 4
         tableView.scrollRowToVisible(middleRow + count)
+    }
+    func tableData(_ data: TableData, didRemoveRows indexSet: IndexSet) {
+        tableView.removeRows(at: indexSet, withAnimation: NSTableView.AnimationOptions.effectFade)
+        tableView.selectionBoxes = []
+        tableScrollView.lineNumberView.rowCount = data.count
+
     }
 }
 
