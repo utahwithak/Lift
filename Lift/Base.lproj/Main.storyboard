@@ -3671,7 +3671,7 @@ DQ
                                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                     <prototypeCellViews>
                                                                         <tableCellView id="W5K-9G-23v">
-                                                                            <rect key="frame" x="230.5" y="1" width="175" height="17"/>
+                                                                            <rect key="frame" x="231" y="1" width="175" height="17"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                             <subviews>
                                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="kYf-pY-s8A">
@@ -4283,7 +4283,7 @@ DQ
                 </viewController>
                 <customObject id="qlh-1k-PUB" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="527" y="3148"/>
+            <point key="canvasLocation" x="1332" y="3162"/>
         </scene>
         <!--Results Overview View Controller-->
         <scene sceneID="vaB-AI-6lB">
@@ -4316,13 +4316,13 @@ DQ
                                     <binding destination="sWS-Ls-V1g" name="hidden" keyPath="self.stillLoading" id="KA8-LC-7UG"/>
                                 </connections>
                             </textField>
-                            <scrollView autohidesScrollers="YES" horizontalLineScroll="36" horizontalPageScroll="10" verticalLineScroll="36" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O1X-mm-RQ8">
+                            <scrollView autohidesScrollers="YES" horizontalLineScroll="27" horizontalPageScroll="10" verticalLineScroll="27" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O1X-mm-RQ8">
                                 <rect key="frame" x="-1" y="21" width="452" height="234"/>
                                 <clipView key="contentView" id="61d-No-Tf0">
                                     <rect key="frame" x="1" y="1" width="450" height="232"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="34" rowSizeStyle="automatic" viewBased="YES" id="Lhc-Hh-UAx">
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="25" rowSizeStyle="automatic" usesAutomaticRowHeights="YES" viewBased="YES" id="Lhc-Hh-UAx">
                                             <rect key="frame" x="0.0" y="0.0" width="450" height="232"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -4343,12 +4343,12 @@ DQ
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView id="ycy-jT-KcM">
-                                                            <rect key="frame" x="1" y="1" width="447" height="34"/>
+                                                            <rect key="frame" x="1" y="1" width="447" height="25"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="5me-5M-Fab">
-                                                                    <rect key="frame" x="0.0" y="17" width="447" height="17"/>
-                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="lYN-gJ-epU">
+                                                                    <rect key="frame" x="18" y="4" width="411" height="17"/>
+                                                                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Table View Cell" id="lYN-gJ-epU">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -4359,9 +4359,10 @@ DQ
                                                                 </textField>
                                                             </subviews>
                                                             <constraints>
-                                                                <constraint firstItem="5me-5M-Fab" firstAttribute="leading" secondItem="ycy-jT-KcM" secondAttribute="leading" constant="2" id="M26-yc-Xrz"/>
+                                                                <constraint firstAttribute="bottom" secondItem="5me-5M-Fab" secondAttribute="bottom" constant="4" id="1Pp-tr-moT"/>
+                                                                <constraint firstItem="5me-5M-Fab" firstAttribute="leading" secondItem="ycy-jT-KcM" secondAttribute="leading" constant="20" symbolic="YES" id="M26-yc-Xrz"/>
                                                                 <constraint firstItem="5me-5M-Fab" firstAttribute="centerX" secondItem="ycy-jT-KcM" secondAttribute="centerX" id="T4L-Gr-iWB"/>
-                                                                <constraint firstItem="5me-5M-Fab" firstAttribute="top" secondItem="ycy-jT-KcM" secondAttribute="top" id="XbF-Zq-EXi"/>
+                                                                <constraint firstItem="5me-5M-Fab" firstAttribute="top" secondItem="ycy-jT-KcM" secondAttribute="top" constant="4" id="XbF-Zq-EXi"/>
                                                             </constraints>
                                                             <connections>
                                                                 <outlet property="textField" destination="5me-5M-Fab" id="Ved-VE-2Hh"/>
@@ -4372,6 +4373,7 @@ DQ
                                             </tableColumns>
                                             <connections>
                                                 <binding destination="W9Y-aU-Xti" name="content" keyPath="arrangedObjects" id="nN4-8d-wQ5"/>
+                                                <binding destination="W9Y-aU-Xti" name="selectionIndexes" keyPath="selectionIndexes" previousBinding="nN4-8d-wQ5" id="g4X-9n-OBN"/>
                                             </connections>
                                         </tableView>
                                     </subviews>
@@ -4415,10 +4417,11 @@ DQ
                 <arrayController id="W9Y-aU-Xti">
                     <connections>
                         <binding destination="sWS-Ls-V1g" name="contentArray" keyPath="self.results" id="SAf-kl-FDc"/>
+                        <binding destination="sWS-Ls-V1g" name="selectionIndexes" keyPath="self.selectedIndexes" id="SIY-c1-PVZ"/>
                     </connections>
                 </arrayController>
             </objects>
-            <point key="canvasLocation" x="1161" y="3148"/>
+            <point key="canvasLocation" x="1807" y="3521"/>
         </scene>
         <!--Results Table View Controller-->
         <scene sceneID="nZv-DH-xwJ">
@@ -4526,7 +4529,7 @@ DQ
                 </viewController>
                 <customObject id="rs2-fA-upH" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1677" y="3143"/>
+            <point key="canvasLocation" x="1807" y="3172"/>
         </scene>
         <!--Snippet View Controller-->
         <scene sceneID="u8g-cU-RXd">

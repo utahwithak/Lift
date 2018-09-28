@@ -20,11 +20,13 @@ class ExecuteQueryResult: NSObject {
 
     let columnNames: [String]
 
-    init(statement: Statement) {
+    let identifier: String
+
+    init(statement: Statement, id: String) {
         self.columnNames = statement.columnNames
         self.query = Query(statement: statement)
         self.sql = statement.sql
-
+        identifier = id
     }
 
     public func object(at row: Int, column: Int) -> CellData {

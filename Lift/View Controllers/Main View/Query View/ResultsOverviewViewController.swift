@@ -8,9 +8,15 @@
 
 import Cocoa
 
+protocol ResultsOverviewDelegate: class {
+    func shouldSelect(identifier: String)
+}
+
 class ResultsOverviewViewController: NSViewController {
 
     @IBOutlet weak var progressIndicator: NSProgressIndicator!
+
+    weak var delegate: ResultsOverviewDelegate?
 
     @objc dynamic var stillLoading = false {
         willSet {
@@ -35,6 +41,17 @@ class ResultsOverviewViewController: NSViewController {
             progressIndicator?.startAnimation(nil)
         } else {
             progressIndicator?.animator().isHidden = true
+        }
+    }
+
+    @objc dynamic var selectedIndexes = IndexSet() {
+        didSet {
+            if let selectedIndex = selectedIndexes.first {
+                let result = results[selectedIndex]
+                if !result.rows.isEmpty {
+                    delegate?.shouldSelect(identifier: result.identifier)
+                }
+            }
         }
     }
 }

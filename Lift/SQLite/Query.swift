@@ -33,7 +33,7 @@ class Query {
                 } else if let statement = stmt {
 
                     let statement = Statement(connection: connection, statement: statement)
-                    let result = ExecuteQueryResult(statement: statement)
+                    let result = ExecuteQueryResult(statement: statement, id: "\(Int(progress * len))")
                     result.load(keepGoing: keepGoing)
                     bail = !handler(.success(result), progress)
 
