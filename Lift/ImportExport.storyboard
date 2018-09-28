@@ -1258,6 +1258,9 @@
                                                         <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                         <font key="font" metaFont="system"/>
                                                     </buttonCell>
+                                                    <connections>
+                                                        <binding destination="3l5-4k-t3s" name="value" keyPath="self.xlsxOptions.includeColumnNames" id="MS1-r4-eo8"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <constraints>
@@ -1418,7 +1421,593 @@ Gw
                 </viewController>
                 <customObject id="551-2B-9g4" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-936" y="-216"/>
+            <point key="canvasLocation" x="-1013" y="39"/>
+        </scene>
+        <!--Export Data View Controller-->
+        <scene sceneID="qsi-Bh-LeP">
+            <objects>
+                <viewController storyboardIdentifier="exportDataViewController" id="gNv-cT-os4" customClass="ExportDataViewController" customModule="Lift" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="6FU-oh-tLl">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="341"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <tabView translatesAutoresizingMaskIntoConstraints="NO" id="qJO-y6-3xn">
+                                <rect key="frame" x="13" y="51" width="424" height="284"/>
+                                <font key="font" metaFont="system"/>
+                                <tabViewItems>
+                                    <tabViewItem label="CSV" identifier="" id="I1q-th-5KR">
+                                        <view key="view" id="XKJ-II-SJE">
+                                            <rect key="frame" x="10" y="33" width="404" height="238"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="THS-76-PsR">
+                                                    <rect key="frame" x="132" y="196" width="28" height="22"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="28" id="R31-Zf-evB"/>
+                                                    </constraints>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="," drawsBackground="YES" id="ERm-9I-DvC">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                    <connections>
+                                                        <binding destination="gNv-cT-os4" name="value" keyPath="self.csvOptions.separator" id="wzl-SU-HKL"/>
+                                                    </connections>
+                                                </textField>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ivE-T4-x0g">
+                                                    <rect key="frame" x="15" y="199" width="111" height="17"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Separator:" id="665-Dt-kGd">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <button translatesAutoresizingMaskIntoConstraints="NO" id="g0u-Za-tJW">
+                                                    <rect key="frame" x="130" y="172" width="128" height="18"/>
+                                                    <buttonCell key="cell" type="check" title="Quote Text Fields" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="I9g-5Q-gbd">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <binding destination="gNv-cT-os4" name="value" keyPath="self.csvOptions.shouldQuoteFields" id="8Oc-Fs-IeT"/>
+                                                    </connections>
+                                                </button>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Got-zg-JzL">
+                                                    <rect key="frame" x="15" y="147" width="111" height="17"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Null Values:" id="h9S-sQ-uqu">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="kzg-yT-XDg">
+                                                    <rect key="frame" x="132" y="144" width="252" height="22"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="pnz-hY-Ki2">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                    <connections>
+                                                        <binding destination="gNv-cT-os4" name="value" keyPath="self.csvOptions.nullPlaceHolder" id="akm-i6-gau"/>
+                                                    </connections>
+                                                </textField>
+                                                <button translatesAutoresizingMaskIntoConstraints="NO" id="9Xk-kM-xeE">
+                                                    <rect key="frame" x="130" y="120" width="162" height="18"/>
+                                                    <buttonCell key="cell" type="check" title="Include Column Names" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="OPG-vX-XYs">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <binding destination="gNv-cT-os4" name="value" keyPath="self.csvOptions.includeColumnNames" id="gAk-og-zH0"/>
+                                                    </connections>
+                                                </button>
+                                                <button translatesAutoresizingMaskIntoConstraints="NO" id="2SC-5d-hep">
+                                                    <rect key="frame" x="130" y="100" width="125" height="18"/>
+                                                    <buttonCell key="cell" type="check" title="Export Blob Data" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="RJ3-IW-7Hh">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <binding destination="gNv-cT-os4" name="value" keyPath="self.csvOptions.exportRawBlobData" id="wMw-zG-ZYk"/>
+                                                    </connections>
+                                                </button>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="f0R-RD-Vqs">
+                                                    <rect key="frame" x="15" y="76" width="111" height="17"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Blob Placeholder:" id="Log-tm-B5C">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="YER-Bm-jz4">
+                                                    <rect key="frame" x="132" y="73" width="252" height="22"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="QqX-ZY-CO9">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                    <connections>
+                                                        <binding destination="gNv-cT-os4" name="enabled" keyPath="self.csvOptions.exportRawBlobData" id="RxP-Am-PsI">
+                                                            <dictionary key="options">
+                                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                            </dictionary>
+                                                        </binding>
+                                                        <binding destination="gNv-cT-os4" name="value" keyPath="self.csvOptions.blobDataPlaceHolder" id="Uh1-M8-cKf"/>
+                                                    </connections>
+                                                </textField>
+                                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="YO2-ct-gfe">
+                                                    <rect key="frame" x="132" y="27" width="252" height="38"/>
+                                                    <subviews>
+                                                        <button translatesAutoresizingMaskIntoConstraints="NO" id="Jd8-MU-24d">
+                                                            <rect key="frame" x="-1" y="-1" width="32" height="18"/>
+                                                            <buttonCell key="cell" type="radio" title="\r" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="bns-lx-4pB">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                            </buttonCell>
+                                                            <connections>
+                                                                <action selector="toggleCSVLineEndings:" target="gNv-cT-os4" id="Bqj-9B-v6c"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button translatesAutoresizingMaskIntoConstraints="NO" id="XQp-Hk-hAe">
+                                                            <rect key="frame" x="-1" y="21" width="34" height="18"/>
+                                                            <buttonCell key="cell" type="radio" title="\n" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="gtp-sJ-vsW">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                            </buttonCell>
+                                                            <connections>
+                                                                <action selector="toggleCSVLineEndings:" target="gNv-cT-os4" id="eTR-fj-vSg"/>
+                                                            </connections>
+                                                        </button>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="Jd8-MU-24d" firstAttribute="top" secondItem="XQp-Hk-hAe" secondAttribute="bottom" constant="6" id="4Bw-dx-RQf"/>
+                                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="XQp-Hk-hAe" secondAttribute="trailing" id="C2S-lE-RDe"/>
+                                                        <constraint firstAttribute="bottom" secondItem="Jd8-MU-24d" secondAttribute="bottom" id="Iou-0n-LpO"/>
+                                                        <constraint firstItem="XQp-Hk-hAe" firstAttribute="top" secondItem="YO2-ct-gfe" secondAttribute="top" id="cHu-1k-9Ub"/>
+                                                        <constraint firstItem="XQp-Hk-hAe" firstAttribute="leading" secondItem="YO2-ct-gfe" secondAttribute="leading" id="cXQ-LL-tU0"/>
+                                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="Jd8-MU-24d" secondAttribute="trailing" id="mDJ-0c-NnU"/>
+                                                        <constraint firstItem="Jd8-MU-24d" firstAttribute="leading" secondItem="YO2-ct-gfe" secondAttribute="leading" id="nSw-22-K2z"/>
+                                                    </constraints>
+                                                </customView>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="e9N-a9-Hvs">
+                                                    <rect key="frame" x="15" y="38" width="111" height="17"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Line Endings:" id="Znv-th-cR3">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="2SC-5d-hep" secondAttribute="trailing" constant="20" symbolic="YES" id="2Er-fN-FCb"/>
+                                                <constraint firstItem="kzg-yT-XDg" firstAttribute="baseline" secondItem="Got-zg-JzL" secondAttribute="baseline" id="4gY-pJ-3cJ"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="9Xk-kM-xeE" secondAttribute="trailing" constant="20" symbolic="YES" id="8In-vN-rce"/>
+                                                <constraint firstItem="THS-76-PsR" firstAttribute="leading" secondItem="ivE-T4-x0g" secondAttribute="trailing" constant="8" symbolic="YES" id="Aem-8h-NJD"/>
+                                                <constraint firstItem="kzg-yT-XDg" firstAttribute="leading" secondItem="g0u-Za-tJW" secondAttribute="leading" id="EXh-A3-7Pe"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="THS-76-PsR" secondAttribute="trailing" constant="20" symbolic="YES" id="H04-2l-3x4"/>
+                                                <constraint firstItem="f0R-RD-Vqs" firstAttribute="leading" secondItem="Got-zg-JzL" secondAttribute="leading" id="IPl-Ji-NHa"/>
+                                                <constraint firstItem="9Xk-kM-xeE" firstAttribute="leading" secondItem="kzg-yT-XDg" secondAttribute="leading" id="ItD-IR-lZn"/>
+                                                <constraint firstItem="YO2-ct-gfe" firstAttribute="leading" secondItem="YER-Bm-jz4" secondAttribute="leading" id="KYP-FW-typ"/>
+                                                <constraint firstItem="kzg-yT-XDg" firstAttribute="top" secondItem="g0u-Za-tJW" secondAttribute="bottom" constant="8" id="LGD-m9-ElP"/>
+                                                <constraint firstItem="YER-Bm-jz4" firstAttribute="leading" secondItem="f0R-RD-Vqs" secondAttribute="trailing" constant="8" id="Lka-Tq-BeM"/>
+                                                <constraint firstItem="YER-Bm-jz4" firstAttribute="leading" secondItem="2SC-5d-hep" secondAttribute="leading" id="PAY-yd-mWd"/>
+                                                <constraint firstItem="kzg-yT-XDg" firstAttribute="leading" secondItem="Got-zg-JzL" secondAttribute="trailing" constant="8" id="QZW-Rq-a96"/>
+                                                <constraint firstAttribute="trailing" secondItem="kzg-yT-XDg" secondAttribute="trailing" constant="20" symbolic="YES" id="RCr-cg-I8f"/>
+                                                <constraint firstItem="e9N-a9-Hvs" firstAttribute="centerY" secondItem="YO2-ct-gfe" secondAttribute="centerY" id="RoV-Vr-XwX"/>
+                                                <constraint firstItem="Got-zg-JzL" firstAttribute="width" secondItem="ivE-T4-x0g" secondAttribute="width" id="V8i-Z1-7r9"/>
+                                                <constraint firstItem="2SC-5d-hep" firstAttribute="top" secondItem="9Xk-kM-xeE" secondAttribute="bottom" constant="6" id="Yoz-HI-SL3"/>
+                                                <constraint firstItem="THS-76-PsR" firstAttribute="top" secondItem="XKJ-II-SJE" secondAttribute="top" constant="20" symbolic="YES" id="ZMN-Bq-oJq"/>
+                                                <constraint firstItem="YER-Bm-jz4" firstAttribute="top" secondItem="2SC-5d-hep" secondAttribute="bottom" constant="7" id="bp8-J5-0FE"/>
+                                                <constraint firstItem="Got-zg-JzL" firstAttribute="leading" secondItem="ivE-T4-x0g" secondAttribute="leading" id="bvN-Vj-aod"/>
+                                                <constraint firstItem="YO2-ct-gfe" firstAttribute="top" secondItem="YER-Bm-jz4" secondAttribute="bottom" constant="8" id="eJr-dx-ITX"/>
+                                                <constraint firstItem="f0R-RD-Vqs" firstAttribute="width" secondItem="Got-zg-JzL" secondAttribute="width" id="eUh-Pg-HHO"/>
+                                                <constraint firstItem="g0u-Za-tJW" firstAttribute="leading" secondItem="THS-76-PsR" secondAttribute="leading" id="ebb-No-Obd"/>
+                                                <constraint firstAttribute="trailing" secondItem="YER-Bm-jz4" secondAttribute="trailing" constant="20" symbolic="YES" id="ecj-J6-I78"/>
+                                                <constraint firstItem="9Xk-kM-xeE" firstAttribute="top" secondItem="kzg-yT-XDg" secondAttribute="bottom" constant="8" id="fbi-fn-AOe"/>
+                                                <constraint firstItem="e9N-a9-Hvs" firstAttribute="width" secondItem="f0R-RD-Vqs" secondAttribute="width" id="gY7-PK-26d"/>
+                                                <constraint firstItem="g0u-Za-tJW" firstAttribute="top" secondItem="THS-76-PsR" secondAttribute="bottom" constant="8" id="gjK-mM-xnf"/>
+                                                <constraint firstItem="YO2-ct-gfe" firstAttribute="trailing" secondItem="YER-Bm-jz4" secondAttribute="trailing" id="hyt-NS-FNL"/>
+                                                <constraint firstItem="ivE-T4-x0g" firstAttribute="leading" secondItem="XKJ-II-SJE" secondAttribute="leading" constant="17" id="jgd-LP-6OX"/>
+                                                <constraint firstItem="THS-76-PsR" firstAttribute="baseline" secondItem="ivE-T4-x0g" secondAttribute="baseline" id="jmG-AT-R9I"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="g0u-Za-tJW" secondAttribute="trailing" constant="20" symbolic="YES" id="lG6-5V-cY8"/>
+                                                <constraint firstItem="YO2-ct-gfe" firstAttribute="leading" secondItem="e9N-a9-Hvs" secondAttribute="trailing" constant="8" id="lih-ko-CuR"/>
+                                                <constraint firstItem="2SC-5d-hep" firstAttribute="leading" secondItem="9Xk-kM-xeE" secondAttribute="leading" id="oEc-0r-fiF"/>
+                                                <constraint firstItem="YER-Bm-jz4" firstAttribute="baseline" secondItem="f0R-RD-Vqs" secondAttribute="baseline" id="slj-fI-7JZ"/>
+                                                <constraint firstItem="e9N-a9-Hvs" firstAttribute="leading" secondItem="f0R-RD-Vqs" secondAttribute="leading" id="ynd-Ie-4PZ"/>
+                                            </constraints>
+                                        </view>
+                                    </tabViewItem>
+                                    <tabViewItem label="JSON" identifier="" id="Q4U-NY-G9X">
+                                        <view key="view" id="BGr-z5-tZR">
+                                            <rect key="frame" x="10" y="33" width="404" height="238"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iAR-p0-kiZ">
+                                                    <rect key="frame" x="15" y="126" width="111" height="17"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Blob Placeholder:" id="Abv-tF-AMY">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <textField toolTip="Placed in fields where blobs where instead of hex strings." verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="SGa-tz-Vdq">
+                                                    <rect key="frame" x="132" y="123" width="252" height="22"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="z7t-TG-1PU">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                    <connections>
+                                                        <binding destination="gNv-cT-os4" name="editable" keyPath="self.jsonOptions.exportRawBlobData" id="zPo-BE-z9a">
+                                                            <dictionary key="options">
+                                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                            </dictionary>
+                                                        </binding>
+                                                        <binding destination="3l5-4k-t3s" name="enabled" keyPath="self.jsonOptions.exportRawBlobData" previousBinding="zPo-BE-z9a" id="qof-yw-LIN">
+                                                            <dictionary key="options">
+                                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                            </dictionary>
+                                                        </binding>
+                                                        <binding destination="gNv-cT-os4" name="value" keyPath="self.jsonOptions.blobDataPlaceHolder" id="XgU-5O-ugV"/>
+                                                    </connections>
+                                                </textField>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wYG-SW-9VK">
+                                                    <rect key="frame" x="15" y="177" width="111" height="17"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Null Values:" id="uyL-ES-1fC">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <textField toolTip="Use instead of null literals" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nua-NS-5JM">
+                                                    <rect key="frame" x="132" y="174" width="252" height="22"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="pIX-LT-HgX">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        <connections>
+                                                            <binding destination="3l5-4k-t3s" name="enabled" keyPath="self.jsonOptions.useNullLiterals" id="Cmn-hQ-mR4">
+                                                                <dictionary key="options">
+                                                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                </dictionary>
+                                                            </binding>
+                                                            <binding destination="3l5-4k-t3s" name="value" keyPath="self.jsonOptions.nullPlaceHolder" id="pSa-Vp-N3B"/>
+                                                        </connections>
+                                                    </textFieldCell>
+                                                    <connections>
+                                                        <binding destination="gNv-cT-os4" name="value" keyPath="self.jsonOptions.nullPlaceHolder" id="6mW-sF-Jxk"/>
+                                                    </connections>
+                                                </textField>
+                                                <button toolTip="Export blobs as hex strings" translatesAutoresizingMaskIntoConstraints="NO" id="WF0-gd-esj">
+                                                    <rect key="frame" x="130" y="150" width="125" height="18"/>
+                                                    <buttonCell key="cell" type="check" title="Export Blob Data" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="thz-b0-LX3">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <binding destination="gNv-cT-os4" name="value" keyPath="self.jsonOptions.exportRawBlobData" id="LbS-9Z-qe9"/>
+                                                    </connections>
+                                                </button>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5QW-Wa-Dzf">
+                                                    <rect key="frame" x="15" y="74" width="111" height="17"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Data Array Name:" id="7Mq-7L-YLk">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <button translatesAutoresizingMaskIntoConstraints="NO" id="qms-fV-JIr">
+                                                    <rect key="frame" x="130" y="99" width="153" height="18"/>
+                                                    <buttonCell key="cell" type="check" title="Use Objects for Rows" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ADM-z3-XV4">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <binding destination="gNv-cT-os4" name="value" keyPath="self.jsonOptions.rowsAsDictionaries" id="gUa-m5-YlL"/>
+                                                    </connections>
+                                                </button>
+                                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="eOJ-Cd-1ih">
+                                                    <rect key="frame" x="132" y="71" width="252" height="22"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="Tr8-8c-o1C">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                    <connections>
+                                                        <binding destination="gNv-cT-os4" name="value" keyPath="self.jsonOptions.rowName" id="d6x-ec-Y04"/>
+                                                    </connections>
+                                                </textField>
+                                                <button toolTip="Make exported JSON pretty printed" translatesAutoresizingMaskIntoConstraints="NO" id="7NF-if-4r5">
+                                                    <rect key="frame" x="130" y="47" width="91" height="18"/>
+                                                    <buttonCell key="cell" type="check" title="Pretty print" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="vHy-Ma-wyw">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <binding destination="gNv-cT-os4" name="value" keyPath="self.jsonOptions.prettyPrint" id="nP0-TM-Rl2"/>
+                                                    </connections>
+                                                </button>
+                                                <button toolTip="use null keyword for SQLite NULL values" translatesAutoresizingMaskIntoConstraints="NO" id="nNb-gD-luI">
+                                                    <rect key="frame" x="130" y="202" width="115" height="18"/>
+                                                    <buttonCell key="cell" type="check" title="Use null literals" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="bT3-FB-QC4">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <binding destination="gNv-cT-os4" name="value" keyPath="self.jsonOptions.useNullLiterals" id="usi-cx-JsP"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="qms-fV-JIr" firstAttribute="top" secondItem="SGa-tz-Vdq" secondAttribute="bottom" constant="8" id="6Kk-Tq-hVS"/>
+                                                <constraint firstItem="SGa-tz-Vdq" firstAttribute="leading" secondItem="iAR-p0-kiZ" secondAttribute="trailing" constant="8" id="7JQ-9A-X4a"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="nNb-gD-luI" secondAttribute="trailing" id="7nE-UD-azx"/>
+                                                <constraint firstItem="7NF-if-4r5" firstAttribute="top" secondItem="eOJ-Cd-1ih" secondAttribute="bottom" constant="8" symbolic="YES" id="8gA-tF-f9f"/>
+                                                <constraint firstItem="5QW-Wa-Dzf" firstAttribute="leading" secondItem="iAR-p0-kiZ" secondAttribute="leading" id="DCN-Mp-q4C"/>
+                                                <constraint firstAttribute="trailing" secondItem="nua-NS-5JM" secondAttribute="trailing" constant="20" symbolic="YES" id="FzS-eN-WPy"/>
+                                                <constraint firstItem="5QW-Wa-Dzf" firstAttribute="baseline" secondItem="eOJ-Cd-1ih" secondAttribute="baseline" id="IRh-UC-Igl"/>
+                                                <constraint firstItem="nua-NS-5JM" firstAttribute="leading" secondItem="nNb-gD-luI" secondAttribute="leading" id="Mhj-xQ-Uv2"/>
+                                                <constraint firstItem="nua-NS-5JM" firstAttribute="top" secondItem="nNb-gD-luI" secondAttribute="bottom" constant="8" id="Mpt-g3-cvB"/>
+                                                <constraint firstItem="WF0-gd-esj" firstAttribute="top" secondItem="nua-NS-5JM" secondAttribute="bottom" constant="8" symbolic="YES" id="OyK-aK-aUj"/>
+                                                <constraint firstItem="5QW-Wa-Dzf" firstAttribute="width" secondItem="iAR-p0-kiZ" secondAttribute="width" id="S49-Js-WXW"/>
+                                                <constraint firstAttribute="trailing" secondItem="eOJ-Cd-1ih" secondAttribute="trailing" constant="20" id="SEV-bI-aXq"/>
+                                                <constraint firstItem="iAR-p0-kiZ" firstAttribute="leading" secondItem="wYG-SW-9VK" secondAttribute="leading" id="SL7-Y8-xQy"/>
+                                                <constraint firstItem="qms-fV-JIr" firstAttribute="leading" secondItem="SGa-tz-Vdq" secondAttribute="leading" id="UM4-MS-l3y"/>
+                                                <constraint firstItem="nua-NS-5JM" firstAttribute="baseline" secondItem="wYG-SW-9VK" secondAttribute="baseline" id="UfH-3n-oV3"/>
+                                                <constraint firstItem="eOJ-Cd-1ih" firstAttribute="leading" secondItem="5QW-Wa-Dzf" secondAttribute="trailing" constant="8" id="Zff-sa-e2n"/>
+                                                <constraint firstItem="nua-NS-5JM" firstAttribute="leading" secondItem="wYG-SW-9VK" secondAttribute="trailing" constant="8" symbolic="YES" id="a1V-7i-eVg"/>
+                                                <constraint firstItem="eOJ-Cd-1ih" firstAttribute="width" secondItem="SGa-tz-Vdq" secondAttribute="width" id="bZh-wM-RAz"/>
+                                                <constraint firstItem="eOJ-Cd-1ih" firstAttribute="leading" secondItem="SGa-tz-Vdq" secondAttribute="leading" id="bpD-zK-lAQ"/>
+                                                <constraint firstItem="wYG-SW-9VK" firstAttribute="width" secondItem="iAR-p0-kiZ" secondAttribute="width" id="bu9-zr-J4U"/>
+                                                <constraint firstItem="SGa-tz-Vdq" firstAttribute="top" secondItem="WF0-gd-esj" secondAttribute="bottom" constant="7" id="bya-ds-Zs4"/>
+                                                <constraint firstItem="7NF-if-4r5" firstAttribute="leading" secondItem="eOJ-Cd-1ih" secondAttribute="leading" id="eKT-xC-Y1T"/>
+                                                <constraint firstAttribute="trailing" secondItem="SGa-tz-Vdq" secondAttribute="trailing" constant="20" symbolic="YES" id="fuD-Af-YJ6"/>
+                                                <constraint firstItem="wYG-SW-9VK" firstAttribute="leading" secondItem="BGr-z5-tZR" secondAttribute="leading" constant="17" id="gfK-r9-P4s"/>
+                                                <constraint firstItem="eOJ-Cd-1ih" firstAttribute="top" secondItem="qms-fV-JIr" secondAttribute="bottom" constant="8" symbolic="YES" id="hEm-8O-Z31"/>
+                                                <constraint firstItem="SGa-tz-Vdq" firstAttribute="leading" secondItem="nua-NS-5JM" secondAttribute="leading" id="mpP-fs-ziQ"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="qms-fV-JIr" secondAttribute="trailing" constant="20" symbolic="YES" id="mu8-16-r51"/>
+                                                <constraint firstItem="nNb-gD-luI" firstAttribute="top" secondItem="BGr-z5-tZR" secondAttribute="top" constant="20" symbolic="YES" id="oKs-Kr-F9e"/>
+                                                <constraint firstItem="SGa-tz-Vdq" firstAttribute="baseline" secondItem="iAR-p0-kiZ" secondAttribute="baseline" id="oyc-nD-nEm"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="WF0-gd-esj" secondAttribute="trailing" constant="20" symbolic="YES" id="sNg-MD-who"/>
+                                                <constraint firstItem="WF0-gd-esj" firstAttribute="leading" secondItem="nua-NS-5JM" secondAttribute="leading" id="vyQ-KJ-w7N"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="7NF-if-4r5" secondAttribute="trailing" constant="20" symbolic="YES" id="zc1-PV-rnQ"/>
+                                            </constraints>
+                                        </view>
+                                    </tabViewItem>
+                                    <tabViewItem label="XML" identifier="" id="9gd-vG-0d3">
+                                        <view key="view" id="fNy-fg-wWG">
+                                            <rect key="frame" x="10" y="33" width="404" height="238"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="q5S-YT-CHg">
+                                                    <rect key="frame" x="18" y="202" width="134" height="18"/>
+                                                    <buttonCell key="cell" type="check" title="Pretty print output" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="8wc-Os-hYE">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <binding destination="gNv-cT-os4" name="value" keyPath="self.xmlOptions.prettyPrint" id="uv5-Te-fUH"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="q5S-YT-CHg" firstAttribute="leading" secondItem="fNy-fg-wWG" secondAttribute="leading" constant="20" symbolic="YES" id="42j-if-SmA"/>
+                                                <constraint firstItem="q5S-YT-CHg" firstAttribute="top" secondItem="fNy-fg-wWG" secondAttribute="top" constant="20" symbolic="YES" id="RM8-c5-aRw"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="q5S-YT-CHg" secondAttribute="trailing" constant="20" symbolic="YES" id="jPj-ML-2hu"/>
+                                            </constraints>
+                                        </view>
+                                    </tabViewItem>
+                                    <tabViewItem label="XLSX" identifier="" id="teF-Qo-Efd">
+                                        <view key="view" id="KgU-vT-6no">
+                                            <rect key="frame" x="10" y="33" width="404" height="238"/>
+                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                            <subviews>
+                                                <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="czK-UB-gIO">
+                                                    <rect key="frame" x="15" y="177" width="75" height="17"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Null Values:" id="DcK-2C-2iI">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                    </textFieldCell>
+                                                </textField>
+                                                <textField toolTip="Use instead of null literals" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="nif-jN-jW4">
+                                                    <rect key="frame" x="96" y="174" width="288" height="22"/>
+                                                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="uIa-Y2-qHY">
+                                                        <font key="font" metaFont="system"/>
+                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                        <connections>
+                                                            <binding destination="3l5-4k-t3s" name="enabled" keyPath="self.jsonOptions.useNullLiterals" id="tnW-gb-nT5">
+                                                                <dictionary key="options">
+                                                                    <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                </dictionary>
+                                                            </binding>
+                                                            <binding destination="3l5-4k-t3s" name="value" keyPath="self.jsonOptions.nullPlaceHolder" id="EfO-Uk-x1g"/>
+                                                        </connections>
+                                                    </textFieldCell>
+                                                    <connections>
+                                                        <binding destination="gNv-cT-os4" name="enabled" keyPath="self.xlsxOptions.exportNULLValues" id="NnY-XF-3NN"/>
+                                                        <binding destination="gNv-cT-os4" name="value" keyPath="self.xlsxOptions.nullPlaceHolder" id="UtV-uV-y5m"/>
+                                                    </connections>
+                                                </textField>
+                                                <button toolTip="Export blobs as hex strings" translatesAutoresizingMaskIntoConstraints="NO" id="2el-Lt-AgT">
+                                                    <rect key="frame" x="94" y="150" width="125" height="18"/>
+                                                    <buttonCell key="cell" type="check" title="Export Blob Data" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="bWp-dR-Ehg">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <binding destination="gNv-cT-os4" name="value" keyPath="self.xlsxOptions.exportBlobData" id="z01-lK-Hmq"/>
+                                                    </connections>
+                                                </button>
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0rZ-ua-qaq">
+                                                    <rect key="frame" x="94" y="202" width="143" height="18"/>
+                                                    <buttonCell key="cell" type="check" title="Export NULL Values" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="mac-Qf-LZa">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <binding destination="gNv-cT-os4" name="value" keyPath="self.xlsxOptions.exportNULLValues" id="ltz-cE-bfB"/>
+                                                    </connections>
+                                                </button>
+                                                <customView translatesAutoresizingMaskIntoConstraints="NO" id="UrR-xx-qLd">
+                                                    <rect key="frame" x="96" y="84" width="288" height="60"/>
+                                                    <subviews>
+                                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="OZk-ZR-EO2">
+                                                            <rect key="frame" x="19" y="43" width="46" height="18"/>
+                                                            <buttonCell key="cell" type="radio" title="Hex" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="gW3-xX-Egk">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                            </buttonCell>
+                                                            <connections>
+                                                                <action selector="toggleXLSXBlobOptions:" target="gNv-cT-os4" id="acZ-Ph-aJh"/>
+                                                                <binding destination="gNv-cT-os4" name="enabled" keyPath="self.xlsxOptions.exportBlobData" id="GKT-vU-qwx"/>
+                                                                <binding destination="gNv-cT-os4" name="value" keyPath="self.xlsxOptions.exportRawBlobData" id="eU2-Vz-TF8"/>
+                                                            </connections>
+                                                        </button>
+                                                        <button verticalHuggingPriority="750" tag="1" translatesAutoresizingMaskIntoConstraints="NO" id="T34-NH-zUb">
+                                                            <rect key="frame" x="19" y="21" width="94" height="18"/>
+                                                            <buttonCell key="cell" type="radio" title="Placeholder" bezelStyle="regularSquare" imagePosition="left" alignment="left" state="on" inset="2" id="MqT-6r-e9Y">
+                                                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                            </buttonCell>
+                                                            <connections>
+                                                                <action selector="toggleXLSXBlobOptions:" target="gNv-cT-os4" id="NhZ-UR-Fx5"/>
+                                                                <binding destination="gNv-cT-os4" name="enabled" keyPath="self.xlsxOptions.exportBlobData" id="Dp3-uR-0Ld"/>
+                                                            </connections>
+                                                        </button>
+                                                        <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gat-kd-2SO">
+                                                            <rect key="frame" x="40" y="0.0" width="248" height="22"/>
+                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="NRO-Cp-ZDY">
+                                                                <font key="font" metaFont="system"/>
+                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                            <connections>
+                                                                <binding destination="gNv-cT-os4" name="editable" keyPath="self.xlsxOptions.exportRawBlobData" id="fUG-aW-a1H">
+                                                                    <dictionary key="options">
+                                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                    </dictionary>
+                                                                </binding>
+                                                                <binding destination="gNv-cT-os4" name="enabled2" keyPath="self.xlsxOptions.exportBlobData" previousBinding="uQD-NQ-O4q" id="9OP-N0-Qzd">
+                                                                    <dictionary key="options">
+                                                                        <integer key="NSMultipleValuesPlaceholder" value="-1"/>
+                                                                        <integer key="NSNoSelectionPlaceholder" value="-1"/>
+                                                                        <integer key="NSNotApplicablePlaceholder" value="-1"/>
+                                                                        <integer key="NSNullPlaceholder" value="-1"/>
+                                                                    </dictionary>
+                                                                </binding>
+                                                                <binding destination="gNv-cT-os4" name="enabled" keyPath="self.xlsxOptions.exportRawBlobData" previousBinding="fUG-aW-a1H" id="uQD-NQ-O4q">
+                                                                    <dictionary key="options">
+                                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                    </dictionary>
+                                                                </binding>
+                                                                <binding destination="gNv-cT-os4" name="value" keyPath="self.xlsxOptions.blobDataPlaceHolder" id="xUd-F9-RH8"/>
+                                                            </connections>
+                                                        </textField>
+                                                    </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="T34-NH-zUb" firstAttribute="leading" secondItem="UrR-xx-qLd" secondAttribute="leading" constant="20" id="5gj-GI-dqb"/>
+                                                        <constraint firstAttribute="bottom" secondItem="T34-NH-zUb" secondAttribute="bottom" constant="22" id="6OC-CP-vMp"/>
+                                                        <constraint firstItem="OZk-ZR-EO2" firstAttribute="top" secondItem="UrR-xx-qLd" secondAttribute="top" id="AoG-6s-Mdx"/>
+                                                        <constraint firstItem="gat-kd-2SO" firstAttribute="top" secondItem="T34-NH-zUb" secondAttribute="bottom" id="UhP-I0-iyX"/>
+                                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="T34-NH-zUb" secondAttribute="trailing" id="XRr-3u-PL0"/>
+                                                        <constraint firstItem="T34-NH-zUb" firstAttribute="top" secondItem="OZk-ZR-EO2" secondAttribute="bottom" constant="6" id="bwG-Po-TmI"/>
+                                                        <constraint firstAttribute="trailing" secondItem="gat-kd-2SO" secondAttribute="trailing" id="mUB-qh-NMC"/>
+                                                        <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="OZk-ZR-EO2" secondAttribute="trailing" id="shJ-7b-2i8"/>
+                                                        <constraint firstItem="gat-kd-2SO" firstAttribute="leading" secondItem="T34-NH-zUb" secondAttribute="leading" constant="20" id="vFJ-1l-mKy"/>
+                                                        <constraint firstItem="OZk-ZR-EO2" firstAttribute="leading" secondItem="UrR-xx-qLd" secondAttribute="leading" constant="20" id="xsm-5p-onN"/>
+                                                    </constraints>
+                                                </customView>
+                                                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="XEU-Hc-NHk">
+                                                    <rect key="frame" x="94" y="62" width="162" height="18"/>
+                                                    <buttonCell key="cell" type="check" title="Include Column Names" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="IYe-0E-q1o">
+                                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                                        <font key="font" metaFont="system"/>
+                                                    </buttonCell>
+                                                    <connections>
+                                                        <binding destination="gNv-cT-os4" name="value" keyPath="self.xlsxOptions.includeColumnNames" id="GpR-bq-8xn"/>
+                                                    </connections>
+                                                </button>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="XEU-Hc-NHk" secondAttribute="trailing" constant="20" symbolic="YES" id="3xG-bH-rDV"/>
+                                                <constraint firstAttribute="trailing" secondItem="nif-jN-jW4" secondAttribute="trailing" constant="20" id="55h-gZ-LqJ"/>
+                                                <constraint firstItem="UrR-xx-qLd" firstAttribute="leading" secondItem="2el-Lt-AgT" secondAttribute="leading" id="6qr-N4-pib"/>
+                                                <constraint firstItem="XEU-Hc-NHk" firstAttribute="leading" secondItem="UrR-xx-qLd" secondAttribute="leading" id="ALU-q1-xUQ"/>
+                                                <constraint firstItem="2el-Lt-AgT" firstAttribute="top" secondItem="nif-jN-jW4" secondAttribute="bottom" constant="8" symbolic="YES" id="Aus-JG-eVC"/>
+                                                <constraint firstItem="nif-jN-jW4" firstAttribute="leading" secondItem="czK-UB-gIO" secondAttribute="trailing" constant="8" symbolic="YES" id="DaD-4E-BNa"/>
+                                                <constraint firstItem="0rZ-ua-qaq" firstAttribute="top" secondItem="KgU-vT-6no" secondAttribute="top" constant="20" symbolic="YES" id="Hem-3C-4jh"/>
+                                                <constraint firstItem="nif-jN-jW4" firstAttribute="top" secondItem="0rZ-ua-qaq" secondAttribute="bottom" constant="8" symbolic="YES" id="IdO-W2-PZh"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="0rZ-ua-qaq" secondAttribute="trailing" constant="20" symbolic="YES" id="J3g-bC-BI9"/>
+                                                <constraint firstItem="2el-Lt-AgT" firstAttribute="leading" secondItem="nif-jN-jW4" secondAttribute="leading" id="Ppp-l7-elK"/>
+                                                <constraint firstItem="czK-UB-gIO" firstAttribute="leading" secondItem="KgU-vT-6no" secondAttribute="leading" constant="17" id="ce6-Tz-PMZ"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="2el-Lt-AgT" secondAttribute="trailing" constant="20" symbolic="YES" id="dBd-Y3-nD2"/>
+                                                <constraint firstItem="0rZ-ua-qaq" firstAttribute="leading" secondItem="czK-UB-gIO" secondAttribute="trailing" constant="8" id="dVD-nx-0Ai"/>
+                                                <constraint firstItem="XEU-Hc-NHk" firstAttribute="top" secondItem="UrR-xx-qLd" secondAttribute="bottom" constant="6" id="j8V-r2-HGR"/>
+                                                <constraint firstItem="UrR-xx-qLd" firstAttribute="top" secondItem="2el-Lt-AgT" secondAttribute="bottom" constant="8" id="jMu-1Z-0oI"/>
+                                                <constraint firstAttribute="trailing" secondItem="UrR-xx-qLd" secondAttribute="trailing" constant="20" symbolic="YES" id="jwW-i8-r6t"/>
+                                                <constraint firstItem="nif-jN-jW4" firstAttribute="baseline" secondItem="czK-UB-gIO" secondAttribute="baseline" id="lJr-9N-PpI"/>
+                                            </constraints>
+                                        </view>
+                                    </tabViewItem>
+                                </tabViewItems>
+                                <connections>
+                                    <binding destination="gNv-cT-os4" name="selectedIndex" keyPath="self.exportTypeSelection" id="h7y-Xx-jha"/>
+                                </connections>
+                            </tabView>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="pv0-xf-7jL">
+                                <rect key="frame" x="356" y="13" width="80" height="32"/>
+                                <buttonCell key="cell" type="push" title="Export" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="vOn-mP-7J7">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="export:" target="gNv-cT-os4" id="4wM-Nc-X5A"/>
+                                </connections>
+                            </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KJ2-vz-DfK">
+                                <rect key="frame" x="14" y="13" width="82" height="32"/>
+                                <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fth-6E-b6y">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="dismissController:" target="gNv-cT-os4" id="gYr-Eb-AGm"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="pv0-xf-7jL" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="KJ2-vz-DfK" secondAttribute="trailing" constant="12" symbolic="YES" id="8Iv-Am-iur"/>
+                            <constraint firstAttribute="trailing" secondItem="qJO-y6-3xn" secondAttribute="trailing" constant="20" symbolic="YES" id="BKw-5S-Gkc"/>
+                            <constraint firstItem="pv0-xf-7jL" firstAttribute="top" secondItem="qJO-y6-3xn" secondAttribute="bottom" constant="20" id="Hb0-BV-3RG"/>
+                            <constraint firstAttribute="bottom" secondItem="KJ2-vz-DfK" secondAttribute="bottom" constant="20" id="Q4J-hM-bRl"/>
+                            <constraint firstItem="qJO-y6-3xn" firstAttribute="leading" secondItem="6FU-oh-tLl" secondAttribute="leading" constant="20" symbolic="YES" id="aNm-MK-cKU"/>
+                            <constraint firstAttribute="trailing" secondItem="pv0-xf-7jL" secondAttribute="trailing" constant="20" id="ffB-JA-Bqb"/>
+                            <constraint firstAttribute="bottom" secondItem="pv0-xf-7jL" secondAttribute="bottom" constant="20" id="fzf-N5-87i"/>
+                            <constraint firstItem="qJO-y6-3xn" firstAttribute="top" secondItem="6FU-oh-tLl" secondAttribute="top" constant="12" symbolic="YES" id="lI7-KQ-BBY"/>
+                            <constraint firstItem="KJ2-vz-DfK" firstAttribute="leading" secondItem="6FU-oh-tLl" secondAttribute="leading" constant="20" id="m12-gJ-XVg"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="carriageRadioButton" destination="Jd8-MU-24d" id="ikT-4m-yDe"/>
+                        <outlet property="newLineRadioButton" destination="XQp-Hk-hAe" id="dSe-wr-lBJ"/>
+                        <segue destination="3Y2-h0-fh1" kind="sheet" identifier="showProgress" id="WNf-SZ-hHu"/>
+                    </connections>
+                </viewController>
+                <customObject id="lAl-nv-AS7" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <userDefaultsController representsSharedInstance="YES" id="LoZ-f2-Rsy"/>
+            </objects>
+            <point key="canvasLocation" x="-1749" y="203.5"/>
         </scene>
     </scenes>
+    <inferredMetricsTieBreakers>
+        <segue reference="WNf-SZ-hHu"/>
+    </inferredMetricsTieBreakers>
 </document>

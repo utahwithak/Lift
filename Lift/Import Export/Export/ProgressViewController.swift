@@ -12,7 +12,16 @@ class ProgressViewController: NSViewController {
 
     @objc dynamic var operation = ""
     @objc dynamic var progress = NSNumber(value: 0)
-    @objc dynamic var indeterminant = false
+    @objc dynamic var indeterminant = false {
+        didSet {
+            if isViewLoaded {
+                indicator.isIndeterminate = indeterminant
+                if indeterminant {
+                    indicator.startAnimation(nil)
+                }
+            }
+        }
+    }
 
     @IBOutlet weak var indicator: NSProgressIndicator!
 

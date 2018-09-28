@@ -3671,7 +3671,7 @@ DQ
                                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                     <prototypeCellViews>
                                                                         <tableCellView id="W5K-9G-23v">
-                                                                            <rect key="frame" x="231" y="1" width="175" height="17"/>
+                                                                            <rect key="frame" x="230.5" y="1" width="175" height="17"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                             <subviews>
                                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="kYf-pY-s8A">
@@ -4279,9 +4279,20 @@ DQ
                     <connections>
                         <outlet property="holder" destination="Gy3-6U-NXR" id="1r1-ds-Ehh"/>
                         <outlet property="tabControl" destination="nKG-IL-aWS" id="cnJ-H8-Ozf"/>
+                        <outlet property="tabMenu" destination="kZf-ry-bav" id="bQJ-XU-QXe"/>
                     </connections>
                 </viewController>
                 <customObject id="qlh-1k-PUB" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <menu id="kZf-ry-bav">
+                    <items>
+                        <menuItem title="Export Data" id="vD1-Hd-nWL">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="exportSelectedData:" target="Eec-Ju-Xls" id="ak2-a1-dlc"/>
+                            </connections>
+                        </menuItem>
+                    </items>
+                </menu>
             </objects>
             <point key="canvasLocation" x="1332" y="3162"/>
         </scene>
@@ -4727,6 +4738,10 @@ DQ
                                 <buttonCell key="cell" type="push" title="Save" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ERT-PG-hw6">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                                    <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="saveEdits:" target="hMy-gr-xX6" id="6f3-cH-kBN"/>

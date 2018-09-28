@@ -205,6 +205,25 @@ class TabControl: NSControl {
 
     }
 
+    func trackedButton(with event: NSEvent) -> TabButton? {
+        if let item = event.trackingArea?.userInfo?["item"] {
+            return self.tabButton(with: item)
+        }
+        return nil
+    }
+
+    override func mouseEntered(with event: NSEvent) {
+        if let cell = trackedButton(with: event)?.cell as? TabCell {
+            cell.showsMenu = true
+        }
+    }
+
+    override func mouseExited(with event: NSEvent) {
+        if let cell = trackedButton(with: event)?.cell as? TabCell {
+            cell.showsMenu = false
+        }
+    }
+
     @objc private func add(_ sender: NSButton) {
         if let addAction = self.addAction {
             NSApplication.shared.sendAction(addAction, to: self.addTarget, from: self)
@@ -503,7 +522,7 @@ class TabControl: NSControl {
         }, context: nil)
     }
 
-    private func tabButton(with item: AnyObject) -> TabButton? {
+    private func tabButton(with item: Any) -> TabButton? {
         for view in scrollView.documentView?.subviews ?? [] {
             guard let button = view as? TabButton else {
                 continue

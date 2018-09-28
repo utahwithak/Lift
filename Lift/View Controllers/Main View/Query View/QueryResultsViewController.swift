@@ -13,6 +13,7 @@ class QueryResultsViewController: LiftViewController {
     @IBOutlet weak var tabControl: TabControl!
     @IBOutlet weak var holder: NSTabView!
 
+    @IBOutlet var tabMenu: NSMenu!
     lazy var overviewViewController: ResultsOverviewViewController = {
         let overView =  storyboard?.instantiateController(withIdentifier: "resultsOverviewViewController") as? ResultsOverviewViewController
         overView?.title = "Results"
@@ -50,6 +51,17 @@ class QueryResultsViewController: LiftViewController {
             holder.addTabViewItem(NSTabViewItem(viewController: resultsView))
             tabControl.reloadData()
         }
+
+    }
+
+    @IBAction func exportSelectedData(_ sender: Any) {
+        let storyboard = NSStoryboard(name: "ImportExport", bundle: Bundle.main)
+        guard let tabVC = (holder.selectedTabViewItem?.viewController as? ResultsTableViewController), let exportDataVC = storyboard.instantiateController(withIdentifier: "exportDataViewController") as? ExportDataViewController else {
+            return
+        }
+        exportDataVC.columns = tabVC.results.columnNames
+        exportDataVC.data = tabVC.results.rows.map { $0.data }
+        presentAsSheet(exportDataVC)
 
     }
 
@@ -98,7 +110,11 @@ extension QueryResultsViewController: TabControlDatasource {
     }
 
     func tabControl(_ control: TabControl, menuFor item: Any) -> NSMenu? {
-        return nil
+        if (item as? NSTabViewItem)?.viewController is ResultsTableViewController {
+            return tabMenu
+        } else {
+            return nil
+        }
     }
 
     func tabControl(_ control: TabControl, didSelect item: Any) {

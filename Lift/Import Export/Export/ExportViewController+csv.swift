@@ -38,7 +38,7 @@ extension ExportViewController {
             do {
                 var errorCount = 0
 
-                try manager.createDirectory(at: url.deletingPathExtension(), withIntermediateDirectories: true, attributes: nil)
+                try manager.createDirectory(at: url, withIntermediateDirectories: true, attributes: nil)
                 let count = self.tablesToExport.count
 
                 for (index, table) in self.tablesToExport.enumerated() {
@@ -49,7 +49,7 @@ extension ExportViewController {
 
                     }
 
-                    let tableURL = url.deletingPathExtension().appendingPathComponent(table.name).appendingPathExtension("csv")
+                    let tableURL = url.appendingPathComponent(table.name).appendingPathExtension("csv")
 
                     guard manager.createFile(atPath: tableURL.path, contents: nil, attributes: nil) else {
                         throw LiftError.unableToCreateFile
