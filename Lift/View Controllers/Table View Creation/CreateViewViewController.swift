@@ -47,6 +47,8 @@ class CreateViewViewController: LiftViewController {
                         try db.execute(statement: self.viewDefinition.createStatement)
                     } catch {
                         try? db.rollbackSavepoint(named: "alterTable")
+                        try? db.releaseSavepoint(named: "alterTable")
+
                         throw error
 
                     }

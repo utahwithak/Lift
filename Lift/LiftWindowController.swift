@@ -152,10 +152,6 @@ class LiftWindowController: NSWindowController {
 
     @IBAction func switchMainEditor(_ sender: NSSegmentedControl) {
 
-        guard let tabController = mainEditor else {
-            return
-        }
-
         let view: MainEditorType
         switch sender.selectedSegment {
         case 0:
@@ -165,7 +161,15 @@ class LiftWindowController: NSWindowController {
         default:
             view = .query
         }
-        tabController.switchMainView(to: view)
+        showMainView(type: view)
+    }
+
+    public func showMainView(type: MainEditorType) {
+        guard let tabController = mainEditor else {
+            return
+        }
+        tabController.switchMainView(to: type)
+
     }
 
     public func showQueryView(with SQL: String) {

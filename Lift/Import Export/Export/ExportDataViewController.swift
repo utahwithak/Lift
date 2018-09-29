@@ -446,7 +446,7 @@ class ExportDataViewController: LiftViewController {
 
                 let names = self.columns ?? []
                 var rows = [Any]()
-                var total = Double(self.data.count)
+                let total = Double(self.data.count)
                 var current = 0.0
                 for row in self.data {
 

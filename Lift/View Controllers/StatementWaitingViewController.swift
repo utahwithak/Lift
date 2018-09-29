@@ -144,6 +144,8 @@ class StatementWaitingViewController: LiftViewController {
                     if inSavepoint {
                         do {
                             try doc.database.rollbackSavepoint(named: savePointName)
+                            try doc.database.releaseSavepoint(named: savePointName)
+
                         } catch {
                             print("Failed to rollback savepoint!")
                         }

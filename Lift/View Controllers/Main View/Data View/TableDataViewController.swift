@@ -219,11 +219,11 @@ class TableDataViewController: LiftMainViewController {
                 }
                 try data.dropSelection(selectionBox, keepGoing: keepGoing)
                 if customSavePoint {
-                    if keepGoing() {
-                        try database.releaseSavepoint(named: savePointName)
-                    } else {
+                    if !keepGoing() {
                         try database.rollbackSavepoint(named: savePointName)
                     }
+                    try database.releaseSavepoint(named: savePointName)
+
                 }
             } catch {
                 DispatchQueue.main.async {
@@ -238,6 +238,8 @@ class TableDataViewController: LiftMainViewController {
                     if customSavePoint {
                         do {
                             try database.rollbackSavepoint(named: savePointName)
+                            try database.releaseSavepoint(named: savePointName)
+
                         } catch {
                             NSApp.presentError(error)
                         }

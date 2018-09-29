@@ -95,6 +95,7 @@ class SideBarBrowseViewController: LiftViewController {
         didSet {
             if windowController?.selectedTable != treeControllerSelectedTable {
                 windowController?.selectedTable = treeControllerSelectedTable
+                windowController?.showMainView(type: .table)
             }
 
         }
