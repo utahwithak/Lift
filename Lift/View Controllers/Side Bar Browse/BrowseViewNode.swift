@@ -261,7 +261,7 @@ class TableViewNode: BrowseViewNode {
             refreshingCount = false
         }
 
-        children = provider.columns.map { ColumnNode(parent: provider, name: $0.name, type: $0.type) }
+        children = provider.columns.map { ColumnNode(parent: provider, column: $0) }
 
     }
 
@@ -310,18 +310,19 @@ class TableViewNode: BrowseViewNode {
             rowCount = NSNumber(value: curCount)
             refreshingCount = false
         }
-        children = provider.columns.map { ColumnNode(parent: provider, name: $0.name, type: $0.type) }.filter({ predicate?.evaluate(with: $0) ?? true })
+        children = provider.columns.map { ColumnNode(parent: provider, column: $0) }.filter({ predicate?.evaluate(with: $0) ?? true })
     }
 }
 
 class ColumnNode: BrowseViewNode {
 
     weak var provider: DataProvider?
-
-    init(parent: DataProvider, name: String, type: String) {
+    weak var column: Column?
+    init(parent: DataProvider, column: Column) {
         provider = parent
-        self.type = type
-        super.init(name: name)
+        self.type = column.type
+        self.column = column
+        super.init(name: column.name)
     }
 
     @objc dynamic let type: String

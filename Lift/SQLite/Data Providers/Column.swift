@@ -8,7 +8,7 @@
 
 import Foundation
 
-class Column {
+class Column: NSObject {
 
     let connection: sqlite3
 
@@ -49,6 +49,7 @@ class Column {
         self.name = name
         self.type = type
         self.primaryKey = pk == 1
+        super.init()
     }
 
     var simpleColumnCreationStatement: String {

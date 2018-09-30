@@ -31,6 +31,9 @@ class LiftWindowController: NSWindowController {
             NotificationCenter.default.post(name: .selectedTableChanged, object: self)
         }
     }
+
+    @objc dynamic weak var selectedColumn: Column?
+
     @IBAction func changeSplitViewPanels(_ sender: Any) {
         guard let splitView = contentViewController as? LiftMainSplitViewController else {
             return

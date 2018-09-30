@@ -98,6 +98,13 @@ class SideBarBrowseViewController: LiftViewController {
                 windowController?.showMainView(type: .table)
             }
 
+            guard let selectedObject = treeController.selectedObjects.first as? BrowseViewNode else {
+                windowController?.selectedColumn = nil
+                return
+            }
+    
+            windowController?.selectedColumn = (selectedObject as? ColumnNode)?.column
+
         }
     }
 

@@ -48,6 +48,8 @@ class TableDataViewController: LiftMainViewController {
         return colMap
     }
 
+    private var observationHandle: Any?
+
     override var selectedTable: DataProvider? {
         didSet {
             clearTable()
@@ -55,6 +57,22 @@ class TableDataViewController: LiftMainViewController {
             data?.delegate = self
             resetTableView()
 
+            observationHandle = windowController?.observe(\.selectedColumn, options: [], changeHandler: {[weak self] (windowController, _) in
+                guard let self = self else {
+                    return
+                }
+                if let column = windowController.selectedColumn, let columnIndex = self.selectedTable?.columns.index( where: { $0 === column}) {
+
+                    let identifierNumber = columnIndex + (self.data?.sortCount ?? 0)
+                    let identifier = NSUserInterfaceItemIdentifier("\(identifierNumber)")
+                    let tableColumn = self.tableView.column(withIdentifier: identifier)
+                    if tableColumn >= 0 {
+
+                        self.tableView.selectionBoxes = [SelectionBox(startRow: 0, endRow: self.tableView.numberOfRows - 1, startColumn: tableColumn , endColumn: tableColumn)]
+                    }
+
+                }
+            })
         }
     }
 
@@ -321,7 +339,9 @@ class TableDataViewController: LiftMainViewController {
 
         view.postsFrameChangedNotifications = true
         NotificationCenter.default.addObserver(self, selector: #selector(frameChanged), name: NSView.frameDidChangeNotification, object: view)
+
     }
+
 
     @objc private func frameChanged(_ noti: Notification) {
         visibleRowCountBuffer = tableView.rows(in: tableView.visibleRect).length * 4
