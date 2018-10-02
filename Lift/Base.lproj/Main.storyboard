@@ -2813,17 +2813,21 @@ Gw
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <imageView translatesAutoresizingMaskIntoConstraints="NO" id="T3E-EX-LVB">
-                                                                    <rect key="frame" x="3" y="0.0" width="19" height="17"/>
+                                                                    <rect key="frame" x="0.0" y="0.0" width="19" height="17"/>
+                                                                    <constraints>
+                                                                        <constraint firstAttribute="width" constant="19" id="EPD-6w-boX"/>
+                                                                        <constraint firstAttribute="height" constant="17" id="T8n-J8-tw9"/>
+                                                                    </constraints>
                                                                     <imageCell key="cell" refusesFirstResponder="YES" imageScaling="proportionallyDown" image="NSQuickLookTemplate" id="NKJ-pL-7a3"/>
                                                                     <connections>
                                                                         <binding destination="lum-Kt-Fei" name="value" keyPath="objectValue.image" id="tkJ-6k-DmL"/>
                                                                     </connections>
                                                                 </imageView>
                                                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FWO-w1-ACT">
-                                                                    <rect key="frame" x="27" y="0.0" width="96" height="17"/>
+                                                                    <rect key="frame" x="20" y="0.0" width="96" height="17"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="ZWn-w7-ezU">
                                                                         <font key="font" metaFont="system"/>
-                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                     <connections>
@@ -2834,9 +2838,9 @@ Gw
                                                             <constraints>
                                                                 <constraint firstItem="FWO-w1-ACT" firstAttribute="bottom" secondItem="T3E-EX-LVB" secondAttribute="bottom" id="6sZ-T1-nsR"/>
                                                                 <constraint firstItem="FWO-w1-ACT" firstAttribute="top" secondItem="T3E-EX-LVB" secondAttribute="top" id="IQC-vS-ucX"/>
-                                                                <constraint firstItem="T3E-EX-LVB" firstAttribute="leading" secondItem="lum-Kt-Fei" secondAttribute="leading" constant="3" id="RVA-BF-8c3"/>
+                                                                <constraint firstItem="T3E-EX-LVB" firstAttribute="leading" secondItem="lum-Kt-Fei" secondAttribute="leading" id="RVA-BF-8c3"/>
                                                                 <constraint firstItem="FWO-w1-ACT" firstAttribute="centerY" secondItem="lum-Kt-Fei" secondAttribute="centerY" id="UHT-TI-pSq"/>
-                                                                <constraint firstItem="FWO-w1-ACT" firstAttribute="leading" secondItem="T3E-EX-LVB" secondAttribute="trailing" constant="7" id="psT-Y0-dzV"/>
+                                                                <constraint firstItem="FWO-w1-ACT" firstAttribute="leading" secondItem="T3E-EX-LVB" secondAttribute="trailing" constant="3" id="psT-Y0-dzV"/>
                                                                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="FWO-w1-ACT" secondAttribute="trailing" constant="2" id="rE9-Kv-5fo"/>
                                                             </constraints>
                                                             <connections>
@@ -2974,8 +2978,33 @@ Gw
                                                                 <outlet property="textField" destination="KI3-vA-JP5" id="bEv-pQ-m0J"/>
                                                             </connections>
                                                         </tableCellView>
+                                                        <tableCellView identifier="SimpleCell" id="Y5J-Jt-rgT" userLabel="SimpleCell">
+                                                            <rect key="frame" x="1" y="85" width="225" height="19"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                            <subviews>
+                                                                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Q6m-li-Evj">
+                                                                    <rect key="frame" x="1" y="1" width="227" height="17"/>
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="ZvX-7W-7MS">
+                                                                        <font key="font" metaFont="system"/>
+                                                                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                                    </textFieldCell>
+                                                                    <connections>
+                                                                        <binding destination="Y5J-Jt-rgT" name="value" keyPath="objectValue.name" id="b7j-Ht-VQw"/>
+                                                                    </connections>
+                                                                </textField>
+                                                            </subviews>
+                                                            <constraints>
+                                                                <constraint firstItem="Q6m-li-Evj" firstAttribute="leading" secondItem="Y5J-Jt-rgT" secondAttribute="leading" constant="3" id="2az-G4-UKn"/>
+                                                                <constraint firstItem="Q6m-li-Evj" firstAttribute="centerY" secondItem="Y5J-Jt-rgT" secondAttribute="centerY" id="3VC-6d-WB6"/>
+                                                                <constraint firstAttribute="trailing" secondItem="Q6m-li-Evj" secondAttribute="trailing" constant="-1" id="8Pb-6A-GcF"/>
+                                                            </constraints>
+                                                            <connections>
+                                                                <outlet property="textField" destination="Q6m-li-Evj" id="Nbb-2j-cCq"/>
+                                                            </connections>
+                                                        </tableCellView>
                                                         <tableCellView identifier="HeaderCell" id="vXs-7j-N4c">
-                                                            <rect key="frame" x="1" y="85" width="225" height="24"/>
+                                                            <rect key="frame" x="1" y="106" width="225" height="24"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="JIe-0g-AbG">

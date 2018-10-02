@@ -27,15 +27,15 @@ class DataProvider: NSObject {
 
     var rowCount: Int? {
         didSet {
-            NotificationCenter.default.post(name: .TableDidChangeRowCount, object: self)
+            NotificationCenter.default.post(name: Table.rowCountChangedNotification, object: self)
         }
     }
     public private(set) var refreshingRowCount = false {
         didSet {
             if refreshingRowCount {
-                NotificationCenter.default.post(name: .TableDidBeginRefreshingRowCount, object: self)
+                NotificationCenter.default.post(name: Table.didStartCountingRows, object: self)
             } else {
-                NotificationCenter.default.post(name: .TableDidEndRefreshingRowCount, object: self)
+                NotificationCenter.default.post(name: Table.didStopCountingNames, object: self)
             }
         }
     }

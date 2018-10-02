@@ -68,7 +68,7 @@ class TableDataViewController: LiftMainViewController {
                     let tableColumn = self.tableView.column(withIdentifier: identifier)
                     if tableColumn >= 0 {
 
-                        self.tableView.selectionBoxes = [SelectionBox(startRow: 0, endRow: self.tableView.numberOfRows - 1, startColumn: tableColumn , endColumn: tableColumn)]
+                        self.tableView.selectionBoxes = [SelectionBox(startRow: 0, endRow: self.tableView.numberOfRows - 1, startColumn: tableColumn, endColumn: tableColumn)]
                     }
 
                 }
@@ -341,7 +341,6 @@ class TableDataViewController: LiftMainViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(frameChanged), name: NSView.frameDidChangeNotification, object: view)
 
     }
-
 
     @objc private func frameChanged(_ noti: Notification) {
         visibleRowCountBuffer = tableView.rows(in: tableView.visibleRect).length * 4

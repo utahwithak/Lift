@@ -9,18 +9,29 @@
 import Foundation
 import SwiftXLSX
 
-extension Notification.Name {
-    static let TableDidChangeRowCount = NSNotification.Name("TableDidLoadRowCountNotification")
-    static let TableDidBeginRefreshingRowCount = NSNotification.Name("TableDidStartRefreshingRowCount")
-    static let TableDidEndRefreshingRowCount = NSNotification.Name("TableDidStartRefreshingRowCount")
-
-}
-
 class Table: DataProvider {
+
+    static let rowCountChangedNotification = NSNotification.Name("TableDidLoadRowCountNotification")
+    static let didStartCountingRows = NSNotification.Name("TableDidStartRefreshingRowCount")
+    static let didStopCountingNames = NSNotification.Name("TableDidStartRefreshingRowCount")
+    static let didSetIndexes = NSNotification.Name("TableDidSetIndexes")
+    static let didSetTriggers = NSNotification.Name("TableDidSetTriggers")
 
     let foreignKeys: [ForeignKeyConnection]
 
     let definition: TableDefinition?
+
+    @objc dynamic public private(set) var indexes = [Index]() {
+        didSet {
+            NotificationCenter.default.post(name: Table.didSetIndexes, object: self)
+        }
+    }
+
+    @objc dynamic public private(set) var triggers = [Any]() {
+        didSet {
+            NotificationCenter.default.post(name: Table.didSetTriggers, object: self)
+        }
+    }
 
 //https://www.sqlite.org/lang_altertable.html
     override init(database: Database, data: [SQLiteData], connection: sqlite3) throws {
@@ -41,6 +52,7 @@ class Table: DataProvider {
         // Foreign Keys
 
         let foreignKeyQuery = try Query(connection: connection, query: "PRAGMA \(database.name.sqliteSafeString()).foreign_key_list(\(name.sqliteSafeString()))")
+
         var curID = -1
         //id|seq|table|from|to|on_update|on_delete|match
         var curFrom = [String]()
@@ -83,6 +95,7 @@ class Table: DataProvider {
         }
         definition?.tableName = name
 
+        refreshIndexes()
     }
 
     override var isEditable: Bool {
@@ -91,6 +104,38 @@ class Table: DataProvider {
 
     func foreignKeys(from columnName: String) -> [ForeignKeyConnection] {
         return foreignKeys.filter { $0.fromColumns.contains(columnName) }
+    }
+
+    func refreshIndexes() {
+        do {
+            var fromTable = "SQLITE_MASTER"
+            if let dbName = database?.name.sqliteSafeString() {
+                fromTable = "\(dbName).SQLITE_MASTER"
+
+            }
+            let query = try Query(connection: connection, query: "SELECT * FROM \(fromTable) where type='index' AND tbl_name=$1;")
+            try query.bindArguments([SQLiteData.text(name)])
+            query.loadInBackground {[weak self] (result) in
+                guard let self = self, let database = self.database else {
+                    return
+                }
+                switch result {
+                case .success(let rows):
+                    var indexes = [Index]()
+                    for row in rows {
+                        let index = Index(database: database, data: row, connection: self.connection)
+                        indexes.append(index)
+                    }
+                    self.indexes = indexes
+                case .failure(let error):
+                    print("failed to load indexes:\(error)")
+
+                }
+            }
+        } catch {
+            print("failed to refresh indexes:\(error)")
+        }
+
     }
 
     func addDefaultValues() throws -> Bool {

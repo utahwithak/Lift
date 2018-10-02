@@ -74,6 +74,8 @@ class SideBarBrowseViewController: LiftViewController {
             return tableNode.provider
         } else if let colNode = selectedObject as? ColumnNode {
             return colNode.provider
+        } else if let indexNode = selectedObject as? IndexNode {
+            return indexNode.provider
         }
         return nil
     }
@@ -102,8 +104,7 @@ class SideBarBrowseViewController: LiftViewController {
                 windowController?.selectedColumn = nil
                 return
             }
-    
-            windowController?.selectedColumn = (selectedObject as? ColumnNode)?.column
+                windowController?.selectedColumn = (selectedObject as? ColumnNode)?.column
 
         }
     }
@@ -139,7 +140,7 @@ extension SideBarBrowseViewController: NSOutlineViewDelegate {
         guard let repItem = (item as? NSTreeNode)?.representedObject else {
             return false
         }
-        return repItem is TableViewNode || repItem is ColumnNode
+        return repItem is TableViewNode || repItem is ColumnNode || repItem is IndexNode
     }
 
     func outlineView(_ outlineView: NSOutlineView, isGroupItem item: Any) -> Bool {
@@ -148,7 +149,7 @@ extension SideBarBrowseViewController: NSOutlineViewDelegate {
 
     func outlineView(_ outlineView: NSOutlineView, viewFor tableColumn: NSTableColumn?, item: Any) -> NSView? {
         guard let node = item as? NSTreeNode else {
-            return outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "ColumnCell"), owner: self)
+            return outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "SimpleCell"), owner: self)
         }
 
         if node.representedObject is TableViewNode {
@@ -170,10 +171,10 @@ extension SideBarBrowseViewController: NSOutlineViewDelegate {
                 outlineView.expandItem(item, expandChildren: false)
             }
             return outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "HeaderCell"), owner: self)
+        } else if node.representedObject is ColumnNode {
+            return outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "ColumnCell"), owner: self)
         }
-
-        return outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "ColumnCell"), owner: self)
-
+        return outlineView.makeView(withIdentifier: NSUserInterfaceItemIdentifier(rawValue: "SimpleCell"), owner: self)
     }
 
     func outlineView(_ outlineView: NSOutlineView, heightOfRowByItem item: Any) -> CGFloat {
