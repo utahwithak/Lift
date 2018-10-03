@@ -58,7 +58,7 @@ final class SQLiteIndexParser {
 
         var whereExpression: String?
         if stringScanner.scanString("WHERE ", into: nil) {
-            whereExpression = try SQLiteCreateTableParser.parseExp(from: stringScanner)
+            whereExpression = String(sql.dropFirst(stringScanner.scanLocation))
         }
 
         return SQLiteIndexParser.Index(unique: isUniqueIndex, indexName: indexName, tableName: tableName, columns: columns, whereExpression: whereExpression)

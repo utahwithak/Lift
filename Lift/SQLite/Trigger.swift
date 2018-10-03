@@ -1,5 +1,5 @@
 //
-//  Index.swift
+//  Trigger.swift
 //  Lift
 //
 //  Created by Carl Wieland on 10/2/18.
@@ -8,22 +8,22 @@
 
 import Foundation
 
-class Index: NSObject {
+class Trigger: NSObject {
 
     @objc dynamic let name: String
-    let parsedIndex: SQLiteIndexParser.Index?
+    let parsedTrigger: TriggerParser.Trigger?
 
     init(database: Database, data: [SQLiteData], connection: sqlite3) {
         //type|name|tbl_name|rootpage|sql
         if case .text(let sql) = data[4] {
             do {
-                parsedIndex = try SQLiteIndexParser.parse(sql: sql)
+                parsedTrigger = try TriggerParser.parseTrigger(from: sql)
             } catch {
-                parsedIndex = nil
+                parsedTrigger = nil
                 print("Failed to parse index sql: \(error)")
             }
         } else {
-            parsedIndex = nil
+            parsedTrigger = nil
         }
 
         if case .text(let name) = data[1] {

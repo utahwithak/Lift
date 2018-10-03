@@ -43,6 +43,10 @@
 		8F3C06A421643122005BD88F /* DatabaseViewNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3C06A321643122005BD88F /* DatabaseViewNode.swift */; };
 		8F3C06A621643135005BD88F /* GroupViewNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3C06A521643135005BD88F /* GroupViewNode.swift */; };
 		8F3C06A82164314C005BD88F /* HeaderViewNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3C06A72164314C005BD88F /* HeaderViewNode.swift */; };
+		8F3C06E621643D77005BD88F /* TriggerParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3C06E521643D77005BD88F /* TriggerParser.swift */; };
+		8F3C06E8216443A2005BD88F /* Trigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3C06E7216443A2005BD88F /* Trigger.swift */; };
+		8F3C06EA2164442F005BD88F /* TriggerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3C06E92164442F005BD88F /* TriggerNode.swift */; };
+		8F3C06EC21644445005BD88F /* TableChildNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3C06EB21644445005BD88F /* TableChildNode.swift */; };
 		8F445A4F20504E3C0041CD84 /* EditRowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F445A4E20504E3C0041CD84 /* EditRowData.swift */; };
 		8F445A5220504E550041CD84 /* NewRowValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F445A5120504E550041CD84 /* NewRowValue.swift */; };
 		8F44A8B01FBDE16800FB652B /* SQLiteExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F44A8AF1FBDE16800FB652B /* SQLiteExpression.swift */; };
@@ -290,6 +294,10 @@
 		8F3C06A321643122005BD88F /* DatabaseViewNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseViewNode.swift; sourceTree = "<group>"; };
 		8F3C06A521643135005BD88F /* GroupViewNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupViewNode.swift; sourceTree = "<group>"; };
 		8F3C06A72164314C005BD88F /* HeaderViewNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderViewNode.swift; sourceTree = "<group>"; };
+		8F3C06E521643D77005BD88F /* TriggerParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriggerParser.swift; sourceTree = "<group>"; };
+		8F3C06E7216443A2005BD88F /* Trigger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trigger.swift; sourceTree = "<group>"; };
+		8F3C06E92164442F005BD88F /* TriggerNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriggerNode.swift; sourceTree = "<group>"; };
+		8F3C06EB21644445005BD88F /* TableChildNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableChildNode.swift; sourceTree = "<group>"; };
 		8F445A4E20504E3C0041CD84 /* EditRowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRowData.swift; sourceTree = "<group>"; };
 		8F445A5120504E550041CD84 /* NewRowValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRowValue.swift; sourceTree = "<group>"; };
 		8F44A8AF1FBDE16800FB652B /* SQLiteExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteExpression.swift; sourceTree = "<group>"; };
@@ -497,6 +505,7 @@
 				8F74FA3A1FC33620008D8B4A /* Database+Options.swift */,
 				8F09DB041FB5D84100A19894 /* Database+Dump.swift */,
 				8F3C069A2164281C005BD88F /* Index.swift */,
+				8F3C06E7216443A2005BD88F /* Trigger.swift */,
 				8F754B1B1F98DAEE00BC5312 /* Data Providers */,
 				8F374B931F87E03C00BB4F63 /* SQLiteData.swift */,
 				8F72E3AB1F83F415006C88F5 /* SQLiteError.swift */,
@@ -613,11 +622,21 @@
 				8F3C06A72164314C005BD88F /* HeaderViewNode.swift */,
 				8F3C06A321643122005BD88F /* DatabaseViewNode.swift */,
 				8F3C069D216430E3005BD88F /* TableViewNode.swift */,
+				8F3C06EB21644445005BD88F /* TableChildNode.swift */,
 				8F3C069F216430F7005BD88F /* ColumnNode.swift */,
 				8F3C06A12164310B005BD88F /* IndexNode.swift */,
+				8F3C06E92164442F005BD88F /* TriggerNode.swift */,
 				8F3C06A521643135005BD88F /* GroupViewNode.swift */,
 			);
 			path = Nodes;
+			sourceTree = "<group>";
+		};
+		8F3C06E421643D65005BD88F /* Trigger Parsing */ = {
+			isa = PBXGroup;
+			children = (
+				8F3C06E521643D77005BD88F /* TriggerParser.swift */,
+			);
+			path = "Trigger Parsing";
 			sourceTree = "<group>";
 		};
 		8F44A8AE1FBDE14B00FB652B /* Predicate Editor */ = {
@@ -866,6 +885,7 @@
 			isa = PBXGroup;
 			children = (
 				8FB9F1501F7E7FA40090FA53 /* IndexedColumn.swift */,
+				8F3C06E421643D65005BD88F /* Trigger Parsing */,
 				8F3C0696216423B7005BD88F /* Index Parsing */,
 				8F8F7F4020472EEC0043EBCA /* View Parsing */,
 				8F7C525F1F7D3A69004A91BC /* Table Parse */,
@@ -1287,6 +1307,7 @@
 				8FD7EB77214C024800325EA1 /* CompletionPanel.swift in Sources */,
 				8F4C40DA1F87B3CE003BF006 /* StatementWaitingViewController.swift in Sources */,
 				8FB9F14D1F7D72220090FA53 /* ColumnDefinition.swift in Sources */,
+				8F3C06EC21644445005BD88F /* TableChildNode.swift in Sources */,
 				8F8338FC1FBA09F5000AFE09 /* ResultsTableViewController.swift in Sources */,
 				8F3C06A82164314C005BD88F /* HeaderViewNode.swift in Sources */,
 				8FA148DE1F8D2FD500644638 /* AttachDatabaseViewController.swift in Sources */,
@@ -1315,6 +1336,7 @@
 				8F74A7491F869C3B0069721E /* LiftMainEditorTabViewController.swift in Sources */,
 				8FC63CD81FA227F000005591 /* SQLite3ConfigHelper.m in Sources */,
 				8F374B961F87E5C700BB4F63 /* View.swift in Sources */,
+				8F3C06E8216443A2005BD88F /* Trigger.swift in Sources */,
 				8F921DBD1F7ECE7800464D27 /* CollateColumnConstraint.swift in Sources */,
 				8F30777F1F87F26A005AFE4E /* BrowseViewNode.swift in Sources */,
 				8F3C06A421643122005BD88F /* DatabaseViewNode.swift in Sources */,
@@ -1368,6 +1390,7 @@
 				8F6273E51F85C2C0007055D9 /* SQLiteSyntaxHighlighter.swift in Sources */,
 				8FCA2AD7215E8254007A7D62 /* ExportDataViewController.swift in Sources */,
 				8F805CC81F7ED2B30074FE6B /* UniqueColumnConstraint.swift in Sources */,
+				8F3C06E621643D77005BD88F /* TriggerParser.swift in Sources */,
 				8F9565C81FB36EFC008FE038 /* ExportOptions.swift in Sources */,
 				8FD6D92D1F981A510033E512 /* RowData.swift in Sources */,
 				8F5891E51FA392960076C86D /* LogViewController.swift in Sources */,
@@ -1401,6 +1424,7 @@
 				8F2A250A21513ED500DADFB8 /* CreatePrimaryKey.swift in Sources */,
 				8F9565D11FB36EFC008FE038 /* ExportViewController+XML.swift in Sources */,
 				8F9565D01FB36EFC008FE038 /* ExportNodes.swift in Sources */,
+				8F3C06EA2164442F005BD88F /* TriggerNode.swift in Sources */,
 				8F2521731F855A3D00B438CC /* LiftViewController.swift in Sources */,
 				8F1BC6331FCF47C500128351 /* ImportDataViewController.swift in Sources */,
 				8FEFD4C11F9F7B4200C6C75A /* ImportViewController.swift in Sources */,

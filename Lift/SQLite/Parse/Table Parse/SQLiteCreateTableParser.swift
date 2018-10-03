@@ -13,6 +13,8 @@ enum ParserError: Error {
     case notATableStatement
     case notAViewStatement
     case notAIndexStatement
+    case notATriggerStatement
+
     case noTableName
     case noDefinitions
     case unexpectedError(String)

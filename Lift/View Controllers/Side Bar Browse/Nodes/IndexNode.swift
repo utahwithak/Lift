@@ -7,13 +7,12 @@
 //
 
 import Foundation
-class IndexNode: BrowseViewNode {
+class IndexNode: TableChildNode {
 
-    weak var provider: DataProvider?
     weak var index: Index?
     init(parent: DataProvider, index: Index) {
-        provider = parent
         self.index = index
-        super.init(name: index.name)
+        super.init(name: index.name, provider: parent)
+
     }
 }

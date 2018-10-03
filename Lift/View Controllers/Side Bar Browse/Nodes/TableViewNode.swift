@@ -136,10 +136,10 @@ class TableViewNode: BrowseViewNode {
                 indexNode.children = []
             }
 
-            var hasTriggers = true
+            var hasTriggers = false
             if !table.triggers.isEmpty {
                 hasTriggers = true
-                triggerNode.children = table.indexes.map { IndexNode(parent: provider, index: $0) }
+                triggerNode.children = table.triggers.map { TriggerNode(parent: provider, trigger: $0) }
             } else {
                 triggerNode.children = []
             }

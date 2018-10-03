@@ -72,10 +72,8 @@ class SideBarBrowseViewController: LiftViewController {
             return dbNode.database?.tables.first ?? dbNode.database?.views.first
         } else if let tableNode = selectedObject as? TableViewNode {
             return tableNode.provider
-        } else if let colNode = selectedObject as? ColumnNode {
+        } else if let colNode = selectedObject as? TableChildNode {
             return colNode.provider
-        } else if let indexNode = selectedObject as? IndexNode {
-            return indexNode.provider
         }
         return nil
     }
@@ -140,7 +138,7 @@ extension SideBarBrowseViewController: NSOutlineViewDelegate {
         guard let repItem = (item as? NSTreeNode)?.representedObject else {
             return false
         }
-        return repItem is TableViewNode || repItem is ColumnNode || repItem is IndexNode
+        return repItem is TableViewNode || repItem is TableChildNode
     }
 
     func outlineView(_ outlineView: NSOutlineView, isGroupItem item: Any) -> Bool {

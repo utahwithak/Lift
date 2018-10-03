@@ -7,15 +7,13 @@
 //
 
 import Foundation
-class ColumnNode: BrowseViewNode {
+class ColumnNode: TableChildNode {
 
-    weak var provider: DataProvider?
     weak var column: Column?
     init(parent: DataProvider, column: Column) {
-        provider = parent
         self.type = column.type
         self.column = column
-        super.init(name: column.name)
+        super.init(name: column.name, provider: parent)
     }
 
     @objc dynamic let type: String

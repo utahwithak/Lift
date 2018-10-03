@@ -27,7 +27,7 @@ class Table: DataProvider {
         }
     }
 
-    @objc dynamic public private(set) var triggers = [Any]() {
+    @objc dynamic public private(set) var triggers = [Trigger]() {
         didSet {
             NotificationCenter.default.post(name: Table.didSetTriggers, object: self)
         }
@@ -96,6 +96,7 @@ class Table: DataProvider {
         definition?.tableName = name
 
         refreshIndexes()
+        refreshTriggers()
     }
 
     override var isEditable: Bool {
@@ -128,6 +129,39 @@ class Table: DataProvider {
                     }
                     self.indexes = indexes
                 case .failure(let error):
+                    self.indexes = []
+                    print("failed to load indexes:\(error)")
+
+                }
+            }
+        } catch {
+            print("failed to refresh indexes:\(error)")
+        }
+
+    }
+    func refreshTriggers() {
+        do {
+            var fromTable = "SQLITE_MASTER"
+            if let dbName = database?.name.sqliteSafeString() {
+                fromTable = "\(dbName).SQLITE_MASTER"
+
+            }
+            let query = try Query(connection: connection, query: "SELECT * FROM \(fromTable) where type='trigger' AND tbl_name=$1;")
+            try query.bindArguments([SQLiteData.text(name)])
+            query.loadInBackground {[weak self] (result) in
+                guard let self = self, let database = self.database else {
+                    return
+                }
+                switch result {
+                case .success(let rows):
+                    var triggers = [Trigger]()
+                    for row in rows {
+                        let trigger = Trigger(database: database, data: row, connection: self.connection)
+                        triggers.append(trigger)
+                    }
+                    self.triggers = triggers
+                case .failure(let error):
+                    self.triggers = []
                     print("failed to load indexes:\(error)")
 
                 }
