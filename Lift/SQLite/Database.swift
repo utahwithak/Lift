@@ -68,7 +68,7 @@ class Database: NSObject {
 
     public private(set) var path: String = ""
 
-    public private(set) var tables = [Table]()
+    @objc dynamic public private(set) var tables = [Table]()
     public private(set) var systemTables = [Table]()
 
     public private(set) var views = [View]()

@@ -130,6 +130,15 @@ class SideBarBrowseViewController: LiftViewController {
         }
         drop(provider: provider)
     }
+
+    @IBAction func createIndex(_ sender: Any) {
+        let storyboard = NSStoryboard(name: "CreateItems", bundle: .main)
+        guard let vc = storyboard.instantiateController(withIdentifier: "editIndexViewController") as? EditIndexViewController else {
+            return
+        }
+        vc.representedObject = representedObject
+        presentAsSheet(vc)
+    }
 }
 
 extension SideBarBrowseViewController: NSOutlineViewDelegate {
@@ -352,6 +361,46 @@ extension SideBarBrowseViewController: NSMenuDelegate {
 
     }
 
+    @objc private func editIndex(_ item: NSMenuItem) {
+        guard let index = item.representedObject as? Index else {
+            return
+        }
+
+        let storyboard = NSStoryboard(name: "CreateItems", bundle: .main)
+        guard let vc = storyboard.instantiateController(withIdentifier: "editIndexViewController") as? EditIndexViewController else {
+            return
+        }
+        vc.representedObject = representedObject
+        vc.existingIndex = index
+        presentAsSheet(vc)
+    }
+
+    @objc private func dropIndex(_ item: NSMenuItem) {
+        guard let index = item.representedObject as? Index else {
+            return
+        }
+        let alert = NSAlert()
+        alert.messageText = NSLocalizedString("Drop Index?", comment: "title for drop index alert")
+        let messageFormat = NSLocalizedString("Are you sure you want to drop \"%@\"?%@", comment: "Confirmation text")
+        let checkText: String
+        if document?.database.autocommitStatus == .autocommit {
+            checkText = NSLocalizedString("\nThis cannot be undone.", comment: "Extra warning when dropping table in autocommit mode")
+        } else {
+            checkText = ""
+        }
+        alert.informativeText = String(format: messageFormat, index.name, checkText)
+        alert.addButton(withTitle: NSLocalizedString("Drop", comment: "Drop alert button "))
+        alert.addButton(withTitle: NSLocalizedString("Cancel", comment: "cancel Drop"))
+        let response = alert.runModal()
+        if response == .alertFirstButtonReturn {
+            do {
+                _ = try index.drop()
+            } catch {
+                presentError(error)
+            }
+        }
+    }
+
     @objc private func editProvider(_ item: NSMenuItem) {
         guard let provider = item.representedObject as? DataProvider else {
             return
@@ -485,6 +534,18 @@ extension SideBarBrowseViewController: NSMenuDelegate {
                 }
 
             }
+        case let indexNode as IndexNode:
+            guard let index = indexNode.index, index.parsedIndex != nil else {
+                return
+            }
+
+            let editObject = NSMenuItem(title: NSLocalizedString("Edit Definition", comment: "edit menu item"), action: #selector(editIndex), keyEquivalent: "")
+            editObject.representedObject = index
+            menu.addItem(editObject)
+            let dropIndexItem = NSMenuItem(title: NSLocalizedString("Drop Index", comment: "edit menu item"), action: #selector(dropIndex), keyEquivalent: "")
+            dropIndexItem.representedObject = index
+            menu.addItem(dropIndexItem)
+
         default:
             return
         }

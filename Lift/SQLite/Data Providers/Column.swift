@@ -19,7 +19,7 @@ class Column: NSObject {
 
     let type: String
 
-    let name: String
+    @objc dynamic let name: String
 
     let primaryKey: Bool
 

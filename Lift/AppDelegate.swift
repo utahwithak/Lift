@@ -33,3 +33,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
 }
+
+extension NSStoryboard.Name {
+    static let main = "Main"
+    static let createItems = "CreateItems"
+    static let importExport = "ImportExport"
+}

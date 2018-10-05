@@ -23,7 +23,7 @@ class DataProvider: NSObject {
         return false
     }
 
-    let columns: [Column]
+    @objc dynamic let columns: [Column]
 
     var rowCount: Int? {
         didSet {

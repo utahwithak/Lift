@@ -439,6 +439,28 @@
                                     </items>
                                 </menu>
                             </menuItem>
+                            <menuItem title="Create" id="gYb-Gx-GKp" userLabel="Tools">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <menu key="submenu" title="Create" id="ge0-kX-fec" userLabel="Tools">
+                                    <items>
+                                        <menuItem title="Create Table" keyEquivalent="T" id="v48-gm-Ahn">
+                                            <connections>
+                                                <action selector="showCreateTable:" target="Ady-hI-5gd" id="vJc-RU-Hyh"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Create View" keyEquivalent="V" id="B02-Cq-J2r">
+                                            <connections>
+                                                <action selector="showCreateView:" target="Ady-hI-5gd" id="cMZ-4B-pPJ"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Create Index" keyEquivalent="I" id="nQl-yh-v79">
+                                            <connections>
+                                                <action selector="createIndex:" target="Ady-hI-5gd" id="Txt-eQ-cNO"/>
+                                            </connections>
+                                        </menuItem>
+                                    </items>
+                                </menu>
+                            </menuItem>
                             <menuItem title="Help" id="wpr-3q-Mcd">
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Help" systemMenu="help" id="F2S-fz-NVQ">
@@ -773,7 +795,7 @@ DQ
                 </viewController>
                 <customObject id="mjq-0T-dfa" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1168" y="744"/>
+            <point key="canvasLocation" x="-1234" y="651"/>
         </scene>
         <!--Detach Database View Controller-->
         <scene sceneID="0Pl-xJ-AJL">
@@ -857,7 +879,7 @@ DQ
                     </connections>
                 </arrayController>
             </objects>
-            <point key="canvasLocation" x="790" y="607"/>
+            <point key="canvasLocation" x="-710" y="667"/>
         </scene>
         <!--Statement Waiting View Controller-->
         <scene sceneID="jbR-gR-3QB">
@@ -3197,6 +3219,11 @@ Gw
                                 <action selector="showCreateView:" target="5xX-Q9-yaR" id="r5M-1G-AQR"/>
                             </connections>
                         </menuItem>
+                        <menuItem title="Create Index" keyEquivalent="I" id="IoC-Sy-AOe">
+                            <connections>
+                                <action selector="createIndex:" target="5xX-Q9-yaR" id="7uX-IA-Mqe"/>
+                            </connections>
+                        </menuItem>
                     </items>
                 </menu>
                 <userDefaultsController id="4Xr-YD-mq9"/>
@@ -5167,6 +5194,6 @@ Gw
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="14O-lj-Dcu"/>
-        <segue reference="Psl-tF-5nh"/>
+        <segue reference="nm5-Vh-WzM"/>
     </inferredMetricsTieBreakers>
 </document>

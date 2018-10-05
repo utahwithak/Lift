@@ -23,11 +23,11 @@
 		8F2521731F855A3D00B438CC /* LiftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2521721F855A3D00B438CC /* LiftViewController.swift */; };
 		8F2521761F855B0800B438CC /* ViewDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2521751F855B0800B438CC /* ViewDefinition.swift */; };
 		8F2A24FE21506C5A00DADFB8 /* CreateColumnDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2A24FD21506C5A00DADFB8 /* CreateColumnDefinition.swift */; };
-		8F2A250021506D2C00DADFB8 /* CreateTableConstraintDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2A24FF21506D2C00DADFB8 /* CreateTableConstraintDefinitions.swift */; };
+		8F2A250021506D2C00DADFB8 /* CreateTable.CreateTableConstraintDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2A24FF21506D2C00DADFB8 /* CreateTable.CreateTableConstraintDefinitions.swift */; };
 		8F2A2502215070EF00DADFB8 /* CreateColumnConstraintDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2A2501215070EF00DADFB8 /* CreateColumnConstraintDefinitions.swift */; };
-		8F2A250A21513ED500DADFB8 /* CreatePrimaryKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2A250921513ED500DADFB8 /* CreatePrimaryKey.swift */; };
-		8F2A250C21513F1A00DADFB8 /* CreateIndexedColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2A250B21513F1A00DADFB8 /* CreateIndexedColumn.swift */; };
-		8F2A250E2151414E00DADFB8 /* CreateUniqueTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2A250D2151414E00DADFB8 /* CreateUniqueTable.swift */; };
+		8F2A250A21513ED500DADFB8 /* CreateTable.CreatePrimaryKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2A250921513ED500DADFB8 /* CreateTable.CreatePrimaryKey.swift */; };
+		8F2A250C21513F1A00DADFB8 /* CreateTable.CreateIndexedColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2A250B21513F1A00DADFB8 /* CreateTable.CreateIndexedColumn.swift */; };
+		8F2A250E2151414E00DADFB8 /* CreateTable.CreateUniqueTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2A250D2151414E00DADFB8 /* CreateTable.CreateUniqueTable.swift */; };
 		8F30777F1F87F26A005AFE4E /* BrowseViewNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F30777E1F87F26A005AFE4E /* BrowseViewNode.swift */; };
 		8F374B911F87DF9400BB4F63 /* Column.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F374B8E1F87DF9400BB4F63 /* Column.swift */; };
 		8F374B921F87DF9400BB4F63 /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F374B901F87DF9400BB4F63 /* Table.swift */; };
@@ -47,6 +47,9 @@
 		8F3C06E8216443A2005BD88F /* Trigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3C06E7216443A2005BD88F /* Trigger.swift */; };
 		8F3C06EA2164442F005BD88F /* TriggerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3C06E92164442F005BD88F /* TriggerNode.swift */; };
 		8F3C06EC21644445005BD88F /* TableChildNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3C06EB21644445005BD88F /* TableChildNode.swift */; };
+		8F41AEFC2164DC1D00DE7414 /* CreateItems.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F41AEFB2164DC1D00DE7414 /* CreateItems.storyboard */; };
+		8F41AEFF2164DCA800DE7414 /* EditIndexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F41AEFE2164DCA800DE7414 /* EditIndexViewController.swift */; };
+		8F41AF0421651D6D00DE7414 /* CreateIndexedColumnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F41AF0321651D6D00DE7414 /* CreateIndexedColumnViewController.swift */; };
 		8F445A4F20504E3C0041CD84 /* EditRowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F445A4E20504E3C0041CD84 /* EditRowData.swift */; };
 		8F445A5220504E550041CD84 /* NewRowValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F445A5120504E550041CD84 /* NewRowValue.swift */; };
 		8F44A8B01FBDE16800FB652B /* SQLiteExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F44A8AF1FBDE16800FB652B /* SQLiteExpression.swift */; };
@@ -274,11 +277,11 @@
 		8F2521721F855A3D00B438CC /* LiftViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiftViewController.swift; sourceTree = "<group>"; };
 		8F2521751F855B0800B438CC /* ViewDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewDefinition.swift; sourceTree = "<group>"; };
 		8F2A24FD21506C5A00DADFB8 /* CreateColumnDefinition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateColumnDefinition.swift; sourceTree = "<group>"; };
-		8F2A24FF21506D2C00DADFB8 /* CreateTableConstraintDefinitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTableConstraintDefinitions.swift; sourceTree = "<group>"; };
+		8F2A24FF21506D2C00DADFB8 /* CreateTable.CreateTableConstraintDefinitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTable.CreateTableConstraintDefinitions.swift; sourceTree = "<group>"; };
 		8F2A2501215070EF00DADFB8 /* CreateColumnConstraintDefinitions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateColumnConstraintDefinitions.swift; sourceTree = "<group>"; };
-		8F2A250921513ED500DADFB8 /* CreatePrimaryKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePrimaryKey.swift; sourceTree = "<group>"; };
-		8F2A250B21513F1A00DADFB8 /* CreateIndexedColumn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateIndexedColumn.swift; sourceTree = "<group>"; };
-		8F2A250D2151414E00DADFB8 /* CreateUniqueTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUniqueTable.swift; sourceTree = "<group>"; };
+		8F2A250921513ED500DADFB8 /* CreateTable.CreatePrimaryKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTable.CreatePrimaryKey.swift; sourceTree = "<group>"; };
+		8F2A250B21513F1A00DADFB8 /* CreateTable.CreateIndexedColumn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTable.CreateIndexedColumn.swift; sourceTree = "<group>"; };
+		8F2A250D2151414E00DADFB8 /* CreateTable.CreateUniqueTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTable.CreateUniqueTable.swift; sourceTree = "<group>"; };
 		8F30777E1F87F26A005AFE4E /* BrowseViewNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseViewNode.swift; sourceTree = "<group>"; };
 		8F374B8E1F87DF9400BB4F63 /* Column.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Column.swift; sourceTree = "<group>"; };
 		8F374B901F87DF9400BB4F63 /* Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
@@ -298,6 +301,9 @@
 		8F3C06E7216443A2005BD88F /* Trigger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Trigger.swift; sourceTree = "<group>"; };
 		8F3C06E92164442F005BD88F /* TriggerNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TriggerNode.swift; sourceTree = "<group>"; };
 		8F3C06EB21644445005BD88F /* TableChildNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableChildNode.swift; sourceTree = "<group>"; };
+		8F41AEFB2164DC1D00DE7414 /* CreateItems.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CreateItems.storyboard; sourceTree = "<group>"; };
+		8F41AEFE2164DCA800DE7414 /* EditIndexViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditIndexViewController.swift; sourceTree = "<group>"; };
+		8F41AF0321651D6D00DE7414 /* CreateIndexedColumnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateIndexedColumnViewController.swift; sourceTree = "<group>"; };
 		8F445A4E20504E3C0041CD84 /* EditRowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRowData.swift; sourceTree = "<group>"; };
 		8F445A5120504E550041CD84 /* NewRowValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRowValue.swift; sourceTree = "<group>"; };
 		8F44A8AF1FBDE16800FB652B /* SQLiteExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteExpression.swift; sourceTree = "<group>"; };
@@ -542,23 +548,24 @@
 			path = "Data View";
 			sourceTree = "<group>";
 		};
-		8F2521741F855AD900B438CC /* Table View Creation */ = {
+		8F2521741F855AD900B438CC /* Creation */ = {
 			isa = PBXGroup;
 			children = (
 				8F8F2158207287380048BE06 /* Create Table */,
 				8F25216F1F855A2A00B438CC /* CreateViewViewController.swift */,
 				8F2521751F855B0800B438CC /* ViewDefinition.swift */,
+				8F41AF0021651AFA00DE7414 /* Index Creation */,
 			);
-			path = "Table View Creation";
+			path = Creation;
 			sourceTree = "<group>";
 		};
 		8F2A250721513EC700DADFB8 /* Create Table Constraints */ = {
 			isa = PBXGroup;
 			children = (
-				8F2A24FF21506D2C00DADFB8 /* CreateTableConstraintDefinitions.swift */,
-				8F2A250921513ED500DADFB8 /* CreatePrimaryKey.swift */,
-				8F2A250B21513F1A00DADFB8 /* CreateIndexedColumn.swift */,
-				8F2A250D2151414E00DADFB8 /* CreateUniqueTable.swift */,
+				8F2A24FF21506D2C00DADFB8 /* CreateTable.CreateTableConstraintDefinitions.swift */,
+				8F2A250921513ED500DADFB8 /* CreateTable.CreatePrimaryKey.swift */,
+				8F2A250B21513F1A00DADFB8 /* CreateTable.CreateIndexedColumn.swift */,
+				8F2A250D2151414E00DADFB8 /* CreateTable.CreateUniqueTable.swift */,
 			);
 			path = "Create Table Constraints";
 			sourceTree = "<group>";
@@ -637,6 +644,15 @@
 				8F3C06E521643D77005BD88F /* TriggerParser.swift */,
 			);
 			path = "Trigger Parsing";
+			sourceTree = "<group>";
+		};
+		8F41AF0021651AFA00DE7414 /* Index Creation */ = {
+			isa = PBXGroup;
+			children = (
+				8F41AEFE2164DCA800DE7414 /* EditIndexViewController.swift */,
+				8F41AF0321651D6D00DE7414 /* CreateIndexedColumnViewController.swift */,
+			);
+			path = "Index Creation";
 			sourceTree = "<group>";
 		};
 		8F44A8AE1FBDE14B00FB652B /* Predicate Editor */ = {
@@ -800,6 +816,7 @@
 			children = (
 				8F7C522C1F7D39E5004A91BC /* AppDelegate.swift */,
 				8F7C52341F7D39E5004A91BC /* Main.storyboard */,
+				8F41AEFB2164DC1D00DE7414 /* CreateItems.storyboard */,
 				8F534CF4215BB8A2002FAA5F /* ImportExport.storyboard */,
 				8F7C52301F7D39E5004A91BC /* LiftDocument.swift */,
 				8F11B7901F83D2A9008E19D7 /* LiftWindowController.swift */,
@@ -967,7 +984,7 @@
 				8F391B371F9656D5002D3AFE /* Details Side Bar */,
 				8F4BECBF1FB685C4003DAA5E /* Bottom Container */,
 				8F30777C1F87F252005AFE4E /* Side Bar Browse */,
-				8F2521741F855AD900B438CC /* Table View Creation */,
+				8F2521741F855AD900B438CC /* Creation */,
 				8FA148DA1F8D2F3E00644638 /* Attach Detach */,
 			);
 			path = "View Controllers";
@@ -1243,6 +1260,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8F7C52331F7D39E5004A91BC /* Assets.xcassets in Resources */,
+				8F41AEFC2164DC1D00DE7414 /* CreateItems.storyboard in Resources */,
 				8F0D315E214ACCFD00ADE9F8 /* Icon1024-128@2x.png in Resources */,
 				8F7C52361F7D39E5004A91BC /* Main.storyboard in Resources */,
 				8F534CF5215BB8A2002FAA5F /* ImportExport.storyboard in Resources */,
@@ -1298,6 +1316,7 @@
 				8F8F7F3C2047100E0043EBCA /* CustomTableViewHeaderView.swift in Sources */,
 				8F11B79C1F83DC79008E19D7 /* SQLiteDocumentPresenter.swift in Sources */,
 				8F9565CE1FB36EFC008FE038 /* CSVExportOptions.swift in Sources */,
+				8F41AEFF2164DCA800DE7414 /* EditIndexViewController.swift in Sources */,
 				8F9565D41FB36EFC008FE038 /* SQLiteExportOptions.swift in Sources */,
 				8FF56AD31F9C094900C5F447 /* WaitingOperationViewController.swift in Sources */,
 				8F754B1A1F98D92600BC5312 /* DataProvider.swift in Sources */,
@@ -1353,11 +1372,11 @@
 				8F6A8A911FFC090800F093F1 /* ImportType.swift in Sources */,
 				8F74A74C1F86A0E50069721E /* SideBarDetailsViewController.swift in Sources */,
 				8FD4FEA51F8C01420008D8DA /* CGPoint+Additions.swift in Sources */,
-				8F2A250021506D2C00DADFB8 /* CreateTableConstraintDefinitions.swift in Sources */,
+				8F2A250021506D2C00DADFB8 /* CreateTable.CreateTableConstraintDefinitions.swift in Sources */,
 				8FCADB341FE4A62E00C22E1D /* BrowseCellView.swift in Sources */,
 				8F766F0F2073E9F90095F197 /* InsertionOption.swift in Sources */,
 				8F8338FA1FBA05DA000AFE09 /* QueryResult.swift in Sources */,
-				8F2A250C21513F1A00DADFB8 /* CreateIndexedColumn.swift in Sources */,
+				8F2A250C21513F1A00DADFB8 /* CreateTable.CreateIndexedColumn.swift in Sources */,
 				8FB9F15C1F7EA4EB0090FA53 /* IndexedTableConstraint.swift in Sources */,
 				8F74A7521F871C560069721E /* Statement.swift in Sources */,
 				8F4BECD01FB6903C003DAA5E /* SnippetViewController.swift in Sources */,
@@ -1375,6 +1394,7 @@
 				8F9565CC1FB36EFC008FE038 /* XLSXExportOptions.swift in Sources */,
 				8FB9F1651F7EB5C40090FA53 /* ForeignKeyClause.swift in Sources */,
 				8F4BECD41FB727BD003DAA5E /* Snippet.swift in Sources */,
+				8F41AF0421651D6D00DE7414 /* CreateIndexedColumnViewController.swift in Sources */,
 				8F9565D81FB36F45008FE038 /* Writer.swift in Sources */,
 				8F9565D51FB36EFC008FE038 /* ExportViewController+xlsx.swift in Sources */,
 				8F4BECD61FB72926003DAA5E /* SnippetManager.swift in Sources */,
@@ -1395,7 +1415,7 @@
 				8FD6D92D1F981A510033E512 /* RowData.swift in Sources */,
 				8F5891E51FA392960076C86D /* LogViewController.swift in Sources */,
 				8F921DB61F7EB85000464D27 /* ForeignKeyDeferStatement.swift in Sources */,
-				8F2A250E2151414E00DADFB8 /* CreateUniqueTable.swift in Sources */,
+				8F2A250E2151414E00DADFB8 /* CreateTable.CreateUniqueTable.swift in Sources */,
 				8FB9F1551F7E83230090FA53 /* ConflictClause.swift in Sources */,
 				8F2A2502215070EF00DADFB8 /* CreateColumnConstraintDefinitions.swift in Sources */,
 				8F391B7C1F967429002D3AFE /* LongPressButton.swift in Sources */,
@@ -1421,7 +1441,7 @@
 				8F6273E21F85C291007055D9 /* SQLiteTextView.swift in Sources */,
 				8FB9F16A1F7EB66C0090FA53 /* ForeignKeyMatchStatement.swift in Sources */,
 				8F51324E20504DE800E2A759 /* AttributedStringFormatter.swift in Sources */,
-				8F2A250A21513ED500DADFB8 /* CreatePrimaryKey.swift in Sources */,
+				8F2A250A21513ED500DADFB8 /* CreateTable.CreatePrimaryKey.swift in Sources */,
 				8F9565D11FB36EFC008FE038 /* ExportViewController+XML.swift in Sources */,
 				8F9565D01FB36EFC008FE038 /* ExportNodes.swift in Sources */,
 				8F3C06EA2164442F005BD88F /* TriggerNode.swift in Sources */,
