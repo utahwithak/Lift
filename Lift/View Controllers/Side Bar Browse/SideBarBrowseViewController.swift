@@ -139,6 +139,15 @@ class SideBarBrowseViewController: LiftViewController {
         vc.representedObject = representedObject
         presentAsSheet(vc)
     }
+
+    @IBAction func createTrigger(_ sender: Any) {
+        let storyboard = NSStoryboard(name: .createItems, bundle: .main)
+        guard let vc = storyboard.instantiateController(withIdentifier: "editTriggerViewController") as? EditTriggerViewController else {
+            return
+        }
+        vc.representedObject = representedObject
+        presentAsSheet(vc)
+    }
 }
 
 extension SideBarBrowseViewController: NSOutlineViewDelegate {
@@ -401,6 +410,46 @@ extension SideBarBrowseViewController: NSMenuDelegate {
         }
     }
 
+    @objc private func editTrigger(_ item: NSMenuItem) {
+        guard let trigger = item.representedObject as? Trigger, trigger.parsedTrigger != nil else {
+            return
+        }
+
+        let storyboard = NSStoryboard(name: .createItems, bundle: .main)
+        guard let vc = storyboard.instantiateController(withIdentifier: "editTriggerViewController") as? EditTriggerViewController else {
+            return
+        }
+        vc.representedObject = representedObject
+        vc.existingTrigger = trigger
+        presentAsSheet(vc)
+    }
+
+    @objc private func dropTrigger(_ item: NSMenuItem) {
+        guard let trigger = item.representedObject as? Trigger else {
+            return
+        }
+        let alert = NSAlert()
+        alert.messageText = NSLocalizedString("Drop Trigger?", comment: "title for drop index alert")
+        let messageFormat = NSLocalizedString("Are you sure you want to drop \"%@\"?%@", comment: "Confirmation text")
+        let checkText: String
+        if document?.database.autocommitStatus == .autocommit {
+            checkText = NSLocalizedString("\nThis cannot be undone.", comment: "Extra warning when dropping table in autocommit mode")
+        } else {
+            checkText = ""
+        }
+        alert.informativeText = String(format: messageFormat, trigger.name, checkText)
+        alert.addButton(withTitle: NSLocalizedString("Drop", comment: "Drop alert button "))
+        alert.addButton(withTitle: NSLocalizedString("Cancel", comment: "cancel Drop"))
+        let response = alert.runModal()
+        if response == .alertFirstButtonReturn {
+            do {
+                _ = try trigger.drop()
+            } catch {
+                presentError(error)
+            }
+        }
+    }
+
     @objc private func editProvider(_ item: NSMenuItem) {
         guard let provider = item.representedObject as? DataProvider else {
             return
@@ -545,7 +594,17 @@ extension SideBarBrowseViewController: NSMenuDelegate {
             let dropIndexItem = NSMenuItem(title: NSLocalizedString("Drop Index", comment: "edit menu item"), action: #selector(dropIndex), keyEquivalent: "")
             dropIndexItem.representedObject = index
             menu.addItem(dropIndexItem)
+        case let triggerNode as TriggerNode:
+            guard let trigger = triggerNode.trigger, trigger.parsedTrigger != nil else {
+                return
+            }
 
+            let editObject = NSMenuItem(title: NSLocalizedString("Edit Definition", comment: "edit menu item"), action: #selector(editTrigger), keyEquivalent: "")
+            editObject.representedObject = trigger
+            menu.addItem(editObject)
+            let dropIndexItem = NSMenuItem(title: NSLocalizedString("Drop Trigger", comment: "edit menu item"), action: #selector(dropTrigger), keyEquivalent: "")
+            dropIndexItem.representedObject = trigger
+            menu.addItem(dropIndexItem)
         default:
             return
         }

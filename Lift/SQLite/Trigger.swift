@@ -10,10 +10,13 @@ import Foundation
 
 class Trigger: NSObject {
 
+    public private(set) weak var database: Database?
+
     @objc dynamic let name: String
     let parsedTrigger: TriggerParser.Trigger?
 
     init(database: Database, data: [SQLiteData], connection: sqlite3) {
+        self.database = database
         //type|name|tbl_name|rootpage|sql
         if case .text(let sql) = data[4] {
             do {
@@ -31,5 +34,28 @@ class Trigger: NSObject {
         } else {
             name = ""
         }
+    }
+
+    var qualifiedName: String {
+        if let schemaName = database?.name {
+            let dbname = schemaName
+            return "\(dbname.sql).\(name.sqliteSafeString())"
+        } else {
+            return name.sqliteSafeString()
+        }
+    }
+
+    public func drop(refresh: Bool = true) throws {
+        guard let database = database else {
+            throw LiftError.noDatabase
+        }
+
+        let statement = "DROP TRIGGER \(qualifiedName);"
+        let success = try database.execute(statement: statement)
+
+        if success && refresh {
+            database.refresh()
+        }
+
     }
 }

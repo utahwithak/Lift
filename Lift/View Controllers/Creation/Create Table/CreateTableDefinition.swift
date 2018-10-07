@@ -55,9 +55,10 @@ class CreateTableDefinition: NSObject {
     public var toDefinition: TableDefinition {
         var definition = TableDefinition()
         definition.tableName = tableName
-        definition.isTemp = isTemp
         definition.withoutRowID = withoutRowID
         definition.databaseName = databaseName
+        definition.isTemp = isTemp
+
         for column in columns {
             definition.columns.append(column.toDefinition)
         }

@@ -458,6 +458,11 @@
                                                 <action selector="createIndex:" target="Ady-hI-5gd" id="Txt-eQ-cNO"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Create Trigger" keyEquivalent="R" id="wr8-Rb-aIr">
+                                            <connections>
+                                                <action selector="createTrigger:" target="Ady-hI-5gd" id="160-8V-3dt"/>
+                                            </connections>
+                                        </menuItem>
                                     </items>
                                 </menu>
                             </menuItem>
@@ -3219,9 +3224,16 @@ Gw
                                 <action selector="showCreateView:" target="5xX-Q9-yaR" id="r5M-1G-AQR"/>
                             </connections>
                         </menuItem>
-                        <menuItem title="Create Index" keyEquivalent="I" id="IoC-Sy-AOe">
+                        <menuItem title="Create Index" id="IoC-Sy-AOe">
+                            <modifierMask key="keyEquivalentModifierMask"/>
                             <connections>
                                 <action selector="createIndex:" target="5xX-Q9-yaR" id="7uX-IA-Mqe"/>
+                            </connections>
+                        </menuItem>
+                        <menuItem title="Create Trigger" id="3P1-nQ-Rlq">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="createTrigger:" target="5xX-Q9-yaR" id="sPn-kH-pTd"/>
                             </connections>
                         </menuItem>
                     </items>
@@ -5194,6 +5206,6 @@ Gw
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="14O-lj-Dcu"/>
-        <segue reference="nm5-Vh-WzM"/>
+        <segue reference="Psl-tF-5nh"/>
     </inferredMetricsTieBreakers>
 </document>

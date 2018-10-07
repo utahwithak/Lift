@@ -12,17 +12,30 @@ final class TriggerParser {
     private init() {}
 
     struct Trigger {
-        enum Timing {
+        enum Timing: Int {
             case before
             case after
             case insteadOf
             case unspecified
+            var sql: String {
+                switch self {
+                case .before:
+                    return "BEFORE "
+                case .after:
+                    return "AFTER "
+                case .insteadOf:
+                    return "INSTEAD OF "
+                case .unspecified:
+                    return ""
+                }
+            }
         }
 
         enum Action {
             case delete
             case insert
-            case update(columns: [String]?)
+            case update
+            case updateOf(columns: [String])
         }
 
         var name = ""
@@ -68,9 +81,9 @@ final class TriggerParser {
                     let name = try SQLiteCreateTableParser.parseStringOrName(from: stringScanner)
                     names.append(name)
                 } while stringScanner.scanString(", ", into: nil)
-
+                trigger.action = .updateOf(columns: names)
             } else {
-                trigger.action = .update(columns: nil)
+                trigger.action = .update
             }
         } else {
             throw ParserError.unexpectedError("Expected ACTION, found:\(String(sql.dropFirst(stringScanner.scanLocation)))")

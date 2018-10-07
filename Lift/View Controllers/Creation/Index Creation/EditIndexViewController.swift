@@ -107,7 +107,7 @@ class EditIndexViewController: LiftViewController {
             }
         }
         @objc dynamic public var name: String {
-            return column.nameProvider.name
+            return column.nameProvider.name.cleanedVersion 
         }
         init(with column: IndexedColumn) {
             self.column = column
@@ -137,7 +137,7 @@ class EditIndexViewController: LiftViewController {
                 createIndexedColumn.columnArrayController.setSelectedObjects([column])
 
             } else {
-                if let column = createIndexedColumn.table?.columns.first(where: { $0.name == index.column.nameProvider.name }) {
+                if let column = createIndexedColumn.table?.columns.first(where: { $0.name.cleanedVersion == index.column.nameProvider.name.cleanedVersion }) {
                     createIndexedColumn.useColumn = true
                     createIndexedColumn.columnArrayController.setSelectedObjects([column])
                 } else {
@@ -202,7 +202,7 @@ class EditIndexViewController: LiftViewController {
                 } catch {
                     print("Failed to rollback savepoint!")
                 }
-                return false
+                throw error
             }
 
         }
