@@ -189,6 +189,7 @@
 		8FD6D92D1F981A510033E512 /* RowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD6D92C1F981A510033E512 /* RowData.swift */; };
 		8FD7EB77214C024800325EA1 /* CompletionPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD7EB76214C024800325EA1 /* CompletionPanel.swift */; };
 		8FE11ACC2049A1AE0086E53C /* CustomRowEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE11ACB2049A1AE0086E53C /* CustomRowEditorViewController.swift */; };
+		8FE7288F2180F8B200F3968E /* SideBarDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE7288E2180F8B200F3968E /* SideBarDetailCell.swift */; };
 		8FEE61121FBBBD850090CE1F /* TablePredicateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEE61111FBBBD850090CE1F /* TablePredicateViewController.swift */; };
 		8FEFD4BF1F9F7AD900C6C75A /* ExportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEFD4BE1F9F7AD900C6C75A /* ExportViewController.swift */; };
 		8FEFD4C11F9F7B4200C6C75A /* ImportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEFD4C01F9F7B4200C6C75A /* ImportViewController.swift */; };
@@ -453,6 +454,7 @@
 		8FD6D92C1F981A510033E512 /* RowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowData.swift; sourceTree = "<group>"; };
 		8FD7EB76214C024800325EA1 /* CompletionPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionPanel.swift; sourceTree = "<group>"; };
 		8FE11ACB2049A1AE0086E53C /* CustomRowEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomRowEditorViewController.swift; sourceTree = "<group>"; };
+		8FE7288E2180F8B200F3968E /* SideBarDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SideBarDetailCell.swift; sourceTree = "<group>"; };
 		8FEE61111FBBBD850090CE1F /* TablePredicateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TablePredicateViewController.swift; sourceTree = "<group>"; };
 		8FEFD4BE1F9F7AD900C6C75A /* ExportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportViewController.swift; sourceTree = "<group>"; };
 		8FEFD4C01F9F7B4200C6C75A /* ImportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportViewController.swift; sourceTree = "<group>"; };
@@ -591,6 +593,7 @@
 				8F74A74B1F86A0E50069721E /* SideBarDetailsViewController.swift */,
 				8FAF334C1FA2AAF6003ACFC7 /* TableDetailViewController.swift */,
 				8FAF33511FA2AF5D003ACFC7 /* DatabaseDetailsViewController.swift */,
+				8FE7288E2180F8B200F3968E /* SideBarDetailCell.swift */,
 				8F5891E21FA392880076C86D /* Log View Controller */,
 			);
 			path = "Details Side Bar";
@@ -1394,6 +1397,7 @@
 				8F805CCD1F7ED3EF0074FE6B /* NotNullColumnConstraint.swift in Sources */,
 				8F7D84361F8BA3AC0053137B /* TableScrollView.swift in Sources */,
 				8FEFD4BF1F9F7AD900C6C75A /* ExportViewController.swift in Sources */,
+				8FE7288F2180F8B200F3968E /* SideBarDetailCell.swift in Sources */,
 				8FC63CDB1FA2492000005591 /* LiftMainViewController.swift in Sources */,
 				8F11B7951F83DC1C008E19D7 /* Database.swift in Sources */,
 				8F4BECCE1FB68B63003DAA5E /* QueryResultsViewController.swift in Sources */,

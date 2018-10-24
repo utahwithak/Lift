@@ -171,6 +171,7 @@ class LiftWindowController: NSWindowController {
         guard let tabController = mainEditor else {
             return
         }
+        viewTypeSegmentedControl.selectedSegment = type.rawValue
         tabController.switchMainView(to: type)
 
     }

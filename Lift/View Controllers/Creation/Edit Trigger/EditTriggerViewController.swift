@@ -35,6 +35,8 @@ class EditTriggerViewController: LiftViewController {
     @objc dynamic var needsColumns = false
     @objc dynamic var timingIndex = 3
 
+    @objc dynamic var isTemp = false
+
     @objc dynamic var actionIndex: NSInteger = 0 {
         didSet {
             switch actionIndex {
@@ -217,14 +219,22 @@ class EditTriggerViewController: LiftViewController {
                     try database.exec("DROP TRIGGER \(existingTrigger.qualifiedName)")
                 }
 
-                var newQuery = "CREATE TRIGGER "
+                var newQuery = "CREATE "
+                if self.isTemp {
+                    newQuery += " TEMPORARY "
+                }
+                newQuery += "TRIGGER "
 
                 guard let dbIndex = self.databaseIndexes?.firstIndex, dbIndex >= 0 && dbIndex < self.databases.count else {
                     return false
                 }
 
-                let intoDB = self.databases[dbIndex]
-                newQuery += intoDB.name + "." + self.triggerName.sqliteSafeString()
+                if !self.isTemp {
+                    let intoDB = self.databases[dbIndex]
+                    newQuery += intoDB.name + "." + self.triggerName.sqliteSafeString()
+                } else {
+                    newQuery += self.triggerName.sqliteSafeString()
+                }
 
                 newQuery += " \(self.triggerTiming.sql)"
 
@@ -249,8 +259,11 @@ class EditTriggerViewController: LiftViewController {
                 if self.useWhereClause, let clause = self.whereClause {
                     newQuery += " WHEN \(clause) "
                 }
-                newQuery += " BEGIN \(statements) END"
-
+                newQuery += " BEGIN \(statements)"
+                if statements.trimmingCharacters(in: .whitespacesAndNewlines).last != ";" {
+                    newQuery += ";"
+                }
+                newQuery += " END"
                 try database.exec(newQuery)
                 try database.releaseSavepoint(named: savePointName)
                 return true

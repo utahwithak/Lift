@@ -57,7 +57,7 @@ class SQLiteSyntaxHighlighter {
 
     public var lineHighlightColor: [NSAttributedString.Key: NSColor]  = [.backgroundColor: NSColor(calibratedRed: 0.96, green: 0.96, blue: 0.71, alpha: 1.0)]
 
-    public var numbersColor: [NSAttributedString.Key: NSColor]  = [.foregroundColor: NSColor(calibratedRed: 0.031, green: 0.0, blue: 0.855, alpha: 1.0)]
+    public var numbersColor: [NSAttributedString.Key: NSColor]  = [.foregroundColor: NSColor(named:"numberColor")!]
 
     private var layoutManager: NSLayoutManager?
 

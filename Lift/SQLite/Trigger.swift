@@ -14,6 +14,7 @@ class Trigger: NSObject {
 
     @objc dynamic let name: String
     let parsedTrigger: TriggerParser.Trigger?
+    let sql: String
 
     init(database: Database, data: [SQLiteData], connection: sqlite3) {
         self.database = database
@@ -25,7 +26,9 @@ class Trigger: NSObject {
                 parsedTrigger = nil
                 print("Failed to parse index sql: \(error)")
             }
+            self.sql = sql
         } else {
+            sql = "NO SQL"
             parsedTrigger = nil
         }
 

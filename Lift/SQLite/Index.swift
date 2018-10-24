@@ -16,6 +16,8 @@ class Index: NSObject {
     let parsedIndex: SQLiteIndexParser.Index?
     weak var database: Database?
 
+    let sql: String
+
     init(database: Database, data: [SQLiteData], connection: sqlite3) {
         self.database = database
         //type|name|tbl_name|rootpage|sql
@@ -26,7 +28,9 @@ class Index: NSObject {
                 parsedIndex = nil
                 print("Failed to parse index sql: \(error)")
             }
+            self.sql = sql
         } else {
+            sql = "NO SQL"
             parsedIndex = nil
         }
 

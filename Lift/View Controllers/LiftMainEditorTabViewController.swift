@@ -8,7 +8,7 @@
 
 import Cocoa
 
-enum MainEditorType {
+enum MainEditorType: Int {
     case table
     case graph
     case query
