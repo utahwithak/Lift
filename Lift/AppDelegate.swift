@@ -12,7 +12,9 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-
+        #if FREE
+        print("free version!")
+        #endif
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
@@ -32,6 +34,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     }
 
+    @IBAction func showSupport(_ sender: Any) {
+        NSWorkspace.shared.open(URL(string: "https://www.datumapps.com/contact-us/")!)
+    }
+
+    @IBAction func sendFeedback(_ sender: Any) {
+        let encodedSubject = "SUBJECT=Feedback"
+        let encodedTo = "carl@datumapps.com".addingPercentEncoding(withAllowedCharacters: CharacterSet.urlHostAllowed)!
+        let urlstring = "mailto:\(encodedTo)?\(encodedSubject)"
+        if let url = URL(string: urlstring) {
+            NSWorkspace.shared.open(url)
+        }
+    }
 }
 
 extension NSStoryboard.Name {

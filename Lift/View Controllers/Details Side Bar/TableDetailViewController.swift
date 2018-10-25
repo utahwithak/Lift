@@ -24,7 +24,6 @@ class TableDetailViewController: LiftViewController {
 
     override func viewDidLoad() {
         outlineView.indentationPerLevel = 0
-        
         super.viewDidLoad()
         let trackingArea = NSTrackingArea(rect: alterButton.bounds, options: [.mouseEnteredAndExited, .activeAlways], owner: view, userInfo: nil)
         alterButton.addTrackingArea(trackingArea)
@@ -134,7 +133,7 @@ extension TableDetailViewController: NSOutlineViewDelegate {
                 view?.sqlView.setIdentifiers(ids)
             }
             view?.titleLabel?.stringValue = index.name
-            view?.sqlView.string = index.sql
+            view?.sqlView.string = index.sql ?? ""
             view?.sqlView.refresh()
 
             return view
@@ -145,7 +144,7 @@ extension TableDetailViewController: NSOutlineViewDelegate {
                 view?.sqlView.setIdentifiers(ids)
             }
             view?.titleLabel?.stringValue = trigger.name
-            view?.sqlView.string = trigger.sql
+            view?.sqlView.string = trigger.sql ?? ""
             view?.sqlView.refresh()
 
             return view

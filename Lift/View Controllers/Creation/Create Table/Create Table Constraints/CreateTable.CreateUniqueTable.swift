@@ -12,7 +12,7 @@ extension CreateTableConstraintDefinitions {
     class CreateUnique: NSObject {
         @objc dynamic var columns = [CreateIndexedColumn]()
         @objc dynamic var name: String?
-        init(existing: PrimaryKeyTableConstraint, in table: CreateTableDefinition) {
+        init(existing: UniqueTableConstraint, in table: CreateTableDefinition) {
             for indexColumn in existing.indexedColumns {
                 guard let column = table.columns.first(where: { $0.name == indexColumn.nameProvider.name }) else {
                     fatalError("Can't find column!")

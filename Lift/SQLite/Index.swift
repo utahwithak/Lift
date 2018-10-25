@@ -16,7 +16,7 @@ class Index: NSObject {
     let parsedIndex: SQLiteIndexParser.Index?
     weak var database: Database?
 
-    let sql: String
+    let sql: String?
 
     init(database: Database, data: [SQLiteData], connection: sqlite3) {
         self.database = database
@@ -30,7 +30,7 @@ class Index: NSObject {
             }
             self.sql = sql
         } else {
-            sql = "NO SQL"
+            sql = nil
             parsedIndex = nil
         }
 

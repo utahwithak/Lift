@@ -13,4 +13,3 @@ class SimpleCreateColumnView: NSTableCellView {
         return objectValue as? CreateColumnDefinition
     }
 }
-

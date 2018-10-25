@@ -107,7 +107,7 @@ class EditIndexViewController: LiftViewController {
             }
         }
         @objc dynamic public var name: String {
-            return column.nameProvider.name.cleanedVersion 
+            return column.nameProvider.name.cleanedVersion
         }
         init(with column: IndexedColumn) {
             self.column = column

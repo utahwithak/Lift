@@ -58,9 +58,14 @@ class TableNumberView: NSRulerView {
         let bounds = self.bounds
 
         NSColor(named: "sidebarBackground")?.set()
+        bounds.fill()
 
-        __NSRectFill(bounds)
-        NSColor(calibratedWhite: 0.58, alpha: 1).set()
+        if #available(OSX 10.14, *) {
+            NSColor.separatorColor.set()
+        } else {
+            NSColor(calibratedWhite: 0.58, alpha: 1).set()
+        }
+
         NSBezierPath.strokeLine(from: NSPoint(x: bounds.maxX - 0.5, y: bounds.minY), to: NSPoint(x: bounds.maxX - 0.5, y: bounds.maxY))
 
     }

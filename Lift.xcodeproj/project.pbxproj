@@ -29,6 +29,188 @@
 		8F2A250A21513ED500DADFB8 /* CreateTable.CreatePrimaryKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2A250921513ED500DADFB8 /* CreateTable.CreatePrimaryKey.swift */; };
 		8F2A250C21513F1A00DADFB8 /* CreateTable.CreateIndexedColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2A250B21513F1A00DADFB8 /* CreateTable.CreateIndexedColumn.swift */; };
 		8F2A250E2151414E00DADFB8 /* CreateTable.CreateUniqueTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2A250D2151414E00DADFB8 /* CreateTable.CreateUniqueTable.swift */; };
+		8F2CB1C32182208E00BA3A35 /* DatabaseDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAF33511FA2AF5D003ACFC7 /* DatabaseDetailsViewController.swift */; };
+		8F2CB1C42182208E00BA3A35 /* ForeignKeyActionStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1671F7EB62C0090FA53 /* ForeignKeyActionStatement.swift */; };
+		8F2CB1C52182208E00BA3A35 /* CustomTableViewHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8F7F3B2047100E0043EBCA /* CustomTableViewHeaderView.swift */; };
+		8F2CB1C62182208E00BA3A35 /* SQLiteDocumentPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F11B79B1F83DC79008E19D7 /* SQLiteDocumentPresenter.swift */; };
+		8F2CB1C72182208E00BA3A35 /* CSVExportOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565C01FB36EFB008FE038 /* CSVExportOptions.swift */; };
+		8F2CB1C82182208E00BA3A35 /* EditIndexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F41AEFE2164DCA800DE7414 /* EditIndexViewController.swift */; };
+		8F2CB1C92182208E00BA3A35 /* SQLiteExportOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565C61FB36EFC008FE038 /* SQLiteExportOptions.swift */; };
+		8F2CB1CA2182208E00BA3A35 /* WaitingOperationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FF56AD21F9C094900C5F447 /* WaitingOperationViewController.swift */; };
+		8F2CB1CB2182208E00BA3A35 /* DataProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F754B191F98D92600BC5312 /* DataProvider.swift */; };
+		8F2CB1CC2182208E00BA3A35 /* TabButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4BECC61FB68B00003DAA5E /* TabButton.swift */; };
+		8F2CB1CD2182208E00BA3A35 /* PrimaryKeyTableConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1591F7EA4D40090FA53 /* PrimaryKeyTableConstraint.swift */; };
+		8F2CB1CE2182208E00BA3A35 /* ForeignKeyColumnConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F921DBA1F7ECD7100464D27 /* ForeignKeyColumnConstraint.swift */; };
+		8F2CB1CF2182208E00BA3A35 /* CreateSimpleColumnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2096F221813E03009ABC90 /* CreateSimpleColumnViewController.swift */; };
+		8F2CB1D02182208E00BA3A35 /* CompletionPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD7EB76214C024800325EA1 /* CompletionPanel.swift */; };
+		8F2CB1D12182208E00BA3A35 /* StatementWaitingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4C40D91F87B3CE003BF006 /* StatementWaitingViewController.swift */; };
+		8F2CB1D22182208E00BA3A35 /* ColumnDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F14C1F7D72220090FA53 /* ColumnDefinition.swift */; };
+		8F2CB1D32182208E00BA3A35 /* TableChildNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3C06EB21644445005BD88F /* TableChildNode.swift */; };
+		8F2CB1D42182208E00BA3A35 /* ResultsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8338FB1FBA09F5000AFE09 /* ResultsTableViewController.swift */; };
+		8F2CB1D52182208E00BA3A35 /* HeaderViewNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3C06A72164314C005BD88F /* HeaderViewNode.swift */; };
+		8F2CB1D62182208E00BA3A35 /* AttachDatabaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA148DD1F8D2FD500644638 /* AttachDatabaseViewController.swift */; };
+		8F2CB1D72182208E00BA3A35 /* NSTabView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAF334F1FA2AE6A003ACFC7 /* NSTabView+Additions.swift */; };
+		8F2CB1D82182208E00BA3A35 /* QueryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBFF3531FA0BFAD00317830 /* QueryViewController.swift */; };
+		8F2CB1D92182208E00BA3A35 /* NewRowValueTypeConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5D7BF02077B16D009EE355 /* NewRowValueTypeConversion.swift */; };
+		8F2CB1DA2182208E00BA3A35 /* Database+Dump.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F09DB041FB5D84100A19894 /* Database+Dump.swift */; };
+		8F2CB1DB2182208E00BA3A35 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4C40DC1F87B657003BF006 /* Result.swift */; };
+		8F2CB1DC2182208E00BA3A35 /* NSImage+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4BECC51FB68B00003DAA5E /* NSImage+Additions.swift */; };
+		8F2CB1DD2182208E00BA3A35 /* NSTreeController+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6B42BA1F94EAD200110EC6 /* NSTreeController+Additions.swift */; };
+		8F2CB1DE2182208E00BA3A35 /* TableViewNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3C069D216430E3005BD88F /* TableViewNode.swift */; };
+		8F2CB1DF2182208E00BA3A35 /* ExportViewController+sqlite.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565BC1FB36EFA008FE038 /* ExportViewController+sqlite.swift */; };
+		8F2CB1E02182208E00BA3A35 /* HiddenBackgroundSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7A8E641FA2654A00A80FD2 /* HiddenBackgroundSegmentedControl.swift */; };
+		8F2CB1E12182208E00BA3A35 /* SnippetEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4BECD11FB7279D003DAA5E /* SnippetEditorViewController.swift */; };
+		8F2CB1E22182208E00BA3A35 /* UniqueTableConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F15E1F7EA50A0090FA53 /* UniqueTableConstraint.swift */; };
+		8F2CB1E32182208E00BA3A35 /* GroupViewNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3C06A521643135005BD88F /* GroupViewNode.swift */; };
+		8F2CB1E42182208E00BA3A35 /* XMLExportOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565BD1FB36EFA008FE038 /* XMLExportOptions.swift */; };
+		8F2CB1E52182208E00BA3A35 /* SQLiteName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1521F7E7FCE0090FA53 /* SQLiteName.swift */; };
+		8F2CB1E62182208E00BA3A35 /* SQLiteStringValueFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F72E3B61F83FDE3006C88F5 /* SQLiteStringValueFormatter.swift */; };
+		8F2CB1E72182208E00BA3A35 /* Database+Options.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F74FA3A1FC33620008D8B4A /* Database+Options.swift */; };
+		8F2CB1E82182208E00BA3A35 /* LineNumberScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F72E3BB1F840AFD006C88F5 /* LineNumberScrollView.swift */; };
+		8F2CB1E92182208E00BA3A35 /* JumpToRowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F178CA01FA0DB790057387A /* JumpToRowViewController.swift */; };
+		8F2CB1EA2182208E00BA3A35 /* LiftSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C522E1F7D39E5004A91BC /* LiftSplitViewController.swift */; };
+		8F2CB1EB2182208E00BA3A35 /* ProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565DA1FB37136008FE038 /* ProgressViewController.swift */; };
+		8F2CB1EC2182208E00BA3A35 /* SQLiteData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F374B931F87E03C00BB4F63 /* SQLiteData.swift */; };
+		8F2CB1ED2182208E00BA3A35 /* LiftMainEditorTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F74A7481F869C3B0069721E /* LiftMainEditorTabViewController.swift */; };
+		8F2CB1EE2182208E00BA3A35 /* SQLite3ConfigHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FC63CD71FA227F000005591 /* SQLite3ConfigHelper.m */; };
+		8F2CB1EF2182208E00BA3A35 /* View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F374B951F87E5C700BB4F63 /* View.swift */; };
+		8F2CB1F02182208E00BA3A35 /* Trigger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3C06E7216443A2005BD88F /* Trigger.swift */; };
+		8F2CB1F12182208E00BA3A35 /* CollateColumnConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F921DBC1F7ECE7800464D27 /* CollateColumnConstraint.swift */; };
+		8F2CB1F22182208E00BA3A35 /* BrowseViewNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F30777E1F87F26A005AFE4E /* BrowseViewNode.swift */; };
+		8F2CB1F32182208E00BA3A35 /* DatabaseViewNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3C06A321643122005BD88F /* DatabaseViewNode.swift */; };
+		8F2CB1F42182208E00BA3A35 /* ConflictColumnConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F805CC91F7ED3560074FE6B /* ConflictColumnConstraint.swift */; };
+		8F2CB1F52182208E00BA3A35 /* SimpleCreateColumnView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8F215C207290510048BE06 /* SimpleCreateColumnView.swift */; };
+		8F2CB1F62182208E00BA3A35 /* TablePredicateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEE61111FBBBD850090CE1F /* TablePredicateViewController.swift */; };
+		8F2CB1F72182208E00BA3A35 /* TableConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F14E1F7DC6EA0090FA53 /* TableConstraint.swift */; };
+		8F2CB1F82182208E00BA3A35 /* LiftMainSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F391B3B1F965850002D3AFE /* LiftMainSplitViewController.swift */; };
+		8F2CB1F92182208E00BA3A35 /* EditRowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F445A4E20504E3C0041CD84 /* EditRowData.swift */; };
+		8F2CB1FA2182208E00BA3A35 /* CreateTableDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F96B9062150311E0029FDE7 /* CreateTableDefinition.swift */; };
+		8F2CB1FB2182208E00BA3A35 /* ExportViewController+JSON.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565C51FB36EFC008FE038 /* ExportViewController+JSON.swift */; };
+		8F2CB1FC2182208E00BA3A35 /* XMLElement+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565D71FB36F45008FE038 /* XMLElement+Additions.swift */; };
+		8F2CB1FD2182208E00BA3A35 /* SQLiteCreateViewParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8F7F4120472EFD0043EBCA /* SQLiteCreateViewParser.swift */; };
+		8F2CB1FE2182208E00BA3A35 /* ImportType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6A8A901FFC090800F093F1 /* ImportType.swift */; };
+		8F2CB1FF2182208E00BA3A35 /* SideBarDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F74A74B1F86A0E50069721E /* SideBarDetailsViewController.swift */; };
+		8F2CB2002182208E00BA3A35 /* CGPoint+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD4FEA41F8C01420008D8DA /* CGPoint+Additions.swift */; };
+		8F2CB2012182208E00BA3A35 /* CreateTable.CreateTableConstraintDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2A24FF21506D2C00DADFB8 /* CreateTable.CreateTableConstraintDefinitions.swift */; };
+		8F2CB2022182208E00BA3A35 /* BrowseCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCADB331FE4A62E00C22E1D /* BrowseCellView.swift */; };
+		8F2CB2032182208E00BA3A35 /* InsertionOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F766F0E2073E9F90095F197 /* InsertionOption.swift */; };
+		8F2CB2042182208E00BA3A35 /* QueryResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8338F91FBA05DA000AFE09 /* QueryResult.swift */; };
+		8F2CB2052182208E00BA3A35 /* CreateTable.CreateIndexedColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2A250B21513F1A00DADFB8 /* CreateTable.CreateIndexedColumn.swift */; };
+		8F2CB2062182208E00BA3A35 /* IndexedTableConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F15B1F7EA4EB0090FA53 /* IndexedTableConstraint.swift */; };
+		8F2CB2072182208E00BA3A35 /* Statement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F74A7511F871C560069721E /* Statement.swift */; };
+		8F2CB2082182208E00BA3A35 /* SnippetViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4BECCF1FB6903C003DAA5E /* SnippetViewController.swift */; };
+		8F2CB2092182208E00BA3A35 /* NotNullColumnConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F805CCC1F7ED3EF0074FE6B /* NotNullColumnConstraint.swift */; };
+		8F2CB20A2182208E00BA3A35 /* TableScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7D84351F8BA3AC0053137B /* TableScrollView.swift */; };
+		8F2CB20B2182208E00BA3A35 /* ExportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEFD4BE1F9F7AD900C6C75A /* ExportViewController.swift */; };
+		8F2CB20C2182208E00BA3A35 /* SideBarDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE7288E2180F8B200F3968E /* SideBarDetailCell.swift */; };
+		8F2CB20D2182208E00BA3A35 /* LiftMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC63CDA1FA2492000005591 /* LiftMainViewController.swift */; };
+		8F2CB20E2182208E00BA3A35 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F11B7941F83DC1C008E19D7 /* Database.swift */; };
+		8F2CB20F2182208E00BA3A35 /* QueryResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4BECCD1FB68B63003DAA5E /* QueryResultsViewController.swift */; };
+		8F2CB2102182208E00BA3A35 /* WelcomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9114A11FF84A6C000B6D6A /* WelcomeViewController.swift */; };
+		8F2CB2112182208E00BA3A35 /* BottomEditorContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4BECC11FB6861A003DAA5E /* BottomEditorContainer.swift */; };
+		8F2CB2122182208E00BA3A35 /* NewRowValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F445A5120504E550041CD84 /* NewRowValue.swift */; };
+		8F2CB2132182208E00BA3A35 /* TableDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F84D24D1F8B04FA00CF4B08 /* TableDataViewController.swift */; };
+		8F2CB2142182208E00BA3A35 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7D84371F8BAF1D0053137B /* TableViewCell.swift */; };
+		8F2CB2152182208E00BA3A35 /* XLSXExportOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565BE1FB36EFB008FE038 /* XLSXExportOptions.swift */; };
+		8F2CB2162182208E00BA3A35 /* ForeignKeyClause.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1641F7EB5C40090FA53 /* ForeignKeyClause.swift */; };
+		8F2CB2172182208E00BA3A35 /* Snippet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4BECD31FB727BD003DAA5E /* Snippet.swift */; };
+		8F2CB2182182208E00BA3A35 /* CreateIndexedColumnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F41AF0321651D6D00DE7414 /* CreateIndexedColumnViewController.swift */; };
+		8F2CB2192182208E00BA3A35 /* Writer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565D61FB36F45008FE038 /* Writer.swift */; };
+		8F2CB21A2182208E00BA3A35 /* ExportViewController+xlsx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565C71FB36EFC008FE038 /* ExportViewController+xlsx.swift */; };
+		8F2CB21B2182208E00BA3A35 /* SnippetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4BECD51FB72926003DAA5E /* SnippetManager.swift */; };
+		8F2CB21C2182208E00BA3A35 /* PassthroughView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8FA7301F92CE8500783C5C /* PassthroughView.swift */; };
+		8F2CB21D2182208E00BA3A35 /* UpdateOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F766F112074540F0095F197 /* UpdateOption.swift */; };
+		8F2CB21E2182208E00BA3A35 /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F374B901F87DF9400BB4F63 /* Table.swift */; };
+		8F2CB21F2182208E00BA3A35 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C522C1F7D39E5004A91BC /* AppDelegate.swift */; };
+		8F2CB2202182208E00BA3A35 /* EditTriggerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5C1BEA2167C37900B663E0 /* EditTriggerViewController.swift */; };
+		8F2CB2212182208E00BA3A35 /* IndexNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3C06A12164310B005BD88F /* IndexNode.swift */; };
+		8F2CB2222182208E00BA3A35 /* ExportViewController+csv.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565C41FB36EFB008FE038 /* ExportViewController+csv.swift */; };
+		8F2CB2232182208E00BA3A35 /* DetachDatabaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA148DF1F8D312500644638 /* DetachDatabaseViewController.swift */; };
+		8F2CB2242182208E00BA3A35 /* LiftDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C52301F7D39E5004A91BC /* LiftDocument.swift */; };
+		8F2CB2252182208E00BA3A35 /* LineNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F72E3C11F840B4D006C88F5 /* LineNumberView.swift */; };
+		8F2CB2262182208E00BA3A35 /* SQLiteSyntaxHighlighter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6273E41F85C2C0007055D9 /* SQLiteSyntaxHighlighter.swift */; };
+		8F2CB2272182208E00BA3A35 /* ExportDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCA2AD6215E8254007A7D62 /* ExportDataViewController.swift */; };
+		8F2CB2282182208E00BA3A35 /* UniqueColumnConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F805CC71F7ED2B30074FE6B /* UniqueColumnConstraint.swift */; };
+		8F2CB2292182208E00BA3A35 /* TriggerParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3C06E521643D77005BD88F /* TriggerParser.swift */; };
+		8F2CB22A2182208E00BA3A35 /* ExportOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565BA1FB36EFA008FE038 /* ExportOptions.swift */; };
+		8F2CB22B2182208E00BA3A35 /* RowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD6D92C1F981A510033E512 /* RowData.swift */; };
+		8F2CB22C2182208E00BA3A35 /* LogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5891E41FA392960076C86D /* LogViewController.swift */; };
+		8F2CB22D2182208E00BA3A35 /* ForeignKeyDeferStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F921DB51F7EB85000464D27 /* ForeignKeyDeferStatement.swift */; };
+		8F2CB22E2182208E00BA3A35 /* CreateTable.CreateUniqueTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2A250D2151414E00DADFB8 /* CreateTable.CreateUniqueTable.swift */; };
+		8F2CB22F2182208E00BA3A35 /* ConflictClause.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1541F7E83230090FA53 /* ConflictClause.swift */; };
+		8F2CB2302182208E00BA3A35 /* CreateColumnConstraintDefinitions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2A2501215070EF00DADFB8 /* CreateColumnConstraintDefinitions.swift */; };
+		8F2CB2312182208E00BA3A35 /* LongPressButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F391B7B1F967429002D3AFE /* LongPressButton.swift */; };
+		8F2CB2322182208E00BA3A35 /* GraphTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD4FEA21F8BFEF70008D8DA /* GraphTableView.swift */; };
+		8F2CB2332182208E00BA3A35 /* TableGraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD4FE9C1F8BFE310008D8DA /* TableGraphViewController.swift */; };
+		8F2CB2342182208E00BA3A35 /* CreateViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25216F1F855A2A00B438CC /* CreateViewViewController.swift */; };
+		8F2CB2352182208E00BA3A35 /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F74A7541F8721470069721E /* Query.swift */; };
+		8F2CB2362182208E00BA3A35 /* TableDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAF334C1FA2AAF6003ACFC7 /* TableDetailViewController.swift */; };
+		8F2CB2372182208E00BA3A35 /* ForeignKeyTableConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1621F7EA5990090FA53 /* ForeignKeyTableConstraint.swift */; };
+		8F2CB2382182208E00BA3A35 /* ResultsOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8338F61FBA009F000AFE09 /* ResultsOverviewViewController.swift */; };
+		8F2CB2392182208E00BA3A35 /* TableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F84D23A1F8A9B4900CF4B08 /* TableData.swift */; };
+		8F2CB23A2182208E00BA3A35 /* DestinationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA148E11F8D352900644638 /* DestinationView.swift */; };
+		8F2CB23B2182208E00BA3A35 /* BrowseHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F84D2361F89AE4E00CF4B08 /* BrowseHeaderCell.swift */; };
+		8F2CB23C2182208E00BA3A35 /* Column.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F374B8E1F87DF9400BB4F63 /* Column.swift */; };
+		8F2CB23D2182208E00BA3A35 /* GraphViewsContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD4FE9E1F8BFE7E0008D8DA /* GraphViewsContainer.swift */; };
+		8F2CB23E2182208E00BA3A35 /* TableNumberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7D84321F8BA3810053137B /* TableNumberView.swift */; };
+		8F2CB23F2182208E00BA3A35 /* SideBarBrowseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F72E3A41F83E0D0006C88F5 /* SideBarBrowseViewController.swift */; };
+		8F2CB2402182208E00BA3A35 /* URLPathFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB7CC971FFBFE0100D5CDC0 /* URLPathFormatter.swift */; };
+		8F2CB2412182208E00BA3A35 /* DefaultColumnConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F921DBE1F7ECECB00464D27 /* DefaultColumnConstraint.swift */; };
+		8F2CB2422182208E00BA3A35 /* Index.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3C069A2164281C005BD88F /* Index.swift */; };
+		8F2CB2432182208E00BA3A35 /* CWCSVParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBE0F011FCE485600ABFD1E /* CWCSVParser.swift */; };
+		8F2CB2442182208E00BA3A35 /* CustomRowEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FE11ACB2049A1AE0086E53C /* CustomRowEditorViewController.swift */; };
+		8F2CB2452182208E00BA3A35 /* SQLiteTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F6273E11F85C291007055D9 /* SQLiteTextView.swift */; };
+		8F2CB2462182208E00BA3A35 /* ForeignKeyMatchStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1691F7EB66C0090FA53 /* ForeignKeyMatchStatement.swift */; };
+		8F2CB2472182208E00BA3A35 /* AttributedStringFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F51324D20504DE800E2A759 /* AttributedStringFormatter.swift */; };
+		8F2CB2482182208E00BA3A35 /* CreateTable.CreatePrimaryKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2A250921513ED500DADFB8 /* CreateTable.CreatePrimaryKey.swift */; };
+		8F2CB2492182208E00BA3A35 /* ExportViewController+XML.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565C31FB36EFB008FE038 /* ExportViewController+XML.swift */; };
+		8F2CB24A2182208E00BA3A35 /* ExportNodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565C21FB36EFB008FE038 /* ExportNodes.swift */; };
+		8F2CB24B2182208E00BA3A35 /* TriggerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3C06E92164442F005BD88F /* TriggerNode.swift */; };
+		8F2CB24C2182208E00BA3A35 /* LiftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2521721F855A3D00B438CC /* LiftViewController.swift */; };
+		8F2CB24D2182208E00BA3A35 /* ImportDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1BC6321FCF47C500128351 /* ImportDataViewController.swift */; };
+		8F2CB24E2182208E00BA3A35 /* ImportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEFD4C01F9F7B4200C6C75A /* ImportViewController.swift */; };
+		8F2CB24F2182208E00BA3A35 /* NSError+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F63DE191FBB237F008F2DA0 /* NSError+Additions.swift */; };
+		8F2CB2502182208E00BA3A35 /* ArrowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD4FEA01F8BFEDA0008D8DA /* ArrowView.swift */; };
+		8F2CB2512182208E00BA3A35 /* TextImportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBE0F031FCE491900ABFD1E /* TextImportViewController.swift */; };
+		8F2CB2522182208E00BA3A35 /* ForiegnKeyConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA148D71F8D038D00644638 /* ForiegnKeyConnection.swift */; };
+		8F2CB2532182208E00BA3A35 /* ColumnNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3C069F216430F7005BD88F /* ColumnNode.swift */; };
+		8F2CB2542182208E00BA3A35 /* SQLiteIndexParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F3C0698216423CD005BD88F /* SQLiteIndexParser.swift */; };
+		8F2CB2552182208E00BA3A35 /* TabControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4BECC71FB68B00003DAA5E /* TabControl.swift */; };
+		8F2CB2562182208E00BA3A35 /* JSONExportOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565BF1FB36EFB008FE038 /* JSONExportOptions.swift */; };
+		8F2CB2572182208E00BA3A35 /* IndexedColumn.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1501F7E7FA40090FA53 /* IndexedColumn.swift */; };
+		8F2CB2582182208E00BA3A35 /* SQLiteExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F44A8AF1FBDE16800FB652B /* SQLiteExpression.swift */; };
+		8F2CB2592182208E00BA3A35 /* ColumnConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F921DB81F7ECD4500464D27 /* ColumnConstraint.swift */; };
+		8F2CB25A2182208E00BA3A35 /* CheckColumnConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F921DC01F7ED0FB00464D27 /* CheckColumnConstraint.swift */; };
+		8F2CB25B2182208E00BA3A35 /* Data+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB3CB4C1F8BEFBA003D2D94 /* Data+Additions.swift */; };
+		8F2CB25C2182208E00BA3A35 /* LiftWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F11B7901F83D2A9008E19D7 /* LiftWindowController.swift */; };
+		8F2CB25D2182208E00BA3A35 /* CreateColumnDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2A24FD21506C5A00DADFB8 /* CreateColumnDefinition.swift */; };
+		8F2CB25E2182208E00BA3A35 /* PrimaryKeyColumnConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F805CCE1F7ED4240074FE6B /* PrimaryKeyColumnConstraint.swift */; };
+		8F2CB25F2182208E00BA3A35 /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCBA64F1F90EAC800B87DEA /* TableView.swift */; };
+		8F2CB2602182208E00BA3A35 /* SnippetTableCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4BECDB1FB793A1003DAA5E /* SnippetTableCellView.swift */; };
+		8F2CB2612182208E00BA3A35 /* TableDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C525C1F7D3A51004A91BC /* TableDefinition.swift */; };
+		8F2CB2622182208E00BA3A35 /* SQLiteError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F72E3AB1F83F415006C88F5 /* SQLiteError.swift */; };
+		8F2CB2632182208E00BA3A35 /* PassThroughScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1C4EFF1F9905D300DE12BF /* PassThroughScrollView.swift */; };
+		8F2CB2642182208E00BA3A35 /* SQLiteCreateTableParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F7C525A1F7D39F5004A91BC /* SQLiteCreateTableParser.swift */; };
+		8F2CB2652182208E00BA3A35 /* LiftDocumentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FEFD4C21F9F7FB000C6C75A /* LiftDocumentController.swift */; };
+		8F2CB2662182208E00BA3A35 /* TabCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4BECC41FB68AFF003DAA5E /* TabCell.swift */; };
+		8F2CB2672182208E00BA3A35 /* CreateTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F72E3B41F83FBE9006C88F5 /* CreateTableViewController.swift */; };
+		8F2CB2682182208E00BA3A35 /* String+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1561F7EA3C80090FA53 /* String+Additions.swift */; };
+		8F2CB2692182208E00BA3A35 /* CheckTableConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1601F7EA5690090FA53 /* CheckTableConstraint.swift */; };
+		8F2CB26A2182208E00BA3A35 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = 8F11B7991F83DC58008E19D7 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w -DSQLITE_ENABLE_FTS3 -DSQLITE_ENABLE_FTS3_PARENTHESIS"; }; };
+		8F2CB26B2182208E00BA3A35 /* ViewDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2521751F855B0800B438CC /* ViewDefinition.swift */; };
+		8F2CB26C2182208E00BA3A35 /* RowCountFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F84D24A1F8AFA5000CF4B08 /* RowCountFormatter.swift */; };
+		8F2CB26E2182208E00BA3A35 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FCA2AE0216053DB007A7D62 /* CloudKit.framework */; };
+		8F2CB26F2182208E00BA3A35 /* SwiftXLSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F11B7A51F83DDBE008E19D7 /* SwiftXLSX.framework */; };
+		8F2CB2702182208E00BA3A35 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FCA2ADE216053B4007A7D62 /* StoreKit.framework */; };
+		8F2CB2722182208E00BA3A35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F7C52321F7D39E5004A91BC /* Assets.xcassets */; };
+		8F2CB2732182208E00BA3A35 /* CreateItems.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F41AEFB2164DC1D00DE7414 /* CreateItems.storyboard */; };
+		8F2CB2742182208E00BA3A35 /* Icon1024-128@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F0D315D214ACCFD00ADE9F8 /* Icon1024-128@2x.png */; };
+		8F2CB2752182208E00BA3A35 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F7C52341F7D39E5004A91BC /* Main.storyboard */; };
+		8F2CB2762182208E00BA3A35 /* ImportExport.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F534CF4215BB8A2002FAA5F /* ImportExport.storyboard */; };
+		8F2CB2782182208E00BA3A35 /* SwiftXLSX.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8F11B7A51F83DDBE008E19D7 /* SwiftXLSX.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8F2CB27B2182208E00BA3A35 /* SQLitePreview.qlgenerator in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 8FB4D437214BF1E700BE8881 /* SQLitePreview.qlgenerator */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8F2CB283218221C400BA3A35 /* SupportLiftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2CB282218221C400BA3A35 /* SupportLiftViewController.swift */; };
+		8F2CB284218221C900BA3A35 /* SupportLiftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2CB282218221C400BA3A35 /* SupportLiftViewController.swift */; };
 		8F30777F1F87F26A005AFE4E /* BrowseViewNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F30777E1F87F26A005AFE4E /* BrowseViewNode.swift */; };
 		8F374B911F87DF9400BB4F63 /* Column.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F374B8E1F87DF9400BB4F63 /* Column.swift */; };
 		8F374B921F87DF9400BB4F63 /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F374B901F87DF9400BB4F63 /* Table.swift */; };
@@ -220,6 +402,13 @@
 			remoteGlobalIDString = 8FF9E83E1EB3A5B3003B2DB0;
 			remoteInfo = SwiftXLSX;
 		};
+		8F2CB1C12182208E00BA3A35 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8F11B79E1F83DDBE008E19D7 /* SwiftXLSX.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8FF9E83E1EB3A5B3003B2DB0;
+			remoteInfo = SwiftXLSX;
+		};
 		8F7C523E1F7D39E5004A91BC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8F7C52211F7D39E4004A91BC /* Project object */;
@@ -246,6 +435,28 @@
 				8F11B7A91F83DDEE008E19D7 /* SwiftXLSX.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8F2CB2772182208E00BA3A35 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				8F2CB2782182208E00BA3A35 /* SwiftXLSX.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8F2CB27A2182208E00BA3A35 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Library/QuickLook;
+			dstSubfolderSpec = 1;
+			files = (
+				8F2CB27B2182208E00BA3A35 /* SQLitePreview.qlgenerator in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		8FB4D431214BF11700BE8881 /* Embed App Extensions */ = {
@@ -286,6 +497,9 @@
 		8F2A250921513ED500DADFB8 /* CreateTable.CreatePrimaryKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTable.CreatePrimaryKey.swift; sourceTree = "<group>"; };
 		8F2A250B21513F1A00DADFB8 /* CreateTable.CreateIndexedColumn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTable.CreateIndexedColumn.swift; sourceTree = "<group>"; };
 		8F2A250D2151414E00DADFB8 /* CreateTable.CreateUniqueTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTable.CreateUniqueTable.swift; sourceTree = "<group>"; };
+		8F2CB27F2182208E00BA3A35 /* Lift Free.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lift Free.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F2CB2802182208F00BA3A35 /* Lift copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Lift copy-Info.plist"; path = "/Users/carl8382/Projects/Random projects/Lift/Lift copy-Info.plist"; sourceTree = "<absolute>"; };
+		8F2CB282218221C400BA3A35 /* SupportLiftViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportLiftViewController.swift; sourceTree = "<group>"; };
 		8F30777E1F87F26A005AFE4E /* BrowseViewNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseViewNode.swift; sourceTree = "<group>"; };
 		8F374B8E1F87DF9400BB4F63 /* Column.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Column.swift; sourceTree = "<group>"; };
 		8F374B901F87DF9400BB4F63 /* Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
@@ -465,6 +679,16 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		8F2CB26D2182208E00BA3A35 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F2CB26E2182208E00BA3A35 /* CloudKit.framework in Frameworks */,
+				8F2CB26F2182208E00BA3A35 /* SwiftXLSX.framework in Frameworks */,
+				8F2CB2702182208E00BA3A35 /* StoreKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8F7C52261F7D39E4004A91BC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -814,6 +1038,7 @@
 				8FB4D438214BF1E800BE8881 /* SQLitePreview */,
 				8F0D3164214AD05500ADE9F8 /* Frameworks */,
 				8F7C522A1F7D39E4004A91BC /* Products */,
+				8F2CB2802182208F00BA3A35 /* Lift copy-Info.plist */,
 			);
 			sourceTree = "<group>";
 		};
@@ -824,6 +1049,7 @@
 				8F7C523D1F7D39E5004A91BC /* LiftTests.xctest */,
 				8F7C52481F7D39E5004A91BC /* LiftUITests.xctest */,
 				8FB4D437214BF1E700BE8881 /* SQLitePreview.qlgenerator */,
+				8F2CB27F2182208E00BA3A35 /* Lift Free.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -940,6 +1166,7 @@
 			children = (
 				8F9114A11FF84A6C000B6D6A /* WelcomeViewController.swift */,
 				8FB7CC971FFBFE0100D5CDC0 /* URLPathFormatter.swift */,
+				8F2CB282218221C400BA3A35 /* SupportLiftViewController.swift */,
 			);
 			path = "Welcome Screen";
 			sourceTree = "<group>";
@@ -1104,6 +1331,27 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		8F2CB1BF2182208E00BA3A35 /* Lift Free */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8F2CB27C2182208E00BA3A35 /* Build configuration list for PBXNativeTarget "Lift Free" */;
+			buildPhases = (
+				8F2CB1C22182208E00BA3A35 /* Sources */,
+				8F2CB26D2182208E00BA3A35 /* Frameworks */,
+				8F2CB2712182208E00BA3A35 /* Resources */,
+				8F2CB2772182208E00BA3A35 /* Embed Frameworks */,
+				8F2CB2792182208E00BA3A35 /* ShellScript */,
+				8F2CB27A2182208E00BA3A35 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8F2CB1C02182208E00BA3A35 /* PBXTargetDependency */,
+			);
+			name = "Lift Free";
+			productName = Lift;
+			productReference = 8F2CB27F2182208E00BA3A35 /* Lift Free.app */;
+			productType = "com.apple.product-type.application";
+		};
 		8F7C52281F7D39E4004A91BC /* Lift */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8F7C52511F7D39E5004A91BC /* Build configuration list for PBXNativeTarget "Lift" */;
@@ -1190,6 +1438,9 @@
 				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = "Datum Apps";
 				TargetAttributes = {
+					8F2CB1BF2182208E00BA3A35 = {
+						ProvisioningStyle = Automatic;
+					};
 					8F7C52281F7D39E4004A91BC = {
 						CreatedOnToolsVersion = 9.0;
 						LastSwiftMigration = 1000;
@@ -1250,6 +1501,7 @@
 				8F7C523C1F7D39E5004A91BC /* LiftTests */,
 				8F7C52471F7D39E5004A91BC /* LiftUITests */,
 				8FB4D436214BF1E700BE8881 /* SQLitePreview */,
+				8F2CB1BF2182208E00BA3A35 /* Lift Free */,
 			);
 		};
 /* End PBXProject section */
@@ -1272,6 +1524,18 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		8F2CB2712182208E00BA3A35 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F2CB2722182208E00BA3A35 /* Assets.xcassets in Resources */,
+				8F2CB2732182208E00BA3A35 /* CreateItems.storyboard in Resources */,
+				8F2CB2742182208E00BA3A35 /* Icon1024-128@2x.png in Resources */,
+				8F2CB2752182208E00BA3A35 /* Main.storyboard in Resources */,
+				8F2CB2762182208E00BA3A35 /* ImportExport.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8F7C52271F7D39E4004A91BC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1308,6 +1572,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		8F2CB2792182208E00BA3A35 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint --path Lift\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
 		8F975C9820768B3D00667844 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1324,6 +1601,184 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		8F2CB1C22182208E00BA3A35 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8F2CB1C32182208E00BA3A35 /* DatabaseDetailsViewController.swift in Sources */,
+				8F2CB1C42182208E00BA3A35 /* ForeignKeyActionStatement.swift in Sources */,
+				8F2CB1C52182208E00BA3A35 /* CustomTableViewHeaderView.swift in Sources */,
+				8F2CB1C62182208E00BA3A35 /* SQLiteDocumentPresenter.swift in Sources */,
+				8F2CB1C72182208E00BA3A35 /* CSVExportOptions.swift in Sources */,
+				8F2CB1C82182208E00BA3A35 /* EditIndexViewController.swift in Sources */,
+				8F2CB1C92182208E00BA3A35 /* SQLiteExportOptions.swift in Sources */,
+				8F2CB1CA2182208E00BA3A35 /* WaitingOperationViewController.swift in Sources */,
+				8F2CB1CB2182208E00BA3A35 /* DataProvider.swift in Sources */,
+				8F2CB1CC2182208E00BA3A35 /* TabButton.swift in Sources */,
+				8F2CB1CD2182208E00BA3A35 /* PrimaryKeyTableConstraint.swift in Sources */,
+				8F2CB1CE2182208E00BA3A35 /* ForeignKeyColumnConstraint.swift in Sources */,
+				8F2CB1CF2182208E00BA3A35 /* CreateSimpleColumnViewController.swift in Sources */,
+				8F2CB1D02182208E00BA3A35 /* CompletionPanel.swift in Sources */,
+				8F2CB1D12182208E00BA3A35 /* StatementWaitingViewController.swift in Sources */,
+				8F2CB1D22182208E00BA3A35 /* ColumnDefinition.swift in Sources */,
+				8F2CB1D32182208E00BA3A35 /* TableChildNode.swift in Sources */,
+				8F2CB1D42182208E00BA3A35 /* ResultsTableViewController.swift in Sources */,
+				8F2CB1D52182208E00BA3A35 /* HeaderViewNode.swift in Sources */,
+				8F2CB1D62182208E00BA3A35 /* AttachDatabaseViewController.swift in Sources */,
+				8F2CB1D72182208E00BA3A35 /* NSTabView+Additions.swift in Sources */,
+				8F2CB1D82182208E00BA3A35 /* QueryViewController.swift in Sources */,
+				8F2CB1D92182208E00BA3A35 /* NewRowValueTypeConversion.swift in Sources */,
+				8F2CB1DA2182208E00BA3A35 /* Database+Dump.swift in Sources */,
+				8F2CB1DB2182208E00BA3A35 /* Result.swift in Sources */,
+				8F2CB1DC2182208E00BA3A35 /* NSImage+Additions.swift in Sources */,
+				8F2CB1DD2182208E00BA3A35 /* NSTreeController+Additions.swift in Sources */,
+				8F2CB1DE2182208E00BA3A35 /* TableViewNode.swift in Sources */,
+				8F2CB1DF2182208E00BA3A35 /* ExportViewController+sqlite.swift in Sources */,
+				8F2CB1E02182208E00BA3A35 /* HiddenBackgroundSegmentedControl.swift in Sources */,
+				8F2CB1E12182208E00BA3A35 /* SnippetEditorViewController.swift in Sources */,
+				8F2CB1E22182208E00BA3A35 /* UniqueTableConstraint.swift in Sources */,
+				8F2CB1E32182208E00BA3A35 /* GroupViewNode.swift in Sources */,
+				8F2CB1E42182208E00BA3A35 /* XMLExportOptions.swift in Sources */,
+				8F2CB1E52182208E00BA3A35 /* SQLiteName.swift in Sources */,
+				8F2CB1E62182208E00BA3A35 /* SQLiteStringValueFormatter.swift in Sources */,
+				8F2CB1E72182208E00BA3A35 /* Database+Options.swift in Sources */,
+				8F2CB1E82182208E00BA3A35 /* LineNumberScrollView.swift in Sources */,
+				8F2CB1E92182208E00BA3A35 /* JumpToRowViewController.swift in Sources */,
+				8F2CB1EA2182208E00BA3A35 /* LiftSplitViewController.swift in Sources */,
+				8F2CB1EB2182208E00BA3A35 /* ProgressViewController.swift in Sources */,
+				8F2CB1EC2182208E00BA3A35 /* SQLiteData.swift in Sources */,
+				8F2CB1ED2182208E00BA3A35 /* LiftMainEditorTabViewController.swift in Sources */,
+				8F2CB1EE2182208E00BA3A35 /* SQLite3ConfigHelper.m in Sources */,
+				8F2CB1EF2182208E00BA3A35 /* View.swift in Sources */,
+				8F2CB1F02182208E00BA3A35 /* Trigger.swift in Sources */,
+				8F2CB1F12182208E00BA3A35 /* CollateColumnConstraint.swift in Sources */,
+				8F2CB1F22182208E00BA3A35 /* BrowseViewNode.swift in Sources */,
+				8F2CB1F32182208E00BA3A35 /* DatabaseViewNode.swift in Sources */,
+				8F2CB1F42182208E00BA3A35 /* ConflictColumnConstraint.swift in Sources */,
+				8F2CB1F52182208E00BA3A35 /* SimpleCreateColumnView.swift in Sources */,
+				8F2CB1F62182208E00BA3A35 /* TablePredicateViewController.swift in Sources */,
+				8F2CB1F72182208E00BA3A35 /* TableConstraint.swift in Sources */,
+				8F2CB1F82182208E00BA3A35 /* LiftMainSplitViewController.swift in Sources */,
+				8F2CB1F92182208E00BA3A35 /* EditRowData.swift in Sources */,
+				8F2CB1FA2182208E00BA3A35 /* CreateTableDefinition.swift in Sources */,
+				8F2CB1FB2182208E00BA3A35 /* ExportViewController+JSON.swift in Sources */,
+				8F2CB1FC2182208E00BA3A35 /* XMLElement+Additions.swift in Sources */,
+				8F2CB1FD2182208E00BA3A35 /* SQLiteCreateViewParser.swift in Sources */,
+				8F2CB1FE2182208E00BA3A35 /* ImportType.swift in Sources */,
+				8F2CB1FF2182208E00BA3A35 /* SideBarDetailsViewController.swift in Sources */,
+				8F2CB2002182208E00BA3A35 /* CGPoint+Additions.swift in Sources */,
+				8F2CB2012182208E00BA3A35 /* CreateTable.CreateTableConstraintDefinitions.swift in Sources */,
+				8F2CB2022182208E00BA3A35 /* BrowseCellView.swift in Sources */,
+				8F2CB2032182208E00BA3A35 /* InsertionOption.swift in Sources */,
+				8F2CB2042182208E00BA3A35 /* QueryResult.swift in Sources */,
+				8F2CB2052182208E00BA3A35 /* CreateTable.CreateIndexedColumn.swift in Sources */,
+				8F2CB2062182208E00BA3A35 /* IndexedTableConstraint.swift in Sources */,
+				8F2CB2072182208E00BA3A35 /* Statement.swift in Sources */,
+				8F2CB2082182208E00BA3A35 /* SnippetViewController.swift in Sources */,
+				8F2CB2092182208E00BA3A35 /* NotNullColumnConstraint.swift in Sources */,
+				8F2CB20A2182208E00BA3A35 /* TableScrollView.swift in Sources */,
+				8F2CB20B2182208E00BA3A35 /* ExportViewController.swift in Sources */,
+				8F2CB20C2182208E00BA3A35 /* SideBarDetailCell.swift in Sources */,
+				8F2CB20D2182208E00BA3A35 /* LiftMainViewController.swift in Sources */,
+				8F2CB20E2182208E00BA3A35 /* Database.swift in Sources */,
+				8F2CB20F2182208E00BA3A35 /* QueryResultsViewController.swift in Sources */,
+				8F2CB2102182208E00BA3A35 /* WelcomeViewController.swift in Sources */,
+				8F2CB2112182208E00BA3A35 /* BottomEditorContainer.swift in Sources */,
+				8F2CB2122182208E00BA3A35 /* NewRowValue.swift in Sources */,
+				8F2CB2132182208E00BA3A35 /* TableDataViewController.swift in Sources */,
+				8F2CB2142182208E00BA3A35 /* TableViewCell.swift in Sources */,
+				8F2CB2152182208E00BA3A35 /* XLSXExportOptions.swift in Sources */,
+				8F2CB2162182208E00BA3A35 /* ForeignKeyClause.swift in Sources */,
+				8F2CB2172182208E00BA3A35 /* Snippet.swift in Sources */,
+				8F2CB2182182208E00BA3A35 /* CreateIndexedColumnViewController.swift in Sources */,
+				8F2CB2192182208E00BA3A35 /* Writer.swift in Sources */,
+				8F2CB21A2182208E00BA3A35 /* ExportViewController+xlsx.swift in Sources */,
+				8F2CB21B2182208E00BA3A35 /* SnippetManager.swift in Sources */,
+				8F2CB21C2182208E00BA3A35 /* PassthroughView.swift in Sources */,
+				8F2CB21D2182208E00BA3A35 /* UpdateOption.swift in Sources */,
+				8F2CB21E2182208E00BA3A35 /* Table.swift in Sources */,
+				8F2CB21F2182208E00BA3A35 /* AppDelegate.swift in Sources */,
+				8F2CB2202182208E00BA3A35 /* EditTriggerViewController.swift in Sources */,
+				8F2CB2212182208E00BA3A35 /* IndexNode.swift in Sources */,
+				8F2CB2222182208E00BA3A35 /* ExportViewController+csv.swift in Sources */,
+				8F2CB2232182208E00BA3A35 /* DetachDatabaseViewController.swift in Sources */,
+				8F2CB2242182208E00BA3A35 /* LiftDocument.swift in Sources */,
+				8F2CB2252182208E00BA3A35 /* LineNumberView.swift in Sources */,
+				8F2CB2262182208E00BA3A35 /* SQLiteSyntaxHighlighter.swift in Sources */,
+				8F2CB2272182208E00BA3A35 /* ExportDataViewController.swift in Sources */,
+				8F2CB2282182208E00BA3A35 /* UniqueColumnConstraint.swift in Sources */,
+				8F2CB2292182208E00BA3A35 /* TriggerParser.swift in Sources */,
+				8F2CB22A2182208E00BA3A35 /* ExportOptions.swift in Sources */,
+				8F2CB22B2182208E00BA3A35 /* RowData.swift in Sources */,
+				8F2CB22C2182208E00BA3A35 /* LogViewController.swift in Sources */,
+				8F2CB22D2182208E00BA3A35 /* ForeignKeyDeferStatement.swift in Sources */,
+				8F2CB22E2182208E00BA3A35 /* CreateTable.CreateUniqueTable.swift in Sources */,
+				8F2CB22F2182208E00BA3A35 /* ConflictClause.swift in Sources */,
+				8F2CB2302182208E00BA3A35 /* CreateColumnConstraintDefinitions.swift in Sources */,
+				8F2CB2312182208E00BA3A35 /* LongPressButton.swift in Sources */,
+				8F2CB2322182208E00BA3A35 /* GraphTableView.swift in Sources */,
+				8F2CB2332182208E00BA3A35 /* TableGraphViewController.swift in Sources */,
+				8F2CB2342182208E00BA3A35 /* CreateViewViewController.swift in Sources */,
+				8F2CB2352182208E00BA3A35 /* Query.swift in Sources */,
+				8F2CB2362182208E00BA3A35 /* TableDetailViewController.swift in Sources */,
+				8F2CB2372182208E00BA3A35 /* ForeignKeyTableConstraint.swift in Sources */,
+				8F2CB2382182208E00BA3A35 /* ResultsOverviewViewController.swift in Sources */,
+				8F2CB2392182208E00BA3A35 /* TableData.swift in Sources */,
+				8F2CB23A2182208E00BA3A35 /* DestinationView.swift in Sources */,
+				8F2CB23B2182208E00BA3A35 /* BrowseHeaderCell.swift in Sources */,
+				8F2CB23C2182208E00BA3A35 /* Column.swift in Sources */,
+				8F2CB23D2182208E00BA3A35 /* GraphViewsContainer.swift in Sources */,
+				8F2CB23E2182208E00BA3A35 /* TableNumberView.swift in Sources */,
+				8F2CB23F2182208E00BA3A35 /* SideBarBrowseViewController.swift in Sources */,
+				8F2CB2402182208E00BA3A35 /* URLPathFormatter.swift in Sources */,
+				8F2CB2412182208E00BA3A35 /* DefaultColumnConstraint.swift in Sources */,
+				8F2CB2422182208E00BA3A35 /* Index.swift in Sources */,
+				8F2CB2432182208E00BA3A35 /* CWCSVParser.swift in Sources */,
+				8F2CB2442182208E00BA3A35 /* CustomRowEditorViewController.swift in Sources */,
+				8F2CB2452182208E00BA3A35 /* SQLiteTextView.swift in Sources */,
+				8F2CB2462182208E00BA3A35 /* ForeignKeyMatchStatement.swift in Sources */,
+				8F2CB2472182208E00BA3A35 /* AttributedStringFormatter.swift in Sources */,
+				8F2CB2482182208E00BA3A35 /* CreateTable.CreatePrimaryKey.swift in Sources */,
+				8F2CB2492182208E00BA3A35 /* ExportViewController+XML.swift in Sources */,
+				8F2CB24A2182208E00BA3A35 /* ExportNodes.swift in Sources */,
+				8F2CB24B2182208E00BA3A35 /* TriggerNode.swift in Sources */,
+				8F2CB24C2182208E00BA3A35 /* LiftViewController.swift in Sources */,
+				8F2CB24D2182208E00BA3A35 /* ImportDataViewController.swift in Sources */,
+				8F2CB24E2182208E00BA3A35 /* ImportViewController.swift in Sources */,
+				8F2CB24F2182208E00BA3A35 /* NSError+Additions.swift in Sources */,
+				8F2CB2502182208E00BA3A35 /* ArrowView.swift in Sources */,
+				8F2CB283218221C400BA3A35 /* SupportLiftViewController.swift in Sources */,
+				8F2CB2512182208E00BA3A35 /* TextImportViewController.swift in Sources */,
+				8F2CB2522182208E00BA3A35 /* ForiegnKeyConnection.swift in Sources */,
+				8F2CB2532182208E00BA3A35 /* ColumnNode.swift in Sources */,
+				8F2CB2542182208E00BA3A35 /* SQLiteIndexParser.swift in Sources */,
+				8F2CB2552182208E00BA3A35 /* TabControl.swift in Sources */,
+				8F2CB2562182208E00BA3A35 /* JSONExportOptions.swift in Sources */,
+				8F2CB2572182208E00BA3A35 /* IndexedColumn.swift in Sources */,
+				8F2CB2582182208E00BA3A35 /* SQLiteExpression.swift in Sources */,
+				8F2CB2592182208E00BA3A35 /* ColumnConstraint.swift in Sources */,
+				8F2CB25A2182208E00BA3A35 /* CheckColumnConstraint.swift in Sources */,
+				8F2CB25B2182208E00BA3A35 /* Data+Additions.swift in Sources */,
+				8F2CB25C2182208E00BA3A35 /* LiftWindowController.swift in Sources */,
+				8F2CB25D2182208E00BA3A35 /* CreateColumnDefinition.swift in Sources */,
+				8F2CB25E2182208E00BA3A35 /* PrimaryKeyColumnConstraint.swift in Sources */,
+				8F2CB25F2182208E00BA3A35 /* TableView.swift in Sources */,
+				8F2CB2602182208E00BA3A35 /* SnippetTableCellView.swift in Sources */,
+				8F2CB2612182208E00BA3A35 /* TableDefinition.swift in Sources */,
+				8F2CB2622182208E00BA3A35 /* SQLiteError.swift in Sources */,
+				8F2CB2632182208E00BA3A35 /* PassThroughScrollView.swift in Sources */,
+				8F2CB2642182208E00BA3A35 /* SQLiteCreateTableParser.swift in Sources */,
+				8F2CB2652182208E00BA3A35 /* LiftDocumentController.swift in Sources */,
+				8F2CB2662182208E00BA3A35 /* TabCell.swift in Sources */,
+				8F2CB2672182208E00BA3A35 /* CreateTableViewController.swift in Sources */,
+				8F2CB2682182208E00BA3A35 /* String+Additions.swift in Sources */,
+				8F2CB2692182208E00BA3A35 /* CheckTableConstraint.swift in Sources */,
+				8F2CB26A2182208E00BA3A35 /* sqlite3.c in Sources */,
+				8F2CB26B2182208E00BA3A35 /* ViewDefinition.swift in Sources */,
+				8F2CB26C2182208E00BA3A35 /* RowCountFormatter.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8F7C52251F7D39E4004A91BC /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1470,6 +1925,7 @@
 				8FEFD4C11F9F7B4200C6C75A /* ImportViewController.swift in Sources */,
 				8F63DE1A1FBB237F008F2DA0 /* NSError+Additions.swift in Sources */,
 				8FD4FEA11F8BFEDA0008D8DA /* ArrowView.swift in Sources */,
+				8F2CB284218221C900BA3A35 /* SupportLiftViewController.swift in Sources */,
 				8FBE0F041FCE491900ABFD1E /* TextImportViewController.swift in Sources */,
 				8FA148D81F8D038D00644638 /* ForiegnKeyConnection.swift in Sources */,
 				8F3C06A0216430F7005BD88F /* ColumnNode.swift in Sources */,
@@ -1538,6 +1994,11 @@
 			name = SwiftXLSX;
 			targetProxy = 8F11B7AA1F83DDEE008E19D7 /* PBXContainerItemProxy */;
 		};
+		8F2CB1C02182208E00BA3A35 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SwiftXLSX;
+			targetProxy = 8F2CB1C12182208E00BA3A35 /* PBXContainerItemProxy */;
+		};
 		8F7C523F1F7D39E5004A91BC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8F7C52281F7D39E4004A91BC /* Lift */;
@@ -1562,6 +2023,51 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		8F2CB27D2182208E00BA3A35 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Lift/Lift.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = QV4QS82KBT;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = "Lift copy-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				OTHER_SWIFT_FLAGS = "-DFREE";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.datumapps.Lift-Free";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Lift/Lift-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		8F2CB27E2182208E00BA3A35 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = Lift/Lift.entitlements;
+				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = QV4QS82KBT;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = "Lift copy-Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				OTHER_SWIFT_FLAGS = "-DFREE";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.datumapps.Lift-Free";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Lift/Lift-Bridging-Header.h";
+			};
+			name = Release;
+		};
 		8F7C524F1F7D39E5004A91BC /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1820,6 +2326,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8F2CB27C2182208E00BA3A35 /* Build configuration list for PBXNativeTarget "Lift Free" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8F2CB27D2182208E00BA3A35 /* Debug */,
+				8F2CB27E2182208E00BA3A35 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		8F7C52241F7D39E4004A91BC /* Build configuration list for PBXProject "Lift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

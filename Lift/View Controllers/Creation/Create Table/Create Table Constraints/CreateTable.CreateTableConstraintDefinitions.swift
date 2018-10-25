@@ -20,7 +20,7 @@ class CreateTableConstraintDefinitions: NSObject {
 
     @objc public var primaryKey: CreatePrimaryKey?
 
-    @objc public var unique: CreateUnique?
+    @objc public var uniques = [CreateUnique]()
 
     init(table: CreateTableDefinition) {
         existingDefinitions = []
@@ -33,6 +33,11 @@ class CreateTableConstraintDefinitions: NSObject {
         if let pk = existingDefinitions.compactMap({ $0 as? PrimaryKeyTableConstraint}).first {
             primaryKey = CreatePrimaryKey(existing: pk, in: table)
         }
+
+        let uniques = existingDefinitions.compactMap({ $0 as? UniqueTableConstraint})
+        for unique in uniques {
+            self.uniques.append(CreateUnique(existing: unique, in: table))
+        }
     }
 
     var constraints: [TableConstraint] {
@@ -42,7 +47,7 @@ class CreateTableConstraintDefinitions: NSObject {
             constraints.append(primary.toDefinition)
         }
 
-        if let unique = unique {
+        for unique in uniques {
             constraints.append(unique.toDefinition)
         }
 

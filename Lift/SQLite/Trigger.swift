@@ -14,7 +14,7 @@ class Trigger: NSObject {
 
     @objc dynamic let name: String
     let parsedTrigger: TriggerParser.Trigger?
-    let sql: String
+    let sql: String?
 
     init(database: Database, data: [SQLiteData], connection: sqlite3) {
         self.database = database
@@ -28,7 +28,7 @@ class Trigger: NSObject {
             }
             self.sql = sql
         } else {
-            sql = "NO SQL"
+            sql = nil
             parsedTrigger = nil
         }
 

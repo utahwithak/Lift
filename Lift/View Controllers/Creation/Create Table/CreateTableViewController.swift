@@ -57,7 +57,13 @@ class CreateTableViewController: LiftViewController {
     }
 
     @IBAction func doubleAction(_ sender: Any?) {
-        performSegue(withIdentifier: "showSimpleColumn", sender: sender)
+        performSegue(withIdentifier: "showSimpleColumn", sender: nil)
+    }
+
+    @IBAction func showCreateColumn(_ sender: Any) {
+        tableView.deselectAll(nil)
+        performSegue(withIdentifier: "showSimpleColumn", sender: nil)
+
     }
 
     @IBAction func doAction(_ sender: NSButton) {

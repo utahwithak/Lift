@@ -43,7 +43,7 @@
         }
       ],
       "color" : {
-        "reference" : "unemphasizedSelectedContentBackgroundColor"
+        "reference" : "windowBackgroundColor"
       }
     }
   ]

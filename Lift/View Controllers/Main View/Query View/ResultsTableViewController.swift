@@ -26,6 +26,7 @@ class ResultsTableViewController: NSViewController {
             let newColumn = NSTableColumn(identifier: identifier)
             newColumn.title = name
             newColumn.width = 150
+            newColumn.minWidth = 150
             tableView.addTableColumn(newColumn)
         }
 

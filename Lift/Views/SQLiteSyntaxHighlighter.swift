@@ -41,23 +41,23 @@ class SQLiteSyntaxHighlighter {
     // Colors
     public var commandsColor: [NSAttributedString.Key: NSColor] = [.foregroundColor: NSColor(calibratedRed: 0.031, green: 0.0, blue: 0.855, alpha: 1.0)]
 
-    public var commentsColor: [NSAttributedString.Key: NSColor]  = [.foregroundColor: NSColor(calibratedRed: 0.0, green: 0.45, blue: 0.0, alpha: 1.0)]
+    public var commentsColor: [NSAttributedString.Key: NSColor] = [.foregroundColor: NSColor(calibratedRed: 0.0, green: 0.45, blue: 0.0, alpha: 1.0)]
 
-    public var instructionsColor: [NSAttributedString.Key: NSColor]  = [.foregroundColor: NSColor(calibratedRed: 0.45, green: 0.45, blue: 0.45, alpha: 1.0)]
+    public var instructionsColor: [NSAttributedString.Key: NSColor] = [.foregroundColor: NSColor(calibratedRed: 0.45, green: 0.45, blue: 0.45, alpha: 1.0)]
 
-    public var keywordsColor: [NSAttributedString.Key: NSColor]  = [.foregroundColor: NSColor(calibratedRed: 0.737, green: 0.0, blue: 0.647, alpha: 1.0)]
+    public var keywordsColor: [NSAttributedString.Key: NSColor] = [.foregroundColor: NSColor(calibratedRed: 0.737, green: 0.0, blue: 0.647, alpha: 1.0)]
 
-    public var autocompleteWordsColor: [NSAttributedString.Key: NSColor]  = [.foregroundColor: NSColor(calibratedRed: 0.84, green: 0.41, blue: 0.006, alpha: 1.0)]
+    public var autocompleteWordsColor: [NSAttributedString.Key: NSColor] = [.foregroundColor: NSColor(calibratedRed: 0.84, green: 0.41, blue: 0.006, alpha: 1.0)]
 
-    public var stringsColor: [NSAttributedString.Key: NSColor]  = [.foregroundColor: NSColor(calibratedRed: 0.804, green: 0.071, blue: 0.153, alpha: 1.0)]
+    public var stringsColor: [NSAttributedString.Key: NSColor] = [.foregroundColor: NSColor(calibratedRed: 0.804, green: 0.071, blue: 0.153, alpha: 1.0)]
 
-    public var variablesColor: [NSAttributedString.Key: NSColor]  = [.foregroundColor: NSColor(calibratedRed: 0.73, green: 0.0, blue: 0.74, alpha: 1.0)]
+    public var variablesColor: [NSAttributedString.Key: NSColor] = [.foregroundColor: NSColor(calibratedRed: 0.73, green: 0.0, blue: 0.74, alpha: 1.0)]
 
-    public var attributesColor: [NSAttributedString.Key: NSColor]  = [.foregroundColor: NSColor(calibratedRed: 0.50, green: 0.5, blue: 0.2, alpha: 1.0)]
+    public var attributesColor: [NSAttributedString.Key: NSColor] = [.foregroundColor: NSColor(calibratedRed: 0.50, green: 0.5, blue: 0.2, alpha: 1.0)]
 
-    public var lineHighlightColor: [NSAttributedString.Key: NSColor]  = [.backgroundColor: NSColor(calibratedRed: 0.96, green: 0.96, blue: 0.71, alpha: 1.0)]
+    public var lineHighlightColor: [NSAttributedString.Key: NSColor] = [.backgroundColor: NSColor(calibratedRed: 0.96, green: 0.96, blue: 0.71, alpha: 1.0)]
 
-    public var numbersColor: [NSAttributedString.Key: NSColor]  = [.foregroundColor: NSColor(named:"numberColor")!]
+    public var numbersColor: [NSAttributedString.Key: NSColor] = [.foregroundColor: NSColor(named: "numberColor")!]
 
     private var layoutManager: NSLayoutManager?
 

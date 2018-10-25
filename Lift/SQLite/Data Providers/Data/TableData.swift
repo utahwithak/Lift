@@ -165,7 +165,7 @@ final class TableData: NSObject {
         if smartPaging {
             var builder = baseQuery
 
-            if lastValues != nil {
+            if let lastValues = lastValues, !lastValues.isEmpty {
                 builder += " WHERE (\(sortColumns)) > (\(argString))"
             }
 
@@ -333,7 +333,7 @@ final class TableData: NSObject {
         print("Load next page")
         do {
             let query = try Query(connection: provider.connection, query: buildNextQuery())
-            if let args = lastValues {
+            if let args = lastValues, !args.isEmpty {
                 try query.bindArguments(args)
             }
             query.loadInBackground { [weak self] result in
@@ -572,7 +572,7 @@ final class TableData: NSObject {
     }
 
     func addDefaultValues() throws -> Bool {
-        guard let table = provider as? Table else {
+        guard let table = provider as? Table, table.isEditable else {
             return false
         }
 

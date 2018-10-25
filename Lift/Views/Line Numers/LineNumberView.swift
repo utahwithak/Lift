@@ -176,11 +176,15 @@ class LineNumberView: NSRulerView {
 
     func drawBackground() {
         let bounds = self.bounds
-
         NSColor(named: "sidebarBackground")?.set()
 
-        __NSRectFill(bounds)
-        NSColor(calibratedWhite: 0.58, alpha: 1).set()
+        bounds.fill()
+
+        if #available(OSX 10.14, *) {
+            NSColor.separatorColor.set()
+        } else {
+            NSColor(calibratedWhite: 0.58, alpha: 1).set()
+        }
         NSBezierPath.strokeLine(from: NSPoint(x: bounds.maxX - 0.5, y: bounds.minY), to: NSPoint(x: bounds.maxX - 0.5, y: bounds.maxY))
 
     }
