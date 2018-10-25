@@ -18,6 +18,7 @@
 		8F178CA11FA0DB790057387A /* JumpToRowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F178CA01FA0DB790057387A /* JumpToRowViewController.swift */; };
 		8F1BC6331FCF47C500128351 /* ImportDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1BC6321FCF47C500128351 /* ImportDataViewController.swift */; };
 		8F1C4F001F9905D300DE12BF /* PassThroughScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1C4EFF1F9905D300DE12BF /* PassThroughScrollView.swift */; };
+		8F2096F321813E03009ABC90 /* CreateSimpleColumnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2096F221813E03009ABC90 /* CreateSimpleColumnViewController.swift */; };
 		8F21ED892047372900A6AFA9 /* ViewParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F21ED882047372900A6AFA9 /* ViewParsingTests.swift */; };
 		8F2521701F855A2A00B438CC /* CreateViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25216F1F855A2A00B438CC /* CreateViewViewController.swift */; };
 		8F2521731F855A3D00B438CC /* LiftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2521721F855A3D00B438CC /* LiftViewController.swift */; };
@@ -274,6 +275,7 @@
 		8F178CA01FA0DB790057387A /* JumpToRowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JumpToRowViewController.swift; sourceTree = "<group>"; };
 		8F1BC6321FCF47C500128351 /* ImportDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportDataViewController.swift; sourceTree = "<group>"; };
 		8F1C4EFF1F9905D300DE12BF /* PassThroughScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassThroughScrollView.swift; sourceTree = "<group>"; };
+		8F2096F221813E03009ABC90 /* CreateSimpleColumnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSimpleColumnViewController.swift; sourceTree = "<group>"; };
 		8F21ED882047372900A6AFA9 /* ViewParsingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewParsingTests.swift; sourceTree = "<group>"; };
 		8F25216F1F855A2A00B438CC /* CreateViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateViewViewController.swift; sourceTree = "<group>"; };
 		8F2521721F855A3D00B438CC /* LiftViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiftViewController.swift; sourceTree = "<group>"; };
@@ -555,6 +557,7 @@
 		8F2521741F855AD900B438CC /* Creation */ = {
 			isa = PBXGroup;
 			children = (
+				8F41AEFB2164DC1D00DE7414 /* CreateItems.storyboard */,
 				8F5C1BE82167C27900B663E0 /* Edit Trigger */,
 				8F8F2158207287380048BE06 /* Create Table */,
 				8F25216F1F855A2A00B438CC /* CreateViewViewController.swift */,
@@ -830,7 +833,6 @@
 			children = (
 				8F7C522C1F7D39E5004A91BC /* AppDelegate.swift */,
 				8F7C52341F7D39E5004A91BC /* Main.storyboard */,
-				8F41AEFB2164DC1D00DE7414 /* CreateItems.storyboard */,
 				8F534CF4215BB8A2002FAA5F /* ImportExport.storyboard */,
 				8F7C52301F7D39E5004A91BC /* LiftDocument.swift */,
 				8F11B7901F83D2A9008E19D7 /* LiftWindowController.swift */,
@@ -903,6 +905,7 @@
 			isa = PBXGroup;
 			children = (
 				8F72E3B41F83FBE9006C88F5 /* CreateTableViewController.swift */,
+				8F2096F221813E03009ABC90 /* CreateSimpleColumnViewController.swift */,
 				8F96B9062150311E0029FDE7 /* CreateTableDefinition.swift */,
 				8F2A24FD21506C5A00DADFB8 /* CreateColumnDefinition.swift */,
 				8F2A2501215070EF00DADFB8 /* CreateColumnConstraintDefinitions.swift */,
@@ -1337,6 +1340,7 @@
 				8F4BECCA1FB68B00003DAA5E /* TabButton.swift in Sources */,
 				8FB9F15A1F7EA4D40090FA53 /* PrimaryKeyTableConstraint.swift in Sources */,
 				8F921DBB1F7ECD7100464D27 /* ForeignKeyColumnConstraint.swift in Sources */,
+				8F2096F321813E03009ABC90 /* CreateSimpleColumnViewController.swift in Sources */,
 				8FD7EB77214C024800325EA1 /* CompletionPanel.swift in Sources */,
 				8F4C40DA1F87B3CE003BF006 /* StatementWaitingViewController.swift in Sources */,
 				8FB9F14D1F7D72220090FA53 /* ColumnDefinition.swift in Sources */,

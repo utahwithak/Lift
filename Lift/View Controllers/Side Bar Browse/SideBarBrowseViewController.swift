@@ -116,11 +116,22 @@ class SideBarBrowseViewController: LiftViewController {
     }
 
     @IBAction func showCreateView(_ sender: Any?) {
-        performSegue(withIdentifier: "createView", sender: sender)
+        let storyboard = NSStoryboard(name: "CreateItems", bundle: .main)
+        guard let vc = storyboard.instantiateController(withIdentifier: "createViewViewController") as? LiftViewController else {
+            return
+        }
+        vc.representedObject = representedObject
+        presentAsSheet(vc)
     }
 
     @IBAction func showCreateTable(_ sender: Any?) {
-        performSegue(withIdentifier: "createTable", sender: sender)
+        let storyboard = NSStoryboard(name: "CreateItems", bundle: .main)
+        guard let vc = storyboard.instantiateController(withIdentifier: "createTableViewController") as? LiftViewController else {
+            return
+        }
+        vc.representedObject = representedObject
+        presentAsSheet(vc)
+
     }
 
     @IBAction func dropSelectedTable(_ sender: NSButton) {
@@ -467,8 +478,10 @@ extension SideBarBrowseViewController: NSMenuDelegate {
     }
 
     private func edit(provider: DataProvider) {
+        let storyboard = NSStoryboard(name: "CreateItems", bundle: .main)
+
         if let view = (provider as? View)?.definition {
-            guard let editController = storyboard?.instantiateController(withIdentifier: "createViewViewController") as? CreateViewViewController else {
+            guard let editController = storyboard.instantiateController(withIdentifier: "createViewViewController") as? CreateViewViewController else {
                 return
             }
             editController.dropQualifiedName = provider.qualifiedNameForQuery
@@ -476,7 +489,8 @@ extension SideBarBrowseViewController: NSMenuDelegate {
             editController.viewDefinition = view
             presentAsSheet(editController)
         } else if let tableDef = (provider as? Table)?.definition {
-            guard let editController = storyboard?.instantiateController(withIdentifier: "createTableViewController") as? CreateTableViewController else {
+
+            guard let editController = storyboard.instantiateController(withIdentifier: "createTableViewController") as? CreateTableViewController else {
                 return
             }
             editController.representedObject = representedObject

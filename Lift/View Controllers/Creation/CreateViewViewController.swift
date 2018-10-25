@@ -26,43 +26,48 @@ class CreateViewViewController: LiftViewController {
     }
     @IBOutlet weak var tableView: NSTableView!
 
-    override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
-        if let waitingView = segue.destinationController as? StatementWaitingViewController {
-            waitingView.delegate = self
-            let statement: OperationType
-            if let dropFirst = dropQualifiedName {
-                statement = .customCall({ () throws -> Bool in
-                    guard let db = self.document?.database else {
-                        return false
-                    }
-                    try db.beginSavepoint(named: "alterTable")
+    @IBAction func doAction(_ sender: NSButton) {
 
-                    defer {
-                        try? db.releaseSavepoint(named: "alterTable")
-                    }
-
-                    do {
-
-                        try db.execute(statement: "DROP VIEW \(dropFirst)")
-                        try db.execute(statement: self.viewDefinition.createStatement)
-                    } catch {
-                        try? db.rollbackSavepoint(named: "alterTable")
-                        try? db.releaseSavepoint(named: "alterTable")
-
-                        throw error
-
-                    }
-
-                    return true
-                })
-            } else {
-                statement = .statement(viewDefinition.createStatement)
-            }
-
-            waitingView.operation = statement
-            waitingView.representedObject = representedObject
-
+        let mainStoryboard = NSStoryboard(name: .main, bundle: .main)
+        guard let waitingView = mainStoryboard.instantiateController(withIdentifier: "statementWaitingView") as? StatementWaitingViewController else {
+            return
         }
+
+        waitingView.delegate = self
+        let statement: OperationType
+        if let dropFirst = dropQualifiedName {
+            statement = .customCall({ () throws -> Bool in
+                guard let db = self.document?.database else {
+                    return false
+                }
+                try db.beginSavepoint(named: "alterTable")
+
+                defer {
+                    try? db.releaseSavepoint(named: "alterTable")
+                }
+
+                do {
+
+                    try db.execute(statement: "DROP VIEW \(dropFirst)")
+                    try db.execute(statement: self.viewDefinition.createStatement)
+                } catch {
+                    try? db.rollbackSavepoint(named: "alterTable")
+                    try? db.releaseSavepoint(named: "alterTable")
+
+                    throw error
+
+                }
+
+                return true
+            })
+        } else {
+            statement = .statement(viewDefinition.createStatement)
+        }
+
+        waitingView.operation = statement
+        waitingView.representedObject = representedObject
+
+        presentAsSheet(waitingView)
     }
 
 }

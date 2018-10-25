@@ -26,31 +26,6 @@ class CreateTableViewController: LiftViewController {
 
     @IBOutlet var selectStatementView: SQLiteTextView!
 
-    override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
-        if let waitingView = segue.destinationController as? StatementWaitingViewController {
-            waitingView.delegate = self
-
-            guard let selectedSegment = createTabView.selectedTabViewItem else {
-                return
-            }
-            let index = createTabView.indexOfTabViewItem(selectedSegment)
-            if index == 1 {
-                let statement = "CREATE TABLE \(table.toDefinition.qualifiedNameForQuery) AS \(selectStatementView.string)"
-                waitingView.operation = .statement(statement)
-
-            } else {
-                if table.originalDefinition != nil {
-                    waitingView.operation = .migrate(with: table)
-                } else {
-                    waitingView.operation = .statement(table.toDefinition.createStatment)
-                }
-            }
-
-            waitingView.representedObject = representedObject
-
-        }
-    }
-
     @IBAction func toggleCreationType(_ sender: NSSegmentedControl) {
         definitionTabView.selectTabViewItem(at: sender.selectedSegment)
     }
@@ -70,6 +45,49 @@ class CreateTableViewController: LiftViewController {
         tableView.registerForDraggedTypes([NSPasteboard.PasteboardType(rawValue: "private.table-row")])
     }
 
+    override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
+        if let simpleEdit = segue.destinationController as? CreateSimpleColumnViewController {
+            if tableView.selectedRow < 0 {
+                simpleEdit.column = CreateColumnDefinition(name: "Column \( table.columns.count + 1)", table: table)
+            } else {
+                simpleEdit.column = table.columns[tableView.selectedRow]
+            }
+            simpleEdit.delegate = self
+        }
+    }
+
+    @IBAction func doubleAction(_ sender: Any?) {
+        performSegue(withIdentifier: "showSimpleColumn", sender: sender)
+    }
+
+    @IBAction func doAction(_ sender: NSButton) {
+        let mainStoryboard = NSStoryboard(name: .main, bundle: .main)
+        guard let waitingView = mainStoryboard.instantiateController(withIdentifier: "statementWaitingView") as? StatementWaitingViewController else {
+            return
+        }
+        waitingView.delegate = self
+
+        guard let selectedSegment = createTabView.selectedTabViewItem else {
+            return
+        }
+        let index = createTabView.indexOfTabViewItem(selectedSegment)
+        if index == 1 {
+            let statement = "CREATE TABLE \(table.toDefinition.qualifiedNameForQuery) AS \(selectStatementView.string)"
+            waitingView.operation = .statement(statement)
+
+        } else {
+            if table.originalDefinition != nil {
+                waitingView.operation = .migrate(with: table)
+            } else {
+                waitingView.operation = .statement(table.toDefinition.createStatment)
+            }
+        }
+
+        waitingView.representedObject = representedObject
+
+        presentAsSheet(waitingView)
+
+    }
 }
 
 extension CreateTableViewController: NSTableViewDataSource {
@@ -131,5 +149,13 @@ class CreateColumnArrayController: NSArrayController {
     override func newObject() -> Any {
         let count = (arrangedObjects as? NSArray)?.count
         return CreateColumnDefinition(name: "Column \( (count ?? 0) + 1)", table: table)
+    }
+}
+
+extension CreateTableViewController: SimpleCreateColumnDelegate {
+    func didFinishEditing(definition: CreateColumnDefinition) {
+        if !table.columns.contains(definition) {
+            table.columns.append(definition)
+        }
     }
 }

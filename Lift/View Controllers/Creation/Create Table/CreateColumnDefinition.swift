@@ -37,6 +37,18 @@ class CreateColumnDefinition: NSObject {
         }
     }
 
+    var isPrimary: Bool {
+        return constraints.primaryKey != nil || table.tableConstraints.primaryKey?.contains(self) == true
+    }
+
+    var isUnique: Bool {
+        return constraints.unique != nil || table.tableConstraints.unique?.contains(self) == true
+    }
+
+    var isNonNull: Bool {
+        return constraints.nonNull != nil
+    }
+
     init(name: String, table: CreateTableDefinition) {
         originalDefinition = nil
         self.name = name
@@ -57,6 +69,10 @@ class CreateColumnDefinition: NSObject {
         def.type = type
         def.columnConstraints = constraints.columnConstraints
         return def
+    }
+
+    @objc dynamic var sql: String {
+        return toDefinition.creationStatement
     }
 }
 
