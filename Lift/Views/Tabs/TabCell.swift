@@ -271,7 +271,7 @@ class TabCell: BorderedButtonCell {
 
     override func draw(withFrame cellFrame: NSRect, in controlView: NSView) {
         if dragging {
-            backgroundColor = DarkenBackgroundButton.selectedBackgroundColor
+            backgroundColor = TabCell.defaultBackgroundColor
         } else if state == .on {
             backgroundColor = TabCell.defaultSelectedBackgroundColor
         } else {
