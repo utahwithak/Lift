@@ -104,7 +104,29 @@ class LiftTests: XCTestCase {
 
         }
     }
+    func testParseAllQuotes() {
 
+        do {
+            let def = try SQLiteCreateTableParser.parseSQL( "create table allQuotes(\"\"\"\", \"[]\");")
+            XCTAssert(def.columns.count == 2)
+            XCTAssert(def.columns[0].name == "\"\"\"\"")
+            XCTAssert(def.columns[0].name.cleanedVersion == "\"")
+        } catch {
+            XCTFail("Should parse:\(error)")
+        }
+
+    }
+    func testParse() {
+        do {
+            _ = try SQLiteCreateTableParser.parseSQL("""
+                CREATE TABLE "my table"" with"" quotes"\""" a lot"" of "" quotes"\""" "(
+                \"""F ASDF"" ASDFSDF"" "\""" SDFSDF"" " "QUATALICOUS",
+                fsd)
+                """)
+        } catch {
+            XCTFail("Should parse:\(error)")
+        }
+    }
     func testStartOfCreateStatement() {
 
         do {
@@ -214,23 +236,23 @@ class LiftTests: XCTestCase {
             XCTAssert(!def.tableConstraints.isEmpty)
             XCTAssert(def.tableConstraints.first is PrimaryKeyTableConstraint)
             XCTAssert(!(def.tableConstraints[0] as! PrimaryKeyTableConstraint).indexedColumns.isEmpty)
-            XCTAssert((def.tableConstraints[0] as! PrimaryKeyTableConstraint).indexedColumns[0].nameProvider.columnName == "colo2")
+            XCTAssert((def.tableConstraints[0] as! PrimaryKeyTableConstraint).indexedColumns[0].nameProvider.name == "colo2")
 
             def = try SQLiteCreateTableParser.parseSQL("CREATE TABLE tableT(\"some column\" INTEGER, colo2 INT, CONSTRAINT abcd PRIMARY KEY (colo2, \"some column\"))")
             XCTAssert(!def.tableConstraints.isEmpty)
             XCTAssert(def.tableConstraints.first is PrimaryKeyTableConstraint)
             XCTAssert(!(def.tableConstraints[0] as! PrimaryKeyTableConstraint).indexedColumns.isEmpty)
             XCTAssert((def.tableConstraints[0] as! PrimaryKeyTableConstraint).name ?? "" == "abcd")
-            XCTAssert((def.tableConstraints[0] as! PrimaryKeyTableConstraint).indexedColumns[0].nameProvider.columnName == "colo2")
-            XCTAssert(((def.tableConstraints[0] as! PrimaryKeyTableConstraint).indexedColumns.last?.nameProvider.columnName ?? "") == "\"some column\"")
+            XCTAssert((def.tableConstraints[0] as! PrimaryKeyTableConstraint).indexedColumns[0].nameProvider.name == "colo2")
+            XCTAssert(((def.tableConstraints[0] as! PrimaryKeyTableConstraint).indexedColumns.last?.nameProvider.name ?? "") == "\"some column\"")
 
             def = try SQLiteCreateTableParser.parseSQL("CREATE TABLE tableT(\"some column\" INTEGER, colo2 INT, CONSTRAINT abcd PRIMARY KEY (colo2, \"some column\") ON CONFLICT ROLLBACK)")
             XCTAssert(!def.tableConstraints.isEmpty)
             XCTAssert(def.tableConstraints.first is PrimaryKeyTableConstraint)
             XCTAssert(!(def.tableConstraints[0] as! PrimaryKeyTableConstraint).indexedColumns.isEmpty)
             XCTAssert((def.tableConstraints[0] as! PrimaryKeyTableConstraint).name ?? "" == "abcd")
-            XCTAssert((def.tableConstraints[0] as! PrimaryKeyTableConstraint).indexedColumns[0].nameProvider.columnName == "colo2")
-            XCTAssert(((def.tableConstraints[0] as! PrimaryKeyTableConstraint).indexedColumns.last?.nameProvider.columnName ?? "") == "\"some column\"")
+            XCTAssert((def.tableConstraints[0] as! PrimaryKeyTableConstraint).indexedColumns[0].nameProvider.name == "colo2")
+            XCTAssert(((def.tableConstraints[0] as! PrimaryKeyTableConstraint).indexedColumns.last?.nameProvider.name ?? "") == "\"some column\"")
             XCTAssert((def.tableConstraints[0] as! PrimaryKeyTableConstraint).conflictClause != nil)
             XCTAssert((def.tableConstraints[0] as! PrimaryKeyTableConstraint).conflictClause!.resolution == .rollback)
 
@@ -301,7 +323,7 @@ class LiftTests: XCTestCase {
             if let firstUnique = constraints[0] as? UniqueTableConstraint {
                 XCTAssert(firstUnique.name ?? "" == "abcd")
                 XCTAssert(firstUnique.indexedColumns.count == 2)
-                XCTAssert(checkArray(expected: ["cola", "colb"], got: firstUnique.indexedColumns.map({ $0.nameProvider.columnName })))
+                XCTAssert(checkArray(expected: ["cola", "colb"], got: firstUnique.indexedColumns.map({ $0.nameProvider.name })))
                 if let conf = firstUnique.conflictClause {
                     XCTAssert(conf.resolution == .abort)
                 } else {
@@ -315,7 +337,7 @@ class LiftTests: XCTestCase {
             if let firstUnique = constraints[1] as? PrimaryKeyTableConstraint {
 
                 XCTAssert(firstUnique.indexedColumns.count == 1)
-                XCTAssert(checkArray(expected: ["colc"], got: firstUnique.indexedColumns.map({ $0.nameProvider.columnName })))
+                XCTAssert(checkArray(expected: ["colc"], got: firstUnique.indexedColumns.map({ $0.nameProvider.name })))
                 XCTAssert(firstUnique.conflictClause == nil)
 
             } else {
@@ -326,7 +348,7 @@ class LiftTests: XCTestCase {
                 XCTAssert(firstUnique.name ?? "" == "uniqu2")
 
                 XCTAssert(firstUnique.indexedColumns.count == 1)
-                XCTAssert(checkArray(expected: ["cold"], got: firstUnique.indexedColumns.map({ $0.nameProvider.columnName })))
+                XCTAssert(checkArray(expected: ["cold"], got: firstUnique.indexedColumns.map({ $0.nameProvider.name })))
                 XCTAssert(firstUnique.conflictClause == nil)
             } else {
                 XCTFail("Invalid constraint type")
@@ -427,7 +449,7 @@ class LiftTests: XCTestCase {
                     XCTFail("Should be named")
                 }
                 XCTAssert(tableconst.conflictClause == nil)
-                XCTAssert(tableconst.indexedColumns[0].nameProvider.columnName == "cola")
+                XCTAssert(tableconst.indexedColumns[0].nameProvider.name == "cola")
                 XCTAssert(tableconst.indexedColumns[0].sortOrder == .ASC)
                 XCTAssert(tableconst.indexedColumns[0].collationName ?? "" == "\"some name\"")
             } else {

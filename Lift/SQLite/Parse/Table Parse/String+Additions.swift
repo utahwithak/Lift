@@ -140,7 +140,7 @@ extension String {
             return false
         }
 
-        guard last == first else {
+        guard last == first, count > 1 else {
             return false
         }
 
@@ -163,7 +163,10 @@ extension String {
                 }
             }
         }
-
+        //There should always be an even number of quotes in a balanced string. 
+        if sawQuote {
+            return false
+        }
         return true
     }
 }

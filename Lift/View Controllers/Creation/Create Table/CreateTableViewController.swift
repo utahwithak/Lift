@@ -18,7 +18,8 @@ class CreateTableViewController: LiftViewController {
 
     @IBOutlet weak var columnArrayController: CreateColumnArrayController!
 
-    @IBOutlet weak var tableView: NSTableView!
+    @IBOutlet weak var advancedTableView: NSTableView!
+    @IBOutlet weak var basicTableView: NSTableView!
     @IBOutlet weak var alterButton: NSButton!
     @objc dynamic var databases: [String] {
         return document?.database.allDatabases.map({ $0.name }) ?? []
@@ -42,17 +43,24 @@ class CreateTableViewController: LiftViewController {
         } else {
             alterButton.title = NSLocalizedString("Create Table", comment: "Create table button title")
         }
-        tableView.registerForDraggedTypes([NSPasteboard.PasteboardType(rawValue: "private.table-row")])
+        basicTableView.registerForDraggedTypes([NSPasteboard.PasteboardType(rawValue: "private.table-row")])
     }
 
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
         if let simpleEdit = segue.destinationController as? CreateSimpleColumnViewController {
-            if tableView.selectedRow < 0 {
+            if basicTableView.selectedRow < 0 {
                 simpleEdit.column = CreateColumnDefinition(name: "Column \( table.columns.count + 1)", table: table)
             } else {
-                simpleEdit.column = table.columns[tableView.selectedRow]
+                simpleEdit.column = table.columns[basicTableView.selectedRow]
             }
             simpleEdit.delegate = self
+        } else if let advancedEdit = segue.destinationController as? AdvancedColumnCreationViewController {
+            if advancedTableView.selectedRow < 0 {
+                advancedEdit.column = CreateColumnDefinition(name: "Column \( table.columns.count + 1)", table: table)
+            } else {
+                advancedEdit.column = table.columns[advancedTableView.selectedRow]
+            }
+            advancedEdit.delegate = self
         }
     }
 
@@ -61,9 +69,13 @@ class CreateTableViewController: LiftViewController {
     }
 
     @IBAction func showCreateColumn(_ sender: Any) {
-        tableView.deselectAll(nil)
+        basicTableView.deselectAll(nil)
         performSegue(withIdentifier: "showSimpleColumn", sender: nil)
 
+    }
+
+    @IBAction func showAdvancedCreateColumn(_ sender: Any) {
+        performSegue(withIdentifier: "showAdvancedAdd", sender: nil)
     }
 
     @IBAction func doAction(_ sender: NSButton) {
@@ -164,4 +176,8 @@ extension CreateTableViewController: SimpleCreateColumnDelegate {
             table.columns.append(definition)
         }
     }
+}
+
+extension CreateTableViewController: AdvancedColumnCreationDelegate {
+
 }

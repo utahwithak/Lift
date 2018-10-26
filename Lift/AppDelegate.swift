@@ -13,12 +13,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         #if FREE
+        if !UserDefaults.standard.bool(forKey: "supportedLift") {
+            if let contentViewController = NSApp.keyWindow?.contentViewController, let storyboard = contentViewController.storyboard, let vc = storyboard.instantiateController(withIdentifier: "supportLiftVC") as? SupportLiftViewController {
+                contentViewController.presentAsSheet(vc)
+            }
+        }
+
         print("free version!")
         #endif
+
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
     }
 
     func applicationShouldOpenUntitledFile(_ sender: NSApplication) -> Bool {

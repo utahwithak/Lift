@@ -25,7 +25,7 @@ extension SQLiteName {
 
     var cleanedVersion: String {
         if (first == "\"" || first == "'" || first == "`") && balancedQoutedString() {
-            return String(dropFirst().dropLast())
+            return String(dropFirst().dropLast()).replacingOccurrences(of: "\"\"", with: "\"")
         } else if first == "[" && last == "]" {
             return String(dropFirst().dropLast())
         } else {

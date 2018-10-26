@@ -659,14 +659,14 @@
         <!--Support Lift View Controller-->
         <scene sceneID="zgk-oY-lyR">
             <objects>
-                <viewController id="ltO-C9-861" customClass="SupportLiftViewController" customModule="Lift" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="supportLiftVC" id="ltO-C9-861" customClass="SupportLiftViewController" customModule="Lift" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="Hoa-BQ-8gu">
                         <rect key="frame" x="0.0" y="0.0" width="477" height="236"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bQP-SW-7oq">
-                                <rect key="frame" x="199" y="189" width="79" height="27"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Thanks!" id="Ypk-Zv-ZDo">
+                                <rect key="frame" x="185" y="189" width="107" height="27"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Hey There!" id="Ypk-Zv-ZDo">
                                     <font key="font" metaFont="systemLight" size="22"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -678,7 +678,7 @@
                                     <font key="font" metaFont="system"/>
                                     <string key="title">Thanks for trying this product out. We love free software too.
 
-Sadly it still takes a lot of time and energy to make free software. 
+Sadly, it still takes a lot of time and energy to make free software. 
 Please consider offering some support if you find ths product useful</string>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -713,6 +713,9 @@ Please consider offering some support if you find ths product useful</string>
 DQ
 </string>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="showStore:" target="ltO-C9-861" id="JQE-5x-ogf"/>
+                                </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="V5z-Xr-EGd">
                                 <rect key="frame" x="14" y="46" width="122" height="32"/>
@@ -723,6 +726,9 @@ DQ
 Gw
 </string>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="showLocalStore:" target="ltO-C9-861" id="xkf-jl-EJi"/>
+                                </connections>
                             </button>
                         </subviews>
                         <constraints>
