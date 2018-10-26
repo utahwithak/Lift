@@ -21,7 +21,7 @@ class Column: NSObject {
 
     @objc dynamic let name: String
 
-    let primaryKey: Bool
+    let isPrimaryKey: Bool
 
     let defaultValue: String?
     /*
@@ -48,7 +48,7 @@ class Column: NSObject {
         }
         self.name = name
         self.type = type
-        self.primaryKey = pk == 1
+        self.isPrimaryKey = pk != 0
         super.init()
     }
 

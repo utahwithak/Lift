@@ -134,7 +134,6 @@ class TableGraphViewController: LiftMainViewController {
                     guard let toViewController = children.first(where: { ($0 as? GraphTableView)?.table.name == connection.toTable }) as? GraphTableView else {
                         continue
                     }
-
                     let toPoint = ArrowPoint(view: toViewController, columns: connection.toColumns)
                     container.arrowViews.append(ArrowView(from: fromPoint, to: toPoint))
                 }

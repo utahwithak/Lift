@@ -12,9 +12,9 @@ class ArrowPoint {
     weak var view: GraphTableView?
     let columns: [String]
 
-    init(view: GraphTableView, columns: [String]) {
+    init(view: GraphTableView, columns: [String]?) {
         self.view = view
-        self.columns = columns
+        self.columns = columns ?? view.table.columns.filter({ $0.isPrimaryKey }).map({$0.name})
     }
 }
 

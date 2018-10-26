@@ -380,13 +380,40 @@ class TableDataViewController: LiftMainViewController {
         }
 
         var customStartQuery = " WHERE "
-        for (index, toColumn) in jump.connection.toColumns.enumerated() {
-            customStartQuery += "\(toColumn.sqliteSafeString()) = $\(index)"
+        if let toColumns = jump.connection.toColumns {
+            for (index, toColumn) in toColumns.enumerated() {
+                customStartQuery += "\(toColumn.sqliteSafeString()) = $\(index)"
+            }
+        } else {
+            let primaryKeys = toTable.columns.filter({$0.isPrimaryKey})
+            for (index, toColumn) in primaryKeys.enumerated() {
+                customStartQuery += "\(toColumn.name.sqliteSafeString()) = $\(index)"
+            }
         }
 
         customStart = CustomTableStart(query: customStartQuery, args: args)
 
         windowController?.selectedTable = toTable
+
+    }
+
+    @objc private func viewReferences(_ item: NSMenuItem) {
+        guard let selectionBox = tableView.selectionBoxes.first, selectionBox.isSingleCell else {
+            return
+        }
+        let selectionRow = selectionBox.startRow
+        let columnIndex = selectionBox.startColumn
+        let tableColumn = tableView.tableColumns[columnIndex]
+
+        guard let table = selectedTable as? Table else {
+            return
+        }
+
+        if let index = Int(tableColumn.identifier.rawValue), let data = data, let columns = data.columnNames, table.isDestination(column: columns[index]) {
+            if let SQL = table.referencesSQL(from: data, row: selectionRow, columnName: columns[index]) {
+                windowController?.showQueryView(with: SQL)
+            }
+        }
 
     }
 
@@ -733,7 +760,10 @@ extension TableDataViewController: NSMenuDelegate {
                         jumpToMenu.submenu = subMenu
                         for connection in connections {
                             let jumpFormat = NSLocalizedString("Jump to %@, (%@)", comment: "Jump foreign key with multiple, first %@ will be table name, second is columns in the foreign key")
-                            let fKeyMenuItem = NSMenuItem(title: String(format: jumpFormat, connection.toTable, connection.toColumns.joined(separator: ", ")), action: #selector(jumpToForeignKey), keyEquivalent: "")
+                            let pkeysTo: String = connection.fromColumns.count == 1 ? NSLocalizedString("Primary Key", comment: "Jump to single primary key") :  NSLocalizedString("Primary Keys", comment: "Jump to multiple primary keys")
+
+                            let toColumns = connection.toColumns?.joined(separator: ", ") ?? pkeysTo
+                            let fKeyMenuItem = NSMenuItem(title: String(format: jumpFormat, connection.toTable, toColumns), action: #selector(jumpToForeignKey), keyEquivalent: "")
                             fKeyMenuItem.representedObject = ForeignKeyJump(connection: connection, source: table)
                             subMenu.addItem(fKeyMenuItem)
                         }
@@ -741,6 +771,11 @@ extension TableDataViewController: NSMenuDelegate {
                         menu.addItem(jumpToMenu)
 
                     }
+                }
+
+                if let index = Int(tableColumn.identifier.rawValue), let columns = data?.columnNames, table.isDestination(column: columns[index]) {
+                    let referencedMenuItem = NSMenuItem(title: NSLocalizedString("View References", comment: "SQL to view places that reference this cell menu item"), action: #selector(viewReferences), keyEquivalent: "")
+                    menu.addItem(referencedMenuItem)
                 }
 
                 if table.isEditable {

@@ -53,36 +53,40 @@ class Table: DataProvider {
 
         let foreignKeyQuery = try Query(connection: connection, query: "PRAGMA \(database.name.sqliteSafeString()).foreign_key_list(\(name.sqliteSafeString()))")
 
-        var curID = -1
+        var curID: Int?
         //id|seq|table|from|to|on_update|on_delete|match
         var curFrom = [String]()
-        var curTo = [String]()
+        var curTo: [String]?
         var curToTable = ""
         var connections = [ForeignKeyConnection]()
 
         try foreignKeyQuery.processRows { rowData in
             guard case .integer(let id) = rowData[0],
                 case .text(let toTable) = rowData[2],
-                case .text(let fromCol) = rowData[3],
-                case .text(let toCol) = rowData[4] else {
+                case .text(let fromCol) = rowData[3] else {
                     return
             }
 
-            if id != curID {
-                if !curTo.isEmpty {
-                    connections.append(ForeignKeyConnection(fromTable: name, fromColumns: curFrom, toTable: curToTable, toColumns: curTo))
-                    curFrom.removeAll(keepingCapacity: true)
-                    curTo.removeAll(keepingCapacity: true)
+            if let prevID = curID, id != prevID {
+                connections.append(ForeignKeyConnection(id: id, fromTable: name, fromColumns: curFrom, toTable: curToTable, toColumns: curTo))
+                curFrom.removeAll(keepingCapacity: true)
+                curTo = nil
+                curID = nil
+            }
+            curToTable = toTable
+            curID = id
+            if case .text(let toCol) = rowData[4] {
+                if curTo == nil {
+                    curTo = [toCol]
+                } else {
+                    curTo?.append(toCol)
                 }
-                curID = id
-                curToTable = toTable
             }
             curFrom.append(fromCol)
-            curTo.append(toCol)
 
         }
-        if !curTo.isEmpty {
-            connections.append(ForeignKeyConnection(fromTable: name, fromColumns: curFrom, toTable: curToTable, toColumns: curTo))
+        if let id = curID {
+            connections.append(ForeignKeyConnection(id: id, fromTable: name, fromColumns: curFrom, toTable: curToTable, toColumns: curTo))
         }
 
         foreignKeys = connections
@@ -105,6 +109,91 @@ class Table: DataProvider {
 
     func foreignKeys(from columnName: String) -> [ForeignKeyConnection] {
         return foreignKeys.filter { $0.fromColumns.contains(columnName) }
+    }
+
+    func isDestination(column columnName: String) -> Bool {
+        guard let db = database, let column = columns.first(where: { $0.name == columnName }) else {
+            return false
+        }
+
+        for table in db.tables {
+            for foreignKey in table.foreignKeys where foreignKey.toTable == name {
+                if foreignKey.hasToColumn(named: columnName) {
+                    return true
+                } else if foreignKey.referencesPrimaryKeys, column.isPrimaryKey {
+                    return true
+                }
+            }
+        }
+        return false
+    }
+
+    func referencesSQL(from data: TableData, row: Int, columnName: String ) -> String? {
+        var queries = [String]()
+
+        guard let database = database else {
+            print("No DB")
+            return nil
+        }
+
+        guard let column = columns.first(where: { $0.name == columnName}) else {
+            print("failed to find column")
+            return nil
+        }
+
+        let primaryKeys = columns.filter({ $0.isPrimaryKey })
+
+        let isPrimary = column.isPrimaryKey
+
+        for table in database.tables {
+            for fkey in table.foreignKeys where fkey.toTable == name {
+                if (fkey.referencesPrimaryKeys && isPrimary) || fkey.hasToColumn(named: columnName) {
+                    var whereState = [String]()
+
+                    for (index, fromColumn) in fkey.fromColumns.enumerated() {
+                        let fixedFrom = fromColumn.sqliteSafeString()
+                        let toColumn: String
+                        if let toColumns = fkey.toColumns {
+                            toColumn = toColumns[index]
+                        } else {
+                            guard index < primaryKeys.count else {
+                                print("Failed to hook up PK indexes!?")
+                                return nil
+                            }
+                            toColumn = primaryKeys[index].name
+                        }
+
+                        guard let dataIndex = data.columnNames?.lastIndex(of: toColumn) else {
+                            return nil
+                        }
+
+                        let obj = data.rawData(at: row, column: dataIndex)
+                        let arg: String
+
+                        switch obj {
+                        case .null:
+                            arg = " ISNULL"
+                        case .integer(let int):
+                            arg = "= \(int)"
+                        case .float(let dbl):
+                            arg = "= \(dbl)"
+                        case .text(let txtVal):
+                            arg = "= \(txtVal.sqliteSafeString())"
+                        case .blob(let data):
+                            let hexEncoded = data.hexEncodedString()
+                            arg = "= x'%\(hexEncoded)'"
+                        }
+
+                        whereState.append("\(fixedFrom)\(arg)")
+                    }
+                    let whereClause = whereState.joined(separator: " AND ")
+                    let query = "SELECT * FROM \(table.qualifiedNameForQuery) WHERE \(whereClause);"
+                    queries.append(query)
+                }
+            }
+        }
+
+        return queries.joined(separator: "\n")
     }
 
     func refreshIndexes() {

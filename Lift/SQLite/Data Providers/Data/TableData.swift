@@ -105,7 +105,7 @@ final class TableData: NSObject {
         if customSorting.isEmpty && customQuery == nil, let table = provider as? Table {
             smartPaging =  provider is Table
             if table.definition?.withoutRowID ?? false {
-                let primaryKeys =  table.columns.filter { $0.primaryKey }
+                let primaryKeys =  table.columns.filter { $0.isPrimaryKey }
                 sortCount = primaryKeys.count
                 sortColumns = primaryKeys.map { $0.name.sqliteSafeString() }.joined(separator: ", ")
                 argString = (0..<primaryKeys.count).map { "$\($0)"}.joined(separator: ", ")
@@ -118,7 +118,7 @@ final class TableData: NSObject {
             baseQuery = "SELECT \(sortColumns),* FROM \(name)"
         } else {
             if let table = provider as? Table, table.definition?.withoutRowID ?? false {
-                let primaryKeys =  table.columns.filter { $0.primaryKey }
+                let primaryKeys =  table.columns.filter { $0.isPrimaryKey }
                 sortCount = primaryKeys.count
                 sortColumns = primaryKeys.map { $0.name.sqliteSafeString() }.joined(separator: ", ")
                 argString = (0..<primaryKeys.count).map { "$\($0)"}.joined(separator: ", ")

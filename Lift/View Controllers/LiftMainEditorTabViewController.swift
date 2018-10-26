@@ -68,6 +68,8 @@ class LiftMainEditorTabViewController: NSTabViewController {
         guard let queryView = tabViewItems[2].viewController as? QueryViewController else {
             return
         }
-        queryView.sqlView.string = text
+        queryView.sqlView.string.append("\(text)\n")
+        queryView.sqlView.refresh()
+
     }
 }
