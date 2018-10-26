@@ -61,7 +61,13 @@ class BorderedButtonCell: NSButtonCell {
         return copy!
 
     }
-    public static let defaultBorderColor = NSColor(calibratedWhite: 0.75, alpha: 1)
+
+    public static let defaultBorderColor: NSColor = {
+        if #available(OSX 10.14, *) {
+            return NSColor.separatorColor
+        }
+        return NSColor(calibratedWhite: 0.75, alpha: 1)
+    }()
 
     public var borderWidth: CGFloat = 1 {
         didSet {
@@ -69,7 +75,7 @@ class BorderedButtonCell: NSButtonCell {
         }
     }
 
-    public var borderColor = BorderedButtonCell.defaultBorderColor.copy() as? NSColor ?? NSColor(calibratedWhite: 0.75, alpha: 1) {
+    public var borderColor = BorderedButtonCell.defaultBorderColor {
         didSet {
             controlView?.needsDisplay = true
         }
@@ -111,12 +117,8 @@ class BorderedButtonCell: NSButtonCell {
 
     }
 
-    public static let defaultImageColor = NSColor(calibratedWhite: 0.5, alpha: 1)
-    public static let defaultPressedImageColor = NSColor(calibratedWhite: 0.15, alpha: 1)
-
     override func drawImage(_ image: NSImage, withFrame frame: NSRect, in controlView: NSView) {
         isBordered = false
-        //tintedImage(with: self.isHighlighted ? BorderedButtonCell.defaultPressedImageColor : BorderedButtonCell.defaultImageColor)
         super.drawImage( image, withFrame: frame, in: controlView)
         isBordered = true
     }
@@ -126,9 +128,9 @@ class BorderedButtonCell: NSButtonCell {
 class TabCell: BorderedButtonCell {
     private static let defaultFont = NSFont(name: "HelveticaNeue-SemiBold", size: 13)
 
-    public static let defaultTitleSelectedColor = NSColor(calibratedRed: 0.25, green: 0.56, blue: 0.92, alpha: 1.00)
-    public static let defaultSelectedBackgroundColor = NSColor(calibratedRed: 0.85, green: 0.92, blue: 1.00, alpha: 0.75)
-    public static let defaultBackgroundColor = NSColor(calibratedRed: 0.96, green: 0.96, blue: 0.96, alpha: 1.0)
+    public static let defaultTitleSelectedColor = NSColor(named: "tabTitleSelectedColor")!
+    public static let defaultSelectedBackgroundColor = NSColor(named: "tabSelectedBackgroundColor")!
+    public static let defaultBackgroundColor = NSColor(named: "tabDefaultBackgroundColor")!
 
     public var showsMenu = false {
         didSet {
@@ -144,7 +146,7 @@ class TabCell: BorderedButtonCell {
         }
     }
 
-    public var titleColor = NSColor(calibratedWhite: 0.25, alpha: 1)
+    public var titleColor = NSColor(named: "tabTitleColor")!
     public var titleHighlightColor = TabCell.defaultTitleSelectedColor
     public var backgroundHighlightColor = TabCell.defaultBackgroundColor {
         didSet {
@@ -162,7 +164,7 @@ class TabCell: BorderedButtonCell {
 
     public var maxWidth: CGFloat = 720
 
-    static let popupImage = NSImage(named: "PullDownTemplate")!.tintedImage(with: NSColor.darkGray)
+    static let popupImage = NSImage(named: "PullDownTemplate")!.tintedImage(with: NSColor.selectedControlTextColor)
 
     static let popupSize = TabCell.popupImage.size
 

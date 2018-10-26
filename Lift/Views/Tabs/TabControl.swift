@@ -615,7 +615,7 @@ class TabControl: NSControl {
         editingField.backgroundColor = cell.backgroundColor
         editingField.focusRingType = .none
 
-        editingField.textColor = NSColor.darkGray.blended(withFraction: 0.5, of: NSColor.black)
+        editingField.textColor = NSColor.controlTextColor.blended(withFraction: 0.5, of: NSColor.textColor)
 
         guard let textFieldCell = editingField.cell as? NSTextFieldCell else {
             return
