@@ -25,6 +25,7 @@ struct NotNullColumnConstraint: ConflictColumnConstraint {
         conflictClause = try ConflictClause(from: scanner)
 
     }
+
     init(name: String?, conflict: ConflictClause?) {
         self.constraintName = name
         self.conflictClause = conflict

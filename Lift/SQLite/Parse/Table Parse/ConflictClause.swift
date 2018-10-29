@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum ConflictResolution {
+enum ConflictResolution: Int {
     case rollback
     case abort
     case fail
@@ -33,6 +33,10 @@ enum ConflictResolution {
 struct ConflictClause {
 
     let resolution: ConflictResolution
+
+    init(resolution: ConflictResolution) {
+        self.resolution = resolution
+    }
 
     init?(from scanner: Scanner) throws {
         if !scanner.scanString("ON", into: nil) {

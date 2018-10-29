@@ -12,6 +12,11 @@ struct CheckColumnConstraint: ColumnConstraint {
     let constraintName: SQLiteName?
     let checkExpression: String
 
+    init(name: String?, expression: String) {
+        self.constraintName = name
+        self.checkExpression = expression
+    }
+
     init(with name: SQLiteName?, from scanner: Scanner) throws {
 
         if !scanner.scanString("check", into: nil) {

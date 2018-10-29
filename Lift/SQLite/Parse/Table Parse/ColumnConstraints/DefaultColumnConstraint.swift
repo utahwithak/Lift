@@ -32,6 +32,10 @@ struct DefaultColumnConstraint: ColumnConstraint {
             }
         } else if scanner.scanString("CURRENT_DATE", into: nil) {
             value = .current_date
+        } else if scanner.scanString("TRUE", into: nil) {
+            value = .TRUE
+        } else if scanner.scanString("FALSE", into: nil) {
+            value = .FALSE
         } else {
             value = .literal(try SQLiteCreateTableParser.parseStringOrName(from: scanner))
         }
@@ -54,6 +58,8 @@ struct DefaultColumnConstraint: ColumnConstraint {
 
 enum DefaultValue {
     case null
+    case TRUE
+    case FALSE
     case current_time
     case current_date
     case current_timestamp
@@ -64,6 +70,10 @@ enum DefaultValue {
         switch text.uppercased() {
         case "NULL":
             self = .null
+        case "TRUE":
+            self = .TRUE
+        case "FALSE":
+            self = .FALSE
         case "CURRENT_DATE":
             self = .current_date
         case "CURRENT_TIME":
@@ -79,6 +89,10 @@ enum DefaultValue {
         switch self {
         case .null:
             return "NULL"
+        case .TRUE:
+            return "TRUE"
+        case .FALSE:
+            return "FALSE"
         case .current_date:
             return "CURRENT_DATE"
         case .current_time:

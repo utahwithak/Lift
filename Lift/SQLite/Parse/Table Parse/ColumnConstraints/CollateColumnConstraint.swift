@@ -12,6 +12,11 @@ struct CollateColumnConstraint: ColumnConstraint {
     let constraintName: String?
     let collationName: SQLiteName
 
+    init(name: String?, collationName: String) {
+        self.constraintName = name
+        self.collationName = collationName
+    }
+
     init(with name: SQLiteName?, from scanner: Scanner) throws {
 
         guard scanner.scanString("COLLATE", into: nil) else {
