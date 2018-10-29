@@ -10,25 +10,34 @@ import Foundation
 
 struct ForeignKeyTableConstraint: TableConstraint {
 
-    var fromColumns = [SQLiteName]()
+    let fromColumns: [SQLiteName]
 
-    var clause: ForeignKeyClause
+    let clause: ForeignKeyClause
 
-    var name: SQLiteName?
+    let name: SQLiteName?
+
+    init(name: String?, fromColumns: [String], clause: ForeignKeyClause) {
+        self.name = name
+        self.fromColumns = fromColumns
+        self.clause = clause
+    }
 
     init(with name: SQLiteName?, from scanner: Scanner) throws {
         if !scanner.scanString("foreign", into: nil) || !scanner.scanString("key", into: nil) || !scanner.scanString("(", into: nil) {
             throw ParserError.unexpectedError("Invalid table check")
         }
 
+        var columns = [String]()
         repeat {
             let name = try SQLiteCreateTableParser.parseStringOrName(from: scanner)
             guard !name.isEmpty else {
                 throw ParserError.unexpectedError("Invalid foreign key ")
             }
-            fromColumns.append(name)
+            columns.append(name)
 
         } while (scanner.scanString(",", into: nil))
+
+        self.fromColumns = columns
 
         guard !fromColumns.isEmpty else {
             throw ParserError.unexpectedError("Empty from columns in fk table constraint parsing!")
@@ -42,12 +51,6 @@ struct ForeignKeyTableConstraint: TableConstraint {
 
         self.name = name
 
-    }
-
-    init(name: SQLiteName?, columns: [SQLiteName], clause: ForeignKeyClause) {
-        fromColumns = columns
-        self.clause = clause
-        self.name = name
     }
 
     var sql: String {

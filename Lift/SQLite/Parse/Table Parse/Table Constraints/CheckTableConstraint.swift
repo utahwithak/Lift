@@ -8,12 +8,15 @@
 
 import Foundation
 
-class CheckTableConstraint: TableConstraint {
+struct CheckTableConstraint: TableConstraint {
+    let name: String?
 
-    var name: String?
+    let checkExpression: String
 
-    var checkExpression: String
-
+    init(name: String?, expression: String) {
+        self.name = name
+        self.checkExpression = expression
+    }
     init(with name: SQLiteName?, from scanner: Scanner) throws {
 
         if !scanner.scanString("check", into: nil) {

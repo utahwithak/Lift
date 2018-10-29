@@ -87,7 +87,7 @@ class CreateColumnDefinition: NSObject {
                     }
 
                     newConstraint.add(column: self)
-                    table.tableConstraints.uniques.append(newConstraint)
+                    table.tableConstraints.add(unique: newConstraint)
                 }
 
             } else {
@@ -95,7 +95,7 @@ class CreateColumnDefinition: NSObject {
                 if let constraint = table.tableConstraints.uniques.first(where: {$0.contains(self)}) {
                     constraint.remove(column: self)
                     if constraint.columns.isEmpty {
-                        table.tableConstraints.uniques.removeAll(where: { $0 === constraint })
+                        table.tableConstraints.remove(unique: constraint)
                     }
                 }
             }

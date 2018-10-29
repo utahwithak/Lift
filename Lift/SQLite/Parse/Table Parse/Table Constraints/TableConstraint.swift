@@ -8,7 +8,7 @@
 
 import Foundation
 protocol TableConstraint {
-    var name: SQLiteName? { get set}
+    var name: SQLiteName? { get }
     var sql: String { get }
 
     func sql(with columns: [String]) -> String?

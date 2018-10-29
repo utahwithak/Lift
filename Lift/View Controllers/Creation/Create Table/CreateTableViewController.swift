@@ -18,6 +18,8 @@ class CreateTableViewController: LiftViewController {
 
     @IBOutlet weak var columnArrayController: CreateColumnArrayController!
 
+    @IBOutlet weak var tableConstraintArrayController: CreateTableConstraintArrayController!
+
     @IBOutlet weak var advancedTableView: NSTableView!
     @IBOutlet weak var basicTableView: NSTableView!
     @IBOutlet weak var alterButton: NSButton!
@@ -33,6 +35,7 @@ class CreateTableViewController: LiftViewController {
 
     override func viewDidLoad() {
         columnArrayController.table = table
+        tableConstraintArrayController.table = table
         super.viewDidLoad()
 
         if table.originalDefinition != nil {
@@ -47,35 +50,7 @@ class CreateTableViewController: LiftViewController {
     }
 
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {
-        if let simpleEdit = segue.destinationController as? CreateSimpleColumnViewController {
-            if basicTableView.selectedRow < 0 {
-                simpleEdit.column = CreateColumnDefinition(name: "Column \( table.columns.count + 1)", table: table)
-            } else {
-                simpleEdit.column = table.columns[basicTableView.selectedRow]
-            }
-            simpleEdit.delegate = self
-        } else if let advancedEdit = segue.destinationController as? AdvancedColumnCreationViewController {
-            if advancedTableView.selectedRow < 0 {
-                advancedEdit.column = CreateColumnDefinition(name: "Column \( table.columns.count + 1)", table: table)
-            } else {
-                advancedEdit.column = table.columns[advancedTableView.selectedRow]
-            }
-            advancedEdit.delegate = self
-        }
-    }
 
-    @IBAction func doubleAction(_ sender: Any?) {
-        performSegue(withIdentifier: "showSimpleColumn", sender: nil)
-    }
-
-    @IBAction func showCreateColumn(_ sender: Any) {
-        basicTableView.deselectAll(nil)
-        performSegue(withIdentifier: "showSimpleColumn", sender: nil)
-
-    }
-
-    @IBAction func showAdvancedCreateColumn(_ sender: Any) {
-        performSegue(withIdentifier: "showAdvancedAdd", sender: nil)
     }
 
     @IBAction func doAction(_ sender: NSButton) {
@@ -170,14 +145,16 @@ class CreateColumnArrayController: NSArrayController {
     }
 }
 
-extension CreateTableViewController: SimpleCreateColumnDelegate {
-    func didFinishEditing(definition: CreateColumnDefinition) {
-        if !table.columns.contains(definition) {
-            table.columns.append(definition)
+class CreateTableConstraintArrayController: NSArrayController {
+    var table: CreateTableDefinition!
+
+    // overridden to add a new object to the content objects and to the arranged objects
+    override func newObject() -> Any {
+        var type = CreateTableConstraintRowItem.TableConstraintType.primaryKey
+        if let constraints = arrangedObjects as? [CreateTableConstraintRowItem], constraints.first(where: { $0.primaryKey != nil }) != nil {
+            type = .unique
+
         }
+        return CreateTableConstraintRowItem(type: type)
     }
-}
-
-extension CreateTableViewController: AdvancedColumnCreationDelegate {
-
 }

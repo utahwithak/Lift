@@ -21,7 +21,7 @@ struct ForeignKeyConnection {
         return toColumns == nil
     }
 
-    func hasToColumn(named:String) -> Bool {
+    func hasToColumn(named: String) -> Bool {
         return toColumns?.contains(named) ?? false
     }
 }

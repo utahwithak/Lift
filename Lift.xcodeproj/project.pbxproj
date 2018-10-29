@@ -18,7 +18,6 @@
 		8F178CA11FA0DB790057387A /* JumpToRowViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F178CA01FA0DB790057387A /* JumpToRowViewController.swift */; };
 		8F1BC6331FCF47C500128351 /* ImportDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1BC6321FCF47C500128351 /* ImportDataViewController.swift */; };
 		8F1C4F001F9905D300DE12BF /* PassThroughScrollView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F1C4EFF1F9905D300DE12BF /* PassThroughScrollView.swift */; };
-		8F2096F321813E03009ABC90 /* CreateSimpleColumnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2096F221813E03009ABC90 /* CreateSimpleColumnViewController.swift */; };
 		8F21ED892047372900A6AFA9 /* ViewParsingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F21ED882047372900A6AFA9 /* ViewParsingTests.swift */; };
 		8F2521701F855A2A00B438CC /* CreateViewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F25216F1F855A2A00B438CC /* CreateViewViewController.swift */; };
 		8F2521731F855A3D00B438CC /* LiftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2521721F855A3D00B438CC /* LiftViewController.swift */; };
@@ -41,7 +40,6 @@
 		8F2CB1CC2182208E00BA3A35 /* TabButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4BECC61FB68B00003DAA5E /* TabButton.swift */; };
 		8F2CB1CD2182208E00BA3A35 /* PrimaryKeyTableConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1591F7EA4D40090FA53 /* PrimaryKeyTableConstraint.swift */; };
 		8F2CB1CE2182208E00BA3A35 /* ForeignKeyColumnConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F921DBA1F7ECD7100464D27 /* ForeignKeyColumnConstraint.swift */; };
-		8F2CB1CF2182208E00BA3A35 /* CreateSimpleColumnViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2096F221813E03009ABC90 /* CreateSimpleColumnViewController.swift */; };
 		8F2CB1D02182208E00BA3A35 /* CompletionPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD7EB76214C024800325EA1 /* CompletionPanel.swift */; };
 		8F2CB1D12182208E00BA3A35 /* StatementWaitingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4C40D91F87B3CE003BF006 /* StatementWaitingViewController.swift */; };
 		8F2CB1D22182208E00BA3A35 /* ColumnDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F14C1F7D72220090FA53 /* ColumnDefinition.swift */; };
@@ -219,14 +217,12 @@
 		8F2CB2922182442600BA3A35 /* IAPHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2CB2902182442600BA3A35 /* IAPHelper.swift */; };
 		8F2CB2942182490500BA3A35 /* StoreTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2CB2932182490500BA3A35 /* StoreTableCell.swift */; };
 		8F2CB2952182490500BA3A35 /* StoreTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2CB2932182490500BA3A35 /* StoreTableCell.swift */; };
-		8F2CB2992182846800BA3A35 /* AdvancedColumnCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2CB2982182846800BA3A35 /* AdvancedColumnCreationViewController.swift */; };
-		8F2CB29A2182846800BA3A35 /* AdvancedColumnCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2CB2982182846800BA3A35 /* AdvancedColumnCreationViewController.swift */; };
-		8F2CB29C2182875600BA3A35 /* ConstraintSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2CB29B2182875600BA3A35 /* ConstraintSection.swift */; };
-		8F2CB29D2182875600BA3A35 /* ConstraintSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2CB29B2182875600BA3A35 /* ConstraintSection.swift */; };
-		8F2CB2A021828E3200BA3A35 /* PrimaryKeySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2CB29F21828E3200BA3A35 /* PrimaryKeySection.swift */; };
-		8F2CB2A121828E3200BA3A35 /* PrimaryKeySection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2CB29F21828E3200BA3A35 /* PrimaryKeySection.swift */; };
-		8F2CB2A32183527100BA3A35 /* PrimaryKeySectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2CB2A22183527100BA3A35 /* PrimaryKeySectionView.swift */; };
-		8F2CB2A42183527100BA3A35 /* PrimaryKeySectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2CB2A22183527100BA3A35 /* PrimaryKeySectionView.swift */; };
+		8F2CB2AF2183DD0100BA3A35 /* CreateTable.CheckTableConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2CB2AE2183DD0100BA3A35 /* CreateTable.CheckTableConstraint.swift */; };
+		8F2CB2B02183DD0100BA3A35 /* CreateTable.CheckTableConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2CB2AE2183DD0100BA3A35 /* CreateTable.CheckTableConstraint.swift */; };
+		8F2CB2B32183DE3C00BA3A35 /* CreateTable.ForeignKeyTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2CB2B22183DE3C00BA3A35 /* CreateTable.ForeignKeyTable.swift */; };
+		8F2CB2B42183DE3C00BA3A35 /* CreateTable.ForeignKeyTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2CB2B22183DE3C00BA3A35 /* CreateTable.ForeignKeyTable.swift */; };
+		8F2CB2B621849C5400BA3A35 /* EditCheckConstraintViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2CB2B521849C5400BA3A35 /* EditCheckConstraintViewController.swift */; };
+		8F2CB2B721849C5400BA3A35 /* EditCheckConstraintViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2CB2B521849C5400BA3A35 /* EditCheckConstraintViewController.swift */; };
 		8F30777F1F87F26A005AFE4E /* BrowseViewNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F30777E1F87F26A005AFE4E /* BrowseViewNode.swift */; };
 		8F374B911F87DF9400BB4F63 /* Column.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F374B8E1F87DF9400BB4F63 /* Column.swift */; };
 		8F374B921F87DF9400BB4F63 /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F374B901F87DF9400BB4F63 /* Table.swift */; };
@@ -252,6 +248,7 @@
 		8F445A4F20504E3C0041CD84 /* EditRowData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F445A4E20504E3C0041CD84 /* EditRowData.swift */; };
 		8F445A5220504E550041CD84 /* NewRowValue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F445A5120504E550041CD84 /* NewRowValue.swift */; };
 		8F44A8B01FBDE16800FB652B /* SQLiteExpression.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F44A8AF1FBDE16800FB652B /* SQLiteExpression.swift */; };
+		8F49DE36218754F100991DBC /* CreateTableConstraintCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F49DE35218754F100991DBC /* CreateTableConstraintCell.swift */; };
 		8F4BECC21FB6861A003DAA5E /* BottomEditorContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4BECC11FB6861A003DAA5E /* BottomEditorContainer.swift */; };
 		8F4BECC81FB68B00003DAA5E /* TabCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4BECC41FB68AFF003DAA5E /* TabCell.swift */; };
 		8F4BECC91FB68B00003DAA5E /* NSImage+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F4BECC51FB68B00003DAA5E /* NSImage+Additions.swift */; };
@@ -502,7 +499,6 @@
 		8F178CA01FA0DB790057387A /* JumpToRowViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JumpToRowViewController.swift; sourceTree = "<group>"; };
 		8F1BC6321FCF47C500128351 /* ImportDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImportDataViewController.swift; sourceTree = "<group>"; };
 		8F1C4EFF1F9905D300DE12BF /* PassThroughScrollView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PassThroughScrollView.swift; sourceTree = "<group>"; };
-		8F2096F221813E03009ABC90 /* CreateSimpleColumnViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateSimpleColumnViewController.swift; sourceTree = "<group>"; };
 		8F21ED882047372900A6AFA9 /* ViewParsingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewParsingTests.swift; sourceTree = "<group>"; };
 		8F25216F1F855A2A00B438CC /* CreateViewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateViewViewController.swift; sourceTree = "<group>"; };
 		8F2521721F855A3D00B438CC /* LiftViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiftViewController.swift; sourceTree = "<group>"; };
@@ -520,10 +516,9 @@
 		8F2CB28D218240E100BA3A35 /* Store.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Store.storyboard; sourceTree = "<group>"; };
 		8F2CB2902182442600BA3A35 /* IAPHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPHelper.swift; sourceTree = "<group>"; };
 		8F2CB2932182490500BA3A35 /* StoreTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreTableCell.swift; sourceTree = "<group>"; };
-		8F2CB2982182846800BA3A35 /* AdvancedColumnCreationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedColumnCreationViewController.swift; sourceTree = "<group>"; };
-		8F2CB29B2182875600BA3A35 /* ConstraintSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstraintSection.swift; sourceTree = "<group>"; };
-		8F2CB29F21828E3200BA3A35 /* PrimaryKeySection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryKeySection.swift; sourceTree = "<group>"; };
-		8F2CB2A22183527100BA3A35 /* PrimaryKeySectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimaryKeySectionView.swift; sourceTree = "<group>"; };
+		8F2CB2AE2183DD0100BA3A35 /* CreateTable.CheckTableConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTable.CheckTableConstraint.swift; sourceTree = "<group>"; };
+		8F2CB2B22183DE3C00BA3A35 /* CreateTable.ForeignKeyTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTable.ForeignKeyTable.swift; sourceTree = "<group>"; };
+		8F2CB2B521849C5400BA3A35 /* EditCheckConstraintViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCheckConstraintViewController.swift; sourceTree = "<group>"; };
 		8F30777E1F87F26A005AFE4E /* BrowseViewNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseViewNode.swift; sourceTree = "<group>"; };
 		8F374B8E1F87DF9400BB4F63 /* Column.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Column.swift; sourceTree = "<group>"; };
 		8F374B901F87DF9400BB4F63 /* Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
@@ -549,6 +544,7 @@
 		8F445A4E20504E3C0041CD84 /* EditRowData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditRowData.swift; sourceTree = "<group>"; };
 		8F445A5120504E550041CD84 /* NewRowValue.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRowValue.swift; sourceTree = "<group>"; };
 		8F44A8AF1FBDE16800FB652B /* SQLiteExpression.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteExpression.swift; sourceTree = "<group>"; };
+		8F49DE35218754F100991DBC /* CreateTableConstraintCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTableConstraintCell.swift; sourceTree = "<group>"; };
 		8F4BECC11FB6861A003DAA5E /* BottomEditorContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomEditorContainer.swift; sourceTree = "<group>"; };
 		8F4BECC41FB68AFF003DAA5E /* TabCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabCell.swift; sourceTree = "<group>"; };
 		8F4BECC51FB68B00003DAA5E /* NSImage+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSImage+Additions.swift"; sourceTree = "<group>"; };
@@ -822,6 +818,8 @@
 				8F2A250921513ED500DADFB8 /* CreateTable.CreatePrimaryKey.swift */,
 				8F2A250B21513F1A00DADFB8 /* CreateTable.CreateIndexedColumn.swift */,
 				8F2A250D2151414E00DADFB8 /* CreateTable.CreateUniqueTable.swift */,
+				8F2CB2AE2183DD0100BA3A35 /* CreateTable.CheckTableConstraint.swift */,
+				8F2CB2B22183DE3C00BA3A35 /* CreateTable.ForeignKeyTable.swift */,
 			);
 			path = "Create Table Constraints";
 			sourceTree = "<group>";
@@ -836,25 +834,6 @@
 				8F2CB2932182490500BA3A35 /* StoreTableCell.swift */,
 			);
 			path = Store;
-			sourceTree = "<group>";
-		};
-		8F2CB2972182845600BA3A35 /* Advanced Column Creation */ = {
-			isa = PBXGroup;
-			children = (
-				8F2CB2982182846800BA3A35 /* AdvancedColumnCreationViewController.swift */,
-				8F2CB29E21828E2000BA3A35 /* Create constraint */,
-			);
-			path = "Advanced Column Creation";
-			sourceTree = "<group>";
-		};
-		8F2CB29E21828E2000BA3A35 /* Create constraint */ = {
-			isa = PBXGroup;
-			children = (
-				8F2CB29B2182875600BA3A35 /* ConstraintSection.swift */,
-				8F2CB29F21828E3200BA3A35 /* PrimaryKeySection.swift */,
-				8F2CB2A22183527100BA3A35 /* PrimaryKeySectionView.swift */,
-			);
-			path = "Create constraint";
 			sourceTree = "<group>";
 		};
 		8F30777C1F87F252005AFE4E /* Side Bar Browse */ = {
@@ -1186,11 +1165,11 @@
 			isa = PBXGroup;
 			children = (
 				8F72E3B41F83FBE9006C88F5 /* CreateTableViewController.swift */,
-				8F2096F221813E03009ABC90 /* CreateSimpleColumnViewController.swift */,
 				8F96B9062150311E0029FDE7 /* CreateTableDefinition.swift */,
 				8F2A24FD21506C5A00DADFB8 /* CreateColumnDefinition.swift */,
 				8F2A2501215070EF00DADFB8 /* CreateColumnConstraintDefinitions.swift */,
-				8F2CB2972182845600BA3A35 /* Advanced Column Creation */,
+				8F2CB2B521849C5400BA3A35 /* EditCheckConstraintViewController.swift */,
+				8F49DE35218754F100991DBC /* CreateTableConstraintCell.swift */,
 				8F2A250721513EC700DADFB8 /* Create Table Constraints */,
 				8F8F215C207290510048BE06 /* SimpleCreateColumnView.swift */,
 			);
@@ -1675,7 +1654,6 @@
 				8F2CB1CC2182208E00BA3A35 /* TabButton.swift in Sources */,
 				8F2CB1CD2182208E00BA3A35 /* PrimaryKeyTableConstraint.swift in Sources */,
 				8F2CB1CE2182208E00BA3A35 /* ForeignKeyColumnConstraint.swift in Sources */,
-				8F2CB1CF2182208E00BA3A35 /* CreateSimpleColumnViewController.swift in Sources */,
 				8F2CB1D02182208E00BA3A35 /* CompletionPanel.swift in Sources */,
 				8F2CB1D12182208E00BA3A35 /* StatementWaitingViewController.swift in Sources */,
 				8F2CB1D22182208E00BA3A35 /* ColumnDefinition.swift in Sources */,
@@ -1698,8 +1676,8 @@
 				8F2CB1E32182208E00BA3A35 /* GroupViewNode.swift in Sources */,
 				8F2CB1E42182208E00BA3A35 /* XMLExportOptions.swift in Sources */,
 				8F2CB1E52182208E00BA3A35 /* SQLiteName.swift in Sources */,
-				8F2CB2A42183527100BA3A35 /* PrimaryKeySectionView.swift in Sources */,
 				8F2CB1E62182208E00BA3A35 /* SQLiteStringValueFormatter.swift in Sources */,
+				8F2CB2B42183DE3C00BA3A35 /* CreateTable.ForeignKeyTable.swift in Sources */,
 				8F2CB1E72182208E00BA3A35 /* Database+Options.swift in Sources */,
 				8F2CB1E82182208E00BA3A35 /* LineNumberScrollView.swift in Sources */,
 				8F2CB1E92182208E00BA3A35 /* JumpToRowViewController.swift in Sources */,
@@ -1763,7 +1741,6 @@
 				8F2CB2222182208E00BA3A35 /* ExportViewController+csv.swift in Sources */,
 				8F2CB2232182208E00BA3A35 /* DetachDatabaseViewController.swift in Sources */,
 				8F2CB2242182208E00BA3A35 /* LiftDocument.swift in Sources */,
-				8F2CB2A121828E3200BA3A35 /* PrimaryKeySection.swift in Sources */,
 				8F2CB2252182208E00BA3A35 /* LineNumberView.swift in Sources */,
 				8F2CB2262182208E00BA3A35 /* SQLiteSyntaxHighlighter.swift in Sources */,
 				8F2CB2272182208E00BA3A35 /* ExportDataViewController.swift in Sources */,
@@ -1780,7 +1757,6 @@
 				8F2CB2312182208E00BA3A35 /* LongPressButton.swift in Sources */,
 				8F2CB2322182208E00BA3A35 /* GraphTableView.swift in Sources */,
 				8F2CB2332182208E00BA3A35 /* TableGraphViewController.swift in Sources */,
-				8F2CB29A2182846800BA3A35 /* AdvancedColumnCreationViewController.swift in Sources */,
 				8F2CB2342182208E00BA3A35 /* CreateViewViewController.swift in Sources */,
 				8F2CB2352182208E00BA3A35 /* Query.swift in Sources */,
 				8F2CB2362182208E00BA3A35 /* TableDetailViewController.swift in Sources */,
@@ -1803,9 +1779,9 @@
 				8F2CB2472182208E00BA3A35 /* AttributedStringFormatter.swift in Sources */,
 				8F2CB2482182208E00BA3A35 /* CreateTable.CreatePrimaryKey.swift in Sources */,
 				8F2CB2492182208E00BA3A35 /* ExportViewController+XML.swift in Sources */,
+				8F2CB2B02183DD0100BA3A35 /* CreateTable.CheckTableConstraint.swift in Sources */,
 				8F2CB24A2182208E00BA3A35 /* ExportNodes.swift in Sources */,
 				8F2CB24B2182208E00BA3A35 /* TriggerNode.swift in Sources */,
-				8F2CB29D2182875600BA3A35 /* ConstraintSection.swift in Sources */,
 				8F2CB24C2182208E00BA3A35 /* LiftViewController.swift in Sources */,
 				8F2CB24D2182208E00BA3A35 /* ImportDataViewController.swift in Sources */,
 				8F2CB24E2182208E00BA3A35 /* ImportViewController.swift in Sources */,
@@ -1836,6 +1812,7 @@
 				8F2CB28B21823B5900BA3A35 /* StoreViewController.swift in Sources */,
 				8F2CB2662182208E00BA3A35 /* TabCell.swift in Sources */,
 				8F2CB2672182208E00BA3A35 /* CreateTableViewController.swift in Sources */,
+				8F2CB2B721849C5400BA3A35 /* EditCheckConstraintViewController.swift in Sources */,
 				8F2CB2682182208E00BA3A35 /* String+Additions.swift in Sources */,
 				8F2CB2692182208E00BA3A35 /* CheckTableConstraint.swift in Sources */,
 				8F2CB26A2182208E00BA3A35 /* sqlite3.c in Sources */,
@@ -1860,7 +1837,6 @@
 				8F4BECCA1FB68B00003DAA5E /* TabButton.swift in Sources */,
 				8FB9F15A1F7EA4D40090FA53 /* PrimaryKeyTableConstraint.swift in Sources */,
 				8F921DBB1F7ECD7100464D27 /* ForeignKeyColumnConstraint.swift in Sources */,
-				8F2096F321813E03009ABC90 /* CreateSimpleColumnViewController.swift in Sources */,
 				8FD7EB77214C024800325EA1 /* CompletionPanel.swift in Sources */,
 				8F4C40DA1F87B3CE003BF006 /* StatementWaitingViewController.swift in Sources */,
 				8FB9F14D1F7D72220090FA53 /* ColumnDefinition.swift in Sources */,
@@ -1883,8 +1859,8 @@
 				8F3C06A621643135005BD88F /* GroupViewNode.swift in Sources */,
 				8F9565CB1FB36EFC008FE038 /* XMLExportOptions.swift in Sources */,
 				8FB9F1531F7E7FCE0090FA53 /* SQLiteName.swift in Sources */,
-				8F2CB2A32183527100BA3A35 /* PrimaryKeySectionView.swift in Sources */,
 				8F72E3B71F83FDE3006C88F5 /* SQLiteStringValueFormatter.swift in Sources */,
+				8F2CB2B32183DE3C00BA3A35 /* CreateTable.ForeignKeyTable.swift in Sources */,
 				8F74FA3B1FC33620008D8B4A /* Database+Options.swift in Sources */,
 				8F72E3BC1F840AFD006C88F5 /* LineNumberScrollView.swift in Sources */,
 				8F178CA11FA0DB790057387A /* JumpToRowViewController.swift in Sources */,
@@ -1925,6 +1901,7 @@
 				8FEFD4BF1F9F7AD900C6C75A /* ExportViewController.swift in Sources */,
 				8FE7288F2180F8B200F3968E /* SideBarDetailCell.swift in Sources */,
 				8FC63CDB1FA2492000005591 /* LiftMainViewController.swift in Sources */,
+				8F49DE36218754F100991DBC /* CreateTableConstraintCell.swift in Sources */,
 				8F11B7951F83DC1C008E19D7 /* Database.swift in Sources */,
 				8F4BECCE1FB68B63003DAA5E /* QueryResultsViewController.swift in Sources */,
 				8F9114A21FF84A6C000B6D6A /* WelcomeViewController.swift in Sources */,
@@ -1948,7 +1925,6 @@
 				8F9565D21FB36EFC008FE038 /* ExportViewController+csv.swift in Sources */,
 				8FA148E01F8D312500644638 /* DetachDatabaseViewController.swift in Sources */,
 				8F7C52311F7D39E5004A91BC /* LiftDocument.swift in Sources */,
-				8F2CB2A021828E3200BA3A35 /* PrimaryKeySection.swift in Sources */,
 				8F72E3C21F840B4D006C88F5 /* LineNumberView.swift in Sources */,
 				8F6273E51F85C2C0007055D9 /* SQLiteSyntaxHighlighter.swift in Sources */,
 				8FCA2AD7215E8254007A7D62 /* ExportDataViewController.swift in Sources */,
@@ -1965,7 +1941,6 @@
 				8F391B7C1F967429002D3AFE /* LongPressButton.swift in Sources */,
 				8FD4FEA31F8BFEF70008D8DA /* GraphTableView.swift in Sources */,
 				8FD4FE9D1F8BFE310008D8DA /* TableGraphViewController.swift in Sources */,
-				8F2CB2992182846800BA3A35 /* AdvancedColumnCreationViewController.swift in Sources */,
 				8F2521701F855A2A00B438CC /* CreateViewViewController.swift in Sources */,
 				8F74A7591F87AD350069721E /* Query.swift in Sources */,
 				8FAF334D1FA2AAF6003ACFC7 /* TableDetailViewController.swift in Sources */,
@@ -1988,9 +1963,9 @@
 				8F51324E20504DE800E2A759 /* AttributedStringFormatter.swift in Sources */,
 				8F2A250A21513ED500DADFB8 /* CreateTable.CreatePrimaryKey.swift in Sources */,
 				8F9565D11FB36EFC008FE038 /* ExportViewController+XML.swift in Sources */,
+				8F2CB2AF2183DD0100BA3A35 /* CreateTable.CheckTableConstraint.swift in Sources */,
 				8F9565D01FB36EFC008FE038 /* ExportNodes.swift in Sources */,
 				8F3C06EA2164442F005BD88F /* TriggerNode.swift in Sources */,
-				8F2CB29C2182875600BA3A35 /* ConstraintSection.swift in Sources */,
 				8F2521731F855A3D00B438CC /* LiftViewController.swift in Sources */,
 				8F1BC6331FCF47C500128351 /* ImportDataViewController.swift in Sources */,
 				8FEFD4C11F9F7B4200C6C75A /* ImportViewController.swift in Sources */,
@@ -2021,6 +1996,7 @@
 				8F2CB28A21823B5900BA3A35 /* StoreViewController.swift in Sources */,
 				8F4BECC81FB68B00003DAA5E /* TabCell.swift in Sources */,
 				8F72E3B51F83FBE9006C88F5 /* CreateTableViewController.swift in Sources */,
+				8F2CB2B621849C5400BA3A35 /* EditCheckConstraintViewController.swift in Sources */,
 				8FB9F1571F7EA3C80090FA53 /* String+Additions.swift in Sources */,
 				8FB9F1611F7EA5690090FA53 /* CheckTableConstraint.swift in Sources */,
 				8F11B79A1F83DC58008E19D7 /* sqlite3.c in Sources */,

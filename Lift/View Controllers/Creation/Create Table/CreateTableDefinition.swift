@@ -20,6 +20,7 @@ class CreateTableDefinition: NSObject {
     @objc dynamic var databaseName: String?
 
     @objc dynamic var isTemp = false
+
     @objc dynamic var withoutRowID = false
 
     override init() {

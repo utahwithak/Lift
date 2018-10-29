@@ -40,7 +40,11 @@ class CreateColumnConstraintDefinitions: NSObject {
 
     @objc dynamic var nonNull: CreateNonNull?
 
-    class CreateDefaultValue: NSObject {
+    class CreateColumnConstraint: NSObject {
+        @objc dynamic var enabled: Bool = false
+    }
+
+    class CreateDefaultValue: CreateColumnConstraint {
         @objc dynamic var constraintName: String?
         @objc dynamic var value: String
         init(value: String) {
@@ -55,7 +59,7 @@ class CreateColumnConstraintDefinitions: NSObject {
         }
     }
 
-    class CreatePrimaryKey: NSObject {
+    class CreatePrimaryKey: CreateColumnConstraint {
         @objc dynamic var constraintName: String?
         @objc dynamic var autoincrement = false
         @objc dynamic var sortOrder: Int = 0
@@ -72,7 +76,7 @@ class CreateColumnConstraintDefinitions: NSObject {
         }
     }
 
-    class CreateNonNull: NSObject {
+    class CreateNonNull: CreateColumnConstraint {
         @objc dynamic var constraintName: String?
         var conflictClause: ConflictClause?
         init(existing: NotNullColumnConstraint) {
@@ -85,7 +89,7 @@ class CreateColumnConstraintDefinitions: NSObject {
         }
     }
 
-    class CreateUnique: NSObject {
+    class CreateUnique: CreateColumnConstraint {
         @objc dynamic var constraintName: String?
         var conflictClause: ConflictClause?
 
@@ -96,6 +100,25 @@ class CreateColumnConstraintDefinitions: NSObject {
         }
         var toConstraint: UniqueColumnConstraint {
             return UniqueColumnConstraint(name: constraintName, conflict: conflictClause)
+        }
+    }
+
+
+    class CreateCheckConstraint: CreateColumnConstraint {
+
+        @objc dynamic var name: String?
+        @objc dynamic var expression = ""
+
+        init(existing: CreateCheckConstraint) {
+            self.name = existing.name
+            self.expression = existing.expression
+        }
+
+        override init() {
+        }
+
+        var toDefinition: CheckTableConstraint {
+            return CheckTableConstraint(name: name, expression: expression)
         }
     }
 
