@@ -18,6 +18,8 @@ class CreateColumnConstraintCell: NSTableCellView {
     @IBOutlet weak var collateButton: NSButton!
     @IBOutlet weak var foreignKeyButton: NSButton!
 
+    lazy var storyboard: NSStoryboard = { NSStoryboard(name: .constraints, bundle: nil) }()
+
     @objc dynamic var columnDefinition: CreateColumnDefinition? {
         return objectValue as? CreateColumnDefinition
     }
@@ -60,7 +62,6 @@ class CreateColumnConstraintCell: NSTableCellView {
     }
 
     private func showConstraintView(named: String, from sender: NSButton) {
-        let storyboard = NSStoryboard(name: .createItems, bundle: nil)
         guard let viewController = storyboard.instantiateController(withIdentifier: named) as? NSViewController else {
             return
         }
@@ -69,7 +70,7 @@ class CreateColumnConstraintCell: NSTableCellView {
         controller.contentViewController = viewController
         controller.delegate = self
         controller.behavior = .semitransient
-        controller.show(relativeTo: sender.bounds, of: sender, preferredEdge: NSRectEdge.minY)
+        controller.show(relativeTo: sender.bounds, of: sender, preferredEdge: NSRectEdge.maxY)
     }
 
     @IBAction func showPrimaryKeyConstraint(_ sender: NSButton) {

@@ -30,7 +30,9 @@ class CreateColumnDefinition: NSObject {
                     constraints.defaultConstraint = CreateColumnConstraintDefinitions.CreateDefaultValue(value: value)
                 } else {
                     constraints.defaultConstraint?.value = value
+
                 }
+                constraints.defaultConstraint?.enabled = true
             } else {
                 constraints.defaultConstraint = nil
             }

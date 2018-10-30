@@ -47,6 +47,8 @@ class CreateTableViewController: LiftViewController {
             alterButton.title = NSLocalizedString("Create Table", comment: "Create table button title")
         }
         basicTableView.registerForDraggedTypes([NSPasteboard.PasteboardType(rawValue: "private.table-row")])
+        advancedTableView.registerForDraggedTypes([NSPasteboard.PasteboardType(rawValue: "private.table-row")])
+
     }
 
     override func prepare(for segue: NSStoryboardSegue, sender: Any?) {

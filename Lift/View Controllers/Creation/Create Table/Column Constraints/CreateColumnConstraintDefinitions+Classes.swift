@@ -34,6 +34,7 @@ extension CreateColumnConstraintDefinitions {
 
     class CreateDefaultValue: CreateColumnConstraint {
         @objc dynamic var value: String
+        @objc dynamic var isEditingDefaultValue = false
         init(value: String) {
             self.value = value
         }
@@ -41,6 +42,7 @@ extension CreateColumnConstraintDefinitions {
             value = existing.value.sql
             super.init()
             constraintName = existing.constraintName
+            enabled = true
         }
         var toConstraint: DefaultColumnConstraint {
             return DefaultColumnConstraint(name: constraintName, value: value)
@@ -77,7 +79,8 @@ extension CreateColumnConstraintDefinitions {
 
         init(existing: PrimaryKeyColumnConstraint) {
             self.autoincrement = existing.autoincrement
-            self.sortOrder = existing.sortOrder.rawValue
+            self.sortOrder = existing.sortOrder.rawValue - 1
+            useSortOrder = existing.sortOrder != .notSpecified
             super.init()
             self.conflictClause = existing.conflictClause
             self.constraintName = existing.constraintName

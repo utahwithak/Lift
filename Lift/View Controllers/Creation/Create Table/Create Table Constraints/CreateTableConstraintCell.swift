@@ -11,7 +11,7 @@ import AppKit
 class CreateTableConstraintCell: NSTableCellView {
 
     @IBAction func showCheckConstraint(_ sender: NSButton) {
-        let storyboard = NSStoryboard(name: .createItems, bundle: nil)
+        let storyboard = NSStoryboard(name: .constraints, bundle: nil)
         guard let viewController = storyboard.instantiateController(withIdentifier: "createCheckConstraint") as? NSViewController else {
             return
         }
