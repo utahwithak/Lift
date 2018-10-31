@@ -11,7 +11,20 @@ import Foundation
 extension CreateTableConstraintDefinitions {
 
     class CreateIndexedColumn: NSObject {
-        @objc dynamic var column: CreateColumnDefinition
+
+        @objc dynamic var name: String {
+            get {
+                return column?.name ?? expression ?? ""
+            }
+            set {
+                shouldUseColumn = false
+                expression = newValue
+            }
+        }
+
+        @objc dynamic var shouldUseColumn = true
+        @objc dynamic var column: CreateColumnDefinition?
+        @objc dynamic var expression: String?
         @objc dynamic var collationName: String?
         @objc dynamic var sortOrder: Int = 0
 
@@ -22,7 +35,7 @@ extension CreateTableConstraintDefinitions {
         }
 
         var toIndexedColumn: IndexedColumn {
-            var index = IndexedColumn(provider: self.column)
+            var index = IndexedColumn(provider: column ?? expression ?? "" )
             index.sortOrder = IndexColumnSortOrder(rawValue: sortOrder) ?? .notSpecified
             index.collationName = collationName
             return index

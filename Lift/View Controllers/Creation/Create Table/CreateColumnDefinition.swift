@@ -20,28 +20,9 @@ class CreateColumnDefinition: NSObject {
 
     @objc dynamic let constraints: CreateColumnConstraintDefinitions
 
-    @objc dynamic public var defaultExpression: String? {
-        get {
-            return constraints.defaultConstraint?.value
-        }
-        set {
-            if let value = newValue {
-                if constraints.defaultConstraint == nil {
-                    constraints.defaultConstraint = CreateColumnConstraintDefinitions.CreateDefaultValue(value: value)
-                } else {
-                    constraints.defaultConstraint?.value = value
-
-                }
-                constraints.defaultConstraint?.enabled = true
-            } else {
-                constraints.defaultConstraint = nil
-            }
-        }
-    }
-
     @objc dynamic var isPrimary: Bool {
         get {
-            return constraints.primaryKey != nil || table.tableConstraints.primaryKey?.contains(self) == true
+            return constraints.primaryKey?.enabled == true || table.tableConstraints.primaryKey?.contains(self) == true
         }
         set {
             if newValue {
@@ -74,7 +55,7 @@ class CreateColumnDefinition: NSObject {
 
     @objc dynamic var isUnique: Bool {
         get {
-            return constraints.unique != nil || table.tableConstraints.uniques.first(where: {$0.contains(self)}) != nil
+            return constraints.unique?.enabled == true || table.tableConstraints.uniques.first(where: {$0.contains(self)}) != nil
         }
         set {
             if newValue {
@@ -104,24 +85,14 @@ class CreateColumnDefinition: NSObject {
         }
     }
 
-    @objc dynamic var isNonNull: Bool {
-        get {
-            return constraints.nonNull != nil
-        }
-        set {
-            if newValue {
-                constraints.nonNull = CreateColumnConstraintDefinitions.CreateNonNull()
-            } else {
-                constraints.nonNull = nil
-            }
-        }
-    }
-
     init(name: String, table: CreateTableDefinition) {
         originalDefinition = nil
         self.name = name
         self.table = table
         constraints = CreateColumnConstraintDefinitions(constraints: [])
+
+        super.init()
+        observeCosntraint()
     }
 
     init(definition: ColumnDefinition, table: CreateTableDefinition) {
@@ -130,8 +101,27 @@ class CreateColumnDefinition: NSObject {
         self.originalDefinition = definition
         type = definition.type
         constraints = CreateColumnConstraintDefinitions(constraints: definition.columnConstraints)
+
+        super.init()
+        observeCosntraint()
     }
 
+    private func observeCosntraint() {
+        constraints.addObserver(self, forKeyPath: "primaryKey.enabled", options: [], context: nil)
+        constraints.addObserver(self, forKeyPath: "unique.enabled", options: [], context: nil)
+    }
+
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "primaryKey.enabled" {
+            willChangeValue(for: \.isPrimary)
+            didChangeValue(for: \.isPrimary)
+        } else if keyPath == "unique.enabled" {
+            willChangeValue(for: \.isUnique)
+            didChangeValue(for: \.isUnique)
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        }
+    }
     var toDefinition: ColumnDefinition {
         var def = ColumnDefinition(name: name)
         def.type = type

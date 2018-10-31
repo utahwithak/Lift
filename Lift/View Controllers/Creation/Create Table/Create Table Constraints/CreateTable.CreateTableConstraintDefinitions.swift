@@ -19,7 +19,7 @@ class CreateTableConstraintDefinitions: NSObject {
 
     unowned let table: CreateTableDefinition
 
-    @objc public var createConstraints = [CreateTableConstraintRowItem]()
+    @objc dynamic public var createConstraints = [CreateTableConstraintRowItem]()
 
     var primaryKey: CreatePrimaryKey? {
 
@@ -27,13 +27,11 @@ class CreateTableConstraintDefinitions: NSObject {
             return createConstraints.compactMap({ $0.primaryKey }).first
         }
         set {
-            willChangeValue(for: \.createConstraints)
 
             createConstraints = createConstraints.filter({$0.primaryKey == nil })
             if let newValue = newValue {
                 createConstraints.append(CreateTableConstraintRowItem(primaryKey: newValue))
             }
-            didChangeValue(for: \.createConstraints)
 
         }
 
@@ -80,6 +78,7 @@ class CreateTableConstraintDefinitions: NSObject {
 }
 
 class CreateTableConstraintRowItem: NSObject {
+
     enum TableConstraintType: Int {
         case primaryKey
         case unique
@@ -90,10 +89,7 @@ class CreateTableConstraintRowItem: NSObject {
     @objc dynamic var type: Int {
         didSet {
             if type != oldValue {
-                let columns = primaryKey?.columns
-                columns?.forEach({ $0.column.willChangeValue(for: \.isPrimary)})
                 primaryKey = nil
-                columns?.forEach({ $0.column.didChangeValue(for: \.isPrimary)})
                 unique = nil
                 check = nil
                 foreignKey = nil
@@ -150,11 +146,13 @@ class CreateTableConstraintRowItem: NSObject {
         enabled = true
         type = TableConstraintType.primaryKey.rawValue
         self.primaryKey = primaryKey
+        constraintName = primaryKey.name
     }
 
     init(uniqueKey: CreateTableConstraintDefinitions.CreateUnique) {
         enabled = true
         type = TableConstraintType.unique.rawValue
         self.unique = uniqueKey
+        constraintName = uniqueKey.name
     }
 }

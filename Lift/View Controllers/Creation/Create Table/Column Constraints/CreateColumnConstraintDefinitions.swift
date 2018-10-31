@@ -30,14 +30,76 @@ class CreateColumnConstraintDefinitions: NSObject {
         if let unique = constraints.compactMap({ $0 as? UniqueColumnConstraint}).first {
             self.unique = CreateUnique(existing: unique)
         }
+        if let collate = constraints.compactMap({ $0 as? CollateColumnConstraint}).first {
+            self.collate = CreateCollateConstraint(existing: collate)
+        }
+        if let check = constraints.compactMap({ $0 as? CheckColumnConstraint}).first {
+            self.check = CreateCheckConstraint(existing: check)
+        }
     }
 
     @objc dynamic var primaryKey: CreatePrimaryKey?
-    @objc dynamic var nonNull: CreateNonNull?
+
+    @objc dynamic var nonNull: CreateNonNull? {
+        willSet {
+            willChangeValue(for: \.isNonNull)
+        }
+        didSet {
+            didChangeValue(for: \.isNonNull)
+        }
+    }
+
     @objc dynamic var unique: CreateUnique?
     @objc dynamic var check: CreateCheckConstraint?
-    @objc dynamic var defaultConstraint: CreateDefaultValue?
     @objc dynamic var collate: CreateCollateConstraint?
+
+    private var observeContext: NSKeyValueObservation?
+
+    @objc dynamic var defaultConstraint: CreateDefaultValue? {
+        willSet {
+            observeContext = nil
+        }
+        didSet {
+            if let newConstraint = defaultConstraint {
+                observeContext = newConstraint.observe(\.value) { [weak self] (_, _) in
+                    self?.willChangeValue(for: \.defaultExpression)
+                    self?.didChangeValue(for: \.defaultExpression)
+                }
+            }
+        }
+    }
+
+    @objc dynamic public var defaultExpression: String? {
+        get {
+            return defaultConstraint?.value
+        }
+        set {
+            if let value = newValue {
+                if defaultConstraint == nil {
+                   defaultConstraint = CreateColumnConstraintDefinitions.CreateDefaultValue(value: value)
+                } else {
+                   defaultConstraint?.value = value
+                }
+                defaultConstraint?.enabled = true
+            } else {
+                defaultConstraint = nil
+            }
+        }
+    }
+
+    @objc dynamic var isNonNull: Bool {
+        get {
+            return nonNull != nil
+        }
+        set {
+            if newValue {
+                nonNull = CreateColumnConstraintDefinitions.CreateNonNull()
+                nonNull?.enabled = true
+            } else {
+                nonNull = nil
+            }
+        }
+    }
 
     var columnConstraints: [ColumnConstraint] {
 

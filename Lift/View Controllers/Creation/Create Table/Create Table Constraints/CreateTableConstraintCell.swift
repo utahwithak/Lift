@@ -10,22 +10,28 @@ import AppKit
 
 class CreateTableConstraintCell: NSTableCellView {
 
-    @IBAction func showCheckConstraint(_ sender: NSButton) {
+    private func showViewController(with identifier: String, from sender: NSButton, object: Any?) {
         let storyboard = NSStoryboard(name: .constraints, bundle: nil)
-        guard let viewController = storyboard.instantiateController(withIdentifier: "createCheckConstraint") as? NSViewController else {
+        guard let viewController = storyboard.instantiateController(withIdentifier: identifier) as? NSViewController else {
             return
         }
-        viewController.representedObject = objectValue
+        viewController.representedObject = object ?? objectValue
         let controller = NSPopover()
         controller.contentViewController = viewController
         controller.delegate = self
         controller.behavior = .semitransient
-        controller.show(relativeTo: sender.frame, of: self, preferredEdge: NSRectEdge.minY)
-//        let vc = self.stor//
+        controller.show(relativeTo: sender.bounds, of: sender, preferredEdge: NSRectEdge.minY)
+    }
+
+    @IBAction func showCheckConstraint(_ sender: NSButton) {
+        showViewController(with: "createCheckConstraint", from: sender, object: nil)
     }
 
     @IBAction func showPrimaryKeyConstraint(_ sender: NSButton) {
-
+        guard let pk = (objectValue as? CreateTableConstraintRowItem)?.primaryKey else {
+            return
+        }
+        showViewController(with: "createIndexedTableConstraint", from: sender, object: pk)
     }
 
     @IBAction func showForeignKeyConstraint(_ sender: NSButton) {
@@ -33,7 +39,10 @@ class CreateTableConstraintCell: NSTableCellView {
     }
 
     @IBAction func showUniqueConstraint(_ sender: NSButton) {
-
+        guard let unique = (objectValue as? CreateTableConstraintRowItem)?.unique else {
+            return
+        }
+        showViewController(with: "createIndexedTableConstraint", from: sender, object: unique)
     }
 }
 
