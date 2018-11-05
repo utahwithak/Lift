@@ -91,12 +91,12 @@ class TableDetailViewController: LiftViewController {
             editController.representedObject = representedObject
             editController.viewDefinition = definition
             presentAsSheet(editController)
-        } else if let table = selectedTable as? Table, let tableDef = table.definition {
+        } else if let table = selectedTable as? Table, let database = table.database, let tableDef = table.definition {
             guard let editController = storyboard?.instantiateController(withIdentifier: "createTableViewController") as? CreateTableViewController else {
                 return
             }
             editController.representedObject = representedObject
-            editController.table = CreateTableDefinition(existingDefinition: tableDef)
+            editController.table = CreateTableDefinition(existingDefinition: tableDef, database: database)
             presentAsSheet(editController)
         } else {
             print("UNABLE TO GET DEF!! WHATS UP!?")

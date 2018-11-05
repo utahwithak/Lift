@@ -21,7 +21,7 @@ enum ActionType {
     }
 }
 
-enum ActionResult {
+enum ActionResult: Int {
     case setNull
     case setDefault
     case cascade

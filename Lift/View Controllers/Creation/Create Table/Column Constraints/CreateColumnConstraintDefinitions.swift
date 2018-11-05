@@ -36,6 +36,13 @@ class CreateColumnConstraintDefinitions: NSObject {
         if let check = constraints.compactMap({ $0 as? CheckColumnConstraint}).first {
             self.check = CreateCheckConstraint(existing: check)
         }
+
+        let fKeys = constraints.compactMap({ $0 as? ForeignKeyColumnConstraint})
+        for fKey in fKeys {
+            foreignKeys.append(CreateColumnConstraintDefinitions.CreateForeignKeyConstraint(existing: fKey))
+        }
+        foreignKeys.append(CreateForeignKeyConstraint())
+
     }
 
     @objc dynamic var primaryKey: CreatePrimaryKey?
@@ -50,8 +57,12 @@ class CreateColumnConstraintDefinitions: NSObject {
     }
 
     @objc dynamic var unique: CreateUnique?
+
     @objc dynamic var check: CreateCheckConstraint?
+
     @objc dynamic var collate: CreateCollateConstraint?
+
+    @objc dynamic var foreignKeys = [CreateForeignKeyConstraint]()
 
     private var observeContext: NSKeyValueObservation?
 
@@ -101,6 +112,13 @@ class CreateColumnConstraintDefinitions: NSObject {
         }
     }
 
+    func checkForeignKeys() {
+        let allEnabled = foreignKeys.reduce(true, { $0 && $1.enabled})
+        if allEnabled {
+            foreignKeys.append(CreateForeignKeyConstraint())
+        }
+    }
+
     var columnConstraints: [ColumnConstraint] {
 
         var constraints = [ColumnConstraint]()
@@ -126,6 +144,10 @@ class CreateColumnConstraintDefinitions: NSObject {
 
         if let collate = collate, collate.enabled {
             constraints.append(collate.toConstraint)
+        }
+
+        for fkey in foreignKeys where fkey.enabled {
+            constraints.append(fkey.toConstraint)
         }
 
         return constraints

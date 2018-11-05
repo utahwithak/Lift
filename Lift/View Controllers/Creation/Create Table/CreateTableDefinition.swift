@@ -17,22 +17,25 @@ class CreateTableDefinition: NSObject {
             didChangeValue(for: \.hasValidName)
         }
     }
-    @objc dynamic var databaseName: String?
+    @objc dynamic var database: Database?
 
     @objc dynamic var isTemp = false
 
     @objc dynamic var withoutRowID = false
 
-    override init() {
+    init(database: Database? = nil) {
+        self.database = database
         originalDefinition = nil
         super.init()
         tableConstraints = CreateTableConstraintDefinitions(table: self)
     }
 
-    init(existingDefinition: TableDefinition) {
+    init(existingDefinition: TableDefinition, database: Database) {
+
+        self.database = database
         originalDefinition = existingDefinition
         tableName = existingDefinition.tableName
-        databaseName = existingDefinition.databaseName
+        self.database = database
         isTemp = existingDefinition.isTemp
         withoutRowID = existingDefinition.withoutRowID
 
@@ -57,7 +60,7 @@ class CreateTableDefinition: NSObject {
         var definition = TableDefinition()
         definition.tableName = tableName
         definition.withoutRowID = withoutRowID
-        definition.databaseName = databaseName
+        definition.databaseName = database?.name
         definition.isTemp = isTemp
 
         for column in columns {

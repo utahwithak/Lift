@@ -12,6 +12,11 @@ struct ForeignKeyColumnConstraint: ColumnConstraint {
     let constraintName: String?
     let clause: ForeignKeyClause
 
+    init(name: String?, clause: ForeignKeyClause) {
+        self.constraintName = name
+        self.clause = clause
+    }
+
     init(with name: SQLiteName?, from scanner: Scanner) throws {
         clause = try ForeignKeyClause(from: scanner)
         constraintName = name

@@ -30,7 +30,7 @@ class CreateTableConstraintDefinitions: NSObject {
 
             createConstraints = createConstraints.filter({$0.primaryKey == nil })
             if let newValue = newValue {
-                createConstraints.append(CreateTableConstraintRowItem(primaryKey: newValue))
+                createConstraints.append(CreateTableConstraintRowItem(primaryKey: newValue, table: table))
             }
 
         }
@@ -48,7 +48,7 @@ class CreateTableConstraintDefinitions: NSObject {
     }
 
     func add(unique: CreateUnique) {
-        createConstraints.append(CreateTableConstraintRowItem(uniqueKey: unique))
+        createConstraints.append(CreateTableConstraintRowItem(uniqueKey: unique, table: table))
     }
 
     init(table: CreateTableDefinition) {
@@ -69,6 +69,16 @@ class CreateTableConstraintDefinitions: NSObject {
         let uniques = existingDefinitions.compactMap({ $0 as? UniqueTableConstraint})
         for unique in uniques {
             add(unique: CreateUnique(existing: unique, in: table))
+        }
+
+        let checks = existingDefinitions.compactMap({ $0 as? CheckTableConstraint })
+        for check in checks {
+            createConstraints.append(CreateTableConstraintRowItem(check: CreateCheckConstraint(existing: check), table: table))
+        }
+        let fkeys = existingDefinitions.compactMap({ $0 as? ForeignKeyTableConstraint })
+        for fkey in fkeys {
+            createConstraints.append(CreateTableConstraintRowItem(fKey: CreateForeignKeyConstraint(existing: fkey, table: table), table: table))
+
         }
     }
 
@@ -93,23 +103,27 @@ class CreateTableConstraintRowItem: NSObject {
                 unique = nil
                 check = nil
                 foreignKey = nil
+                update(with: TableConstraintType(rawValue: type))
 
-                switch TableConstraintType(rawValue: type)! {
-                case .primaryKey:
-                    primaryKey = CreateTableConstraintDefinitions.CreatePrimaryKey()
-                case .unique:
-
-                    unique = CreateTableConstraintDefinitions.CreateUnique()
-                case .check:
-                    check = CreateTableConstraintDefinitions.CreateCheckConstraint()
-                case .foreignKey:
-                    foreignKey = CreateTableConstraintDefinitions.CreateForeignKeyConstraint()
-                }
             }
         }
     }
 
-    @objc dynamic var enabled = false
+    private func update(with type: TableConstraintType?) {
+        guard let type = type else {
+            return
+        }
+        switch type {
+        case .primaryKey:
+            primaryKey = CreateTableConstraintDefinitions.CreatePrimaryKey(table: table)
+        case .unique:
+            unique = CreateTableConstraintDefinitions.CreateUnique(table: table)
+        case .check:
+            check = CreateTableConstraintDefinitions.CreateCheckConstraint()
+        case .foreignKey:
+            foreignKey = CreateTableConstraintDefinitions.CreateForeignKeyConstraint(table: table)
+        }
+    }
 
     @objc dynamic var constraintName: String?
 
@@ -118,10 +132,9 @@ class CreateTableConstraintRowItem: NSObject {
     @objc dynamic public var check: CreateTableConstraintDefinitions.CreateCheckConstraint?
     @objc dynamic public var foreignKey: CreateTableConstraintDefinitions.CreateForeignKeyConstraint?
 
+    @objc dynamic public let table: CreateTableDefinition
+
     var constraint: TableConstraint? {
-        guard enabled else {
-            return nil
-        }
         primaryKey?.name = constraintName
         unique?.name = constraintName
         check?.name = constraintName
@@ -129,30 +142,36 @@ class CreateTableConstraintRowItem: NSObject {
         return primaryKey?.toDefinition ?? unique?.toDefinition ?? check?.toDefinition ?? foreignKey?.toDefinition
     }
 
-    init(type: TableConstraintType) {
+    init(type: TableConstraintType, table: CreateTableDefinition) {
+        self.table = table
         self.type = type.rawValue
-        switch type {
-        case .primaryKey:
-            primaryKey = CreateTableConstraintDefinitions.CreatePrimaryKey()
-        case .unique:
-            unique = CreateTableConstraintDefinitions.CreateUnique()
-        case .check:
-            check = CreateTableConstraintDefinitions.CreateCheckConstraint()
-        case .foreignKey:
-            foreignKey = CreateTableConstraintDefinitions.CreateForeignKeyConstraint()
-        }
+        super.init()
+        update(with: type)
     }
-    init(primaryKey: CreateTableConstraintDefinitions.CreatePrimaryKey) {
-        enabled = true
+    init(primaryKey: CreateTableConstraintDefinitions.CreatePrimaryKey, table: CreateTableDefinition) {
         type = TableConstraintType.primaryKey.rawValue
         self.primaryKey = primaryKey
         constraintName = primaryKey.name
+        self.table = table
     }
 
-    init(uniqueKey: CreateTableConstraintDefinitions.CreateUnique) {
-        enabled = true
+    init(uniqueKey: CreateTableConstraintDefinitions.CreateUnique, table: CreateTableDefinition) {
+        self.table = table
         type = TableConstraintType.unique.rawValue
         self.unique = uniqueKey
         constraintName = uniqueKey.name
+    }
+    init(check: CreateTableConstraintDefinitions.CreateCheckConstraint, table: CreateTableDefinition) {
+        self.table = table
+        type = TableConstraintType.check.rawValue
+        self.check = check
+        constraintName = check.name
+    }
+
+    init(fKey: CreateTableConstraintDefinitions.CreateForeignKeyConstraint, table: CreateTableDefinition) {
+        self.table = table
+        type = TableConstraintType.foreignKey.rawValue
+        self.foreignKey = fKey
+        constraintName = fKey.name
     }
 }

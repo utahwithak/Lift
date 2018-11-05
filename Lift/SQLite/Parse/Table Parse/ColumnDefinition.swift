@@ -65,7 +65,7 @@ struct ColumnDefinition {
 
             switch nextPart.lowercased() {
 
-            case "constraint", "primary", "not", "unique", "check", "default", "collate", "foreign":
+            case "constraint", "primary", "not", "unique", "check", "default", "collate", "references":
                 scanner.scanLocation = curIndex
                 return type
             default:

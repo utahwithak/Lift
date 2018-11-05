@@ -8,6 +8,10 @@
 
 import Foundation
 
+protocol IndexedColumnConverter: class {
+    func column(named: String) -> CreateColumnDefinition?
+}
+
 extension CreateTableConstraintDefinitions {
 
     class CreateIndexedColumn: NSObject {
@@ -17,16 +21,32 @@ extension CreateTableConstraintDefinitions {
                 return column?.name ?? expression ?? ""
             }
             set {
-                shouldUseColumn = false
+                let oldValue = column
+                let newColumn = converter?.column(named: newValue)
+
+                oldValue?.willChangeValue(for: \.isPrimary)
+                oldValue?.willChangeValue(for: \.isUnique)
+                newColumn?.willChangeValue(for: \.isPrimary)
+                newColumn?.willChangeValue(for: \.isUnique)
+
+                column = newColumn
+                newColumn?.didChangeValue(for: \.isPrimary)
+                oldValue?.didChangeValue(for: \.isPrimary)
+                newColumn?.didChangeValue(for: \.isUnique)
+                oldValue?.didChangeValue(for: \.isUnique)
                 expression = newValue
             }
         }
 
-        @objc dynamic var shouldUseColumn = true
+        weak var converter: IndexedColumnConverter?
         @objc dynamic var column: CreateColumnDefinition?
         @objc dynamic var expression: String?
         @objc dynamic var collationName: String?
         @objc dynamic var sortOrder: Int = 0
+
+        override init() {
+
+        }
 
         init(column: CreateColumnDefinition, collation: String?, sortOrder: IndexColumnSortOrder) {
             self.column = column

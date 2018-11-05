@@ -20,6 +20,12 @@ class CreateTableConstraintCell: NSTableCellView {
         controller.contentViewController = viewController
         controller.delegate = self
         controller.behavior = .semitransient
+        if #available(OSX 10.14, *) {
+            controller.appearance = controller.effectiveAppearance.name == NSAppearance.Name.aqua ? NSAppearance(named: .aqua) : NSAppearance(named: .darkAqua)
+        } else {
+            controller.appearance = NSAppearance(named: .aqua)
+
+        }
         controller.show(relativeTo: sender.bounds, of: sender, preferredEdge: NSRectEdge.minY)
     }
 
@@ -35,6 +41,10 @@ class CreateTableConstraintCell: NSTableCellView {
     }
 
     @IBAction func showForeignKeyConstraint(_ sender: NSButton) {
+        guard let fKey = (objectValue as? CreateTableConstraintRowItem)?.foreignKey else {
+            return
+        }
+        showViewController(with: "createTableForeignKey", from: sender, object: fKey)
 
     }
 

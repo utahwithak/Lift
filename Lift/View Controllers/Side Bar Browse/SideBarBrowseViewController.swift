@@ -488,13 +488,13 @@ extension SideBarBrowseViewController: NSMenuDelegate {
             editController.representedObject = representedObject
             editController.viewDefinition = view
             presentAsSheet(editController)
-        } else if let tableDef = (provider as? Table)?.definition {
+        } else if let tableDef = (provider as? Table)?.definition, let database = (provider as? Table)?.database {
 
             guard let editController = storyboard.instantiateController(withIdentifier: "createTableViewController") as? CreateTableViewController else {
                 return
             }
             editController.representedObject = representedObject
-            editController.table = CreateTableDefinition(existingDefinition: tableDef)
+            editController.table = CreateTableDefinition(existingDefinition: tableDef, database: database)
             presentAsSheet(editController)
         } else {
             print("UNABLE TO GET DEF!! WHATS UP!?")

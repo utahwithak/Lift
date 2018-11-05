@@ -12,7 +12,7 @@ extension CreateTableConstraintDefinitions {
     class CreateUnique: IndexedTableConstraint {
         @objc dynamic var name: String?
         init(existing: UniqueTableConstraint, in table: CreateTableDefinition) {
-            super.init(title: NSLocalizedString("Unique", comment: "check box text for enableing unique table constraint"))
+            super.init(title: NSLocalizedString("Unique", comment: "check box text for enableing unique table constraint"), table: table)
             conflictClause = existing.conflictClause
             for indexColumn in existing.indexedColumns {
                 guard let column = table.columns.first(where: { $0.name == indexColumn.nameProvider.name }) else {
@@ -21,9 +21,10 @@ extension CreateTableConstraintDefinitions {
                 columns.append(CreateIndexedColumn(column: column, collation: indexColumn.collationName, sortOrder: indexColumn.sortOrder))
             }
             title = NSLocalizedString("Unique", comment: "check box text for enableing unique table constraint")
+
         }
-        init() {
-            super.init(title: NSLocalizedString("Unique", comment: "check box text for enableing unique table constraint"))
+        init(table: CreateTableDefinition) {
+            super.init(title: NSLocalizedString("Unique", comment: "check box text for enableing unique table constraint"), table: table)
         }
 
         deinit {

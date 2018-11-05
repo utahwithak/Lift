@@ -16,8 +16,10 @@ class CreateColumnConstraintCell: NSTableCellView {
     @IBOutlet weak var checkButton: NSButton!
     @IBOutlet weak var defaultButton: NSButton!
     @IBOutlet weak var collateButton: NSButton!
-    @IBOutlet weak var foreignKeyButton: NSButton!
 
+    @IBOutlet weak var constraintStackView: NSStackView!
+
+    var foreignKeyButtons = [NSButton]()
     lazy var storyboard: NSStoryboard = { NSStoryboard(name: .constraints, bundle: nil) }()
 
     @objc dynamic var columnDefinition: CreateColumnDefinition? {
@@ -28,8 +30,11 @@ class CreateColumnConstraintCell: NSTableCellView {
         return columnDefinition?.constraints
     }
 
+    private var observationContext: NSKeyValueObservation?
+
     override var objectValue: Any? {
         willSet {
+            observationContext = nil
             unbind()
         }
 
@@ -41,31 +46,65 @@ class CreateColumnConstraintCell: NSTableCellView {
             bind(button: defaultButton, keyPath: "constraints.defaultConstraint.enabled")
             bind(button: collateButton, keyPath: "constraints.collate.enabled")
 
+            if let constraint = columnConstraint {
+                observationContext = constraint.observe(\.foreignKeys) { (_, _) in
+                    self.refreshForeignKeys()
+                }
+            }
+
+            refreshForeignKeys()
         }
     }
 
     private func unbind() {
-        for button in [pkButton, notNullButton, uniqueButton, checkButton, defaultButton, collateButton, foreignKeyButton] {
-            guard let cell = button?.cell as? ConstraintButtonCell else {
-                return
-            }
-            cell.unbind(NSBindingName(rawValue: "drawAsEnabled"))
+        for button in [pkButton, notNullButton, uniqueButton, checkButton, defaultButton, collateButton] {
+            button?.unbind(NSBindingName(rawValue: "drawAsEnabled"))
         }
+
+        refreshForeignKeys()
 
     }
 
-    private func bind(button: NSButton, keyPath: String) {
-        guard let objectValue = objectValue  else {
+    private func refreshForeignKeys() {
+        for button in foreignKeyButtons {
+            button.unbind(NSBindingName(rawValue: "drawAsEnabled"))
+        }
+
+        if let constraints = columnConstraint {
+            for (index, fKeyConstraint) in constraints.foreignKeys.enumerated() {
+
+                let button = index < foreignKeyButtons.count ? foreignKeyButtons[index] : createForeignKeyButton()
+                button.tag = index
+                bind(button: button, keyPath: "enabled", to: fKeyConstraint)
+                if index >= foreignKeyButtons.count {
+                    constraintStackView.addView(button, in: .trailing)
+                    foreignKeyButtons.append(button)
+                }
+            }
+        }
+    }
+
+    private func createForeignKeyButton() -> NSButton {
+        let button = ConstraintButton(image: NSImage(named: NSImage.Name("ForeignKey"))!, target: self, action: #selector(showForeignKeyConstraint))
+        button.widthAnchor.constraint(equalToConstant: 17).isActive = true
+        button.heightAnchor.constraint(equalToConstant: 17).isActive = true
+        button.imagePosition = .imageOnly
+        button.isBordered = false
+        return button
+    }
+
+    private func bind(button: NSButton, keyPath: String, to: Any? = nil) {
+        guard let objectValue = to ?? objectValue else {
             return
         }
         button.bind(NSBindingName(rawValue: "drawAsEnabled"), to: objectValue, withKeyPath: keyPath, options: [NSBindingOption.nullPlaceholder: false as NSNumber])
     }
 
-    private func showConstraintView(named: String, from sender: NSButton) {
+    private func showConstraintView(named: String, from sender: NSButton, representedObject: Any? = nil) {
         guard let viewController = storyboard.instantiateController(withIdentifier: named) as? NSViewController else {
             return
         }
-        viewController.representedObject = objectValue
+        viewController.representedObject = representedObject ?? objectValue
         let controller = NSPopover()
         controller.contentViewController = viewController
         controller.delegate = self
@@ -117,7 +156,11 @@ class CreateColumnConstraintCell: NSTableCellView {
     }
 
     @IBAction func showForeignKeyConstraint(_ sender: NSButton) {
+        guard let constraints = columnConstraint else {
+            return
+        }
 
+        showConstraintView(named: "createFKey", from: sender, representedObject: constraints.foreignKeys[sender.tag])
     }
 }
 
@@ -139,6 +182,9 @@ extension CreateColumnConstraintCell: NSPopoverDelegate {
             }
         }
 
+        columnConstraint?.checkForeignKeys()
         return true
     }
+
+
 }

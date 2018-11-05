@@ -23,9 +23,7 @@ class CreateTableViewController: LiftViewController {
     @IBOutlet weak var advancedTableView: NSTableView!
     @IBOutlet weak var basicTableView: NSTableView!
     @IBOutlet weak var alterButton: NSButton!
-    @objc dynamic var databases: [String] {
-        return document?.database.allDatabases.map({ $0.name }) ?? []
-    }
+    @objc dynamic var databases = [Database]()
 
     @IBOutlet var selectStatementView: SQLiteTextView!
 
@@ -34,10 +32,11 @@ class CreateTableViewController: LiftViewController {
     }
 
     override func viewDidLoad() {
+        databases = document?.database.allDatabases ?? []
         columnArrayController.table = table
         tableConstraintArrayController.table = table
         super.viewDidLoad()
-
+        table.database = document?.database
         if table.originalDefinition != nil {
             alterButton.title = NSLocalizedString("Modify Table", comment: "Modify table button title")
             createTabView.removeTabViewItem(at: 1)
@@ -157,6 +156,6 @@ class CreateTableConstraintArrayController: NSArrayController {
             type = .unique
 
         }
-        return CreateTableConstraintRowItem(type: type)
+        return CreateTableConstraintRowItem(type: type, table: table)
     }
 }

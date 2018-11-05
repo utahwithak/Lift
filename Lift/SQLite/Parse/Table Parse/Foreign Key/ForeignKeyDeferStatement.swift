@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum DeferType {
+enum DeferType: Int {
     case notSpecified
     case initiallyDeferred
     case initiallyImmediate

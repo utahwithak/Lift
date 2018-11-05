@@ -158,4 +158,90 @@ extension CreateColumnConstraintDefinitions {
             return CollateColumnConstraint(name: constraintName, collationName: collationName)
         }
     }
+
+    class CreateForeignKeyConstraint: CreateColumnConstraint {
+
+        init(existing: ForeignKeyColumnConstraint) {
+            super.init()
+            enabled = true
+            constraintName = existing.constraintName
+            for actionStatement in existing.clause.actionStatements {
+                switch actionStatement.type {
+                case .delete:
+                    useOnDelete = true
+                    onDeleteIndex = actionStatement.result.rawValue
+                case .update:
+                    useOnUpdate = true
+                    onUpdateIndex = actionStatement.result.rawValue
+                }
+            }
+            useMatchName = !existing.clause.matchStatements.isEmpty
+            matchName = existing.clause.matchStatements.map({ $0.name }).joined(separator: ", ")
+            if let deferable = existing.clause.deferStatement {
+                useDeferrable = true
+                deferrableIndex = deferable.isDeferrable ? 0 : 1
+                deferrableTypeIndex = deferable.type.rawValue
+            }
+//            if let database = table.database {
+//                selectedToTable = database.tables.first(where: { $0.name.cleanedVersion == existing.clause.foreignTable.cleanedVersion })
+//            }
+//
+//            for column in existing.fromColumns {
+//                let pairing = ColumnPairing(table: table)
+//                if let def = table.columns.first(where: { $0.name == column }) {
+//                    pairing.from = def.name
+//                }
+//                columns.append(pairing)
+//            }
+//
+//            for (index, toColumn) in existing.clause.toColumns.enumerated() {
+//                columns[index].to = toColumn
+//            }
+        }
+
+        override init() {
+            super.init()
+            enabled = false
+        }
+
+        @objc dynamic var database: Database?
+
+        @objc dynamic var useOnDelete = false
+        @objc dynamic var onDeleteIndex = 0
+        @objc dynamic var useOnUpdate = false
+        @objc dynamic var onUpdateIndex = 0
+
+        @objc dynamic var useMatchName = false
+        @objc dynamic var matchName: String?
+
+        @objc dynamic var useDeferrable = false
+        @objc dynamic var deferrableIndex = 0
+        @objc dynamic var deferrableTypeIndex = 0
+
+        @objc dynamic var selectedToTable: Table?
+        @objc dynamic var destinationColumn: String?
+
+        var toConstraint: ForeignKeyColumnConstraint {
+            var clause = ForeignKeyClause(destination: selectedToTable?.name ?? "", columns: [destinationColumn ?? ""])
+
+            if useOnUpdate {
+                clause.actionStatements.append(ForeignKeyActionStatement(type: .update, result: ActionResult(rawValue: onUpdateIndex)!))
+            }
+
+            if useOnDelete {
+                clause.actionStatements.append(ForeignKeyActionStatement(type: .delete, result: ActionResult(rawValue: onDeleteIndex)!))
+            }
+
+            if useMatchName, let name = matchName, !name.isEmpty {
+                clause.matchStatements.append(contentsOf: name.components(separatedBy: ",").map({ForeignKeyMatchStatement(name: $0)}))
+            }
+            if useDeferrable {
+                clause.deferStatement = ForeignKeyDeferStatement(deferrable: deferrableIndex == 0, type: DeferType(rawValue: deferrableTypeIndex)!)
+            }
+
+            return ForeignKeyColumnConstraint(name: constraintName, clause: clause)
+
+        }
+
+    }
 }

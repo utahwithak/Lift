@@ -31,7 +31,8 @@ class CreateColumnDefinition: NSObject {
                     tablePrimary.add(column: self)
                 } else {
                     //get any existing primary key constraint
-                    let newConstraint = CreateTableConstraintDefinitions.CreatePrimaryKey()
+                    let newConstraint = CreateTableConstraintDefinitions.CreatePrimaryKey(table: table)
+
                     if let existingPrimaryKey = table.columns.filter({ $0.constraints.primaryKey != nil }).first {
                         newConstraint.add(column: existingPrimaryKey)
                         existingPrimaryKey.constraints.primaryKey = nil
@@ -63,7 +64,7 @@ class CreateColumnDefinition: NSObject {
                     tableUnique.add(column: self)
                 } else {
                     //get any existing primary key constraint
-                    let newConstraint = CreateTableConstraintDefinitions.CreateUnique()
+                    let newConstraint = CreateTableConstraintDefinitions.CreateUnique(table: table)
                     for existingUnique in table.columns.filter({ $0.constraints.unique != nil }) {
                         newConstraint.add(column: existingUnique)
                         existingUnique.constraints.unique = nil
