@@ -161,7 +161,8 @@ extension CreateColumnConstraintDefinitions {
 
     class CreateForeignKeyConstraint: CreateColumnConstraint {
 
-        init(existing: ForeignKeyColumnConstraint) {
+        init(existing: ForeignKeyColumnConstraint, database: Database) {
+            self.database = database
             super.init()
             enabled = true
             constraintName = existing.constraintName
@@ -182,29 +183,19 @@ extension CreateColumnConstraintDefinitions {
                 deferrableIndex = deferable.isDeferrable ? 0 : 1
                 deferrableTypeIndex = deferable.type.rawValue
             }
-//            if let database = table.database {
-//                selectedToTable = database.tables.first(where: { $0.name.cleanedVersion == existing.clause.foreignTable.cleanedVersion })
-//            }
-//
-//            for column in existing.fromColumns {
-//                let pairing = ColumnPairing(table: table)
-//                if let def = table.columns.first(where: { $0.name == column }) {
-//                    pairing.from = def.name
-//                }
-//                columns.append(pairing)
-//            }
-//
-//            for (index, toColumn) in existing.clause.toColumns.enumerated() {
-//                columns[index].to = toColumn
-//            }
+
+            toTable = database.tables.first(where: { $0.name.cleanedVersion == existing.clause.foreignTable.cleanedVersion })?.name
+
+            toColumn = existing.clause.toColumns.first
         }
 
-        override init() {
+        init(database: Database) {
+            self.database = database
             super.init()
             enabled = false
         }
 
-        @objc dynamic var database: Database?
+        @objc dynamic var database: Database
 
         @objc dynamic var useOnDelete = false
         @objc dynamic var onDeleteIndex = 0
@@ -218,11 +209,18 @@ extension CreateColumnConstraintDefinitions {
         @objc dynamic var deferrableIndex = 0
         @objc dynamic var deferrableTypeIndex = 0
 
-        @objc dynamic var selectedToTable: Table?
-        @objc dynamic var destinationColumn: String?
+        @objc dynamic var toTable: String? {
+            didSet {
+                selectedTable = database.tables.first(where: { $0.name.cleanedVersion == toTable?.cleanedVersion })
+            }
+        }
+
+        @objc dynamic var toColumn: String?
+
+        @objc dynamic var selectedTable: Table?
 
         var toConstraint: ForeignKeyColumnConstraint {
-            var clause = ForeignKeyClause(destination: selectedToTable?.name ?? "", columns: [destinationColumn ?? ""])
+            var clause = ForeignKeyClause(destination: toTable ?? "", columns: [toColumn ?? ""])
 
             if useOnUpdate {
                 clause.actionStatements.append(ForeignKeyActionStatement(type: .update, result: ActionResult(rawValue: onUpdateIndex)!))

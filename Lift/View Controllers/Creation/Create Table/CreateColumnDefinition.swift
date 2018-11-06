@@ -90,7 +90,7 @@ class CreateColumnDefinition: NSObject {
         originalDefinition = nil
         self.name = name
         self.table = table
-        constraints = CreateColumnConstraintDefinitions(constraints: [])
+        constraints = CreateColumnConstraintDefinitions(constraints: [], database: table.database)
 
         super.init()
         observeCosntraint()
@@ -101,7 +101,7 @@ class CreateColumnDefinition: NSObject {
         self.table = table
         self.originalDefinition = definition
         type = definition.type
-        constraints = CreateColumnConstraintDefinitions(constraints: definition.columnConstraints)
+        constraints = CreateColumnConstraintDefinitions(constraints: definition.columnConstraints, database: table.database)
 
         super.init()
         observeCosntraint()

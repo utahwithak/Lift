@@ -10,7 +10,7 @@ import Cocoa
 
 class CreateTableViewController: LiftViewController {
 
-    @objc dynamic var table = CreateTableDefinition()
+    @objc dynamic var table: CreateTableDefinition!
 
     @IBOutlet weak var createTabView: NSTabView!
 
@@ -32,11 +32,18 @@ class CreateTableViewController: LiftViewController {
     }
 
     override func viewDidLoad() {
-        databases = document?.database.allDatabases ?? []
+        guard let database = document?.database else {
+            fatalError("Missing DB")
+        }
+
+        if table == nil {
+            table = CreateTableDefinition(database: database)
+        }
+
+        databases = database.allDatabases
         columnArrayController.table = table
         tableConstraintArrayController.table = table
         super.viewDidLoad()
-        table.database = document?.database
         if table.originalDefinition != nil {
             alterButton.title = NSLocalizedString("Modify Table", comment: "Modify table button title")
             createTabView.removeTabViewItem(at: 1)

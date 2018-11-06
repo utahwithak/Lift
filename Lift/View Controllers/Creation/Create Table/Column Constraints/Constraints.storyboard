@@ -1481,8 +1481,8 @@
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <connections>
-                                    <binding destination="F8c-qq-h90" name="enabled" keyPath="self.representedObject.constraints.check.enabled" previousBinding="nFC-gm-ifY" id="NhX-BV-xpF"/>
-                                    <binding destination="F8c-qq-h90" name="editable" keyPath="self.representedObject.constraints.check.enabled" id="nFC-gm-ifY"/>
+                                    <binding destination="F8c-qq-h90" name="editable" keyPath="self.representedObject.constraints.defaultConstraint.enabled" id="iqn-gz-m37"/>
+                                    <binding destination="F8c-qq-h90" name="enabled" keyPath="self.representedObject.constraints.defaultConstraint.enabled" previousBinding="iqn-gz-m37" id="LNE-Wl-Vtq"/>
                                     <binding destination="F8c-qq-h90" name="value" keyPath="self.representedObject.constraints.defaultConstraint.constraintName" id="Lh5-fJ-whS">
                                         <dictionary key="options">
                                             <bool key="NSContinuouslyUpdatesValue" value="YES"/>
@@ -1502,6 +1502,7 @@
                                         </buttonCell>
                                         <connections>
                                             <action selector="defaultValueChanged:" target="F8c-qq-h90" id="rls-B2-ZUE"/>
+                                            <binding destination="F8c-qq-h90" name="enabled" keyPath="self.representedObject.constraints.defaultConstraint.enabled" id="lFW-Rt-bCA"/>
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="EwQ-9e-One">
@@ -1512,6 +1513,7 @@
                                         </buttonCell>
                                         <connections>
                                             <action selector="defaultValueChanged:" target="F8c-qq-h90" id="gyd-3E-ghp"/>
+                                            <binding destination="F8c-qq-h90" name="enabled" keyPath="self.representedObject.constraints.defaultConstraint.enabled" id="m0k-ac-0Rq"/>
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" tag="3" translatesAutoresizingMaskIntoConstraints="NO" id="nbN-ZC-tH0">
@@ -1522,6 +1524,7 @@
                                         </buttonCell>
                                         <connections>
                                             <action selector="defaultValueChanged:" target="F8c-qq-h90" id="DNv-K5-NTe"/>
+                                            <binding destination="F8c-qq-h90" name="enabled" keyPath="self.representedObject.constraints.defaultConstraint.enabled" id="Fbd-wT-BgJ"/>
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" tag="4" translatesAutoresizingMaskIntoConstraints="NO" id="1Fg-9M-j4R">
@@ -1532,6 +1535,7 @@
                                         </buttonCell>
                                         <connections>
                                             <action selector="defaultValueChanged:" target="F8c-qq-h90" id="lXQ-e8-EAc"/>
+                                            <binding destination="F8c-qq-h90" name="enabled" keyPath="self.representedObject.constraints.defaultConstraint.enabled" id="nWr-AG-cZV"/>
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" tag="5" translatesAutoresizingMaskIntoConstraints="NO" id="5rc-S2-gi3">
@@ -1542,6 +1546,7 @@
                                         </buttonCell>
                                         <connections>
                                             <action selector="defaultValueChanged:" target="F8c-qq-h90" id="g3A-W3-PIQ"/>
+                                            <binding destination="F8c-qq-h90" name="enabled" keyPath="self.representedObject.constraints.defaultConstraint.enabled" id="Uzu-EU-0va"/>
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" tag="6" translatesAutoresizingMaskIntoConstraints="NO" id="Wub-De-ZAq">
@@ -1552,6 +1557,7 @@
                                         </buttonCell>
                                         <connections>
                                             <action selector="defaultValueChanged:" target="F8c-qq-h90" id="KuY-nG-yb6"/>
+                                            <binding destination="F8c-qq-h90" name="enabled" keyPath="self.representedObject.constraints.defaultConstraint.enabled" id="8wz-9h-veh"/>
                                         </connections>
                                     </button>
                                     <button verticalHuggingPriority="750" tag="7" translatesAutoresizingMaskIntoConstraints="NO" id="zri-Gf-4QC">
@@ -1562,6 +1568,7 @@
                                         </buttonCell>
                                         <connections>
                                             <action selector="defaultValueChanged:" target="F8c-qq-h90" id="DUl-Vh-Daa"/>
+                                            <binding destination="F8c-qq-h90" name="enabled" keyPath="self.representedObject.constraints.defaultConstraint.enabled" id="wzJ-84-Es1"/>
                                         </connections>
                                     </button>
                                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="mPw-ct-LFs">
@@ -1572,7 +1579,7 @@
                                             <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                         <connections>
-                                            <binding destination="F8c-qq-h90" name="enabled" keyPath="self.representedObject.constraints.defaultConstraint.isEditingDefaultValue" previousBinding="sgs-eA-ZWP" id="E0A-Yv-WtM"/>
+                                            <binding destination="F8c-qq-h90" name="enabled" keyPath="self.representedObject.constraints.defaultConstraint.enabled" previousBinding="sgs-eA-ZWP" id="a4x-oN-trJ"/>
                                             <binding destination="F8c-qq-h90" name="editable" keyPath="self.representedObject.constraints.defaultConstraint.isEditingDefaultValue" id="sgs-eA-ZWP"/>
                                             <binding destination="F8c-qq-h90" name="value" keyPath="self.representedObject.constraints.defaultConstraint.value" id="sej-hx-dxe">
                                                 <dictionary key="options">
@@ -1640,11 +1647,11 @@
             <objects>
                 <viewController storyboardIdentifier="createFKey" id="Cc8-BS-xAf" sceneMemberID="viewController">
                     <view key="view" id="6GR-ec-6MO">
-                        <rect key="frame" x="0.0" y="0.0" width="406" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="406" height="271"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MD2-fL-MMD">
-                                <rect key="frame" x="18" y="264" width="94" height="18"/>
+                                <rect key="frame" x="18" y="235" width="94" height="18"/>
                                 <buttonCell key="cell" type="check" title="Foreign Key" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Awm-gy-OTZ">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -1658,7 +1665,7 @@
                                 </connections>
                             </button>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PkC-KF-rTx">
-                                <rect key="frame" x="18" y="241" width="76" height="17"/>
+                                <rect key="frame" x="18" y="212" width="76" height="17"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Name:" id="AH4-YM-5Gc">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1666,7 +1673,7 @@
                                 </textFieldCell>
                             </textField>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="7nB-Jl-glU">
-                                <rect key="frame" x="100" y="238" width="286" height="22"/>
+                                <rect key="frame" x="100" y="209" width="286" height="22"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="PfJ-UJ-2Ai">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -1680,11 +1687,11 @@
                                         </dictionary>
                                     </binding>
                                     <binding destination="F8c-qq-h90" name="editable" keyPath="self.representedObject.constraints.check.enabled" id="By4-Fs-KFT"/>
-                                    <binding destination="F8c-qq-h90" name="enabled" keyPath="self.representedObject.constraints.check.enabled" previousBinding="By4-Fs-KFT" id="rbV-o7-wBq"/>
+                                    <binding destination="Cc8-BS-xAf" name="enabled" keyPath="self.representedObject.enabled" previousBinding="By4-Fs-KFT" id="uzI-Or-jDy"/>
                                 </connections>
                             </textField>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1pP-n1-BG0">
-                                <rect key="frame" x="18" y="207" width="76" height="17"/>
+                                <rect key="frame" x="18" y="178" width="76" height="17"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="References:" id="rls-YM-VHo">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1692,18 +1699,18 @@
                                 </textFieldCell>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="heH-s9-7Gb">
-                                <rect key="frame" x="86" y="141" width="88" height="18"/>
+                                <rect key="frame" x="86" y="112" width="88" height="18"/>
                                 <buttonCell key="cell" type="check" title="On Update" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="e0Q-Bn-WzS">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <binding destination="YqP-Hg-wBa" name="enabled" keyPath="self.representedObject.enabled" id="q2S-kH-7Tk"/>
+                                    <binding destination="Cc8-BS-xAf" name="enabled" keyPath="self.representedObject.enabled" id="7J6-lL-Ud9"/>
                                     <binding destination="Cc8-BS-xAf" name="value" keyPath="self.representedObject.useOnUpdate" id="1ds-TS-PXG"/>
                                 </connections>
                             </button>
                             <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AqD-6c-dZV">
-                                <rect key="frame" x="178" y="137" width="119" height="25"/>
+                                <rect key="frame" x="178" y="108" width="119" height="25"/>
                                 <popUpButtonCell key="cell" type="push" title="Set NULL" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="NKl-vg-5Fj" id="Uhh-Dl-wOS">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
@@ -1718,7 +1725,7 @@
                                     </menu>
                                 </popUpButtonCell>
                                 <connections>
-                                    <binding destination="YqP-Hg-wBa" name="enabled2" keyPath="self.representedObject.enabled" previousBinding="bi4-PH-Rvu" id="xmG-MD-q4w">
+                                    <binding destination="Cc8-BS-xAf" name="enabled2" keyPath="self.representedObject.enabled" previousBinding="bi4-PH-Rvu" id="FtF-PB-C1K">
                                         <dictionary key="options">
                                             <integer key="NSMultipleValuesPlaceholder" value="-1"/>
                                             <integer key="NSNoSelectionPlaceholder" value="-1"/>
@@ -1731,29 +1738,29 @@
                                 </connections>
                             </popUpButton>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="evy-EP-awi">
-                                <rect key="frame" x="86" y="110" width="88" height="18"/>
+                                <rect key="frame" x="86" y="81" width="88" height="18"/>
                                 <buttonCell key="cell" type="check" title="On Delete" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="tRw-PX-Cz5">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <binding destination="YqP-Hg-wBa" name="enabled" keyPath="self.representedObject.enabled" id="1tt-Zb-rbN"/>
-                                    <binding destination="YqP-Hg-wBa" name="value" keyPath="self.representedObject.useOnDelete" id="fxY-g9-QOU"/>
+                                    <binding destination="Cc8-BS-xAf" name="enabled" keyPath="self.representedObject.enabled" id="wuA-gb-N9R"/>
+                                    <binding destination="Cc8-BS-xAf" name="value" keyPath="self.representedObject.useOnDelete" id="7u2-Um-pmH"/>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zT4-b9-aG4">
-                                <rect key="frame" x="86" y="80" width="88" height="18"/>
+                                <rect key="frame" x="86" y="51" width="88" height="18"/>
                                 <buttonCell key="cell" type="check" title="Match" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="QYv-wb-aBB">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <binding destination="YqP-Hg-wBa" name="enabled" keyPath="self.representedObject.enabled" id="5do-Sc-K7C"/>
-                                    <binding destination="YqP-Hg-wBa" name="value" keyPath="self.representedObject.useMatchName" id="NxN-Yj-qiT"/>
+                                    <binding destination="Cc8-BS-xAf" name="enabled" keyPath="self.representedObject.enabled" id="3wO-xl-fmk"/>
+                                    <binding destination="Cc8-BS-xAf" name="value" keyPath="self.representedObject.useMatchName" id="KQj-50-8fJ"/>
                                 </connections>
                             </button>
                             <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="qR8-gu-KUE">
-                                <rect key="frame" x="178" y="106" width="119" height="25"/>
+                                <rect key="frame" x="178" y="77" width="119" height="25"/>
                                 <popUpButtonCell key="cell" type="push" title="Set NULL" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="okl-74-vCy" id="SBk-JB-V3h">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
@@ -1768,7 +1775,7 @@
                                     </menu>
                                 </popUpButtonCell>
                                 <connections>
-                                    <binding destination="YqP-Hg-wBa" name="enabled2" keyPath="self.representedObject.enabled" previousBinding="Lrp-5a-N8l" id="FXy-wm-6uo">
+                                    <binding destination="Cc8-BS-xAf" name="enabled2" keyPath="self.representedObject.enabled" previousBinding="Jzj-Eb-ZKr" id="ai6-pG-UJV">
                                         <dictionary key="options">
                                             <integer key="NSMultipleValuesPlaceholder" value="-1"/>
                                             <integer key="NSNoSelectionPlaceholder" value="-1"/>
@@ -1776,19 +1783,19 @@
                                             <integer key="NSNullPlaceholder" value="-1"/>
                                         </dictionary>
                                     </binding>
-                                    <binding destination="YqP-Hg-wBa" name="selectedIndex" keyPath="self.representedObject.onDeleteIndex" id="JYd-5v-adk"/>
-                                    <binding destination="YqP-Hg-wBa" name="enabled" keyPath="self.representedObject.useOnDelete" id="Lrp-5a-N8l"/>
+                                    <binding destination="Cc8-BS-xAf" name="selectedIndex" keyPath="self.representedObject.onDeleteIndex" id="1Ui-Q5-wuM"/>
+                                    <binding destination="Cc8-BS-xAf" name="enabled" keyPath="self.representedObject.useOnDelete" id="Jzj-Eb-ZKr"/>
                                 </connections>
                             </popUpButton>
                             <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="WHn-de-lEf">
-                                <rect key="frame" x="180" y="78" width="206" height="22"/>
+                                <rect key="frame" x="180" y="49" width="206" height="22"/>
                                 <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" drawsBackground="YES" id="CR8-nq-ym1">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                                 <connections>
-                                    <binding destination="YqP-Hg-wBa" name="enabled2" keyPath="self.representedObject.enabled" previousBinding="2nR-Lj-RCJ" id="T4J-Vp-Xt3">
+                                    <binding destination="Cc8-BS-xAf" name="enabled2" keyPath="self.representedObject.enabled" previousBinding="9DG-wg-aHs" id="xDv-WK-HII">
                                         <dictionary key="options">
                                             <integer key="NSMultipleValuesPlaceholder" value="-1"/>
                                             <integer key="NSNoSelectionPlaceholder" value="-1"/>
@@ -1796,28 +1803,28 @@
                                             <integer key="NSNullPlaceholder" value="-1"/>
                                         </dictionary>
                                     </binding>
-                                    <binding destination="YqP-Hg-wBa" name="value" keyPath="self.representedObject.matchName" id="OCk-M1-jvf">
+                                    <binding destination="Cc8-BS-xAf" name="value" keyPath="self.representedObject.matchName" id="KrE-sN-fkE">
                                         <dictionary key="options">
                                             <string key="NSNullPlaceholder">Match Name</string>
                                         </dictionary>
                                     </binding>
-                                    <binding destination="YqP-Hg-wBa" name="enabled" keyPath="self.representedObject.useMatchName" previousBinding="fZZ-Gr-Wdd" id="2nR-Lj-RCJ"/>
+                                    <binding destination="Cc8-BS-xAf" name="enabled" keyPath="self.representedObject.useMatchName" previousBinding="fZZ-Gr-Wdd" id="9DG-wg-aHs"/>
                                     <binding destination="YqP-Hg-wBa" name="editable" keyPath="self.representedObject.useMatchName" id="fZZ-Gr-Wdd"/>
                                 </connections>
                             </textField>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZO9-aR-jHJ">
-                                <rect key="frame" x="86" y="50" width="22" height="18"/>
+                                <rect key="frame" x="86" y="21" width="22" height="18"/>
                                 <buttonCell key="cell" type="check" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="7kK-em-FXf">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
                                 <connections>
-                                    <binding destination="YqP-Hg-wBa" name="enabled" keyPath="self.representedObject.enabled" id="7L0-0X-vCI"/>
-                                    <binding destination="YqP-Hg-wBa" name="value" keyPath="self.representedObject.useDeferrable" id="AJ1-uN-Ii3"/>
+                                    <binding destination="Cc8-BS-xAf" name="enabled" keyPath="self.representedObject.enabled" id="t5A-96-Zrd"/>
+                                    <binding destination="Cc8-BS-xAf" name="value" keyPath="self.representedObject.useDeferrable" id="SVK-n2-ma7"/>
                                 </connections>
                             </button>
                             <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="PbK-la-usM">
-                                <rect key="frame" x="104" y="46" width="128" height="25"/>
+                                <rect key="frame" x="104" y="17" width="128" height="25"/>
                                 <popUpButtonCell key="cell" type="push" title="Deferrable" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="yml-d4-Iap" id="a4r-Yq-rjw">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
@@ -1829,8 +1836,8 @@
                                     </menu>
                                 </popUpButtonCell>
                                 <connections>
-                                    <binding destination="YqP-Hg-wBa" name="selectedIndex" keyPath="self.representedObject.deferrableIndex" id="KcF-2U-1wb"/>
-                                    <binding destination="YqP-Hg-wBa" name="enabled2" keyPath="self.representedObject.enabled" previousBinding="Iuk-cB-OYV" id="kKY-Ve-CE2">
+                                    <binding destination="Cc8-BS-xAf" name="selectedIndex" keyPath="self.representedObject.deferrableIndex" id="Tzi-Hx-GBz"/>
+                                    <binding destination="Cc8-BS-xAf" name="enabled2" keyPath="self.representedObject.enabled" previousBinding="0zZ-BP-7In" id="Dif-G7-q3p">
                                         <dictionary key="options">
                                             <integer key="NSMultipleValuesPlaceholder" value="-1"/>
                                             <integer key="NSNoSelectionPlaceholder" value="-1"/>
@@ -1838,11 +1845,11 @@
                                             <integer key="NSNullPlaceholder" value="-1"/>
                                         </dictionary>
                                     </binding>
-                                    <binding destination="YqP-Hg-wBa" name="enabled" keyPath="self.representedObject.useDeferrable" id="Iuk-cB-OYV"/>
+                                    <binding destination="Cc8-BS-xAf" name="enabled" keyPath="self.representedObject.useDeferrable" id="0zZ-BP-7In"/>
                                 </connections>
                             </popUpButton>
                             <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="MVp-fE-fPZ">
-                                <rect key="frame" x="241" y="46" width="148" height="25"/>
+                                <rect key="frame" x="241" y="17" width="148" height="25"/>
                                 <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="jfz-FC-ANk" id="d5M-JG-FRZ">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
@@ -1855,8 +1862,8 @@
                                     </menu>
                                 </popUpButtonCell>
                                 <connections>
-                                    <binding destination="YqP-Hg-wBa" name="selectedIndex" keyPath="self.representedObject.deferrableTypeIndex" id="ljY-UU-fE8"/>
-                                    <binding destination="YqP-Hg-wBa" name="enabled2" keyPath="self.representedObject.enabled" previousBinding="EVf-af-W8C" id="jhd-a7-iph">
+                                    <binding destination="Cc8-BS-xAf" name="selectedIndex" keyPath="self.representedObject.deferrableTypeIndex" id="EhX-Rs-UVH"/>
+                                    <binding destination="Cc8-BS-xAf" name="enabled2" keyPath="self.representedObject.enabled" previousBinding="lmm-Qe-6Ie" id="MDf-o2-lIC">
                                         <dictionary key="options">
                                             <integer key="NSMultipleValuesPlaceholder" value="-1"/>
                                             <integer key="NSNoSelectionPlaceholder" value="-1"/>
@@ -1864,11 +1871,11 @@
                                             <integer key="NSNullPlaceholder" value="-1"/>
                                         </dictionary>
                                     </binding>
-                                    <binding destination="YqP-Hg-wBa" name="enabled" keyPath="self.representedObject.useDeferrable" id="EVf-af-W8C"/>
+                                    <binding destination="Cc8-BS-xAf" name="enabled" keyPath="self.representedObject.useDeferrable" id="lmm-Qe-6Ie"/>
                                 </connections>
                             </popUpButton>
                             <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="b5B-Rt-AsO">
-                                <rect key="frame" x="100" y="203" width="289" height="26"/>
+                                <rect key="frame" x="100" y="174" width="289" height="26"/>
                                 <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Table" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="Jvf-1f-V3Y">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -1879,9 +1886,18 @@
                                         <string>Item 3</string>
                                     </objectValues>
                                 </comboBoxCell>
+                                <connections>
+                                    <binding destination="EzQ-pU-1GA" name="contentValues" keyPath="arrangedObjects.name" id="xWe-e9-I9M"/>
+                                    <binding destination="Cc8-BS-xAf" name="enabled" keyPath="self.representedObject.enabled" id="Vh5-AS-6on"/>
+                                    <binding destination="Cc8-BS-xAf" name="value" keyPath="self.representedObject.toTable" previousBinding="xWe-e9-I9M" id="jkb-Wr-yAe">
+                                        <dictionary key="options">
+                                            <string key="NSNullPlaceholder">Table</string>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
                             </comboBox>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="d3V-uX-MZX">
-                                <rect key="frame" x="18" y="179" width="76" height="17"/>
+                                <rect key="frame" x="18" y="150" width="76" height="17"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" alignment="right" title="Column" id="hrY-8Q-uss">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -1889,7 +1905,7 @@
                                 </textFieldCell>
                             </textField>
                             <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="W6J-1F-f01">
-                                <rect key="frame" x="100" y="175" width="289" height="26"/>
+                                <rect key="frame" x="100" y="146" width="289" height="26"/>
                                 <comboBoxCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" borderStyle="bezel" placeholderString="Column" drawsBackground="YES" completes="NO" numberOfVisibleItems="5" id="SVN-Wb-Ygy">
                                     <font key="font" metaFont="system"/>
                                     <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -1900,6 +1916,15 @@
                                         <string>Item 3</string>
                                     </objectValues>
                                 </comboBoxCell>
+                                <connections>
+                                    <binding destination="uiP-2h-SAK" name="contentValues" keyPath="arrangedObjects.name" id="j2I-PC-Ggn"/>
+                                    <binding destination="Cc8-BS-xAf" name="enabled" keyPath="self.representedObject.enabled" id="77A-N2-iOD"/>
+                                    <binding destination="Cc8-BS-xAf" name="value" keyPath="self.representedObject.toColumn" previousBinding="j2I-PC-Ggn" id="0ep-qH-I8B">
+                                        <dictionary key="options">
+                                            <string key="NSNullPlaceholder">To Primary Key</string>
+                                        </dictionary>
+                                    </binding>
+                                </connections>
                             </comboBox>
                         </subviews>
                         <constraints>
@@ -1907,6 +1932,7 @@
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="AqD-6c-dZV" secondAttribute="trailing" constant="20" symbolic="YES" id="4Pg-tM-nkP"/>
                             <constraint firstItem="PbK-la-usM" firstAttribute="leading" secondItem="ZO9-aR-jHJ" secondAttribute="trailing" id="6kt-V8-ojU"/>
                             <constraint firstItem="d3V-uX-MZX" firstAttribute="leading" secondItem="6GR-ec-6MO" secondAttribute="leading" constant="20" id="DOl-uE-Nb6"/>
+                            <constraint firstAttribute="bottom" secondItem="PbK-la-usM" secondAttribute="bottom" constant="20" symbolic="YES" id="GLR-Bk-rgB"/>
                             <constraint firstItem="PbK-la-usM" firstAttribute="firstBaseline" secondItem="ZO9-aR-jHJ" secondAttribute="firstBaseline" id="GPv-C5-vHo"/>
                             <constraint firstItem="AqD-6c-dZV" firstAttribute="firstBaseline" secondItem="heH-s9-7Gb" secondAttribute="firstBaseline" id="JNB-6W-ITI"/>
                             <constraint firstItem="qR8-gu-KUE" firstAttribute="top" secondItem="AqD-6c-dZV" secondAttribute="bottom" constant="10" symbolic="YES" id="Juu-hR-9Zh"/>
@@ -1949,6 +1975,16 @@
                     </view>
                 </viewController>
                 <customObject id="lWV-uh-XzP" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <arrayController id="EzQ-pU-1GA" userLabel="Table Controller">
+                    <connections>
+                        <binding destination="Cc8-BS-xAf" name="contentArray" keyPath="self.representedObject.database.tables" id="GoW-XA-j0D"/>
+                    </connections>
+                </arrayController>
+                <arrayController id="uiP-2h-SAK" userLabel="Column Controller">
+                    <connections>
+                        <binding destination="Cc8-BS-xAf" name="contentArray" keyPath="self.representedObject.selectedTable.columns" id="wzJ-2c-TC4"/>
+                    </connections>
+                </arrayController>
             </objects>
             <point key="canvasLocation" x="1101" y="-1800"/>
         </scene>

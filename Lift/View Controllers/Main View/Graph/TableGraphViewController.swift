@@ -13,6 +13,15 @@ class TableGraphViewController: LiftMainViewController {
     @IBOutlet weak var scrollView: NSScrollView!
     @IBOutlet weak var container: GraphViewsContainer!
 
+    lazy var bottomViewController: ForeignKeyConnectionViewController = {
+        guard let vc = self.storyboard?.instantiateController(withIdentifier: "fKeyConnections") as? ForeignKeyConnectionViewController else {
+            fatalError("missing vc")
+        }
+        vc.representedObject = self.representedObject
+
+        return vc
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -30,6 +39,7 @@ class TableGraphViewController: LiftMainViewController {
             reloadView()
         }
     }
+
     override var representedObject: Any? {
         didSet {
             reloadView()
@@ -41,6 +51,7 @@ class TableGraphViewController: LiftMainViewController {
             reloadView()
         }
     }
+
     @IBAction func zoomChange(_ sender: NSSegmentedControl) {
         switch sender.selectedSegment {
         case 1:
@@ -49,7 +60,6 @@ class TableGraphViewController: LiftMainViewController {
         default:
             scrollView.animator().magnification = scrollView.magnification - 0.1
         }
-
     }
 
     func reloadView() {
@@ -154,4 +164,12 @@ extension TableGraphViewController: GraphContainerViewDelegate {
             windowController?.selectedTable = nil
         }
     }
+}
+
+extension TableGraphViewController: BottomEditorContentProvider {
+
+    var editorViewController: LiftViewController {
+        return self.bottomViewController
+    }
+
 }

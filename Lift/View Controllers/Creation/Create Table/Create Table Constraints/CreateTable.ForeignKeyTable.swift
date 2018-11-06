@@ -53,9 +53,8 @@ extension CreateTableConstraintDefinitions {
                 deferrableIndex = deferable.isDeferrable ? 0 : 1
                 deferrableTypeIndex = deferable.type.rawValue
             }
-            if let database = table.database {
-                selectedToTable = database.tables.first(where: { $0.name.cleanedVersion == existing.clause.foreignTable.cleanedVersion })
-            }
+            selectedToTable = table.database.tables.first(where: { $0.name.cleanedVersion == existing.clause.foreignTable.cleanedVersion })
+
 
             for column in existing.fromColumns {
                 let pairing = ColumnPairing(table: table)
@@ -72,7 +71,7 @@ extension CreateTableConstraintDefinitions {
 
         init(table: CreateTableDefinition) {
             self.table = table
-            selectedToTable = table.database?.tables.first
+            selectedToTable = table.database.tables.first
         }
 
         var toDefinition: ForeignKeyTableConstraint? {

@@ -12,11 +12,15 @@ class CreateColumnConstraintDefinitions: NSObject {
 
     let existingConstraints: [ColumnConstraint]?
 
-    override init() {
+    let database: Database
+
+    init(database: Database) {
+        self.database = database
         existingConstraints = nil
     }
 
-    init(constraints: [ColumnConstraint]) {
+    init(constraints: [ColumnConstraint], database: Database) {
+        self.database = database
         self.existingConstraints = constraints
         if let defaultConst = constraints.compactMap({ $0 as? DefaultColumnConstraint}).first {
             defaultConstraint = CreateDefaultValue(existing: defaultConst)
@@ -39,9 +43,9 @@ class CreateColumnConstraintDefinitions: NSObject {
 
         let fKeys = constraints.compactMap({ $0 as? ForeignKeyColumnConstraint})
         for fKey in fKeys {
-            foreignKeys.append(CreateColumnConstraintDefinitions.CreateForeignKeyConstraint(existing: fKey))
+            foreignKeys.append(CreateColumnConstraintDefinitions.CreateForeignKeyConstraint(existing: fKey, database: database))
         }
-        foreignKeys.append(CreateForeignKeyConstraint())
+        foreignKeys.append(CreateForeignKeyConstraint(database: database))
 
     }
 
@@ -115,7 +119,7 @@ class CreateColumnConstraintDefinitions: NSObject {
     func checkForeignKeys() {
         let allEnabled = foreignKeys.reduce(true, { $0 && $1.enabled})
         if allEnabled {
-            foreignKeys.append(CreateForeignKeyConstraint())
+            foreignKeys.append(CreateForeignKeyConstraint(database: database))
         }
     }
 

@@ -17,13 +17,13 @@ class CreateTableDefinition: NSObject {
             didChangeValue(for: \.hasValidName)
         }
     }
-    @objc dynamic var database: Database?
+    @objc dynamic var database: Database
 
     @objc dynamic var isTemp = false
 
     @objc dynamic var withoutRowID = false
 
-    init(database: Database? = nil) {
+    init(database: Database) {
         self.database = database
         originalDefinition = nil
         super.init()
@@ -60,7 +60,7 @@ class CreateTableDefinition: NSObject {
         var definition = TableDefinition()
         definition.tableName = tableName
         definition.withoutRowID = withoutRowID
-        definition.databaseName = database?.name
+        definition.databaseName = database.name
         definition.isTemp = isTemp
 
         for column in columns {

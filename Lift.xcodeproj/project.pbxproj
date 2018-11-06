@@ -263,6 +263,8 @@
 		8F51324E20504DE800E2A759 /* AttributedStringFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F51324D20504DE800E2A759 /* AttributedStringFormatter.swift */; };
 		8F534CF5215BB8A2002FAA5F /* ImportExport.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8F534CF4215BB8A2002FAA5F /* ImportExport.storyboard */; };
 		8F5891E51FA392960076C86D /* LogViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5891E41FA392960076C86D /* LogViewController.swift */; };
+		8F5AA1E521910D5F004AC1BC /* ForeignKeyConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5AA1E421910D5F004AC1BC /* ForeignKeyConnectionViewController.swift */; };
+		8F5AA1E621910D5F004AC1BC /* ForeignKeyConnectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5AA1E421910D5F004AC1BC /* ForeignKeyConnectionViewController.swift */; };
 		8F5C1BEB2167C37900B663E0 /* EditTriggerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5C1BEA2167C37900B663E0 /* EditTriggerViewController.swift */; };
 		8F5D7BF12077B16D009EE355 /* NewRowValueTypeConversion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5D7BF02077B16D009EE355 /* NewRowValueTypeConversion.swift */; };
 		8F5D9F292187799000F5A2E1 /* ConstraintButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F5D9F282187799000F5A2E1 /* ConstraintButtonCell.swift */; };
@@ -571,6 +573,7 @@
 		8F51324D20504DE800E2A759 /* AttributedStringFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttributedStringFormatter.swift; sourceTree = "<group>"; };
 		8F534CF4215BB8A2002FAA5F /* ImportExport.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ImportExport.storyboard; sourceTree = "<group>"; };
 		8F5891E41FA392960076C86D /* LogViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogViewController.swift; sourceTree = "<group>"; };
+		8F5AA1E421910D5F004AC1BC /* ForeignKeyConnectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForeignKeyConnectionViewController.swift; sourceTree = "<group>"; };
 		8F5C1BEA2167C37900B663E0 /* EditTriggerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTriggerViewController.swift; sourceTree = "<group>"; };
 		8F5D7BF02077B16D009EE355 /* NewRowValueTypeConversion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRowValueTypeConversion.swift; sourceTree = "<group>"; };
 		8F5D9F282187799000F5A2E1 /* ConstraintButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstraintButtonCell.swift; sourceTree = "<group>"; };
@@ -882,7 +885,7 @@
 			children = (
 				8FC63CDA1FA2492000005591 /* LiftMainViewController.swift */,
 				8F178C9E1FA0DB6A0057387A /* Data View */,
-				8FD4FE9C1F8BFE310008D8DA /* TableGraphViewController.swift */,
+				8F5AA1E221910D3F004AC1BC /* Graph */,
 				8FF56AD21F9C094900C5F447 /* WaitingOperationViewController.swift */,
 				8F4BECCC1FB68B46003DAA5E /* Query View */,
 			);
@@ -1011,6 +1014,15 @@
 				8F5891E41FA392960076C86D /* LogViewController.swift */,
 			);
 			path = "Log View Controller";
+			sourceTree = "<group>";
+		};
+		8F5AA1E221910D3F004AC1BC /* Graph */ = {
+			isa = PBXGroup;
+			children = (
+				8FD4FE9C1F8BFE310008D8DA /* TableGraphViewController.swift */,
+				8F5AA1E421910D5F004AC1BC /* ForeignKeyConnectionViewController.swift */,
+			);
+			path = Graph;
 			sourceTree = "<group>";
 		};
 		8F5C1BE82167C27900B663E0 /* Edit Trigger */ = {
@@ -1806,6 +1818,7 @@
 				8F2CB23E2182208E00BA3A35 /* TableNumberView.swift in Sources */,
 				8F2CB23F2182208E00BA3A35 /* SideBarBrowseViewController.swift in Sources */,
 				8F2CB2402182208E00BA3A35 /* URLPathFormatter.swift in Sources */,
+				8F5AA1E621910D5F004AC1BC /* ForeignKeyConnectionViewController.swift in Sources */,
 				8F2CB2412182208E00BA3A35 /* DefaultColumnConstraint.swift in Sources */,
 				8F2CB2422182208E00BA3A35 /* Index.swift in Sources */,
 				8F2CB2432182208E00BA3A35 /* CWCSVParser.swift in Sources */,
@@ -1994,6 +2007,7 @@
 				8FB7CC981FFBFE0100D5CDC0 /* URLPathFormatter.swift in Sources */,
 				8F921DBF1F7ECECB00464D27 /* DefaultColumnConstraint.swift in Sources */,
 				8F3C069B2164281C005BD88F /* Index.swift in Sources */,
+				8F5AA1E521910D5F004AC1BC /* ForeignKeyConnectionViewController.swift in Sources */,
 				8FBE0F021FCE485600ABFD1E /* CWCSVParser.swift in Sources */,
 				8FE11ACC2049A1AE0086E53C /* CustomRowEditorViewController.swift in Sources */,
 				8F5D9F302187882A00F5A2E1 /* ConstraintButton.swift in Sources */,
