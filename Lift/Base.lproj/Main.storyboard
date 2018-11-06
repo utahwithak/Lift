@@ -695,8 +695,8 @@ Please consider offering some support if you find ths product useful</string>
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KBy-bb-eNE">
-                                <rect key="frame" x="307" y="13" width="156" height="32"/>
-                                <buttonCell key="cell" type="push" title="Take me to the app" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="YJ0-fy-Ejs">
+                                <rect key="frame" x="319" y="13" width="144" height="32"/>
+                                <buttonCell key="cell" type="push" title="Just let me work!" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="YJ0-fy-Ejs">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
@@ -722,9 +722,6 @@ DQ
                                 <buttonCell key="cell" type="push" title="Support Here" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ixp-OA-NtU">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
-                                    <string key="keyEquivalent" base64-UTF8="YES">
-Gw
-</string>
                                 </buttonCell>
                                 <connections>
                                     <action selector="showLocalStore:" target="ltO-C9-861" id="xkf-jl-EJi"/>

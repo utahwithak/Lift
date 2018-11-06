@@ -12,16 +12,31 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+
         #if FREE
-        if !UserDefaults.standard.bool(forKey: "supportedLift") {
-            if let contentViewController = NSApp.keyWindow?.contentViewController, let storyboard = contentViewController.storyboard, let vc = storyboard.instantiateController(withIdentifier: "supportLiftVC") as? SupportLiftViewController {
-                contentViewController.presentAsSheet(vc)
+        pesterBuy()
+        #endif
+    }
+    func pesterBuy() {
+        #if FREE
+        var time = 30
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(time)) {
+            if !UserDefaults.standard.bool(forKey: "supportedLift") {
+                let storyboard = NSStoryboard(name: .main, bundle: nil)
+                if let contentViewController = NSApp.windows.last?.contentViewController, let vc = storyboard.instantiateController(withIdentifier: "supportLiftVC") as? SupportLiftViewController {
+                    if contentViewController.children.lastIndex(where: { $0 is SupportLiftViewController}) == nil {
+                        contentViewController.presentAsSheet(vc)
+                    }
+                }
+            }
+            time += (time * 4)
+            if time < (60 * 60) && !UserDefaults.standard.bool(forKey: "supportedLift") {
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(time), execute: {self.pesterBuy()})
             }
         }
 
         print("free version!")
         #endif
-
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {
