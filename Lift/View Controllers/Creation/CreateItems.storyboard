@@ -1691,7 +1691,7 @@ DQ
                                                                                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                                                         <prototypeCellViews>
                                                                                                             <tableCellView id="EU5-fr-AoA">
-                                                                                                                <rect key="frame" x="164" y="1" width="145" height="17"/>
+                                                                                                                <rect key="frame" x="163.5" y="1" width="145" height="17"/>
                                                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                                 <subviews>
                                                                                                                     <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Wqb-6C-6MJ">
@@ -1742,7 +1742,7 @@ DQ
                                                                                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                                                         <prototypeCellViews>
                                                                                                             <tableCellView id="R5k-ER-ShE">
-                                                                                                                <rect key="frame" x="312" y="1" width="167" height="17"/>
+                                                                                                                <rect key="frame" x="311.5" y="1" width="167" height="17"/>
                                                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                                 <subviews>
                                                                                                                     <comboBox verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bHd-ww-Z09">
@@ -1794,7 +1794,7 @@ DQ
                                                                                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                                                         <prototypeCellViews>
                                                                                                             <tableCellView id="XQC-ZY-mqH">
-                                                                                                                <rect key="frame" x="482" y="1" width="42" height="17"/>
+                                                                                                                <rect key="frame" x="481.5" y="1" width="42" height="17"/>
                                                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                                 <subviews>
                                                                                                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fyL-5h-uLI">
@@ -2021,7 +2021,7 @@ DQ
                                                                                     <rect key="frame" x="0.0" y="25" width="624" height="98"/>
                                                                                     <clipView key="contentView" id="VZy-V6-psW">
                                                                                         <rect key="frame" x="0.0" y="0.0" width="624" height="98"/>
-                                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                                        <autoresizingMask key="autoresizingMask"/>
                                                                                         <subviews>
                                                                                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="none" alternatingRowBackgroundColors="YES" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" rowHeight="24" rowSizeStyle="medium" headerView="CM9-q5-bal" viewBased="YES" id="RnB-ly-VCe">
                                                                                                 <rect key="frame" x="0.0" y="0.0" width="624" height="73"/>
@@ -2044,11 +2044,11 @@ DQ
                                                                                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                                                         <prototypeCellViews>
                                                                                                             <tableCellView id="eMn-qg-cWo">
-                                                                                                                <rect key="frame" x="1" y="1" width="235" height="17"/>
+                                                                                                                <rect key="frame" x="1" y="1" width="234.5" height="17"/>
                                                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                                                 <subviews>
                                                                                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ugl-ab-sE6">
-                                                                                                                        <rect key="frame" x="0.0" y="0.0" width="235" height="17"/>
+                                                                                                                        <rect key="frame" x="0.0" y="0.0" width="234.5" height="17"/>
                                                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" title="Table View Cell" id="to0-d7-RzH">
                                                                                                                             <font key="font" metaFont="system"/>
@@ -2369,7 +2369,7 @@ DQ
                                                                                     <rect key="frame" x="0.0" y="20" width="624" height="103"/>
                                                                                     <clipView key="contentView" id="xzA-ea-TTB">
                                                                                         <rect key="frame" x="0.0" y="0.0" width="624" height="103"/>
-                                                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                                        <autoresizingMask key="autoresizingMask"/>
                                                                                         <subviews>
                                                                                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowHeight="24" rowSizeStyle="medium" headerView="BFY-0Q-7aW" viewBased="YES" id="79z-qt-Ti6">
                                                                                                 <rect key="frame" x="0.0" y="0.0" width="624" height="78"/>

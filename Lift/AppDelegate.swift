@@ -11,6 +11,11 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
+    override init() {
+        ValueTransformer.setValueTransformer(RowCountFormatter(), forName: NSValueTransformerName(rawValue: "RowCountFormatter"))
+        ValueTransformer.setValueTransformer(URLPathFormatter(), forName: NSValueTransformerName("URLPathFormatter"))
+    }
+
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 
         #if FREE

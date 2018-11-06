@@ -186,5 +186,4 @@ extension CreateColumnConstraintCell: NSPopoverDelegate {
         return true
     }
 
-
 }

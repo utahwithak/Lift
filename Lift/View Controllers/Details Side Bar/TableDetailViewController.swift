@@ -40,14 +40,6 @@ class TableDetailViewController: LiftViewController {
         super.mouseExited(with: event)
     }
 
-    override var representedObject: Any? {
-        didSet {
-            if let document = document {
-//                sqlTextView?.setIdentifiers(document.keywords())
-            }
-        }
-    }
-
     override var selectedTable: DataProvider? {
         didSet {
             if selectedTable == nil {
@@ -83,8 +75,9 @@ class TableDetailViewController: LiftViewController {
     }
 
     @IBAction func alterTable(_ sender: Any) {
+        let storyboard = NSStoryboard(name: .createItems, bundle: nil)
         if let view = selectedTable as? View, let definition = view.definition {
-            guard let editController = storyboard?.instantiateController(withIdentifier: "createViewViewController") as? CreateViewViewController else {
+            guard let editController = storyboard.instantiateController(withIdentifier: "createViewViewController") as? CreateViewViewController else {
                 return
             }
             editController.dropQualifiedName = view.qualifiedNameForQuery
@@ -92,7 +85,7 @@ class TableDetailViewController: LiftViewController {
             editController.viewDefinition = definition
             presentAsSheet(editController)
         } else if let table = selectedTable as? Table, let database = table.database, let tableDef = table.definition {
-            guard let editController = storyboard?.instantiateController(withIdentifier: "createTableViewController") as? CreateTableViewController else {
+            guard let editController = storyboard.instantiateController(withIdentifier: "createTableViewController") as? CreateTableViewController else {
                 return
             }
             editController.representedObject = representedObject

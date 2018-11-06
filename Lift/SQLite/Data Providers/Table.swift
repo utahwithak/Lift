@@ -301,8 +301,13 @@ class Table: DataProvider {
     }
 
     func exportCSV( columns: [Column], writer: Writer, with options: CSVExportOptions) throws {
+        guard !columns.isEmpty else {
+            throw LiftError.invalidOperation(NSLocalizedString("No columns to export", comment: "Error message when there aren't any columns to export"))
+        }
         let query = try exportQuery(for: columns)
-
+        guard !columns.isEmpty else {
+            throw LiftError.invalidOperation(NSLocalizedString("No columns to export", comment: "Error message when there aren't any columns to export"))
+        }
         if options.includeColumnNames {
             //write out the included column names
             let names = columns.map({ $0.name.CSVFormattedString(qouted: options.shouldQuoteFields, separator: options.separator) })
@@ -343,7 +348,9 @@ class Table: DataProvider {
     }
 
     func export(to worksheet: Sheet, columns: [Column], with options: XLSXExportOptions) throws {
-
+        guard !columns.isEmpty else {
+            throw LiftError.invalidOperation(NSLocalizedString("No columns to export", comment: "Error message when there aren't any columns to export"))
+        }
         let query = try exportQuery(for: columns)
 
         if options.includeColumnNames {
@@ -396,7 +403,9 @@ class Table: DataProvider {
     }
 
     func exportToXML(columns: [Column], with options: XMLExportOptions) throws -> XMLElement {
-
+        guard !columns.isEmpty else {
+            throw LiftError.invalidOperation(NSLocalizedString("No columns to export", comment: "Error message when there aren't any columns to export"))
+        }
         let query = try exportQuery(for: columns)
 
         let tableElementName = "table"
@@ -450,7 +459,9 @@ class Table: DataProvider {
     }
 
     func exportToJSON(columns: [Column], with options: JSONExportOptions) throws -> [String: Any] {
-
+        guard !columns.isEmpty else {
+            throw LiftError.invalidOperation(NSLocalizedString("No columns to export", comment: "Error message when there aren't any columns to export"))
+        }
         let query = try exportQuery(for: columns)
 
         var tableData = [String: Any]()

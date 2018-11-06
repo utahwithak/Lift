@@ -125,7 +125,7 @@ class SideBarBrowseViewController: LiftViewController {
     }
 
     @IBAction func showCreateTable(_ sender: Any?) {
-        let storyboard = NSStoryboard(name: "CreateItems", bundle: .main)
+        let storyboard = NSStoryboard(name: .createItems, bundle: .main)
         guard let vc = storyboard.instantiateController(withIdentifier: "createTableViewController") as? LiftViewController else {
             return
         }

@@ -1640,9 +1640,9 @@ Gw
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                     <connections>
-                                                                        <binding destination="AJ9-Mi-tBJ" name="value" keyPath="objectValue" id="rXv-2N-mET">
+                                                                        <binding destination="AJ9-Mi-tBJ" name="value" keyPath="objectValue" id="dH9-el-ot8">
                                                                             <dictionary key="options">
-                                                                                <string key="NSValueTransformerName">Lift.URLPathFormatter</string>
+                                                                                <string key="NSValueTransformerName">URLPathFormatter</string>
                                                                             </dictionary>
                                                                         </binding>
                                                                     </connections>
@@ -2226,10 +2226,10 @@ Gw
                                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                     </textFieldCell>
                                                                     <connections>
-                                                                        <binding destination="yDM-ft-02B" name="value" keyPath="objectValue.rowCount" id="Lu0-8d-2Fv">
+                                                                        <binding destination="yDM-ft-02B" name="value" keyPath="objectValue.rowCount" id="xPx-vJ-k0d">
                                                                             <dictionary key="options">
                                                                                 <string key="NSNullPlaceholder">       counting...</string>
-                                                                                <string key="NSValueTransformerName">Lift.RowCountFormatter</string>
+                                                                                <string key="NSValueTransformerName">RowCountFormatter</string>
                                                                             </dictionary>
                                                                         </binding>
                                                                     </connections>
@@ -3649,7 +3649,7 @@ DQ
         <!--Results Overview View Controller-->
         <scene sceneID="vaB-AI-6lB">
             <objects>
-                <viewController storyboardIdentifier="resultsOverviewViewController" id="sWS-Ls-V1g" customClass="ResultsOverviewViewController" customModule="Lift" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="resultsOverviewViewController" id="sWS-Ls-V1g" customClass="ResultsOverviewViewController" customModule="Lift" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="do9-5p-3E2">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -4660,6 +4660,6 @@ Gw
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="14O-lj-Dcu"/>
-        <segue reference="nm5-Vh-WzM"/>
+        <segue reference="fav-H4-dey"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -55,7 +55,6 @@ extension CreateTableConstraintDefinitions {
             }
             selectedToTable = table.database.tables.first(where: { $0.name.cleanedVersion == existing.clause.foreignTable.cleanedVersion })
 
-
             for column in existing.fromColumns {
                 let pairing = ColumnPairing(table: table)
                 if let def = table.columns.first(where: { $0.name == column }) {

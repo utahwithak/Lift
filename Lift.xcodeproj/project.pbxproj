@@ -144,7 +144,6 @@
 		8F2CB2352182208E00BA3A35 /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F74A7541F8721470069721E /* Query.swift */; };
 		8F2CB2362182208E00BA3A35 /* TableDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FAF334C1FA2AAF6003ACFC7 /* TableDetailViewController.swift */; };
 		8F2CB2372182208E00BA3A35 /* ForeignKeyTableConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FB9F1621F7EA5990090FA53 /* ForeignKeyTableConstraint.swift */; };
-		8F2CB2382182208E00BA3A35 /* ResultsOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8338F61FBA009F000AFE09 /* ResultsOverviewViewController.swift */; };
 		8F2CB2392182208E00BA3A35 /* TableData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F84D23A1F8A9B4900CF4B08 /* TableData.swift */; };
 		8F2CB23A2182208E00BA3A35 /* DestinationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA148E11F8D352900644638 /* DestinationView.swift */; };
 		8F2CB23B2182208E00BA3A35 /* BrowseHeaderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F84D2361F89AE4E00CF4B08 /* BrowseHeaderCell.swift */; };
@@ -350,6 +349,7 @@
 		8F9565D91FB36F45008FE038 /* XMLElement+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565D71FB36F45008FE038 /* XMLElement+Additions.swift */; };
 		8F9565DB1FB37136008FE038 /* ProgressViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F9565DA1FB37136008FE038 /* ProgressViewController.swift */; };
 		8F96B9072150311E0029FDE7 /* CreateTableDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F96B9062150311E0029FDE7 /* CreateTableDefinition.swift */; };
+		8FA12D112191D78C005FA19B /* ResultsOverviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8338F61FBA009F000AFE09 /* ResultsOverviewViewController.swift */; };
 		8FA148D81F8D038D00644638 /* ForiegnKeyConnection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA148D71F8D038D00644638 /* ForiegnKeyConnection.swift */; };
 		8FA148DE1F8D2FD500644638 /* AttachDatabaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA148DD1F8D2FD500644638 /* AttachDatabaseViewController.swift */; };
 		8FA148E01F8D312500644638 /* DetachDatabaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FA148DF1F8D312500644638 /* DetachDatabaseViewController.swift */; };
@@ -1687,6 +1687,7 @@
 			files = (
 				8F2CB1C32182208E00BA3A35 /* DatabaseDetailsViewController.swift in Sources */,
 				8F2CB1C42182208E00BA3A35 /* ForeignKeyActionStatement.swift in Sources */,
+				8FA12D112191D78C005FA19B /* ResultsOverviewViewController.swift in Sources */,
 				8F2CB1C52182208E00BA3A35 /* CustomTableViewHeaderView.swift in Sources */,
 				8F2CB1C62182208E00BA3A35 /* SQLiteDocumentPresenter.swift in Sources */,
 				8F2CB1C72182208E00BA3A35 /* CSVExportOptions.swift in Sources */,
@@ -1809,7 +1810,6 @@
 				8F2CB2352182208E00BA3A35 /* Query.swift in Sources */,
 				8F2CB2362182208E00BA3A35 /* TableDetailViewController.swift in Sources */,
 				8F2CB2372182208E00BA3A35 /* ForeignKeyTableConstraint.swift in Sources */,
-				8F2CB2382182208E00BA3A35 /* ResultsOverviewViewController.swift in Sources */,
 				8F2CB2392182208E00BA3A35 /* TableData.swift in Sources */,
 				8F2CB23A2182208E00BA3A35 /* DestinationView.swift in Sources */,
 				8F2CB23B2182208E00BA3A35 /* BrowseHeaderCell.swift in Sources */,
