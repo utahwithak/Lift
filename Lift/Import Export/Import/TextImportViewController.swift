@@ -28,8 +28,8 @@ class TextImportViewController: NSViewController {
     var encoding: String.Encoding = .utf8
 
     @IBAction func parseAsCSV(_ sender: Any) {
-
-        guard let waitingVC = storyboard?.instantiateController(withIdentifier: "waitingOperationView") as? WaitingOperationViewController else {
+        let storyboard = NSStoryboard(name: .main, bundle: nil)
+        guard let waitingVC = storyboard.instantiateController(withIdentifier: "waitingOperationView") as? WaitingOperationViewController else {
             return
         }
         guard let data = (text as String).data(using: encoding) else {

@@ -522,7 +522,7 @@
 		8F2A250921513ED500DADFB8 /* CreateTable.CreatePrimaryKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTable.CreatePrimaryKey.swift; sourceTree = "<group>"; };
 		8F2A250B21513F1A00DADFB8 /* CreateTable.CreateIndexedColumn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTable.CreateIndexedColumn.swift; sourceTree = "<group>"; };
 		8F2A250D2151414E00DADFB8 /* CreateTable.CreateUniqueTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTable.CreateUniqueTable.swift; sourceTree = "<group>"; };
-		8F2CB27F2182208E00BA3A35 /* Lift Free.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lift Free.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F2CB27F2182208E00BA3A35 /* Lift Lite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lift Lite.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F2CB2802182208F00BA3A35 /* Lift copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Lift copy-Info.plist"; path = "/Users/carl8382/Projects/Random projects/Lift/Lift copy-Info.plist"; sourceTree = "<absolute>"; };
 		8F2CB282218221C400BA3A35 /* SupportLiftViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportLiftViewController.swift; sourceTree = "<group>"; };
 		8F2CB28921823B5900BA3A35 /* StoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreViewController.swift; sourceTree = "<group>"; };
@@ -1126,7 +1126,7 @@
 				8F7C523D1F7D39E5004A91BC /* LiftTests.xctest */,
 				8F7C52481F7D39E5004A91BC /* LiftUITests.xctest */,
 				8FB4D437214BF1E700BE8881 /* SQLitePreview.qlgenerator */,
-				8F2CB27F2182208E00BA3A35 /* Lift Free.app */,
+				8F2CB27F2182208E00BA3A35 /* Lift Lite.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1407,9 +1407,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8F2CB1BF2182208E00BA3A35 /* Lift Free */ = {
+		8F2CB1BF2182208E00BA3A35 /* Lift Lite */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8F2CB27C2182208E00BA3A35 /* Build configuration list for PBXNativeTarget "Lift Free" */;
+			buildConfigurationList = 8F2CB27C2182208E00BA3A35 /* Build configuration list for PBXNativeTarget "Lift Lite" */;
 			buildPhases = (
 				8F2CB1C22182208E00BA3A35 /* Sources */,
 				8F2CB26D2182208E00BA3A35 /* Frameworks */,
@@ -1423,9 +1423,9 @@
 			dependencies = (
 				8F2CB1C02182208E00BA3A35 /* PBXTargetDependency */,
 			);
-			name = "Lift Free";
+			name = "Lift Lite";
 			productName = Lift;
-			productReference = 8F2CB27F2182208E00BA3A35 /* Lift Free.app */;
+			productReference = 8F2CB27F2182208E00BA3A35 /* Lift Lite.app */;
 			productType = "com.apple.product-type.application";
 		};
 		8F7C52281F7D39E4004A91BC /* Lift */ = {
@@ -1577,7 +1577,7 @@
 				8F7C523C1F7D39E5004A91BC /* LiftTests */,
 				8F7C52471F7D39E5004A91BC /* LiftUITests */,
 				8FB4D436214BF1E700BE8881 /* SQLitePreview */,
-				8F2CB1BF2182208E00BA3A35 /* Lift Free */,
+				8F2CB1BF2182208E00BA3A35 /* Lift Lite */,
 			);
 		};
 /* End PBXProject section */
@@ -2428,7 +2428,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8F2CB27C2182208E00BA3A35 /* Build configuration list for PBXNativeTarget "Lift Free" */ = {
+		8F2CB27C2182208E00BA3A35 /* Build configuration list for PBXNativeTarget "Lift Lite" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8F2CB27D2182208E00BA3A35 /* Debug */,
