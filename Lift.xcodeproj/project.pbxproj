@@ -196,7 +196,6 @@
 		8F2CB26A2182208E00BA3A35 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = 8F11B7991F83DC58008E19D7 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w -DSQLITE_ENABLE_FTS3 -DSQLITE_ENABLE_FTS3_PARENTHESIS"; }; };
 		8F2CB26B2182208E00BA3A35 /* ViewDefinition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F2521751F855B0800B438CC /* ViewDefinition.swift */; };
 		8F2CB26C2182208E00BA3A35 /* RowCountFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F84D24A1F8AFA5000CF4B08 /* RowCountFormatter.swift */; };
-		8F2CB26E2182208E00BA3A35 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FCA2AE0216053DB007A7D62 /* CloudKit.framework */; };
 		8F2CB26F2182208E00BA3A35 /* SwiftXLSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F11B7A51F83DDBE008E19D7 /* SwiftXLSX.framework */; };
 		8F2CB2702182208E00BA3A35 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FCA2ADE216053B4007A7D62 /* StoreKit.framework */; };
 		8F2CB2722182208E00BA3A35 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8F7C52321F7D39E5004A91BC /* Assets.xcassets */; };
@@ -387,7 +386,6 @@
 		8FC63CDB1FA2492000005591 /* LiftMainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC63CDA1FA2492000005591 /* LiftMainViewController.swift */; };
 		8FCA2AD7215E8254007A7D62 /* ExportDataViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCA2AD6215E8254007A7D62 /* ExportDataViewController.swift */; };
 		8FCA2ADF216053B4007A7D62 /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FCA2ADE216053B4007A7D62 /* StoreKit.framework */; };
-		8FCA2AE1216053DB007A7D62 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FCA2AE0216053DB007A7D62 /* CloudKit.framework */; };
 		8FCADB341FE4A62E00C22E1D /* BrowseCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCADB331FE4A62E00C22E1D /* BrowseCellView.swift */; };
 		8FCBA6501F90EAC800B87DEA /* TableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FCBA64F1F90EAC800B87DEA /* TableView.swift */; };
 		8FD4FE9D1F8BFE310008D8DA /* TableGraphViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD4FE9C1F8BFE310008D8DA /* TableGraphViewController.swift */; };
@@ -698,7 +696,6 @@
 		8FC63CDA1FA2492000005591 /* LiftMainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiftMainViewController.swift; sourceTree = "<group>"; };
 		8FCA2AD6215E8254007A7D62 /* ExportDataViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExportDataViewController.swift; sourceTree = "<group>"; };
 		8FCA2ADE216053B4007A7D62 /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
-		8FCA2AE0216053DB007A7D62 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		8FCADB331FE4A62E00C22E1D /* BrowseCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BrowseCellView.swift; sourceTree = "<group>"; };
 		8FCBA64F1F90EAC800B87DEA /* TableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableView.swift; sourceTree = "<group>"; };
 		8FD4FE9C1F8BFE310008D8DA /* TableGraphViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableGraphViewController.swift; sourceTree = "<group>"; };
@@ -722,7 +719,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8F2CB26E2182208E00BA3A35 /* CloudKit.framework in Frameworks */,
 				8F2CB26F2182208E00BA3A35 /* SwiftXLSX.framework in Frameworks */,
 				8F2CB2702182208E00BA3A35 /* StoreKit.framework in Frameworks */,
 			);
@@ -732,7 +728,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8FCA2AE1216053DB007A7D62 /* CloudKit.framework in Frameworks */,
 				8F11B7A81F83DDEE008E19D7 /* SwiftXLSX.framework in Frameworks */,
 				8FCA2ADF216053B4007A7D62 /* StoreKit.framework in Frameworks */,
 			);
@@ -765,7 +760,6 @@
 		8F0D3164214AD05500ADE9F8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				8FCA2AE0216053DB007A7D62 /* CloudKit.framework */,
 				8FCA2ADE216053B4007A7D62 /* StoreKit.framework */,
 				8F0D3165214AD05500ADE9F8 /* Quartz.framework */,
 			);
@@ -1532,7 +1526,7 @@
 								enabled = 1;
 							};
 							com.apple.iCloud = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};

@@ -103,7 +103,7 @@ final class TableData: NSObject {
         let name = provider.qualifiedNameForQuery
 
         if customSorting.isEmpty && customQuery == nil, let table = provider as? Table {
-            smartPaging =  provider is Table
+            smartPaging = provider is Table
             if table.definition?.withoutRowID ?? false {
                 let primaryKeys =  table.columns.filter { $0.isPrimaryKey }
                 sortCount = primaryKeys.count
@@ -584,6 +584,67 @@ final class TableData: NSObject {
         }
 
         return success
+    }
+
+    func didAddRow(completion: @escaping () -> Void, keepGoing: @escaping () -> Bool) -> Bool {
+        guard let table = provider as? Table, table.isEditable else {
+            return false
+        }
+        finishedLoadingAfter = false
+        let lastRow = sqlite3_last_insert_rowid(table.connection)
+        if lastRow >= 0 {
+            return loadToRowVisible(Int(lastRow), completion: completion, keepGoing: keepGoing)
+        } else {
+            loadNextPage()
+            return false
+        }
+    }
+
+    func reloadRow(at index: Int) {
+        var builder = baseQuery
+        if smartPaging {
+            builder += " WHERE (\(sortColumns)) = (\(argString))"
+
+            builder += " LIMIT 1"
+        } else {
+            var builder = baseQuery
+
+            let customOrder = customSortOrdering(forNext: true)
+            if !customOrder.isEmpty {
+                builder += " ORDER BY \(customOrder)"
+            }
+
+            builder += " LIMIT 1 OFFSET \(index)"
+        }
+
+        do {
+            let query = try Query(connection: provider.connection, query: builder)
+            if smartPaging {
+                let args = data[index].data[0..<sortCount]
+                try query.bindArguments(args)
+            }
+            let rows = try query.allRows()
+            guard rows.count == 1 else {
+                return
+            }
+            data[index] = RowData(row: rows[0])
+
+        } catch {
+            print("Failed to create query:\(error)")
+        }
+
+    }
+
+    func refreshAll(completion: @escaping () -> Void, keepGoing: @escaping () -> Bool) {
+        let currentCount = provider.rowCount ?? (data.count * 2)
+        loadingNextPage = false
+        finishedLoadingAfter = false
+        finishedLoadingPrevious = true
+        data.removeAll(keepingCapacity: true)
+        lastValues = nil
+        firstValues = nil
+
+        _ = loadToRowVisible(currentCount, completion: completion, keepGoing: keepGoing)
     }
 
 }

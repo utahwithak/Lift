@@ -18,6 +18,9 @@ struct SelectionBox {
     var isSingleCell: Bool {
         return startRow == endRow && startColumn == endColumn
     }
+    var isSingleRow: Bool {
+        return startRow == endRow
+    }
 }
 
 func + (lhs: SelectionBox, rhs: Int) -> SelectionBox {
@@ -262,7 +265,9 @@ class TableView: NSTableView {
         allowsColumnReordering = true
 
         if event.modifierFlags.contains(.command) {
-
+            
+        } else if event.type == .rightMouseUp || event.type == .rightMouseDown || event.type == .rightMouseDragged {
+            return
         }
 
         let mousePoint = convert(event.locationInWindow, from: nil)

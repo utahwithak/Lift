@@ -438,6 +438,10 @@ class TableDataViewController: LiftMainViewController {
 
         do {
             try newData.loadInitial(customStart: customStart)
+            if customStart != nil {
+                newData.loadPreviousPage()
+                newData.loadNextPage()
+            }
         } catch {
             print("Failed to load initial:\(error)")
             return
@@ -475,7 +479,7 @@ class TableDataViewController: LiftMainViewController {
 
         }
 
-        if currentForeignKey != nil {
+        if currentForeignKey != nil, tableView.numberOfRows > 0 {
             tableView.selectRow(0)
         }
 
@@ -558,6 +562,7 @@ class TableDataViewController: LiftMainViewController {
             print("failed to create row data")
             return
         }
+        customRowEditor.delegate = self
         customRowEditor.table = table
         customRowEditor.sortCount = 0
         customRowEditor.columnNames = table.columns.map({ $0.name })
@@ -572,12 +577,86 @@ class TableDataViewController: LiftMainViewController {
 
 }
 
+extension TableDataViewController: CustomRowEditorDelegate {
+    func didFinishEditingRow(created: Bool) {
+        if created {
+
+            guard let data = data, let waitingVC = storyboard?.instantiateController(withIdentifier: "waitingOperationView") as? WaitingOperationViewController else {
+                return
+            }
+
+            var validOp = true
+            let keepGoing: () -> Bool = {
+                return validOp
+            }
+
+            let cancelOp: () -> Void = {
+                validOp = false
+            }
+
+            waitingVC.cancelHandler = cancelOp
+            waitingVC.indeterminate = true
+            let completion = {
+                if waitingVC.presentingViewController == self {
+                    self.dismiss(waitingVC)
+                }
+                self.tableScrollView.lineNumberView.rowCount = data.count
+
+                let currentCount = self.tableView.numberOfRows
+                let newCount = data.count
+                self.tableView.insertRows(at: IndexSet(currentCount..<newCount), withAnimation: [])
+
+                self.tableView.scrollRowToVisible(self.tableView.numberOfRows - 1)
+
+            }
+            let isLoading = data.didAddRow(completion: completion, keepGoing: keepGoing)
+            if isLoading {
+                presentAsSheet(waitingVC)
+            }
+
+        } else {
+            if let table = selectedTable as? Table, table.definition?.withoutRowID ?? true {
+                guard let data = data, let waitingVC = storyboard?.instantiateController(withIdentifier: "waitingOperationView") as? WaitingOperationViewController else {
+                    return
+                }
+
+                var validOp = true
+                let keepGoing: () -> Bool = {
+                    return validOp
+                }
+
+                let cancelOp: () -> Void = {
+                    validOp = false
+                }
+
+                waitingVC.cancelHandler = cancelOp
+                waitingVC.indeterminate = true
+                let completion = {
+                    if waitingVC.presentingViewController == self {
+                        self.dismiss(waitingVC)
+                    }
+                    self.tableScrollView.lineNumberView.rowCount = data.count
+                    self.tableView.reloadData()
+                }
+                data.refreshAll(completion: completion, keepGoing: keepGoing)
+
+                presentAsSheet(waitingVC)
+
+            } else if let selectedRow = tableView.selectionBoxes.first?.startRow {
+                data?.reloadRow(at: selectedRow)
+                tableView.reloadData(forRowIndexes: IndexSet([selectedRow]), columnIndexes: IndexSet(0..<tableView.numberOfColumns))
+            }
+
+        }
+    }
+}
+
 extension TableDataViewController: TableDataDelegate {
     func tableDataDidPageNextIn(_ data: TableData, count: Int) {
 
         tableScrollView.lineNumberView.rowCount = data.count
 
-        guard !tableView.tableColumns.isEmpty else {
+        guard !tableView.tableColumns.isEmpty, count > 0 else {
             return
         }
 
@@ -596,7 +675,7 @@ extension TableDataViewController: TableDataDelegate {
         let vislbeRange = tableView.rows(in: tableView.visibleRect)
         let middleRow = (vislbeRange.upperBound + vislbeRange.lowerBound)/2
 
-        guard !tableView.tableColumns.isEmpty else {
+        guard !tableView.tableColumns.isEmpty, count > 0 else {
             return
         }
 
@@ -820,11 +899,14 @@ extension TableDataViewController: NSMenuDelegate {
 
             }
 
-        } else {
+        } else if selectionBox.isSingleRow, let table = selectedTable as? Table, table.isEditable {
 
-            menu.addItem(withTitle: NSLocalizedString("Copy as CSV", comment: "Copy csv menu item"), action: #selector(copyAsCSV), keyEquivalent: "")
-            menu.addItem(withTitle: NSLocalizedString("Copy as JSON", comment: "Copy JSON menu item"), action: #selector(copyAsJSON), keyEquivalent: "")
+            let editRow = NSMenuItem(title: NSLocalizedString("Edit Row", comment: "menu item for editing entire row"), action: #selector(editSelectedRow), keyEquivalent: "")
+            editRow.representedObject = table
+            menu.addItem(editRow)
         }
+        menu.addItem(withTitle: NSLocalizedString("Copy as CSV", comment: "Copy csv menu item"), action: #selector(copyAsCSV), keyEquivalent: "")
+        menu.addItem(withTitle: NSLocalizedString("Copy as JSON", comment: "Copy JSON menu item"), action: #selector(copyAsJSON), keyEquivalent: "")
 
     }
 
@@ -867,7 +949,7 @@ extension TableDataViewController: NSMenuDelegate {
         editViewController.sortCount = sortCount
         editViewController.columnNames = columnNames
         editViewController.row = rowData
-
+        editViewController.delegate = self
         presentAsSheet(editViewController)
 
     }

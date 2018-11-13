@@ -8,6 +8,10 @@
 
 import AppKit
 
+protocol CustomRowEditorDelegate: class {
+    func didFinishEditingRow(created: Bool)
+}
+
 class CustomRowEditorViewController: NSViewController {
 
     static let storyboardIdentifier = "editRowViewController"
@@ -19,6 +23,8 @@ class CustomRowEditorViewController: NSViewController {
     @objc dynamic var creatingRow = false
     @IBOutlet weak var actionButton: NSButton!
     @objc dynamic var insertionType = NSNumber(value: 0)
+
+    weak var delegate: CustomRowEditorDelegate?
 
     @IBOutlet var editValuesArrayController: NSArrayController!
 
@@ -201,9 +207,7 @@ extension CustomRowEditorViewController: StatementWaitingViewDelegate {
         if finishedSuccessfully {
             dismiss(self)
             table.refreshTableCount()
-            if let document = representedObject as? LiftDocument {
-                document.database.refresh()
-            }
+            delegate?.didFinishEditingRow(created: creatingRow)
         }
     }
 }
