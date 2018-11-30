@@ -265,7 +265,6 @@ class TableView: NSTableView {
         allowsColumnReordering = true
 
         if event.modifierFlags.contains(.command) {
-            
         } else if event.type == .rightMouseUp || event.type == .rightMouseDown || event.type == .rightMouseDragged {
             return
         }

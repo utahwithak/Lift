@@ -126,6 +126,7 @@ class SQLiteSyntaxHighlighter {
         let documentString =  completeString as NSString
         let documentStringLength = documentString.length
         let effectiveRange = range
+        let maxRange = NSMaxRange(effectiveRange)
         var searchSyntaxLength = 0
         var colorStartLocation = 0, colorEndLocation = 0, endOfLine = 0
         var queryLocation = 0
@@ -285,44 +286,87 @@ class SQLiteSyntaxHighlighter {
             })
         }
 
-                    //
-                    // Color single-line comments
+        //
+        // Color single-line comments
 
-                // reset scanner
-                rangeScanner.scanLocation = 0
-                searchSyntaxLength = (singleLineComment as NSString).length
+        // reset scanner
+        rangeScanner.scanLocation = 0
+        searchSyntaxLength = (singleLineComment as NSString).length
 
-                // scan range to end
-                while !rangeScanner.isAtEnd {
+        // scan range to end
+        while !rangeScanner.isAtEnd {
 
-                    // scan for comment
-                    rangeScanner.scanUpTo(singleLineComment, into: nil)
-                    colorStartLocation = rangeScanner.scanLocation
+            // scan for comment
+            rangeScanner.scanUpTo(singleLineComment, into: nil)
+            colorStartLocation = rangeScanner.scanLocation
 
-                    var colorize = true
-                    // If the comment is within an already Colored string then disregard it
-                    if colorStartLocation + rangeLocation + searchSyntaxLength < documentStringLength {
-                        if let attributes = layoutManager?.temporaryAttributes(atCharacterIndex: colorStartLocation + rangeLocation, effectiveRange: nil), (stringsColor as NSDictionary).isEqual(attributes) {
-                            if colorStartLocation < maxRangeLocation {
-                                rangeScanner.scanLocation = colorStartLocation + 1
+            var colorize = true
+            // If the comment is within an already Colored string then disregard it
+            if colorStartLocation + rangeLocation + searchSyntaxLength < documentStringLength {
+                if let attributes = layoutManager?.temporaryAttributes(atCharacterIndex: colorStartLocation + rangeLocation, effectiveRange: nil), (stringsColor as NSDictionary).isEqual(attributes) {
+                    if colorStartLocation < maxRangeLocation {
+                        rangeScanner.scanLocation = colorStartLocation + 1
 
-                            }
-                            colorize = false
-                        }
                     }
-
-                    // this is a single line comment so we can scan to the end of the line
-                    endOfLine = NSMaxRange((rangeString as NSString).lineRange(for: NSRange(location: colorStartLocation, length: 0)))
-                    rangeScanner.scanLocation = endOfLine
-                    if colorize {
-                        // Color the comment
-                        setColor(commentsColor, for: NSRange(location: colorStartLocation + rangeLocation, length: rangeScanner.scanLocation - colorStartLocation))
-                    }
+                    colorize = false
                 }
+            }
 
-                    //
-                    // Second string, second pass
-                    //
+            // this is a single line comment so we can scan to the end of the line
+            endOfLine = NSMaxRange((rangeString as NSString).lineRange(for: NSRange(location: colorStartLocation, length: 0)))
+            rangeScanner.scanLocation = endOfLine
+            if colorize {
+                // Color the comment
+                setColor(commentsColor, for: NSRange(location: colorStartLocation + rangeLocation, length: rangeScanner.scanLocation - colorStartLocation))
+            }
+        }
+
+        //
+        // Multi-line comments
+        //
+
+        var beginLocationInMultiLine = documentString.range(of: beginFirstMultiLineComment, options: .backwards, range: NSRange(location: 0, length: rangeLocation)).location
+        let endLocationInMultiLine = documentString.range(of: endFirstMultiLineComment, options: .backwards, range: NSRange(location: 0, length: rangeLocation)).location
+
+        if beginLocationInMultiLine == NSNotFound || (endLocationInMultiLine != NSNotFound && beginLocationInMultiLine < endLocationInMultiLine) {
+            beginLocationInMultiLine = rangeLocation
+        }
+        rangeScanner.scanLocation = beginLocationInMultiLine
+        searchSyntaxLength = (endFirstMultiLineComment as NSString).length
+        while !rangeScanner.isAtEnd {
+            var searchRange = NSRange(location: beginLocationInMultiLine, length: range.length)
+            if NSMaxRange(searchRange) > documentStringLength {
+                searchRange = NSRange(location: beginLocationInMultiLine, length: documentStringLength - beginLocationInMultiLine)
+            }
+            let beginning = documentString.range(of: beginFirstMultiLineComment, options: .literal, range: searchRange).location
+
+            guard beginning != NSNotFound else {
+                break
+            }
+            rangeScanner.scanLocation = beginning
+
+            var length = 0
+            if !rangeScanner.scanUpTo(endFirstMultiLineComment, into: nil) || rangeScanner.scanLocation >= documentStringLength {
+                rangeScanner.scanLocation = documentStringLength
+                length = rangeScanner.scanLocation - beginning
+            } else {
+                if rangeScanner.scanLocation < documentStringLength {
+                    rangeScanner.scanLocation += searchSyntaxLength
+                }
+                length = rangeScanner.scanLocation - beginning
+
+            }
+            setColor(commentsColor, for: NSRange(location: beginning, length: length))
+
+            guard rangeScanner.scanLocation <= maxRange else {
+                break
+            }
+            beginLocationInMultiLine = rangeScanner.scanLocation
+        }
+
+        //
+        // Second string, second pass
+        //
         if let matcher = secondStringMatcher {
             matcher.enumerateMatches(in: rangeString, options: .reportProgress, range: NSRange(location: 0, length: (rangeString as NSString).length), using: { (result, _, _) in
                 guard let foundRange = result?.range, foundRange.location != NSNotFound && foundRange.length > 0 else {
