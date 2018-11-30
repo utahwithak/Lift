@@ -1141,7 +1141,7 @@ Gw
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <segmentedControl verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="4J7-EK-3kt" customClass="HiddenSegmentedControl" customModule="Lift" customModuleProvider="target">
-                                <rect key="frame" x="34" y="284" width="104" height="31"/>
+                                <rect key="frame" x="33.5" y="284" width="104" height="31"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="of0-tE-qxh"/>
                                 </constraints>
@@ -3798,7 +3798,7 @@ DQ
                                     <rect key="frame" x="1" y="0.0" width="448" height="248"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="sequential" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="I5O-pB-DQr" viewBased="YES" id="1yX-wm-4pA">
+                                        <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="sequential" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="I5O-pB-DQr" viewBased="YES" id="1yX-wm-4pA" customClass="TableView" customModule="Lift" customModuleProvider="target">
                                             <rect key="frame" x="0.0" y="0.0" width="448" height="225"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
@@ -3847,6 +3847,7 @@ DQ
                                             <connections>
                                                 <outlet property="dataSource" destination="kEy-I2-RUP" id="DrA-GE-Zhg"/>
                                                 <outlet property="delegate" destination="kEy-I2-RUP" id="3cj-rN-Bjz"/>
+                                                <outlet property="menu" destination="myd-VK-msx" id="gLb-7h-5LZ"/>
                                             </connections>
                                         </tableView>
                                     </subviews>
@@ -3889,6 +3890,22 @@ DQ
                     </connections>
                 </viewController>
                 <customObject id="rs2-fA-upH" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <menu id="myd-VK-msx">
+                    <items>
+                        <menuItem title="Item 1" id="bPH-x7-wfn">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                        <menuItem title="Item 2" id="2I5-kP-dAK">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                        <menuItem title="Item 3" id="Oph-ZS-yID">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                        </menuItem>
+                    </items>
+                    <connections>
+                        <outlet property="delegate" destination="kEy-I2-RUP" id="kvh-fE-azE"/>
+                    </connections>
+                </menu>
             </objects>
             <point key="canvasLocation" x="1807" y="3172"/>
         </scene>
@@ -4268,10 +4285,11 @@ Gw
                                 </scroller>
                             </scrollView>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="skc-Op-Bpb">
-                                <rect key="frame" x="347" y="13" width="89" height="32"/>
-                                <buttonCell key="cell" type="push" title="Execute" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cvb-Ok-6HG">
+                                <rect key="frame" x="372" y="13" width="64" height="32"/>
+                                <buttonCell key="cell" type="push" title="Run" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cvb-Ok-6HG">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent"></string>
                                 </buttonCell>
                                 <connections>
                                     <action selector="executeStatements:" target="aUF-1q-p8d" id="pAm-KN-NF3"/>
@@ -4636,7 +4654,7 @@ Gw
         <image name="Jump To Row" width="72" height="42"/>
         <image name="NSActionTemplate" width="14" height="14"/>
         <image name="NSAddTemplate" width="11" height="11"/>
-        <image name="NSApplicationIcon" width="128" height="128"/>
+        <image name="NSApplicationIcon" width="32" height="32"/>
         <image name="NSIconViewTemplate" width="14" height="10"/>
         <image name="NSListViewTemplate" width="14" height="10"/>
         <image name="NSMenuOnStateTemplate" width="12" height="12"/>

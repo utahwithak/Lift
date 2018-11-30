@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14313.18"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -1527,12 +1527,12 @@ Gw
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                     <connections>
+                                                        <binding destination="gNv-cT-os4" name="value" keyPath="self.csvOptions.blobDataPlaceHolder" id="Uh1-M8-cKf"/>
                                                         <binding destination="gNv-cT-os4" name="enabled" keyPath="self.csvOptions.exportRawBlobData" id="RxP-Am-PsI">
                                                             <dictionary key="options">
                                                                 <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                             </dictionary>
                                                         </binding>
-                                                        <binding destination="gNv-cT-os4" name="value" keyPath="self.csvOptions.blobDataPlaceHolder" id="Uh1-M8-cKf"/>
                                                     </connections>
                                                 </textField>
                                                 <customView translatesAutoresizingMaskIntoConstraints="NO" id="YO2-ct-gfe">
@@ -1638,17 +1638,17 @@ Gw
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                     </textFieldCell>
                                                     <connections>
-                                                        <binding destination="gNv-cT-os4" name="editable" keyPath="self.jsonOptions.exportRawBlobData" id="zPo-BE-z9a">
-                                                            <dictionary key="options">
-                                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                            </dictionary>
-                                                        </binding>
+                                                        <binding destination="gNv-cT-os4" name="value" keyPath="self.jsonOptions.blobDataPlaceHolder" id="XgU-5O-ugV"/>
                                                         <binding destination="3l5-4k-t3s" name="enabled" keyPath="self.jsonOptions.exportRawBlobData" previousBinding="zPo-BE-z9a" id="qof-yw-LIN">
                                                             <dictionary key="options">
                                                                 <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                             </dictionary>
                                                         </binding>
-                                                        <binding destination="gNv-cT-os4" name="value" keyPath="self.jsonOptions.blobDataPlaceHolder" id="XgU-5O-ugV"/>
+                                                        <binding destination="gNv-cT-os4" name="editable" keyPath="self.jsonOptions.exportRawBlobData" id="zPo-BE-z9a">
+                                                            <dictionary key="options">
+                                                                <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                            </dictionary>
+                                                        </binding>
                                                     </connections>
                                                 </textField>
                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="wYG-SW-9VK">
@@ -1666,12 +1666,12 @@ Gw
                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         <connections>
+                                                            <binding destination="3l5-4k-t3s" name="value" keyPath="self.jsonOptions.nullPlaceHolder" id="pSa-Vp-N3B"/>
                                                             <binding destination="3l5-4k-t3s" name="enabled" keyPath="self.jsonOptions.useNullLiterals" id="Cmn-hQ-mR4">
                                                                 <dictionary key="options">
                                                                     <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                                 </dictionary>
                                                             </binding>
-                                                            <binding destination="3l5-4k-t3s" name="value" keyPath="self.jsonOptions.nullPlaceHolder" id="pSa-Vp-N3B"/>
                                                         </connections>
                                                     </textFieldCell>
                                                     <connections>
@@ -1817,12 +1817,12 @@ Gw
                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                         <connections>
+                                                            <binding destination="3l5-4k-t3s" name="value" keyPath="self.jsonOptions.nullPlaceHolder" id="EfO-Uk-x1g"/>
                                                             <binding destination="3l5-4k-t3s" name="enabled" keyPath="self.jsonOptions.useNullLiterals" id="tnW-gb-nT5">
                                                                 <dictionary key="options">
                                                                     <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                                 </dictionary>
                                                             </binding>
-                                                            <binding destination="3l5-4k-t3s" name="value" keyPath="self.jsonOptions.nullPlaceHolder" id="EfO-Uk-x1g"/>
                                                         </connections>
                                                     </textFieldCell>
                                                     <connections>
@@ -1884,11 +1884,7 @@ Gw
                                                                 <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
                                                             <connections>
-                                                                <binding destination="gNv-cT-os4" name="editable" keyPath="self.xlsxOptions.exportRawBlobData" id="fUG-aW-a1H">
-                                                                    <dictionary key="options">
-                                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                                    </dictionary>
-                                                                </binding>
+                                                                <binding destination="gNv-cT-os4" name="value" keyPath="self.xlsxOptions.blobDataPlaceHolder" id="xUd-F9-RH8"/>
                                                                 <binding destination="gNv-cT-os4" name="enabled2" keyPath="self.xlsxOptions.exportBlobData" previousBinding="uQD-NQ-O4q" id="9OP-N0-Qzd">
                                                                     <dictionary key="options">
                                                                         <integer key="NSMultipleValuesPlaceholder" value="-1"/>
@@ -1897,12 +1893,16 @@ Gw
                                                                         <integer key="NSNullPlaceholder" value="-1"/>
                                                                     </dictionary>
                                                                 </binding>
+                                                                <binding destination="gNv-cT-os4" name="editable" keyPath="self.xlsxOptions.exportRawBlobData" id="fUG-aW-a1H">
+                                                                    <dictionary key="options">
+                                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                    </dictionary>
+                                                                </binding>
                                                                 <binding destination="gNv-cT-os4" name="enabled" keyPath="self.xlsxOptions.exportRawBlobData" previousBinding="fUG-aW-a1H" id="uQD-NQ-O4q">
                                                                     <dictionary key="options">
                                                                         <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                                     </dictionary>
                                                                 </binding>
-                                                                <binding destination="gNv-cT-os4" name="value" keyPath="self.xlsxOptions.blobDataPlaceHolder" id="xUd-F9-RH8"/>
                                                             </connections>
                                                         </textField>
                                                     </subviews>

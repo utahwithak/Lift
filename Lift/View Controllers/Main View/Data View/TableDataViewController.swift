@@ -143,12 +143,7 @@ class TableDataViewController: LiftMainViewController {
         guard let selectionBox = tableView.selectionBoxes.first else {
             return
         }
-
-        guard let data = data else {
-            return
-        }
-
-        copySelection(selectionBox, fromData: data, asJson: false, columnMap: columnMap)
+        copySelection(selectionBox, asJson: false)
     }
     @IBAction func performFindPanelAction(_ sender: Any?) {
         showFilter(nil)
@@ -272,7 +267,10 @@ class TableDataViewController: LiftMainViewController {
         }
     }
 
-    private func copySelection(_ selection: SelectionBox, fromData: TableData, asJson copyAsJSON: Bool, columnMap: [Int: Int]) {
+    private func copySelection(_ selection: SelectionBox, asJson copyAsJSON: Bool) {
+        guard let data = data else {
+            return
+        }
         var validOp = true
         let keepGoing: () -> Bool = {
             return validOp
@@ -282,9 +280,9 @@ class TableDataViewController: LiftMainViewController {
             var pasteBoardString = ""
 
             if copyAsJSON {
-                pasteBoardString = fromData.json(inSelection: selection, map: columnMap, keepGoingCheck: keepGoing) ?? ""
+                pasteBoardString = data.json(inSelection: selection, map: columnMap, keepGoingCheck: keepGoing) ?? ""
             } else {
-                pasteBoardString = fromData.csv(inSelection: selection, map: columnMap, keepGoingCheck: keepGoing) ?? ""
+                pasteBoardString = data.csv(inSelection: selection, map: columnMap, keepGoingCheck: keepGoing) ?? ""
 
             }
             NSPasteboard.general.declareTypes([.string], owner: nil)
@@ -308,9 +306,9 @@ class TableDataViewController: LiftMainViewController {
             var pasteBoardString: String?
 
             if copyAsJSON {
-                pasteBoardString = fromData.json(inSelection: selection, map: columnMap, keepGoingCheck: keepGoing)
+                pasteBoardString = data.json(inSelection: selection, map: self.columnMap, keepGoingCheck: keepGoing)
             } else {
-                pasteBoardString = fromData.csv(inSelection: selection, map: columnMap, keepGoingCheck: keepGoing)
+                pasteBoardString = data.csv(inSelection: selection, map: self.columnMap, keepGoingCheck: keepGoing)
             }
             DispatchQueue.main.async {
                 self.dismiss(waitingVC)
@@ -955,18 +953,18 @@ extension TableDataViewController: NSMenuDelegate {
     }
 
     @objc private func copyAsCSV(_ sender: Any) {
-        guard let data = data, let selectionBox = tableView.selectionBoxes.first else {
+        guard let selectionBox = tableView.selectionBoxes.first else {
             return
         }
-        copySelection(selectionBox, fromData: data, asJson: false, columnMap: columnMap)
+        copySelection(selectionBox, asJson: false)
     }
 
     @objc private func copyAsJSON(_ sender: Any) {
-        guard let data = data, let selectionBox = tableView.selectionBoxes.first else {
+        guard let selectionBox = tableView.selectionBoxes.first else {
             return
         }
 
-        copySelection(selectionBox, fromData: data, asJson: true, columnMap: columnMap)
+        copySelection(selectionBox, asJson: true)
 
     }
 }

@@ -489,86 +489,12 @@ final class TableData: NSObject {
         guard let names = columnNames else {
             return nil
         }
-
-        var holder = [Any]()
-        for row in sel.startColumn...sel.endRow {
-            var curRow = [String: Any]()
-            for rawCol in sel.startColumn...sel.endColumn {
-                let col = map[rawCol]!
-                switch data[row].data[col] {
-                case .text(let text):
-                    curRow[names[col]] = text
-                case .integer(let intVal):
-                    curRow[names[col]] = intVal
-                case .float(let dVal):
-                    curRow[names[col]] = dVal
-                case .null:
-                    break
-                case .blob(let data):
-                   curRow[names[col]] = data.hexEncodedString()
-                }
-
-                if let check = keepGoingCheck, !check() {
-                    return nil
-                }
-
-            }
-            holder.append(curRow)
-        }
-
-        let objForJSON: Any
-        if holder.count == 1 {
-            objForJSON = holder[0]
-        } else {
-            objForJSON = holder
-        }
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: objForJSON, options: .prettyPrinted)
-            return String(data: jsonData, encoding: .utf8)
-        } catch {
-            print("Failed to conver to JSON")
-            return nil
-        }
+        return RowData.json(from: data, inSelection: sel, columnNames: names, map: map, keepGoingCheck: keepGoingCheck)
 
     }
 
     func csv(inSelection sel: SelectionBox, map: [Int: Int], keepGoingCheck: (() -> Bool)? = nil ) -> String? {
-
-        var writer = ""
-        let separator = ","
-        let lineEnding = "\n"
-
-        for row in sel.startRow...sel.endRow {
-            for rawCol in sel.startColumn...sel.endColumn {
-                let col = map[rawCol]!
-
-                let rawData = data[row].data[col]
-                switch rawData {
-                case .text(let text):
-                    writer.append(text.CSVFormattedString(qouted: false, separator: separator))
-                case .integer(let intVal):
-                    writer.append(intVal.description)
-                case .float(let dVal):
-                    writer.append(dVal.description)
-                case .null:
-                    break
-                case .blob(let data):
-                    writer.write("<\(data.hexEncodedString())>")
-                }
-                if rawCol < sel.endColumn {
-                    writer.write(separator)
-                }
-
-                if let check = keepGoingCheck, !check() {
-                    return nil
-                }
-            }
-            if row < sel.endRow {
-                writer.write(lineEnding)
-            }
-
-        }
-        return writer
+        return RowData.csv(from: data, inSelection: sel, map: map, keepGoingCheck: keepGoingCheck)
     }
 
     func addDefaultValues() throws -> Bool {

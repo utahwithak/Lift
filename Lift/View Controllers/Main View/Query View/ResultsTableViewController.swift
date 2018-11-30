@@ -11,7 +11,7 @@ import Cocoa
 class ResultsTableViewController: NSViewController {
     var results: ExecuteQueryResult!
 
-    @IBOutlet weak var tableView: NSTableView!
+    @IBOutlet weak var tableView: TableView!
     @IBOutlet weak var durationLabel: NSTextField!
 
     override func viewDidLoad() {
@@ -136,5 +136,107 @@ extension ResultsTableViewController: NSTableViewDelegate {
         textField.layout()
 
         return cellView
+    }
+}
+
+extension ResultsTableViewController: NSMenuDelegate {
+
+    /// Selection box columns -> TableDataColumn
+    var columnMap: [Int: Int] {
+        var colMap = [Int: Int]()
+        for tCol in 0..<tableView.numberOfColumns {
+            let identifier = tableView.tableColumns[tCol].identifier
+            colMap[tCol] = TableDataViewController.identifierMap[identifier]!
+        }
+        return colMap
+    }
+
+    private func copySelection(_ selection: SelectionBox, asJson copyAsJSON: Bool) {
+        var validOp = true
+        let keepGoing: () -> Bool = {
+            return validOp
+        }
+
+        let doCopy: () -> String? = {
+            var pasteBoardString: String?
+
+            if copyAsJSON {
+                pasteBoardString = RowData.json(from: self.results.rows, inSelection: selection, columnNames: self.results.columnNames, map: self.columnMap, keepGoingCheck: keepGoing)
+
+            } else {
+                pasteBoardString = RowData.csv(from: self.results.rows, inSelection: selection, map: self.columnMap, keepGoingCheck: keepGoing)
+            }
+            return pasteBoardString
+        }
+
+        if selection.isSingleCell {
+            if let pasteBoardString = doCopy() {
+
+                NSPasteboard.general.declareTypes([.string], owner: nil)
+                NSPasteboard.general.setString(pasteBoardString, forType: .string)
+            }
+            return
+        }
+
+        guard let waitingVC = storyboard?.instantiateController(withIdentifier: "waitingOperationView") as? WaitingOperationViewController else {
+            return
+        }
+
+        let cancelOp: () -> Void = {
+            validOp = false
+        }
+
+        waitingVC.cancelHandler = cancelOp
+        waitingVC.indeterminate = true
+        presentAsSheet(waitingVC)
+
+        DispatchQueue.global(qos: .userInitiated).async {
+            let pasteBoardString: String? = doCopy()
+
+            DispatchQueue.main.async {
+                self.dismiss(waitingVC)
+                if let pbStr = pasteBoardString {
+                    NSPasteboard.general.declareTypes([.string], owner: nil)
+                    NSPasteboard.general.setString(pbStr, forType: .string)
+                }
+
+            }
+        }
+
+    }
+
+    @IBAction func copy(_ sender: Any) {
+        guard let selectionBox = tableView.selectionBoxes.first else {
+            return
+        }
+
+        copySelection(selectionBox, asJson: false)
+    }
+
+    @objc private func copyAsCSV(_ sender: Any) {
+        guard let selectionBox = tableView.selectionBoxes.first else {
+            return
+        }
+        copySelection(selectionBox, asJson: false)
+    }
+
+    @objc private func copyAsJSON(_ sender: Any) {
+        guard let selectionBox = tableView.selectionBoxes.first else {
+            return
+        }
+
+        copySelection(selectionBox, asJson: true)
+
+    }
+
+    func menuNeedsUpdate(_ menu: NSMenu) {
+        menu.removeAllItems()
+
+        guard tableView.selectionBoxes.first != nil else {
+            return
+        }
+
+        menu.addItem(withTitle: NSLocalizedString("Copy as CSV", comment: "Copy csv menu item"), action: #selector(copyAsCSV), keyEquivalent: "")
+        menu.addItem(withTitle: NSLocalizedString("Copy as JSON", comment: "Copy JSON menu item"), action: #selector(copyAsJSON), keyEquivalent: "")
     }
 }

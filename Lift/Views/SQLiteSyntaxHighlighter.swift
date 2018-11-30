@@ -331,9 +331,10 @@ class SQLiteSyntaxHighlighter {
         if beginLocationInMultiLine == NSNotFound || (endLocationInMultiLine != NSNotFound && beginLocationInMultiLine < endLocationInMultiLine) {
             beginLocationInMultiLine = rangeLocation
         }
-        rangeScanner.scanLocation = beginLocationInMultiLine
+
+        documentScanner.scanLocation = beginLocationInMultiLine
         searchSyntaxLength = (endFirstMultiLineComment as NSString).length
-        while !rangeScanner.isAtEnd {
+        while !documentScanner.isAtEnd {
             var searchRange = NSRange(location: beginLocationInMultiLine, length: range.length)
             if NSMaxRange(searchRange) > documentStringLength {
                 searchRange = NSRange(location: beginLocationInMultiLine, length: documentStringLength - beginLocationInMultiLine)
@@ -343,25 +344,27 @@ class SQLiteSyntaxHighlighter {
             guard beginning != NSNotFound else {
                 break
             }
-            rangeScanner.scanLocation = beginning
+
+            documentScanner.scanLocation = beginning
 
             var length = 0
-            if !rangeScanner.scanUpTo(endFirstMultiLineComment, into: nil) || rangeScanner.scanLocation >= documentStringLength {
-                rangeScanner.scanLocation = documentStringLength
-                length = rangeScanner.scanLocation - beginning
+            if !documentScanner.scanUpTo(endFirstMultiLineComment, into: nil) || documentScanner.scanLocation >= documentStringLength {
+
+                documentScanner.scanLocation = documentStringLength
+                length = documentScanner.scanLocation - beginning
             } else {
-                if rangeScanner.scanLocation < documentStringLength {
-                    rangeScanner.scanLocation += searchSyntaxLength
+                if documentScanner.scanLocation < documentStringLength {
+                    documentScanner.scanLocation += searchSyntaxLength
                 }
-                length = rangeScanner.scanLocation - beginning
+                length = documentScanner.scanLocation - beginning
 
             }
             setColor(commentsColor, for: NSRange(location: beginning, length: length))
 
-            guard rangeScanner.scanLocation <= maxRange else {
+            guard documentScanner.scanLocation <= maxRange else {
                 break
             }
-            beginLocationInMultiLine = rangeScanner.scanLocation
+            beginLocationInMultiLine = documentScanner.scanLocation
         }
 
         //
