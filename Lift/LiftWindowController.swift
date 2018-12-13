@@ -13,12 +13,10 @@ extension NSStoryboard.SceneIdentifier {
     static let detachDatabase =  "detachDatabase"
 }
 
-
 class LiftWindowController: NSWindowController {
 
     static let selectedTableChanged = Notification.Name("selectedTableChanged")
     static let selectedColumnChanged = Notification.Name("selectedTableChanged")
-
 
     @IBOutlet weak var viewTypeSegmentedControl: NSSegmentedControl!
     @IBOutlet weak var panelSegmentedControl: NSSegmentedControl!
