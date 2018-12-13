@@ -52,4 +52,26 @@ extension NSTreeController {
 
         return nil
     }
+
+    func indexOfProvider(with name: String) -> IndexPath? {
+        guard let nodes = arrangedObjects.children else {
+            return nil
+        }
+        return indexOfProvider(with: name, in: nodes)
+    }
+
+    private func indexOfProvider(with name: String, in nodes: [NSTreeNode]) -> IndexPath? {
+
+        for node in nodes {
+            if let tableNode = node.representedObject as? TableViewNode, tableNode.name == name {
+                return node.indexPath
+            }
+
+            if let children = node.children, let indexPath = indexOfProvider(with: name, in: children) {
+                return indexPath
+            }
+        }
+
+        return nil
+    }
 }

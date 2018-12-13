@@ -35,6 +35,8 @@ class SideBarBrowseViewController: LiftViewController {
             nodes = []
             return
         }
+        let currentlySelectedTable = selectedTable
+
         if let headerNode = nodes.first as? HeaderViewNode {
             headerNode.refresh(with: document, filteredWith: outlinePredicate)
         } else {
@@ -45,6 +47,12 @@ class SideBarBrowseViewController: LiftViewController {
                 header.children.append(DatabaseViewNode(database: database, filteredWith: outlinePredicate))
             }
             nodes.append(header)
+        }
+
+        if let previouslySelected = currentlySelectedTable, let newProviderIndex = treeController.indexOfProvider(with: previouslySelected.name) {
+            selectedIndexes = [newProviderIndex]
+        } else {
+            selectedTable = nil
         }
 
     }
@@ -95,14 +103,13 @@ class SideBarBrowseViewController: LiftViewController {
         didSet {
             if windowController?.selectedTable != treeControllerSelectedTable {
                 windowController?.selectedTable = treeControllerSelectedTable
-                windowController?.showMainView(type: .table)
             }
 
             guard let selectedObject = treeController.selectedObjects.first as? BrowseViewNode else {
                 windowController?.selectedColumn = nil
                 return
             }
-                windowController?.selectedColumn = (selectedObject as? ColumnNode)?.column
+            windowController?.selectedColumn = (selectedObject as? ColumnNode)?.column
 
         }
     }

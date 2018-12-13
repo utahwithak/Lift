@@ -18,6 +18,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 
+        if !UserDefaults.standard.bool(forKey: "hideWelcomeScreenOnLaunch") {
+            createAndShowWelcome()
+        }
         #if FREE
         pesterBuy()
         #endif
@@ -48,8 +51,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationShouldOpenUntitledFile(_ sender: NSApplication) -> Bool {
-
-        showWelcomeToLiftWindow(sender)
         return false
     }
 
@@ -58,8 +59,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             window.makeKeyAndOrderFront(self)
             return
         }
+        createAndShowWelcome()
     }
 
+    private func createAndShowWelcome() {
+        let storyboard = NSStoryboard(name: .main, bundle: .main)
+
+        guard let windowController = storyboard.instantiateController(withIdentifier: "welcomeWindow") as? WelcomeWindowController else {
+            fatalError("Error getting main window controller")
+        }
+        windowController.showWindow(self)
+    }
     @IBAction func showSupport(_ sender: Any) {
         NSWorkspace.shared.open(URL(string: "https://www.datumapps.com/contact-us/")!)
     }

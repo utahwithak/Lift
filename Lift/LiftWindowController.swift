@@ -13,11 +13,12 @@ extension NSStoryboard.SceneIdentifier {
     static let detachDatabase =  "detachDatabase"
 }
 
-extension Notification.Name {
-    static let selectedTableChanged = Notification.Name("selectedTableChanged")
-}
 
 class LiftWindowController: NSWindowController {
+
+    static let selectedTableChanged = Notification.Name("selectedTableChanged")
+    static let selectedColumnChanged = Notification.Name("selectedTableChanged")
+
 
     @IBOutlet weak var viewTypeSegmentedControl: NSSegmentedControl!
     @IBOutlet weak var panelSegmentedControl: NSSegmentedControl!
@@ -28,11 +29,15 @@ class LiftWindowController: NSWindowController {
     @objc dynamic weak var selectedTable: DataProvider? {
         didSet {
             window?.title = selectedTable?.name ?? document?.displayName ?? ""
-            NotificationCenter.default.post(name: .selectedTableChanged, object: self)
+            NotificationCenter.default.post(name: LiftWindowController.selectedTableChanged, object: self)
         }
     }
 
-    @objc dynamic weak var selectedColumn: Column?
+    @objc dynamic weak var selectedColumn: Column? {
+        didSet {
+            NotificationCenter.default.post(name: LiftWindowController.selectedColumnChanged, object: self)
+        }
+    }
 
     @IBAction func changeSplitViewPanels(_ sender: Any) {
         guard let splitView = contentViewController as? LiftMainSplitViewController else {
