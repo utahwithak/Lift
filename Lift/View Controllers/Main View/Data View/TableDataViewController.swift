@@ -801,7 +801,6 @@ extension TableDataViewController: NSMenuDelegate {
         clearTable()
         data = TableData(provider: provider, customQuery: queryString, customSorting: sortOrders)
 
-
         data?.delegate = self
         resetTableView()
         let index = tableView.column(withIdentifier: tableColumn.identifier)
