@@ -241,6 +241,16 @@ class TableView: NSTableView {
         }
 
     }
+    override func selectRowIndexes(_ indexes: IndexSet, byExtendingSelection extend: Bool) {
+        if extend {
+
+        } else {
+
+            if let start = indexes.first, let end = indexes.last, start >= 0 && end < numberOfRows {
+                selectionBoxes = [SelectionBox(startRow: start, endRow: end, startColumn: 0, endColumn: numberOfColumns - 1)]
+            }
+        }
+    }
 
     override func deselectAll(_ sender: Any?) {
         selectionBoxes.removeAll(keepingCapacity: true)

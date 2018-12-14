@@ -522,7 +522,7 @@
 		8F2A250921513ED500DADFB8 /* CreateTable.CreatePrimaryKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTable.CreatePrimaryKey.swift; sourceTree = "<group>"; };
 		8F2A250B21513F1A00DADFB8 /* CreateTable.CreateIndexedColumn.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTable.CreateIndexedColumn.swift; sourceTree = "<group>"; };
 		8F2A250D2151414E00DADFB8 /* CreateTable.CreateUniqueTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTable.CreateUniqueTable.swift; sourceTree = "<group>"; };
-		8F2CB27F2182208E00BA3A35 /* Lift - SQLite Lite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lift - SQLite Lite.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F2CB27F2182208E00BA3A35 /* Lift Lite.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lift Lite.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F2CB2802182208F00BA3A35 /* Lift copy-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "Lift copy-Info.plist"; path = "/Users/carl8382/Projects/Random projects/Lift/Lift copy-Info.plist"; sourceTree = "<absolute>"; };
 		8F2CB282218221C400BA3A35 /* SupportLiftViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportLiftViewController.swift; sourceTree = "<group>"; };
 		8F2CB28921823B5900BA3A35 /* StoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreViewController.swift; sourceTree = "<group>"; };
@@ -602,7 +602,7 @@
 		8F78E50F2187D2CF00858B2D /* Constraints.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Constraints.storyboard; sourceTree = "<group>"; };
 		8F78E5132187DD3400858B2D /* DefaultColumnConstraintViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultColumnConstraintViewController.swift; sourceTree = "<group>"; };
 		8F7A8E641FA2654A00A80FD2 /* HiddenBackgroundSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HiddenBackgroundSegmentedControl.swift; sourceTree = "<group>"; };
-		8F7C52291F7D39E4004A91BC /* Lift - SQLite Pro.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lift - SQLite Pro.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		8F7C52291F7D39E4004A91BC /* Lift.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lift.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8F7C522C1F7D39E5004A91BC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8F7C522E1F7D39E5004A91BC /* LiftSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiftSplitViewController.swift; sourceTree = "<group>"; };
 		8F7C52301F7D39E5004A91BC /* LiftDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiftDocument.swift; sourceTree = "<group>"; };
@@ -1119,11 +1119,11 @@
 		8F7C522A1F7D39E4004A91BC /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8F7C52291F7D39E4004A91BC /* Lift - SQLite Pro.app */,
+				8F7C52291F7D39E4004A91BC /* Lift.app */,
 				8F7C523D1F7D39E5004A91BC /* LiftTests.xctest */,
 				8F7C52481F7D39E5004A91BC /* LiftUITests.xctest */,
 				8FB4D437214BF1E700BE8881 /* SQLitePreview.qlgenerator */,
-				8F2CB27F2182208E00BA3A35 /* Lift - SQLite Lite.app */,
+				8F2CB27F2182208E00BA3A35 /* Lift Lite.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1405,9 +1405,9 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		8F2CB1BF2182208E00BA3A35 /* Lift - SQLite Lite */ = {
+		8F2CB1BF2182208E00BA3A35 /* Lift Lite */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8F2CB27C2182208E00BA3A35 /* Build configuration list for PBXNativeTarget "Lift - SQLite Lite" */;
+			buildConfigurationList = 8F2CB27C2182208E00BA3A35 /* Build configuration list for PBXNativeTarget "Lift Lite" */;
 			buildPhases = (
 				8F2CB1C22182208E00BA3A35 /* Sources */,
 				8F2CB26D2182208E00BA3A35 /* Frameworks */,
@@ -1421,14 +1421,14 @@
 			dependencies = (
 				8F2CB1C02182208E00BA3A35 /* PBXTargetDependency */,
 			);
-			name = "Lift - SQLite Lite";
+			name = "Lift Lite";
 			productName = Lift;
-			productReference = 8F2CB27F2182208E00BA3A35 /* Lift - SQLite Lite.app */;
+			productReference = 8F2CB27F2182208E00BA3A35 /* Lift Lite.app */;
 			productType = "com.apple.product-type.application";
 		};
-		8F7C52281F7D39E4004A91BC /* Lift - SQLite Pro */ = {
+		8F7C52281F7D39E4004A91BC /* Lift */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8F7C52511F7D39E5004A91BC /* Build configuration list for PBXNativeTarget "Lift - SQLite Pro" */;
+			buildConfigurationList = 8F7C52511F7D39E5004A91BC /* Build configuration list for PBXNativeTarget "Lift" */;
 			buildPhases = (
 				8F7C52251F7D39E4004A91BC /* Sources */,
 				8F7C52261F7D39E4004A91BC /* Frameworks */,
@@ -1442,9 +1442,9 @@
 			dependencies = (
 				8F11B7AB1F83DDEE008E19D7 /* PBXTargetDependency */,
 			);
-			name = "Lift - SQLite Pro";
+			name = Lift;
 			productName = Lift;
-			productReference = 8F7C52291F7D39E4004A91BC /* Lift - SQLite Pro.app */;
+			productReference = 8F7C52291F7D39E4004A91BC /* Lift.app */;
 			productType = "com.apple.product-type.application";
 		};
 		8F7C523C1F7D39E5004A91BC /* LiftTests */ = {
@@ -1574,11 +1574,11 @@
 			);
 			projectRoot = "";
 			targets = (
-				8F7C52281F7D39E4004A91BC /* Lift - SQLite Pro */,
+				8F7C52281F7D39E4004A91BC /* Lift */,
 				8F7C523C1F7D39E5004A91BC /* LiftTests */,
 				8F7C52471F7D39E5004A91BC /* LiftUITests */,
 				8FB4D436214BF1E700BE8881 /* SQLitePreview */,
-				8F2CB1BF2182208E00BA3A35 /* Lift - SQLite Lite */,
+				8F2CB1BF2182208E00BA3A35 /* Lift Lite */,
 			);
 		};
 /* End PBXProject section */
@@ -2106,12 +2106,12 @@
 		};
 		8F7C523F1F7D39E5004A91BC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8F7C52281F7D39E4004A91BC /* Lift - SQLite Pro */;
+			target = 8F7C52281F7D39E4004A91BC /* Lift */;
 			targetProxy = 8F7C523E1F7D39E5004A91BC /* PBXContainerItemProxy */;
 		};
 		8F7C524A1F7D39E5004A91BC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8F7C52281F7D39E4004A91BC /* Lift - SQLite Pro */;
+			target = 8F7C52281F7D39E4004A91BC /* Lift */;
 			targetProxy = 8F7C52491F7D39E5004A91BC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -2433,7 +2433,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		8F2CB27C2182208E00BA3A35 /* Build configuration list for PBXNativeTarget "Lift - SQLite Lite" */ = {
+		8F2CB27C2182208E00BA3A35 /* Build configuration list for PBXNativeTarget "Lift Lite" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8F2CB27D2182208E00BA3A35 /* Debug */,
@@ -2451,7 +2451,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8F7C52511F7D39E5004A91BC /* Build configuration list for PBXNativeTarget "Lift - SQLite Pro" */ = {
+		8F7C52511F7D39E5004A91BC /* Build configuration list for PBXNativeTarget "Lift" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8F7C52521F7D39E5004A91BC /* Debug */,

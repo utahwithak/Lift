@@ -300,13 +300,13 @@ class TableDataViewController: LiftMainViewController {
         waitingVC.indeterminate = true
         presentAsSheet(waitingVC)
 
-        DispatchQueue.global(qos: .userInitiated).async {
+        DispatchQueue.global(qos: .userInitiated).async { [columnMap] in
             var pasteBoardString: String?
 
             if copyAsJSON {
-                pasteBoardString = data.json(inSelection: selection, map: self.columnMap, keepGoingCheck: keepGoing)
+                pasteBoardString = data.json(inSelection: selection, map: columnMap, keepGoingCheck: keepGoing)
             } else {
-                pasteBoardString = data.csv(inSelection: selection, map: self.columnMap, keepGoingCheck: keepGoing)
+                pasteBoardString = data.csv(inSelection: selection, map: columnMap, keepGoingCheck: keepGoing)
             }
             DispatchQueue.main.async {
                 self.dismiss(waitingVC)
@@ -800,8 +800,14 @@ extension TableDataViewController: NSMenuDelegate {
         }
         clearTable()
         data = TableData(provider: provider, customQuery: queryString, customSorting: sortOrders)
+
+
         data?.delegate = self
         resetTableView()
+        let index = tableView.column(withIdentifier: tableColumn.identifier)
+        if index > -1 {
+            self.tableView.selectColumnIndexes(IndexSet([index]), byExtendingSelection: false)
+        }
         self.tableView.sortOrders = sortOrders
     }
 
@@ -903,6 +909,12 @@ extension TableDataViewController: NSMenuDelegate {
             let editRow = NSMenuItem(title: NSLocalizedString("Edit Row", comment: "menu item for editing entire row"), action: #selector(editSelectedRow), keyEquivalent: "")
             editRow.representedObject = table
             menu.addItem(editRow)
+            let dropRow = NSMenuItem(title: NSLocalizedString("Drop Row", comment: "menu item for dropping entire row"), action: #selector(dropSelected(_:)), keyEquivalent: "")
+            menu.addItem(dropRow)
+
+        } else if selectedTable?.isEditable == true {
+            let dropRow = NSMenuItem(title: NSLocalizedString("Drop Rows", comment: "menu item for dropping entire row"), action: #selector(dropSelected(_:)), keyEquivalent: "")
+            menu.addItem(dropRow)
         }
         menu.addItem(withTitle: NSLocalizedString("Copy as CSV", comment: "Copy csv menu item"), action: #selector(copyAsCSV), keyEquivalent: "")
         menu.addItem(withTitle: NSLocalizedString("Copy as JSON", comment: "Copy JSON menu item"), action: #selector(copyAsJSON), keyEquivalent: "")
@@ -1097,4 +1109,3 @@ extension TableDataViewController: PrintableViewController {
         tableView.printView(self)
     }
 }
-
