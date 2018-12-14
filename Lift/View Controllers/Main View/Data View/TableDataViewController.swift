@@ -857,6 +857,10 @@ extension TableDataViewController: NSMenuDelegate {
                     editRow.representedObject = table
                     menu.addItem(editRow)
 
+                    let dropRow = NSMenuItem(title: NSLocalizedString("Drop Row", comment: "menu item for dropping entire row"), action: #selector(dropSelected(_:)), keyEquivalent: "")
+                    dropRow.representedObject = table
+                    menu.addItem(dropRow)
+
                     let setToMenu = NSMenuItem(title: NSLocalizedString("Set To...", comment: "set to menu item title, opens to show default values"), action: nil, keyEquivalent: "")
                     let subMenu = NSMenu()
                     setToMenu.submenu = subMenu
@@ -1087,3 +1091,10 @@ extension TableDataViewController: BottomEditorContentProvider {
     }
 
 }
+
+extension TableDataViewController: PrintableViewController {
+    func printView() {
+        tableView.printView(self)
+    }
+}
+

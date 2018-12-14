@@ -119,7 +119,7 @@
                                         </menuItem>
                                         <menuItem title="Print…" keyEquivalent="p" id="aTl-1u-JFS">
                                             <connections>
-                                                <action selector="print:" target="Ady-hI-5gd" id="qaZ-4w-aoO"/>
+                                                <action selector="doPrintAction:" target="Ady-hI-5gd" id="Thf-66-865"/>
                                             </connections>
                                         </menuItem>
                                     </items>
@@ -1112,7 +1112,7 @@ Gw
                     <splitViewItems>
                         <splitViewItem canCollapse="YES" holdingPriority="260" behavior="sidebar" id="p5g-F6-oid"/>
                         <splitViewItem id="Ez6-K7-yw9"/>
-                        <splitViewItem canCollapse="YES" id="JDh-Az-mgF"/>
+                        <splitViewItem canCollapse="YES" holdingPriority="260" behavior="sidebar" id="JDh-Az-mgF"/>
                     </splitViewItems>
                     <splitView key="splitView" wantsLayer="YES" dividerStyle="thin" vertical="YES" id="zZn-Jc-uhh">
                         <rect key="frame" x="0.0" y="0.0" width="826" height="385"/>
@@ -2107,13 +2107,13 @@ Gw
                         <rect key="frame" x="0.0" y="0.0" width="226" height="400"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="22" horizontalPageScroll="10" verticalLineScroll="22" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="own-s7-gPV">
+                            <scrollView borderType="none" autohidesScrollers="YES" horizontalLineScroll="20" horizontalPageScroll="10" verticalLineScroll="20" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="own-s7-gPV">
                                 <rect key="frame" x="-1" y="29" width="228" height="371"/>
                                 <clipView key="contentView" drawsBackground="NO" id="Na3-hO-o6X">
                                     <rect key="frame" x="0.0" y="0.0" width="228" height="371"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowHeight="22" rowSizeStyle="automatic" viewBased="YES" floatsGroupRows="NO" indentationPerLevel="14" autosaveExpandedItems="YES" outlineTableColumn="cGZ-sS-7hq" id="New-S5-vFv">
+                                        <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" selectionHighlightStyle="sourceList" multipleSelection="NO" autosaveColumns="NO" rowHeight="20" rowSizeStyle="automatic" viewBased="YES" floatsGroupRows="NO" indentationPerLevel="14" autosaveExpandedItems="YES" outlineTableColumn="cGZ-sS-7hq" id="New-S5-vFv">
                                             <rect key="frame" x="0.0" y="0.0" width="228" height="371"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="0.0"/>

@@ -57,6 +57,7 @@ class LiftWindowController: NSWindowController {
     }
 
     override func windowDidLoad() {
+        window?.delegate = self
 
         window?.titleVisibility = .hidden
         attachDetachSegmentedControl.setEnabled(false, forSegment: 1)
@@ -241,6 +242,7 @@ class LiftWindowController: NSWindowController {
 
     override var document: AnyObject? {
         didSet {
+            windowFrameAutosaveName = documentDatabase?.name ?? "Unknown"
             contentViewController?.representedObject = document
             NotificationCenter.default.addObserver(self, selector: #selector(attachedDatabasesChanged), name: .AttachedDatabasesChanged, object: nil)
             NotificationCenter.default.addObserver(self, selector: #selector(autocommitStatusChanged), name: .AutocommitStatusChanged, object: nil)
@@ -387,7 +389,13 @@ class LiftWindowController: NSWindowController {
 
     }
 
+    @IBAction func doPrintAction(_ sender: Any?) {
+        mainEditor?.printCurrentView()
+    }
+
 }
+
+extension LiftWindowController: NSWindowDelegate {}
 
 extension LiftWindowController: StatementWaitingViewDelegate {
     func waitingView(_ view: StatementWaitingViewController, finishedSuccessfully: Bool) {

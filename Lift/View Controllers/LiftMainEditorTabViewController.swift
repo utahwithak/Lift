@@ -72,4 +72,14 @@ class LiftMainEditorTabViewController: NSTabViewController {
         queryView.sqlView.refresh()
 
     }
+
+    func printCurrentView() {
+        if let printer = tabViewItems[selectedTabViewItemIndex].viewController as? PrintableViewController {
+            printer.printView()
+        }
+    }
+}
+
+protocol PrintableViewController: class {
+    func printView()
 }

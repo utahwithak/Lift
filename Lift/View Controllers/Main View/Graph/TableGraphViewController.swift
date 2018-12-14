@@ -173,3 +173,10 @@ extension TableGraphViewController: BottomEditorContentProvider {
     }
 
 }
+
+
+extension TableGraphViewController: PrintableViewController {
+    func printView() {
+        view.printView(self)
+    }
+}

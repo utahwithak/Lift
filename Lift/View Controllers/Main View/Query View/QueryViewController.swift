@@ -207,3 +207,8 @@ extension QueryViewController: SQLiteTextViewCompletionDelegate {
         }
     }
 }
+extension QueryViewController: PrintableViewController {
+    func printView() {
+        sqlView.printView(self)
+    }
+}
