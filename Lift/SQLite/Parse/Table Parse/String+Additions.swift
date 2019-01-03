@@ -51,14 +51,19 @@ extension String {
     }
 
     func sqliteSafeString() -> String {
+        guard let first = first else {
+            return self
+        }
+
         if (first == "\"" || first == "'" || first == "`") && balancedQoutedString() {
             return self
         }
+
         if first == "[" && last == "]" {
             return self
         }
 
-        if rangeOfCharacter(from: SQLiteName.invalidChars) != nil {
+        if rangeOfCharacter(from: SQLiteName.invalidChars) != nil || !CharacterSet.decimalDigits.isDisjoint(with: CharacterSet(first.unicodeScalars)) {
             var returnVal = self
             if contains("\"") {
                 returnVal = self.replacingOccurrences(of: "\"", with: "\"\"")
