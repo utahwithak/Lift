@@ -18,13 +18,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 
-        if !UserDefaults.standard.bool(forKey: "hideWelcomeScreenOnLaunch") {
+        if !UserDefaults.standard.bool(forKey: "hideWelcomeScreenOnLaunch") && aNotification.userInfo?[NSApplication.launchIsDefaultUserInfoKey] as? Bool == true {
             createAndShowWelcome()
         }
         #if FREE
         pesterBuy()
         #endif
     }
+
     func pesterBuy() {
         #if FREE
         var time = 30
