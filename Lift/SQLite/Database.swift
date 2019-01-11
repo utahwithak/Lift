@@ -58,13 +58,15 @@ class Database: NSObject {
                 throw SQLiteError(connection: db, code: ret, sql: "Opening path:\(path.path)")
             }
 
-            self.init(connection: connection, name: "main")
+            self.init(connection: connection, name: "main", enableLogging: false)
         }
 
     }
 
     public let connection: sqlite3
     @objc dynamic public let name: String
+
+    fileprivate var trace: Trace?
 
     public private(set) var path: String = ""
 
@@ -88,7 +90,7 @@ class Database: NSObject {
         }
     }
 
-    private init(connection: sqlite3, name: String) {
+    private init(connection: sqlite3, name: String, enableLogging: Bool = true) {
         self.connection = connection
         self.name = name
 
@@ -97,36 +99,14 @@ class Database: NSObject {
         if name == "main" {
             areForeignKeysEnabled = true
             extensionsAllowed = true
-            // enable tracing
-            let tmpSelf = self
-            let rc = sqlite3_trace_v2(connection, UInt32(SQLITE_TRACE_STMT), { (type, context, preparedStatement, expandedText) -> Int32 in
-                guard type == UInt32(SQLITE_TRACE_STMT) else {
-                    return 0
-                }
-
-                guard let intPtr = expandedText?.assumingMemoryBound(to: Int8.self) else {
-                    return 0
-                }
-
-                let db = unsafeBitCast(context, to: Database.self)
-                let str = String(cString: intPtr)
-                if str.hasPrefix("--") {
-                    db.history.append(str)
-                } else {
-                    if let expandedSQL = sqlite3_expanded_sql(OpaquePointer(preparedStatement)) {
-                        let expanded = String(cString: expandedSQL)
-                        db.history.append(expanded)
-                        sqlite3_free(expandedSQL)
+            if enableLogging {
+                trace_v2 { [weak self] log in
+                    DispatchQueue.main.async {
+                        self?.history.append(log)
                     }
                 }
-
-                return 0
-
-            }, unsafeBitCast(tmpSelf, to: UnsafeMutableRawPointer.self))
-
-            if rc != SQLITE_OK {
-                history.append("Failed to enable trace!")
             }
+
         }
     }
 
@@ -413,4 +393,37 @@ class Database: NSObject {
         try exec("ROLLBACK TO \(name);")
     }
 
+}
+
+extension Database {
+    fileprivate typealias Trace = @convention(block) (UnsafeRawPointer) -> Void
+    fileprivate func trace_v2(_ callback: ((String) -> Void)?) {
+        guard let callback = callback else {
+            // If the X callback is NULL or if the M mask is zero, then tracing is disabled.
+            sqlite3_trace_v2(connection, 0 /* mask */, nil /* xCallback */, nil /* pCtx */)
+            trace = nil
+            return
+        }
+
+        let box: Trace = { (pointer: UnsafeRawPointer) in
+            callback(String(cString: pointer.assumingMemoryBound(to: UInt8.self)))
+        }
+        sqlite3_trace_v2(connection,
+                         UInt32(SQLITE_TRACE_STMT) /* mask */,
+                // A trace callback is invoked with four arguments: callback(T,C,P,X).
+                // The T argument is one of the SQLITE_TRACE constants to indicate why the
+                // callback was invoked. The C argument is a copy of the context pointer.
+                // The P and X arguments are pointers whose meanings depend on T.
+                { (_: UInt32, C: UnsafeMutableRawPointer?, P: UnsafeMutableRawPointer?, _: UnsafeMutableRawPointer?) in
+                if let P = P,
+                    let expandedSQL = sqlite3_expanded_sql(OpaquePointer(P)) {
+                    unsafeBitCast(C, to: Trace.self)(expandedSQL)
+                    sqlite3_free(expandedSQL)
+                }
+                return Int32(0) // currently ignored
+        },
+            unsafeBitCast(box, to: UnsafeMutableRawPointer.self) /* pCtx */
+        )
+        trace = box
+    }
 }

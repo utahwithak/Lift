@@ -47,9 +47,9 @@ class WelcomeViewController: NSViewController {
 
     }
 
-    @IBAction func showInFinder(_ sender: Any) {
-        let clickedRow = tableView.clickedRow
-        guard clickedRow >= 0 && clickedRow < recentURLs.count else {
+    @IBAction func showInFinder(_ sender: NSMenuItem) {
+
+        guard let clickedRow = sender.representedObject as? Int, clickedRow >= 0 && clickedRow < recentURLs.count else {
             return
         }
         let urlToShow = recentURLs[clickedRow]
@@ -130,5 +130,17 @@ class WelcomeViewController: NSViewController {
             }
         }
 
+    }
+}
+extension WelcomeViewController: NSMenuDelegate {
+    func menuNeedsUpdate(_ menu: NSMenu) {
+        menu.removeAllItems()
+        let row = tableView.clickedRow
+        guard row >= 0 else {
+            return
+        }
+        let item = NSMenuItem(title: NSLocalizedString("Show in Finder", comment: "Right click option for showing in finder"), action: #selector(showInFinder), keyEquivalent: "")
+        item.representedObject = row
+        menu.addItem(item)
     }
 }

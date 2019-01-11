@@ -16,7 +16,8 @@ class LogViewController: LiftViewController {
     override var representedObject: Any? {
         didSet {
             if let document = document {
-                log = document.database.history.reversed()
+                log = document.database.history
+                log.reverse()
             }
         }
     }

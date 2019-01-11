@@ -18,9 +18,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 
-        if !UserDefaults.standard.bool(forKey: "hideWelcomeScreenOnLaunch") && aNotification.userInfo?[NSApplication.launchIsDefaultUserInfoKey] as? Bool == true {
-            createAndShowWelcome()
-        }
         #if FREE
         pesterBuy()
         #endif
@@ -52,6 +49,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     func applicationShouldOpenUntitledFile(_ sender: NSApplication) -> Bool {
+        if !UserDefaults.standard.bool(forKey: "hideWelcomeScreenOnLaunch") {
+            createAndShowWelcome()
+        }
         return false
     }
 
