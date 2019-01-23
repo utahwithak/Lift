@@ -3663,7 +3663,7 @@ DQ
                     </items>
                 </menu>
             </objects>
-            <point key="canvasLocation" x="1332" y="3162"/>
+            <point key="canvasLocation" x="960" y="3184"/>
         </scene>
         <!--Results Overview View Controller-->
         <scene sceneID="vaB-AI-6lB">
@@ -3866,7 +3866,7 @@ DQ
                                             <connections>
                                                 <outlet property="dataSource" destination="kEy-I2-RUP" id="DrA-GE-Zhg"/>
                                                 <outlet property="delegate" destination="kEy-I2-RUP" id="3cj-rN-Bjz"/>
-                                                <outlet property="menu" destination="myd-VK-msx" id="gLb-7h-5LZ"/>
+                                                <outlet property="menu" destination="myd-VK-msx" id="vJe-bG-b5e"/>
                                             </connections>
                                         </tableView>
                                     </subviews>
@@ -3904,6 +3904,7 @@ DQ
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="copyMenu" destination="myd-VK-msx" id="cXq-dc-TFI"/>
                         <outlet property="durationLabel" destination="r3M-hD-aUW" id="pPC-nu-u4r"/>
                         <outlet property="tableView" destination="1yX-wm-4pA" id="UYv-8U-6m1"/>
                     </connections>
@@ -3911,13 +3912,10 @@ DQ
                 <customObject id="rs2-fA-upH" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <menu id="myd-VK-msx">
                     <items>
-                        <menuItem title="Item 1" id="bPH-x7-wfn">
+                        <menuItem title="Copy as CSV" id="bPH-x7-wfn">
                             <modifierMask key="keyEquivalentModifierMask"/>
                         </menuItem>
-                        <menuItem title="Item 2" id="2I5-kP-dAK">
-                            <modifierMask key="keyEquivalentModifierMask"/>
-                        </menuItem>
-                        <menuItem title="Item 3" id="Oph-ZS-yID">
+                        <menuItem title="Copy as JSON" id="2I5-kP-dAK">
                             <modifierMask key="keyEquivalentModifierMask"/>
                         </menuItem>
                     </items>

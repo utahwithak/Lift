@@ -50,6 +50,7 @@ class ResultsOverviewViewController: NSViewController {
                 let result = results[selectedIndex]
                 if !result.rows.isEmpty {
                     delegate?.shouldSelect(identifier: result.identifier)
+                    selectedIndexes = IndexSet()
                 }
             }
         }

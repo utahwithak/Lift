@@ -13,6 +13,7 @@ class ResultsTableViewController: NSViewController {
 
     @IBOutlet weak var tableView: TableView!
     @IBOutlet weak var durationLabel: NSTextField!
+    @IBOutlet var copyMenu: NSMenu?
 
     override func viewDidLoad() {
         while tableView.numberOfColumns > 0 {
