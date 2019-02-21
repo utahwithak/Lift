@@ -4,3 +4,6 @@
 [submodule "External/cwcsv"]
 	path = External/cwcsv
 	url = git@github.com:utahwithak/CWCSVParser.git
+[submodule "External/MASShortcut"]
+	path = External/MASShortcut
+	url = git@github.com:shpakovski/MASShortcut.git

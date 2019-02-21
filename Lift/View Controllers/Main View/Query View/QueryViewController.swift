@@ -18,8 +18,6 @@ class QueryViewController: LiftMainViewController {
         sqlView.setup()
         NotificationCenter.default.addObserver(self, selector: #selector(databaseReloaded), name: .DatabaseReloaded, object: nil)
         sqlView.completionDelegate = self
-
-
     }
 
     override func viewDidAppear() {
