@@ -24,6 +24,13 @@ class LiftWindowController: NSWindowController {
     @IBOutlet weak var attachDetachSegmentedControl: NSSegmentedControl!
 
     @IBOutlet weak var autocommitSegmentedControl: NSSegmentedCell!
+
+    @objc dynamic var refreshOnWindowActivate = false
+
+    deinit {
+        NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.refreshOnWindowActivate")
+    }
+
     @objc dynamic weak var selectedTable: DataProvider? {
         didSet {
             window?.title = selectedTable?.name ?? document?.displayName ?? ""
@@ -70,6 +77,16 @@ class LiftWindowController: NSWindowController {
 
         mainEditor?.sideBarViewController = sideDetails
         mainEditor?.bottomBarContainer = bottomContainer
+
+        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.refreshOnWindowActivate", options: [.initial, .new], context: nil)
+    }
+
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "values.refreshOnWindowActivate" {
+            refreshOnWindowActivate = UserDefaults.standard.bool(forKey: "refreshOnWindowActivate")
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        }
     }
 
     @IBAction override func newWindowForTab(_ sender: Any?) {
@@ -395,7 +412,13 @@ class LiftWindowController: NSWindowController {
 
 }
 
-extension LiftWindowController: NSWindowDelegate {}
+extension LiftWindowController: NSWindowDelegate {
+    func windowDidBecomeMain(_ notification: Notification) {
+        if refreshOnWindowActivate {
+            documentDatabase?.refresh()
+        }
+    }
+}
 
 extension LiftWindowController: StatementWaitingViewDelegate {
     func waitingView(_ view: StatementWaitingViewController, finishedSuccessfully: Bool) {

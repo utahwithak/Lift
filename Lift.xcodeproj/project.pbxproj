@@ -382,6 +382,12 @@
 		8FBE0F021FCE485600ABFD1E /* CWCSVParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBE0F011FCE485600ABFD1E /* CWCSVParser.swift */; };
 		8FBE0F041FCE491900ABFD1E /* TextImportViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBE0F031FCE491900ABFD1E /* TextImportViewController.swift */; };
 		8FBFF3541FA0BFAD00317830 /* QueryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FBFF3531FA0BFAD00317830 /* QueryViewController.swift */; };
+		8FC19C10221E447900BD400E /* MASShortcut.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FC19C0A221E446A00BD400E /* MASShortcut.framework */; };
+		8FC19C17221E457800BD400E /* MASShortcut.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8FC19C0A221E446A00BD400E /* MASShortcut.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8FC19C1A221E458300BD400E /* MASShortcut.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FC19C0A221E446A00BD400E /* MASShortcut.framework */; };
+		8FC19C1B221E458300BD400E /* MASShortcut.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8FC19C0A221E446A00BD400E /* MASShortcut.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		8FC19C25221EDA5C00BD400E /* GeneralPreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC19C24221EDA5C00BD400E /* GeneralPreferencesViewController.swift */; };
+		8FC19C26221EDA5C00BD400E /* GeneralPreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC19C24221EDA5C00BD400E /* GeneralPreferencesViewController.swift */; };
 		8FC6043E21C2A54300D4A21D /* WelcomeWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC6043D21C2A54300D4A21D /* WelcomeWindowController.swift */; };
 		8FC6043F21C2A54300D4A21D /* WelcomeWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FC6043D21C2A54300D4A21D /* WelcomeWindowController.swift */; };
 		8FC63CD81FA227F000005591 /* SQLite3ConfigHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FC63CD71FA227F000005591 /* SQLite3ConfigHelper.m */; };
@@ -449,6 +455,55 @@
 			remoteGlobalIDString = 8F7C52281F7D39E4004A91BC;
 			remoteInfo = Lift;
 		};
+		8FC19C09221E446A00BD400E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8FC19C03221E446A00BD400E /* MASShortcut.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0D827CD31990D4420010B8EF;
+			remoteInfo = MASShortcut;
+		};
+		8FC19C0B221E446A00BD400E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8FC19C03221E446A00BD400E /* MASShortcut.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0D827D8319910AFF0010B8EF;
+			remoteInfo = MASShortcutTests;
+		};
+		8FC19C0D221E446A00BD400E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8FC19C03221E446A00BD400E /* MASShortcut.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0D827D371990D5E70010B8EF;
+			remoteInfo = Demo;
+		};
+		8FC19C12221E448D00BD400E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8FC19C03221E446A00BD400E /* MASShortcut.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0D827CD21990D4420010B8EF;
+			remoteInfo = MASShortcut;
+		};
+		8FC19C14221E449700BD400E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8FC19C03221E446A00BD400E /* MASShortcut.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0D827CD21990D4420010B8EF;
+			remoteInfo = MASShortcut;
+		};
+		8FC19C18221E457800BD400E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8FC19C03221E446A00BD400E /* MASShortcut.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0D827CD21990D4420010B8EF;
+			remoteInfo = MASShortcut;
+		};
+		8FC19C1C221E458300BD400E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8FC19C03221E446A00BD400E /* MASShortcut.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0D827CD21990D4420010B8EF;
+			remoteInfo = MASShortcut;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -458,6 +513,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				8FC19C17221E457800BD400E /* MASShortcut.framework in Embed Frameworks */,
 				8F11B7A91F83DDEE008E19D7 /* SwiftXLSX.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -469,6 +525,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				8FC19C1B221E458300BD400E /* MASShortcut.framework in Embed Frameworks */,
 				8F2CB2782182208E00BA3A35 /* SwiftXLSX.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -693,6 +750,8 @@
 		8FBE0F011FCE485600ABFD1E /* CWCSVParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CWCSVParser.swift; path = External/cwcsv/CWCSVParser/Parser/CWCSVParser.swift; sourceTree = SOURCE_ROOT; };
 		8FBE0F031FCE491900ABFD1E /* TextImportViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextImportViewController.swift; sourceTree = "<group>"; };
 		8FBFF3531FA0BFAD00317830 /* QueryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryViewController.swift; sourceTree = "<group>"; };
+		8FC19C03221E446A00BD400E /* MASShortcut.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = MASShortcut.xcodeproj; path = External/MASShortcut/MASShortcut.xcodeproj; sourceTree = "<group>"; };
+		8FC19C24221EDA5C00BD400E /* GeneralPreferencesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralPreferencesViewController.swift; sourceTree = "<group>"; };
 		8FC6043D21C2A54300D4A21D /* WelcomeWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeWindowController.swift; sourceTree = "<group>"; };
 		8FC63CD61FA227F000005591 /* SQLite3ConfigHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SQLite3ConfigHelper.h; sourceTree = "<group>"; };
 		8FC63CD71FA227F000005591 /* SQLite3ConfigHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SQLite3ConfigHelper.m; sourceTree = "<group>"; };
@@ -723,6 +782,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8F2CB26F2182208E00BA3A35 /* SwiftXLSX.framework in Frameworks */,
+				8FC19C1A221E458300BD400E /* MASShortcut.framework in Frameworks */,
 				8F2CB2702182208E00BA3A35 /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -731,6 +791,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8FC19C10221E447900BD400E /* MASShortcut.framework in Frameworks */,
 				8F11B7A81F83DDEE008E19D7 /* SwiftXLSX.framework in Frameworks */,
 				8FCA2ADF216053B4007A7D62 /* StoreKit.framework in Frameworks */,
 			);
@@ -763,6 +824,7 @@
 		8F0D3164214AD05500ADE9F8 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8FC19C03221E446A00BD400E /* MASShortcut.xcodeproj */,
 				8FCA2ADE216053B4007A7D62 /* StoreKit.framework */,
 				8F0D3165214AD05500ADE9F8 /* Quartz.framework */,
 			);
@@ -1137,6 +1199,7 @@
 				8F7C52301F7D39E5004A91BC /* LiftDocument.swift */,
 				8F11B7901F83D2A9008E19D7 /* LiftWindowController.swift */,
 				8FEFD4C21F9F7FB000C6C75A /* LiftDocumentController.swift */,
+				8FC19C20221EDA3600BD400E /* Preferences */,
 				8F91149F1FF84A57000B6D6A /* Welcome Screen */,
 				8FA148DB1F8D2F4800644638 /* View Controllers */,
 				8FEFD4BC1F9F7AC300C6C75A /* Import Export */,
@@ -1373,6 +1436,24 @@
 			path = "Foreign Key";
 			sourceTree = "<group>";
 		};
+		8FC19C04221E446A00BD400E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8FC19C0A221E446A00BD400E /* MASShortcut.framework */,
+				8FC19C0C221E446A00BD400E /* MASShortcutTests.xctest */,
+				8FC19C0E221E446A00BD400E /* Demo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8FC19C20221EDA3600BD400E /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				8FC19C24221EDA5C00BD400E /* GeneralPreferencesViewController.swift */,
+			);
+			path = Preferences;
+			sourceTree = "<group>";
+		};
 		8FD6D92A1F981A350033E512 /* Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -1419,7 +1500,9 @@
 			buildRules = (
 			);
 			dependencies = (
+				8FC19C13221E448D00BD400E /* PBXTargetDependency */,
 				8F2CB1C02182208E00BA3A35 /* PBXTargetDependency */,
+				8FC19C1D221E458300BD400E /* PBXTargetDependency */,
 			);
 			name = "Lift Lite";
 			productName = Lift;
@@ -1440,7 +1523,9 @@
 			buildRules = (
 			);
 			dependencies = (
+				8FC19C15221E449700BD400E /* PBXTargetDependency */,
 				8F11B7AB1F83DDEE008E19D7 /* PBXTargetDependency */,
+				8FC19C19221E457800BD400E /* PBXTargetDependency */,
 			);
 			name = Lift;
 			productName = Lift;
@@ -1568,6 +1653,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 8FC19C04221E446A00BD400E /* Products */;
+					ProjectRef = 8FC19C03221E446A00BD400E /* MASShortcut.xcodeproj */;
+				},
+				{
 					ProductGroup = 8F11B79F1F83DDBE008E19D7 /* Products */;
 					ProjectRef = 8F11B79E1F83DDBE008E19D7 /* SwiftXLSX.xcodeproj */;
 				},
@@ -1596,6 +1685,27 @@
 			fileType = wrapper.cfbundle;
 			path = SwiftXLSXTests.xctest;
 			remoteRef = 8F11B7A61F83DDBE008E19D7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		8FC19C0A221E446A00BD400E /* MASShortcut.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = MASShortcut.framework;
+			remoteRef = 8FC19C09221E446A00BD400E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		8FC19C0C221E446A00BD400E /* MASShortcutTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = MASShortcutTests.xctest;
+			remoteRef = 8FC19C0B221E446A00BD400E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		8FC19C0E221E446A00BD400E /* Demo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = Demo.app;
+			remoteRef = 8FC19C0D221E446A00BD400E /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -1694,6 +1804,7 @@
 				8F2CB1C72182208E00BA3A35 /* CSVExportOptions.swift in Sources */,
 				8F2CB1C82182208E00BA3A35 /* EditIndexViewController.swift in Sources */,
 				8FC6043F21C2A54300D4A21D /* WelcomeWindowController.swift in Sources */,
+				8FC19C26221EDA5C00BD400E /* GeneralPreferencesViewController.swift in Sources */,
 				8F2CB1C92182208E00BA3A35 /* SQLiteExportOptions.swift in Sources */,
 				8F2CB1CA2182208E00BA3A35 /* WaitingOperationViewController.swift in Sources */,
 				8F2CB1CB2182208E00BA3A35 /* DataProvider.swift in Sources */,
@@ -1884,6 +1995,7 @@
 				8F41AEFF2164DCA800DE7414 /* EditIndexViewController.swift in Sources */,
 				8F9565D41FB36EFC008FE038 /* SQLiteExportOptions.swift in Sources */,
 				8FC6043E21C2A54300D4A21D /* WelcomeWindowController.swift in Sources */,
+				8FC19C25221EDA5C00BD400E /* GeneralPreferencesViewController.swift in Sources */,
 				8FF56AD31F9C094900C5F447 /* WaitingOperationViewController.swift in Sources */,
 				8F754B1A1F98D92600BC5312 /* DataProvider.swift in Sources */,
 				8F4BECCA1FB68B00003DAA5E /* TabButton.swift in Sources */,
@@ -2113,6 +2225,26 @@
 			isa = PBXTargetDependency;
 			target = 8F7C52281F7D39E4004A91BC /* Lift */;
 			targetProxy = 8F7C52491F7D39E5004A91BC /* PBXContainerItemProxy */;
+		};
+		8FC19C13221E448D00BD400E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = MASShortcut;
+			targetProxy = 8FC19C12221E448D00BD400E /* PBXContainerItemProxy */;
+		};
+		8FC19C15221E449700BD400E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = MASShortcut;
+			targetProxy = 8FC19C14221E449700BD400E /* PBXContainerItemProxy */;
+		};
+		8FC19C19221E457800BD400E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = MASShortcut;
+			targetProxy = 8FC19C18221E457800BD400E /* PBXContainerItemProxy */;
+		};
+		8FC19C1D221E458300BD400E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = MASShortcut;
+			targetProxy = 8FC19C1C221E458300BD400E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

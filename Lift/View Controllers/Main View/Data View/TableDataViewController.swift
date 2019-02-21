@@ -94,11 +94,15 @@ class TableDataViewController: LiftMainViewController {
 
     deinit {
         predicateViewController.removeObserver(self, forKeyPath: #keyPath(TablePredicateViewController.queryString))
+        UserDefaults.standard.removeObserver(self, forKeyPath: "useFixedCellHeight")
     }
 
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
         if keyPath == #keyPath(TablePredicateViewController.queryString) {
             self.queryString = predicateViewController.queryString
+        } else if keyPath == "useFixedCellHeight" {
+            updateTableviewCellHeights()
+            tableView.noteHeightOfRows(withIndexesChanged: IndexSet(integersIn: 0..<tableView.numberOfRows))
         } else {
             super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
         }
@@ -134,6 +138,14 @@ class TableDataViewController: LiftMainViewController {
 
         if let rowData = data?.object(at: selectionBox.endRow, column: colIndex), rowData.type != .blob {
             view.window?.makeFirstResponder(cell)
+        }
+    }
+
+    private func updateTableviewCellHeights() {
+        if UserDefaults.standard.bool(forKey: "useFixedCellHeight") {
+            tableView.usesAutomaticRowHeights = false
+        } else {
+            tableView.usesAutomaticRowHeights = true
         }
     }
 
@@ -327,6 +339,9 @@ class TableDataViewController: LiftMainViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.rowHeight = 19
+        updateTableviewCellHeights()
+        UserDefaults.standard.addObserver(self, forKeyPath: "useFixedCellHeight", options: [], context: nil)
         visibleRowCountBuffer = tableView.rows(in: tableView.visibleRect).length * 4
         clearTable()
         tableView.doubleAction = #selector(doubleClickTable)
@@ -756,7 +771,7 @@ extension TableDataViewController: NSTableViewDataSource {
     }
 
     func tableView(_ tableView: NSTableView, heightOfRow row: Int) -> CGFloat {
-        return 21
+        return 19
     }
 
     func tableView(_ tableView: NSTableView, rowViewForRow row: Int) -> NSTableRowView? {

@@ -15,7 +15,15 @@ class ResultsTableViewController: NSViewController {
     @IBOutlet weak var durationLabel: NSTextField!
     @IBOutlet var copyMenu: NSMenu?
 
+    deinit {
+        UserDefaults.standard.removeObserver(self, forKeyPath: "useFixedCellHeight")
+    }
+
     override func viewDidLoad() {
+        tableView.rowHeight = 19
+        updateTableviewCellHeights()
+        UserDefaults.standard.addObserver(self, forKeyPath: "useFixedCellHeight", options: [], context: nil)
+
         while tableView.numberOfColumns > 0 {
             tableView.removeTableColumn(tableView.tableColumns[0])
         }
@@ -86,6 +94,23 @@ class ResultsTableViewController: NSViewController {
 
         } else {
             durationLabel.stringValue = ""
+        }
+    }
+
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "useFixedCellHeight" {
+            updateTableviewCellHeights()
+            tableView.noteHeightOfRows(withIndexesChanged: IndexSet(integersIn: 0..<tableView.numberOfRows))
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        }
+    }
+
+    private func updateTableviewCellHeights() {
+        if UserDefaults.standard.bool(forKey: "useFixedCellHeight") {
+            tableView.usesAutomaticRowHeights = false
+        } else {
+            tableView.usesAutomaticRowHeights = true
         }
     }
 }

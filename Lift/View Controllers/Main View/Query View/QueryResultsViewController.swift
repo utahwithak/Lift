@@ -28,12 +28,18 @@ class QueryResultsViewController: LiftViewController {
     }
 
     func clearContent() {
+        guard isViewLoaded else {
+            return
+        }
         overviewViewController.results.removeAll(keepingCapacity: true)
         holder.removeAllItems()
         tabControl.reloadData()
     }
 
     func startQueries() {
+        guard isViewLoaded else {
+            return
+        }
         clearContent()
         overviewViewController.stillLoading = true
 

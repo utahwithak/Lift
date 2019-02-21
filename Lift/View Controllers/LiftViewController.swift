@@ -11,7 +11,7 @@ class LiftViewController: NSViewController {
 
     @objc dynamic var document: LiftDocument?
 
-    var windowController: LiftWindowController? {
+    @objc dynamic var windowController: LiftWindowController? {
         return view.window?.windowController as? LiftWindowController
     }
 

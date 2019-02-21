@@ -7,11 +7,18 @@
 //
 
 import Cocoa
+// Pick a preference key to store the shortcut between launches
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
+    public static let runGlobalShortcut = "GlobalRunShortcut"
+
     override init() {
+        if let shortcut = MASShortcut(keyCode: UInt(kVK_F5), modifierFlags: 0) {
+            MASShortcutBinder.shared()?.registerDefaultShortcuts([AppDelegate.runGlobalShortcut: shortcut])
+        }
+
         ValueTransformer.setValueTransformer(RowCountFormatter(), forName: NSValueTransformerName(rawValue: "RowCountFormatter"))
         ValueTransformer.setValueTransformer(URLPathFormatter(), forName: NSValueTransformerName("URLPathFormatter"))
     }

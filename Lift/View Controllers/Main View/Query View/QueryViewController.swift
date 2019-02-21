@@ -18,8 +18,21 @@ class QueryViewController: LiftMainViewController {
         sqlView.setup()
         NotificationCenter.default.addObserver(self, selector: #selector(databaseReloaded), name: .DatabaseReloaded, object: nil)
         sqlView.completionDelegate = self
+
+
     }
 
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        MASShortcutBinder.shared()?.bindShortcut(withDefaultsKey: AppDelegate.runGlobalShortcut, toAction: {[weak self] in
+            self?.executeStatements(nil)
+        })
+    }
+
+    override func viewDidDisappear() {
+        super.viewDidDisappear()
+        MASShortcutBinder.shared()?.breakBinding(withDefaultsKey: AppDelegate.runGlobalShortcut)
+    }
     @objc private func databaseReloaded(_ noti: Notification) {
         guard let database = noti.object as? Database, self.document?.database.allDatabases.contains(where: { $0 === database }) ?? false else {
             return
@@ -39,8 +52,10 @@ class QueryViewController: LiftMainViewController {
         return vc
     }()
 
-    @IBAction func executeStatements(_ sender: Any) {
-
+    @IBAction func executeStatements(_ sender: Any?) {
+        guard view.window != nil else {
+            return
+        }
         isCanceled = false
         resultsViewController?.startQueries()
 
