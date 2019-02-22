@@ -80,7 +80,7 @@ class SnippetViewController: LiftViewController {
 
     }
 
-    @objc @IBAction func editSnippet(_ sender: Any) {
+    @IBAction func editSnippet(_ sender: Any) {
         if sender is NSMenuItem && tableView.clickedRow != -1 && (tableView.selectedRow != tableView.clickedRow || tableView.selectedRowIndexes.count > 1) {
             tableView.selectRowIndexes(IndexSet([tableView.clickedRow]), byExtendingSelection: false)
         }

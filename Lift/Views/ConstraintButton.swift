@@ -10,9 +10,7 @@ import AppKit
 
 class ConstraintButton: NSButton {
     override class var cellClass: AnyClass? {
-        set {
-
-        }
+        set { _ = newValue }
         get {
             return ConstraintButtonCell.self
         }

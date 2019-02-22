@@ -13,11 +13,22 @@ class QueryViewController: LiftMainViewController {
     private var potentialCompletions = [SQLiteTextView.CompletionResult]()
     private var isCanceled = false
     @objc dynamic var shouldContinueAfterErrors = false
+
+    private var autocompleteTimer: Timer?
+
+    private var shouldAutoComplete = true
+
+    deinit {
+        NSUserDefaultsController.shared.removeObserver(self, forKeyPath: "values.suggestCompletions")
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
         sqlView.setup()
+        sqlView.delegate = self
         NotificationCenter.default.addObserver(self, selector: #selector(databaseReloaded), name: .DatabaseReloaded, object: nil)
         sqlView.completionDelegate = self
+        NSUserDefaultsController.shared.addObserver(self, forKeyPath: "values.suggestCompletions", options: [.initial, .new], context: nil)
     }
 
     override func viewDidAppear() {
@@ -25,6 +36,14 @@ class QueryViewController: LiftMainViewController {
         MASShortcutBinder.shared()?.bindShortcut(withDefaultsKey: AppDelegate.runGlobalShortcut, toAction: {[weak self] in
             self?.executeStatements(nil)
         })
+    }
+
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey: Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == "values.suggestCompletions" {
+            shouldAutoComplete = UserDefaults.standard.bool(forKey: "suggestCompletions")
+        } else {
+            super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+        }
     }
 
     override func viewDidDisappear() {
@@ -172,7 +191,16 @@ class QueryViewController: LiftMainViewController {
                     potentials.append(.column(column.name, table: table.name))
                 }
             }
+            for table in db.systemTables {
+                ids.insert(table.name)
+                potentials.append(.table(table.name, database: db.name))
+                for column in table.columns {
+                    ids.insert(column.name)
+                    potentials.append(.column(column.name, table: table.name))
+                }
+            }
         }
+
         sqlView.setIdentifiers(ids)
         potentials.sort(by: { $0.completion < $1.completion })
         self.potentialCompletions = potentials
@@ -194,6 +222,23 @@ extension QueryViewController: SnippetDataDelegate {
 
 }
 
+extension QueryViewController: NSTextViewDelegate {
+    func textDidChange(_ notification: Notification) {
+
+        autocompleteTimer?.invalidate()
+        autocompleteTimer = nil
+        guard shouldAutoComplete && sqlView.isShowingAutocomplete == false else {
+            return
+        }
+        let timer = Timer(timeInterval: 0.3, repeats: false, block: {[weak self] (_) in
+            if self?.sqlView.rangeForUserCompletion.length != 0 && self?.sqlView.isShowingAutocomplete == false {
+            self?.sqlView.complete(nil)
+            }
+        })
+        RunLoop.current.add(timer, forMode: .common)
+        autocompleteTimer = timer
+    }
+}
 extension QueryViewController: SQLiteTextViewCompletionDelegate {
     func completionsFor(range: NSRange, in textView: SQLiteTextView) -> [SQLiteTextView.CompletionResult] {
 

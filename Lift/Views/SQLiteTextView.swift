@@ -76,7 +76,7 @@ class SQLiteTextView: NSTextView {
 
     private let rowHeight: CGFloat = 20
 
-    private var isShowingAutocomplete: Bool {
+    public var isShowingAutocomplete: Bool {
         return autocompletePanel != nil
     }
 
@@ -101,7 +101,7 @@ class SQLiteTextView: NSTextView {
             setup()
         }
 
-        highlighter.autocompleteWords = ids.union(["sqlite_master", "sqlite_sequence"])
+        highlighter.autocompleteWords = ids
     }
 
     func setup() {
@@ -139,8 +139,8 @@ class SQLiteTextView: NSTextView {
     }
 
     private func finishCompletion() {
-            autocompletePanel?.orderOut(nil)
-            autocompletePanel = nil
+        autocompletePanel?.orderOut(nil)
+        autocompletePanel = nil
 
     }
 
@@ -299,7 +299,10 @@ class SQLiteTextView: NSTextView {
             let completion = self.completion(for: selected)
             self.insertCompletion(completion, forPartialWordRange: rangeForUserCompletion, movement: movement, isFinal: true)
             highlighter.highlight(self)
-
+        } else {
+            if selectedRange().length != 0 {
+                setSelectedRange(NSRange(location: selectedRange().upperBound, length: 0))
+            }
         }
 
         finishCompletion()
@@ -347,7 +350,7 @@ class SQLiteTextView: NSTextView {
             }
             tableView.scrollRowToVisible(selected)
         } else {
-           super.moveUp(sender)
+            super.moveUp(sender)
         }
     }
 
@@ -360,6 +363,7 @@ class SQLiteTextView: NSTextView {
             complete(nil)
         }
     }
+
     override func insertCompletion(_ word: String, forPartialWordRange charRange: NSRange, movement: Int, isFinal flag: Bool) {
 
         let partialWord = (self.string as NSString).substring(with: charRange)
@@ -377,7 +381,7 @@ class SQLiteTextView: NSTextView {
                 super.insertCompletion(word, forPartialWordRange: charRange, movement: movement, isFinal: flag)
             }
         }
-        if flag  || movement == NSTabTextMovement || movement == NSReturnTextMovement {
+        if flag || movement == NSTabTextMovement || movement == NSReturnTextMovement {
             finishCompletion()
         }
     }

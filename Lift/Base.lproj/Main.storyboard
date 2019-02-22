@@ -532,7 +532,7 @@
                         <tabViewItem label="General" identifier="" image="NSAdvanced" id="aBp-8V-UAR"/>
                     </tabViewItems>
                     <tabView key="tabView" type="noTabsNoBorder" id="r9g-4p-LzN">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <rect key="frame" x="0.0" y="0.0" width="304" height="165"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <font key="font" metaFont="message"/>
                         <connections>
@@ -546,18 +546,18 @@
                 </tabViewController>
                 <customObject id="bCz-sA-EQ2" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1451" y="-487"/>
+            <point key="canvasLocation" x="-1524" y="-554.5"/>
         </scene>
         <!--General-->
         <scene sceneID="b2G-Ea-DNt">
             <objects>
                 <viewController title="General" id="Usd-f7-QaE" customClass="GeneralPreferencesViewController" customModule="Lift" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="DMx-B8-S3M">
-                        <rect key="frame" x="0.0" y="0.0" width="450" height="100"/>
+                        <rect key="frame" x="0.0" y="0.0" width="420" height="120"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="36A-lA-g7T">
-                                <rect key="frame" x="18" y="63" width="153" height="17"/>
+                                <rect key="frame" x="18" y="83" width="153" height="17"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Execute Query Shortcut:" id="eoR-ql-9ca">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -565,14 +565,13 @@
                                 </textFieldCell>
                             </textField>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="if8-9B-9GW" customClass="MASShortcutView">
-                                <rect key="frame" x="177" y="62" width="253" height="19"/>
+                                <rect key="frame" x="177" y="82" width="223" height="19"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="19" id="joW-Ul-ZBe"/>
-                                    <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="100" id="mjD-nf-Xbu"/>
                                 </constraints>
                             </customView>
                             <button toolTip="If the cells should fit the content size or be fixed. Fixed is faster." verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="VsB-fB-5cI">
-                                <rect key="frame" x="175" y="18" width="152" height="18"/>
+                                <rect key="frame" x="175" y="38" width="227" height="18"/>
                                 <buttonCell key="cell" type="check" title="Use Fixed Cell Height" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="rgO-MZ-DLZ">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -583,7 +582,7 @@
                                 </connections>
                             </button>
                             <button toolTip="Refresh database when window becomes main window" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="U3G-2s-EzN">
-                                <rect key="frame" x="175" y="38" width="180" height="18"/>
+                                <rect key="frame" x="175" y="58" width="227" height="18"/>
                                 <buttonCell key="cell" type="check" title="Refresh on Window Focus" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="76r-Uj-90S">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -592,19 +591,37 @@
                                     <binding destination="i7b-j3-DAF" name="value" keyPath="values.refreshOnWindowActivate" id="JUU-dJ-NcT"/>
                                 </connections>
                             </button>
+                            <button toolTip="If the cells should fit the content size or be fixed. Fixed is faster." verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Dhb-ar-8Dn">
+                                <rect key="frame" x="175" y="18" width="227" height="18"/>
+                                <buttonCell key="cell" type="check" title="Suggest completions while typing" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="CJs-2j-3ci">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <accessibility identifier="fixed cell height"/>
+                                <connections>
+                                    <binding destination="i7b-j3-DAF" name="value" keyPath="values.suggestCompletions" id="BPJ-Mj-gZw"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstItem="36A-lA-g7T" firstAttribute="leading" secondItem="DMx-B8-S3M" secondAttribute="leading" constant="20" id="6JI-x1-h4I"/>
+                            <constraint firstItem="if8-9B-9GW" firstAttribute="width" secondItem="U3G-2s-EzN" secondAttribute="width" id="B4c-YA-R2x"/>
                             <constraint firstItem="U3G-2s-EzN" firstAttribute="leading" secondItem="if8-9B-9GW" secondAttribute="leading" id="HZn-K0-kla"/>
-                            <constraint firstAttribute="trailing" secondItem="VsB-fB-5cI" secondAttribute="trailing" constant="125" id="JHt-rr-QtJ"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="VsB-fB-5cI" secondAttribute="trailing" constant="20" symbolic="YES" id="JHt-rr-QtJ"/>
                             <constraint firstItem="VsB-fB-5cI" firstAttribute="leading" secondItem="U3G-2s-EzN" secondAttribute="leading" id="KQI-GU-5jT"/>
                             <constraint firstItem="if8-9B-9GW" firstAttribute="leading" secondItem="36A-lA-g7T" secondAttribute="trailing" constant="8" id="N4p-Dz-GXd"/>
                             <constraint firstItem="36A-lA-g7T" firstAttribute="top" secondItem="DMx-B8-S3M" secondAttribute="top" constant="20" symbolic="YES" id="Nq1-94-84p"/>
+                            <constraint firstItem="Dhb-ar-8Dn" firstAttribute="top" secondItem="VsB-fB-5cI" secondAttribute="bottom" constant="6" symbolic="YES" id="PqT-6S-Jdm"/>
                             <constraint firstItem="U3G-2s-EzN" firstAttribute="top" secondItem="if8-9B-9GW" secondAttribute="bottom" constant="8" id="QIE-ds-9hB"/>
                             <constraint firstItem="VsB-fB-5cI" firstAttribute="top" secondItem="U3G-2s-EzN" secondAttribute="bottom" constant="6" id="SBj-1G-4bv"/>
-                            <constraint firstAttribute="trailing" secondItem="if8-9B-9GW" secondAttribute="trailing" constant="20" symbolic="YES" id="acJ-pS-cDV"/>
+                            <constraint firstItem="Dhb-ar-8Dn" firstAttribute="width" secondItem="VsB-fB-5cI" secondAttribute="width" id="VJO-Tf-1fz"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="U3G-2s-EzN" secondAttribute="trailing" constant="20" symbolic="YES" id="VSp-Fd-JCQ"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="if8-9B-9GW" secondAttribute="trailing" constant="20" symbolic="YES" id="acJ-pS-cDV"/>
                             <constraint firstItem="if8-9B-9GW" firstAttribute="centerY" secondItem="36A-lA-g7T" secondAttribute="centerY" id="bIF-H3-aT8"/>
-                            <constraint firstAttribute="bottom" secondItem="VsB-fB-5cI" secondAttribute="bottom" constant="20" symbolic="YES" id="jmb-jE-EvD"/>
+                            <constraint firstAttribute="trailing" secondItem="Dhb-ar-8Dn" secondAttribute="trailing" constant="20" symbolic="YES" id="fgL-QU-gbz"/>
+                            <constraint firstItem="VsB-fB-5cI" firstAttribute="width" secondItem="U3G-2s-EzN" secondAttribute="width" id="q1p-20-Kch"/>
+                            <constraint firstAttribute="bottom" secondItem="Dhb-ar-8Dn" secondAttribute="bottom" constant="20" symbolic="YES" id="sUW-sk-6Lk"/>
+                            <constraint firstItem="Dhb-ar-8Dn" firstAttribute="leading" secondItem="VsB-fB-5cI" secondAttribute="leading" id="wI4-XP-Y8m"/>
                         </constraints>
                     </view>
                     <connections>
@@ -614,7 +631,7 @@
                 <customObject id="sVe-8H-jfg" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
                 <userDefaultsController id="i7b-j3-DAF"/>
             </objects>
-            <point key="canvasLocation" x="-1451" y="-76"/>
+            <point key="canvasLocation" x="-1795" y="-96"/>
         </scene>
         <!--Window Controller-->
         <scene sceneID="R2V-B0-nI4">

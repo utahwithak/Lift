@@ -218,9 +218,7 @@ class TableView: NSTableView {
         get {
             return true
         }
-        set {
-
-        }
+        set {  _ = newValue }
     }
 
     override func selectColumnIndexes(_ indexes: IndexSet, byExtendingSelection extend: Bool) {

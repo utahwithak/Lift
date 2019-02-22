@@ -22,9 +22,7 @@ class TabButton: NSButton {
         get {
             return TabCell.self
         }
-        set {
-
-        }
+        set { _ = newValue}
     }
 
     var tabCell: TabCell! {

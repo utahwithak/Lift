@@ -13,7 +13,7 @@ class HiddenSegmentedControl: NSSegmentedControl {
         get {
             return HiddenSegmentedCell.self
         }
-        set { }
+        set { _ = newValue }
     }
 }
 
@@ -51,7 +51,7 @@ class HiddenSegmentedCell: NSSegmentedCell {
         return NSColor.systemBlue
     }
     override var controlTint: NSControlTint {
-        set {}
+        set { _ = newValue }
         get {return .blueControlTint}
     }
 }

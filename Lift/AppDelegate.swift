@@ -15,6 +15,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     public static let runGlobalShortcut = "GlobalRunShortcut"
 
     override init() {
+        UserDefaults.standard.register(defaults: ["suggestCompletions": true])
         if let shortcut = MASShortcut(keyCode: UInt(kVK_F5), modifierFlags: 0) {
             MASShortcutBinder.shared()?.registerDefaultShortcuts([AppDelegate.runGlobalShortcut: shortcut])
         }
