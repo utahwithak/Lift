@@ -9,7 +9,5 @@
 import Cocoa
 
 class DatabaseDetailsViewController: LiftViewController {
-    override func viewDidLoad() {
-        self.windowController?.refreshOnWindowActivate
-    }
+
 }

@@ -23,6 +23,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         ValueTransformer.setValueTransformer(RowCountFormatter(), forName: NSValueTransformerName(rawValue: "RowCountFormatter"))
         ValueTransformer.setValueTransformer(URLPathFormatter(), forName: NSValueTransformerName("URLPathFormatter"))
     }
+    #if FREE
+    private weak var supportViewController: SupportLiftViewController?
+    #endif
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
 
@@ -33,19 +36,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func pesterBuy() {
         #if FREE
-        var time = 30
-        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(time)) {
-            if !UserDefaults.standard.bool(forKey: "supportedLift") {
+        var time = 60
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(time)) { [weak self] in
+            if !UserDefaults.standard.bool(forKey: "supportedLift") && self?.supportViewController == nil {
                 let storyboard = NSStoryboard(name: .main, bundle: nil)
                 if let contentViewController = NSApp.windows.last?.contentViewController, let vc = storyboard.instantiateController(withIdentifier: "supportLiftVC") as? SupportLiftViewController {
+                    self?.supportViewController = vc
                     if contentViewController.children.lastIndex(where: { $0 is SupportLiftViewController}) == nil {
                         contentViewController.presentAsSheet(vc)
                     }
                 }
             }
             time += (time * 4)
+            time = min(time, 60 * 15)
             if time < (60 * 60) && !UserDefaults.standard.bool(forKey: "supportedLift") {
-                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(time), execute: {self.pesterBuy()})
+                DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(time), execute: {self?.pesterBuy()})
             }
         }
 

@@ -13,12 +13,14 @@ class SupportLiftViewController: NSViewController {
     override func viewDidLoad() {
         IAPHelper.shared.load()
     }
+
     @IBAction func showStore(_ sender: NSButton) {
         if let url = URL(string: "macappstore://itunes.apple.com/app/id1302953963") {
             NSWorkspace.shared.open(url)
         }
         dismiss(self)
     }
+
     @IBAction func showLocalStore(_ sender: Any) {
         if SKPaymentQueue.canMakePayments() {
             let storyboard = NSStoryboard(name: "Store", bundle: nil)

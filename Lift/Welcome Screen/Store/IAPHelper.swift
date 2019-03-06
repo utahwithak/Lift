@@ -40,12 +40,14 @@ class IAPHelper: NSObject {
 }
 
 extension IAPHelper: SKPaymentTransactionObserver {
-
     //Observe transaction updates.
     func paymentQueue(_ queue: SKPaymentQueue, updatedTransactions transactions: [SKPaymentTransaction]) {
-
+        for transaction in transactions {
+            if transaction.transactionState == .purchased  || transaction.transactionState == .restored {
+                UserDefaults.standard.set(true, forKey: "supportedLift")
+            }
+        }
     }
-
 }
 
 extension IAPHelper: SKProductsRequestDelegate {

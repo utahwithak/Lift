@@ -791,51 +791,22 @@
             <objects>
                 <viewController storyboardIdentifier="supportLiftVC" id="ltO-C9-861" customClass="SupportLiftViewController" customModule="Lift" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="Hoa-BQ-8gu">
-                        <rect key="frame" x="0.0" y="0.0" width="477" height="236"/>
+                        <rect key="frame" x="0.0" y="0.0" width="477" height="134"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bQP-SW-7oq">
-                                <rect key="frame" x="185" y="189" width="107" height="27"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Hey There!" id="Ypk-Zv-ZDo">
-                                    <font key="font" metaFont="systemLight" size="22"/>
-                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
                             <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="yBr-4i-T8z">
-                                <rect key="frame" x="14" y="96" width="449" height="85"/>
+                                <rect key="frame" x="14" y="63" width="449" height="51"/>
                                 <textFieldCell key="cell" selectable="YES" alignment="center" id="l5A-Hp-MFJ">
                                     <font key="font" metaFont="system"/>
                                     <string key="title">Thanks for trying this product out. We love free software too.
 
-Sadly, it still takes a lot of time and energy to make free software. 
 Please consider offering some support if you find ths product useful</string>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="iFW-qv-TQ9">
-                                <rect key="frame" x="18" y="18" width="140" height="18"/>
-                                <buttonCell key="cell" type="check" title="I already supported" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="JuB-ZL-NZl">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <binding destination="zUf-gt-8ya" name="value" keyPath="values.supportedLift" id="EYb-2i-vDX"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KBy-bb-eNE">
-                                <rect key="frame" x="319" y="13" width="144" height="32"/>
-                                <buttonCell key="cell" type="push" title="Just let me work!" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="YJ0-fy-Ejs">
-                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <action selector="dismissController:" target="ltO-C9-861" id="Edz-OY-a98"/>
-                                </connections>
-                            </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="J7H-Q3-l5d">
-                                <rect key="frame" x="295" y="46" width="168" height="32"/>
+                                <rect key="frame" x="295" y="13" width="168" height="32"/>
                                 <buttonCell key="cell" type="push" title="Purchase Application" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="k7Y-21-487">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -848,7 +819,7 @@ DQ
                                 </connections>
                             </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="V5z-Xr-EGd">
-                                <rect key="frame" x="14" y="46" width="122" height="32"/>
+                                <rect key="frame" x="173" y="13" width="122" height="32"/>
                                 <buttonCell key="cell" type="push" title="Support Here" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Ixp-OA-NtU">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -857,24 +828,32 @@ DQ
                                     <action selector="showLocalStore:" target="ltO-C9-861" id="xkf-jl-EJi"/>
                                 </connections>
                             </button>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="KBy-bb-eNE">
+                                <rect key="frame" x="45" y="13" width="82" height="32"/>
+                                <buttonCell key="cell" type="push" title="Cancel" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="YJ0-fy-Ejs">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <string key="keyEquivalent" base64-UTF8="YES">
+Gw
+</string>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="dismissController:" target="ltO-C9-861" id="Edz-OY-a98"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
-                            <constraint firstItem="yBr-4i-T8z" firstAttribute="top" secondItem="bQP-SW-7oq" secondAttribute="bottom" constant="8" id="5Wl-iF-DD3"/>
-                            <constraint firstItem="KBy-bb-eNE" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="iFW-qv-TQ9" secondAttribute="trailing" constant="8" symbolic="YES" id="6Tv-8d-Eln"/>
+                            <constraint firstItem="KBy-bb-eNE" firstAttribute="centerY" secondItem="V5z-Xr-EGd" secondAttribute="centerY" id="0UQ-Hr-Mf7"/>
                             <constraint firstAttribute="trailing" secondItem="yBr-4i-T8z" secondAttribute="trailing" constant="16" id="BHv-xq-0Cb"/>
-                            <constraint firstItem="J7H-Q3-l5d" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="V5z-Xr-EGd" secondAttribute="trailing" constant="12" symbolic="YES" id="DMf-58-xTL"/>
+                            <constraint firstItem="J7H-Q3-l5d" firstAttribute="leading" secondItem="V5z-Xr-EGd" secondAttribute="trailing" constant="12" symbolic="YES" id="DMf-58-xTL"/>
                             <constraint firstAttribute="trailing" secondItem="J7H-Q3-l5d" secondAttribute="trailing" constant="20" id="HJc-lh-bS1"/>
-                            <constraint firstAttribute="trailing" secondItem="KBy-bb-eNE" secondAttribute="trailing" constant="20" id="JOw-6f-AYg"/>
                             <constraint firstAttribute="bottom" secondItem="KBy-bb-eNE" secondAttribute="bottom" constant="20" id="OML-hy-8R8"/>
+                            <constraint firstItem="yBr-4i-T8z" firstAttribute="top" secondItem="Hoa-BQ-8gu" secondAttribute="top" constant="20" symbolic="YES" id="Ou6-4H-0k4"/>
                             <constraint firstItem="J7H-Q3-l5d" firstAttribute="top" secondItem="yBr-4i-T8z" secondAttribute="bottom" constant="22" id="PEz-W1-SZf"/>
-                            <constraint firstItem="KBy-bb-eNE" firstAttribute="top" secondItem="J7H-Q3-l5d" secondAttribute="bottom" constant="12" symbolic="YES" id="RWS-Y6-84Q"/>
                             <constraint firstItem="yBr-4i-T8z" firstAttribute="centerX" secondItem="Hoa-BQ-8gu" secondAttribute="centerX" id="TE2-Eh-pzd"/>
+                            <constraint firstItem="KBy-bb-eNE" firstAttribute="leading" secondItem="Hoa-BQ-8gu" secondAttribute="leading" constant="51" id="WZu-Wq-4Pc"/>
                             <constraint firstItem="V5z-Xr-EGd" firstAttribute="centerY" secondItem="J7H-Q3-l5d" secondAttribute="centerY" id="Xkp-vk-p3Y"/>
-                            <constraint firstItem="bQP-SW-7oq" firstAttribute="top" secondItem="Hoa-BQ-8gu" secondAttribute="top" constant="20" id="Yzb-0f-lWc"/>
-                            <constraint firstItem="iFW-qv-TQ9" firstAttribute="leading" secondItem="Hoa-BQ-8gu" secondAttribute="leading" constant="20" id="cxN-mm-A7C"/>
-                            <constraint firstAttribute="bottom" secondItem="iFW-qv-TQ9" secondAttribute="bottom" constant="20" id="lLc-NA-TBy"/>
-                            <constraint firstItem="V5z-Xr-EGd" firstAttribute="leading" secondItem="Hoa-BQ-8gu" secondAttribute="leading" constant="20" symbolic="YES" id="swV-1A-x8V"/>
-                            <constraint firstItem="bQP-SW-7oq" firstAttribute="centerX" secondItem="Hoa-BQ-8gu" secondAttribute="centerX" id="uxG-b3-UZa"/>
+                            <constraint firstItem="V5z-Xr-EGd" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="KBy-bb-eNE" secondAttribute="trailing" constant="12" symbolic="YES" id="dtV-qB-5Bw"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -3146,7 +3125,7 @@ DQ
                                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                     <prototypeCellViews>
                                                                         <tableCellView id="W5K-9G-23v">
-                                                                            <rect key="frame" x="230.5" y="1" width="175" height="17"/>
+                                                                            <rect key="frame" x="231" y="1" width="175" height="17"/>
                                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                             <subviews>
                                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="kYf-pY-s8A">
