@@ -37,6 +37,14 @@ struct RowData {
         return data[0..<x]
     }
 
+    func columns(matching searchString: String) -> IndexSet {
+        var set = IndexSet()
+        for (index, sqliteData) in data.enumerated() where sqliteData.forEditing.localizedCaseInsensitiveContains(searchString) {
+            set.insert(index)
+        }
+        return set
+    }
+
     subscript (index: Int) -> CellData {
         mutating get {
             return datas[index]

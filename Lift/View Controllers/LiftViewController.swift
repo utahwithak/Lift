@@ -64,7 +64,6 @@ class LiftViewController: NSViewController {
     override var representedObject: Any? {
         didSet {
             document = representedObject as? LiftDocument
-
         }
     }
 }

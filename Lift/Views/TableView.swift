@@ -40,7 +40,7 @@ class TableView: NSTableView {
     }
 
     func selectRow(_ row: Int, column: Int? = nil) {
-        if let column = column {
+        if let column = column, column >= 0 {
             selectionBoxes = [SelectionBox(startRow: row, endRow: row, startColumn: column, endColumn: column)]
         } else {
             selectionBoxes = [SelectionBox(startRow: row, endRow: row, startColumn: 0, endColumn: numberOfColumns - 1)]

@@ -17,6 +17,8 @@ class TableDataViewController: LiftMainViewController {
     @IBOutlet weak var tableView: TableView!
     @IBOutlet weak var tableScrollView: TableScrollView!
 
+    @IBOutlet weak var searchField: NSSearchField!
+    @IBOutlet weak var searchContainerTop: NSLayoutConstraint!
     override var representedObject: Any? {
         didSet {
             predicateViewController.representedObject = representedObject
@@ -56,6 +58,55 @@ class TableDataViewController: LiftMainViewController {
             data = selectedTable?.basicData
             data?.delegate = self
             resetTableView()
+        }
+    }
+
+    @objc dynamic var searchResultLabel: String {
+        if isSearching {
+            if searchField.stringValue.isEmpty {
+                return ""
+            } else {
+                if searchIndexes.count == 1 {
+                    return "1 match "
+                } else {
+                    let formatter = NumberFormatter()
+                    formatter.numberStyle = .decimal
+                    if let formattedValue = formatter.string(from: NSNumber(value: searchIndexes.count)) {
+                        return "\(formattedValue) matches"
+                    }
+                }
+            }
+        }
+        return ""
+    }
+    private var isSearching = false {
+        willSet {
+            willChangeValue(for: \.searchResultLabel)
+        }
+        didSet {
+            didChangeValue(for: \.searchResultLabel)
+        }
+    }
+    @objc dynamic var searchIndexes = [IndexPath]() {
+        willSet {
+            willChangeValue(for: \.searchResultLabel)
+        }
+        didSet {
+            didChangeValue(for: \.searchResultLabel)
+        }
+    }
+    private var searchSelectionIndex: Int = 0 {
+        didSet {
+            if searchSelectionIndex < searchIndexes.count {
+                let selection = searchIndexes[searchSelectionIndex]
+                let column = tableView.column(withIdentifier: NSUserInterfaceItemIdentifier("\(selection.column)"))
+                tableView.selectRow(selection.row, column: column )
+                tableView.scrollRowToVisible(selection.row)
+                if column >= 0 {
+                    tableView.scrollColumnToVisible(column)
+                }
+
+            }
         }
     }
 
@@ -121,6 +172,27 @@ class TableDataViewController: LiftMainViewController {
         startEditingSelection()
     }
 
+    @IBAction func finishSearching(_ sender: Any?) {
+        searchContainerTop.animator().constant = -30
+    }
+
+    private func nextSearchResult() {
+        searchSelectionIndex = (searchSelectionIndex + 1) % searchIndexes.count
+    }
+
+    private func previousSearchResult() {
+        searchSelectionIndex = (searchSelectionIndex + searchIndexes.count - 1) % searchIndexes.count
+    }
+
+    @IBAction func changeSearchResult(_ sender: NSSegmentedControl) {
+        if sender.selectedSegment == 0 {
+            previousSearchResult()
+        } else {
+            nextSearchResult()
+        }
+
+    }
+
     fileprivate func startEditingSelection() {
         guard let selectionBox = tableView.selectionBoxes.first, selectionBox.isSingleCell else {
             return
@@ -155,8 +227,14 @@ class TableDataViewController: LiftMainViewController {
         }
         copySelection(selectionBox, asJson: false)
     }
-    @IBAction func performFindPanelAction(_ sender: Any?) {
-        showFilter(nil)
+
+    override func showFind(_ sender: Any) {
+        searchField.becomeFirstResponder()
+        searchContainerTop.animator().constant = 0
+    }
+
+    override func cancelOperation(_ sender: Any?) {
+        finishSearching(sender)
     }
 
     @IBAction func dropSelected(_ sender: Any) {
@@ -339,6 +417,7 @@ class TableDataViewController: LiftMainViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        searchContainerTop.constant = -30
         tableView.rowHeight = 19
         updateTableviewCellHeights()
         UserDefaults.standard.addObserver(self, forKeyPath: "useFixedCellHeight", options: [], context: nil)
@@ -477,8 +556,8 @@ class TableDataViewController: LiftMainViewController {
             if fromColumns.contains(name) {
                 foreignKeyIdentifiers.insert(index)
             }
-
-            newColumn.width = 150
+            newColumn.minWidth = 100
+            newColumn.width = 200
             tableView.addTableColumn(newColumn)
             newColumn.sortDescriptorPrototype = NSSortDescriptor(key: name, ascending: true, selector: #selector(NSString.localizedCompare))
         }
@@ -1059,12 +1138,22 @@ extension TableDataViewController: JumpDelegate {
 }
 
 extension TableDataViewController: NSTextFieldDelegate {
+    func controlTextDidChange(_ obj: Notification) {
+        guard let data = data, (obj.object as? NSSearchField) === searchField else {
+            return
+        }
+
+        let searchString = searchField.stringValue
+        searchIndexes = data.search(for: searchString)
+        searchSelectionIndex = 0
+    }
+
     func controlTextDidBeginEditing(_ obj: Notification) {
         guard let selectionBox = tableView.selectionBoxes.first, selectionBox.isSingleCell else {
             return
         }
 
-        guard let textField = obj.object as? NSTextField else {
+        guard let textField = obj.object as? NSTextField, textField != searchField else {
             return
         }
 
@@ -1072,11 +1161,19 @@ extension TableDataViewController: NSTextFieldDelegate {
     }
 
     func controlTextDidEndEditing(_ obj: Notification) {
-        guard let selectionBox = tableView.selectionBoxes.first, selectionBox.isSingleCell else {
+        guard let textField = obj.object as? NSTextField, textField != searchField else {
+            if isSearching {
+                if let event = NSApplication.shared.currentEvent, event.modifierFlags.contains(NSEvent.ModifierFlags.shift) {
+                    previousSearchResult()
+                } else {
+                    nextSearchResult()
+                }
+
+            }
             return
         }
 
-        guard let textField = obj.object as? NSTextField else {
+        guard let selectionBox = tableView.selectionBoxes.first, selectionBox.isSingleCell else {
             return
         }
 
@@ -1121,5 +1218,27 @@ extension TableDataViewController: BottomEditorContentProvider {
 extension TableDataViewController: PrintableViewController {
     func printView() {
         tableView.printView(self)
+    }
+}
+
+extension TableDataViewController: NSSearchFieldDelegate {
+
+    func searchFieldDidEndSearching(_ sender: NSSearchField) {
+        sender.stringValue = ""
+        searchIndexes.removeAll()
+        isSearching = false
+    }
+
+    func searchFieldDidStartSearching(_ sender: NSSearchField) {
+        isSearching = true
+    }
+
+}
+private extension IndexPath {
+    var row: Int {
+        return item
+    }
+    var column: Int {
+        return section
     }
 }

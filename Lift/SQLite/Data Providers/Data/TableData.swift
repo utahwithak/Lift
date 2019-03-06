@@ -160,6 +160,20 @@ final class TableData: NSObject {
         return customOrdering.map({ $0.queryStatement(flipped: !forNext) }).joined(separator: ", ")
     }
 
+    /// Search the sqlite data for the string value
+    ///
+    /// - Parameter searchString: string to attempt to find
+    /// - Returns: raw row/column of hits
+    func search(for searchString: String) -> [IndexPath] {
+        var paths = [IndexPath]()
+        for (rowIndex, row) in data.enumerated() {
+            let columns = row.columns(matching: searchString)
+            paths.append(contentsOf: columns.sorted().map({IndexPath(item: rowIndex, section: $0)}))
+        }
+
+        return paths
+    }
+
     private func buildNextQuery() -> String {
 
         if smartPaging {

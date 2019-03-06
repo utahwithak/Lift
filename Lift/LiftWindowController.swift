@@ -89,6 +89,14 @@ class LiftWindowController: NSWindowController {
         }
     }
 
+    @IBAction func showFind(_ sender: Any) {
+        mainEditor?.showFindInMainView(sender)
+    }
+
+    override func cancelOperation(_ sender: Any?) {
+
+    }
+
     @IBAction override func newWindowForTab(_ sender: Any?) {
         guard window?.sheets.isEmpty ?? false else {
             nextResponder?.newWindowForTab(sender)

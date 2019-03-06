@@ -25,6 +25,14 @@ class LiftMainEditorTabViewController: NSTabViewController {
         }
     }
 
+    func showFindInMainView(_ sender: Any) {
+        (tabView.selectedTabViewItem?.viewController as? LiftMainViewController)?.showFind(sender)
+    }
+
+    override func cancelOperation(_ sender: Any?) {
+        (tabView.selectedTabViewItem?.viewController as? LiftMainViewController)?.cancelOperation(sender)
+    }
+
     var sideBarViewController: SideBarDetailsViewController? {
         didSet {
             updateSideContainer()

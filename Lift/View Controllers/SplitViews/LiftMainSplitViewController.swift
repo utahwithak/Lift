@@ -59,6 +59,10 @@ class LiftMainSplitViewController: LiftSplitViewController {
     var isBottomCollapsed: Bool {
         return  (splitViewItems[1].viewController as? LiftSplitViewController)?.splitViewItems[1].isCollapsed ?? false
     }
+
+    override func cancelOperation(_ sender: Any?) {
+        mainEditor?.cancelOperation(sender)
+    }
 }
 
 extension LiftMainSplitViewController: LiftSplitViewDelegate {

@@ -50,13 +50,16 @@ class QueryViewController: LiftMainViewController {
         super.viewDidDisappear()
         MASShortcutBinder.shared()?.breakBinding(withDefaultsKey: AppDelegate.runGlobalShortcut)
     }
+
+    override func showFind(_ sender: Any) {
+        sqlView.performFindPanelAction(sender)
+    }
+
     @objc private func databaseReloaded(_ noti: Notification) {
         guard let database = noti.object as? Database, self.document?.database.allDatabases.contains(where: { $0 === database }) ?? false else {
             return
         }
-
         refreshCompletions()
-
     }
 
     lazy var resultsViewController: QueryResultsViewController? = {
