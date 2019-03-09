@@ -177,10 +177,16 @@ class TableDataViewController: LiftMainViewController {
     }
 
     private func nextSearchResult() {
+        guard !searchIndexes.isEmpty else {
+            return
+        }
         searchSelectionIndex = (searchSelectionIndex + 1) % searchIndexes.count
     }
 
     private func previousSearchResult() {
+        guard !searchIndexes.isEmpty else {
+            return
+        }
         searchSelectionIndex = (searchSelectionIndex + searchIndexes.count - 1) % searchIndexes.count
     }
 
