@@ -96,6 +96,31 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             NSWorkspace.shared.open(url)
         }
     }
+
+    @IBAction func newInMemoryFile(_ sender: Any) {
+        NSDocumentController.shared.newDocument(self)
+    }
+
+    @IBAction func newFileDocument(_ sender: Any) {
+        let spanel = NSSavePanel()
+        spanel.canCreateDirectories = true
+        spanel.canSelectHiddenExtension = true
+        spanel.treatsFilePackagesAsDirectories = true
+        spanel.begin { (response) in
+            if response == .OK, let url = spanel.url {
+                do {
+                    FileManager.default.createFile(atPath: url.path, contents: nil, attributes: nil)
+                    let document = try LiftDocument(contentsOf: url, ofType: "db")
+                    document.makeWindowControllers()
+                    document.showWindows()
+                    NSDocumentController.shared.addDocument(document)
+                    NSDocumentController.shared.noteNewRecentDocument(document)
+                } catch {
+                    NSApplication.shared.presentError(error)
+                }
+            }
+        }
+    }
 }
 
 extension NSStoryboard.Name {

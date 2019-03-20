@@ -17,4 +17,9 @@ class LiftDocumentController: NSDocumentController {
         didChangeValue(for: \.recentDocumentURLs)
 
     }
+
+    override var recentDocumentURLs: [URL] {
+        let fileManager = FileManager.default
+        return super.recentDocumentURLs.filter { fileManager.fileExists(atPath: $0.path) }
+    }
 }
