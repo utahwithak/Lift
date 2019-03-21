@@ -1545,8 +1545,8 @@ Gw
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tJD-bN-cqB">
-                                            <rect key="frame" x="7" y="7" width="102" height="18"/>
-                                            <buttonCell key="cell" type="check" title="Show at launch" bezelStyle="regularSquare" imagePosition="left" controlSize="small" state="on" inset="2" id="Ya7-Wf-pH0">
+                                            <rect key="frame" x="7" y="7" width="218" height="18"/>
+                                            <buttonCell key="cell" type="check" title="Show this window when Lift launches" bezelStyle="regularSquare" imagePosition="left" controlSize="small" state="on" inset="2" id="Ya7-Wf-pH0">
                                                 <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                                 <font key="font" metaFont="smallSystem"/>
                                             </buttonCell>
