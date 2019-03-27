@@ -430,7 +430,7 @@ extension ImportViewController: TextImportDelegate {
 
 extension ImportViewController: ImportDataDelegate {
     func closeImportView(_ vc: ImportDataViewController) {
-        guard let index = tabView.tabViewItems.index(where: { $0.viewController === vc}) else {
+        guard let index = tabView.tabViewItems.firstIndex(where: { $0.viewController === vc}) else {
             return
         }
 

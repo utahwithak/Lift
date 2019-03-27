@@ -84,24 +84,24 @@ class DatabaseViewNode: BrowseViewNode {
 
         if !tableGroup.children.isEmpty && !children.contains(tableGroup) {
             children.insert(tableGroup, at: 0)
-        } else if tableGroup.children.isEmpty, let index = children.index(of: tableGroup) {
+        } else if tableGroup.children.isEmpty, let index = children.firstIndex(of: tableGroup) {
             children.remove(at: index)
         }
 
         if !viewGroup.children.isEmpty && !children.contains(viewGroup) {
-            if let index = children.index(of: tableGroup) {
+            if let index = children.firstIndex(of: tableGroup) {
                 children.insert(viewGroup, at: index + 1)
             } else {
                 children.insert(viewGroup, at: 0)
             }
-        } else if viewGroup.children.isEmpty, let viewIndex = children.index(of: viewGroup) {
+        } else if viewGroup.children.isEmpty, let viewIndex = children.firstIndex(of: viewGroup) {
             children.remove(at: viewIndex)
         }
 
         if !systemTableGroup.children.isEmpty && !children.contains(systemTableGroup) {
             // always at the end
             children.append(systemTableGroup)
-        } else if systemTableGroup.children.isEmpty, let existingIndex = children.index(of: systemTableGroup) {
+        } else if systemTableGroup.children.isEmpty, let existingIndex = children.firstIndex(of: systemTableGroup) {
             children.remove(at: existingIndex)
         }
 

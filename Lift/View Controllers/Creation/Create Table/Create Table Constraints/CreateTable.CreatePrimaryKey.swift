@@ -83,7 +83,7 @@ extension CreateTableConstraintDefinitions {
         }
 
         func remove(column: CreateColumnDefinition) {
-            if let index = columns.index(where: { $0.column === column }) {
+            if let index = columns.firstIndex(where: { $0.column === column }) {
                 columns.remove(at: index)
             }
         }

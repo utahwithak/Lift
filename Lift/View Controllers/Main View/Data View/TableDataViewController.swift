@@ -112,7 +112,7 @@ class TableDataViewController: LiftMainViewController {
 
     override var selectedColumn: Column? {
         didSet {
-            if let column = selectedColumn, let columnIndex = self.selectedTable?.columns.index( where: { $0 === column}) {
+            if let column = selectedColumn, let columnIndex = self.selectedTable?.columns.firstIndex( where: { $0 === column}) {
 
                 let identifierNumber = columnIndex + (self.data?.sortCount ?? 0)
                 let identifier = NSUserInterfaceItemIdentifier("\(identifierNumber)")
@@ -467,7 +467,7 @@ class TableDataViewController: LiftMainViewController {
 
         var args = [SQLiteData]()
         for column in jump.connection.fromColumns {
-            guard let colIndex = columnNames.index(of: column) else {
+            guard let colIndex = columnNames.firstIndex(of: column) else {
                 fatalError("Missing column!")
             }
 
@@ -885,7 +885,7 @@ extension TableDataViewController: NSMenuDelegate {
         let sortOrders: [ColumnSort]
         if let curData = data {
             var curOrders = curData.customOrdering
-            if let index = curOrders.index(where: { $0.column == tableColumn.title}) {
+            if let index = curOrders.firstIndex(where: { $0.column == tableColumn.title}) {
                 if curOrders[index].asc {
                     curOrders[index].asc = false
                 } else {

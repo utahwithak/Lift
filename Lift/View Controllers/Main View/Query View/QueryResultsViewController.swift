@@ -78,7 +78,7 @@ class QueryResultsViewController: LiftViewController {
 extension QueryResultsViewController: ResultsOverviewDelegate {
     func shouldSelect(identifier: String) {
         for case let resultsVC as ResultsTableViewController in holder.tabViewItems.compactMap({ $0.viewController }) {
-            if identifier == resultsVC.results.identifier, let index = holder.tabViewItems.index(where: { $0.viewController === resultsVC }) {
+            if identifier == resultsVC.results.identifier, let index = holder.tabViewItems.firstIndex(where: { $0.viewController === resultsVC }) {
                 tabControl.selectedItem = holder.tabViewItems[index]
             }
         }

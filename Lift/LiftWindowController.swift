@@ -118,6 +118,9 @@ class LiftWindowController: NSWindowController {
     }
 
     func showLoadErrors(_ errors: [String: Error]) {
+        guard !errors.isEmpty else {
+            return
+        }
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
             if let viewController = self.storyboard?.instantiateController(withIdentifier: "LiftErrorWindow") as? DatabaseLoadErrorViewController {
                 viewController.rawErrors = errors
@@ -155,7 +158,7 @@ class LiftWindowController: NSWindowController {
     @IBAction func refreshDatabase( _ sender: NSSegmentedControl) {
         if let document = document as? LiftDocument {
             document.refresh()
-            if let errors = document.databaseLoadErrors {
+            if let errors = document.databaseLoadErrors, !errors.isEmpty {
                 showLoadErrors(errors)
             }
         }

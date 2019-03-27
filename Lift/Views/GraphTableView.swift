@@ -46,7 +46,7 @@ class GraphTableView: NSViewController {
             return CGPoint(x: view.frame.origin.x, y: view.frame.origin.y + view.frame.height - 20)
 
         }
-        guard let colIndex = columnNames.index(of: column) else {
+        guard let colIndex = columnNames.firstIndex(of: column) else {
             return CGPoint(x: view.frame.origin.x + view.frame.width, y: view.frame.origin.y + view.frame.height - 20)
         }
 
@@ -60,7 +60,7 @@ class GraphTableView: NSViewController {
         if isCollapsed {
             return CGPoint(x: view.frame.origin.x + view.frame.width, y: view.frame.origin.y + view.frame.height - 20)
         }
-        guard let colIndex = columnNames.index(of: column) else {
+        guard let colIndex = columnNames.firstIndex(of: column) else {
             return CGPoint(x: view.frame.origin.x + view.frame.width, y: view.frame.origin.y + view.frame.height - 20)
         }
 

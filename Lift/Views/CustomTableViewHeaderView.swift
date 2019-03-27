@@ -24,7 +24,7 @@ class CustomTableHeaderView: NSTableHeaderView {
                 if priority > 0 {
 
                 }
-                if let index = tableView.tableColumns.index(where: { $0.title == order.column}) {
+                if let index = tableView.tableColumns.firstIndex(where: { $0.title == order.column}) {
                     var rect = headerRect(ofColumn: index)
                     var indicatorRect = CGRect.zero
                     for _ in 0..<(priority + 1) {

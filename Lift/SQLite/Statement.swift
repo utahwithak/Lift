@@ -106,7 +106,7 @@ class Statement {
     }
 
     func index(of field: String) -> Int? {
-        return columnNames.index(of: field)
+        return columnNames.firstIndex(of: field)
     }
 
     private func object(at index: Int) -> SQLiteData {
@@ -234,12 +234,12 @@ class Statement {
     }
 
     func bind(blob: Data, at i: Int? = nil) throws {
-        try blob.withUnsafeBytes { ptr in
+        try blob.withUnsafeBytes({ (ptr: UnsafeRawBufferPointer) -> Void in
             try checkedOperation(on: connection) {
-                sqlite3_bind_blob( statement, bindIndex(for: i), ptr, Int32(blob.count), SQLITE_TRANSIENT)
-
+                sqlite3_bind_blob( statement, bindIndex(for: i), ptr.baseAddress, Int32(blob.count), SQLITE_TRANSIENT)
             }
-        }
+        })
+
     }
 
     func bindNull(at i: Int? = nil) throws {

@@ -37,7 +37,7 @@ class GroupViewNode: BrowseViewNode {
             for tableIndex in 0..<providers.count {
                 let newTable = providers[tableIndex]
 
-                if let oldIndex = children.index(where: { ($0 as? TableViewNode)?.provider?.name == newTable.name}) {
+                if let oldIndex = children.firstIndex(where: { ($0 as? TableViewNode)?.provider?.name == newTable.name}) {
                     toAdd.remove(tableIndex)
                     toRemove.remove(oldIndex)
                     guard let table = children[oldIndex] as? TableViewNode else {

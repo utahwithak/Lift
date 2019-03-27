@@ -157,7 +157,7 @@ class TableGraphViewController: LiftMainViewController {
 extension TableGraphViewController: GraphContainerViewDelegate {
     func containerView(_ containerView: GraphViewsContainer, didSelect view: NSView?) {
         if let view = view {
-            if let vcIndex = children.index(where: { $0.view == view}), let graphView = children[vcIndex] as? GraphTableView {
+            if let vcIndex = children.firstIndex(where: { $0.view == view}), let graphView = children[vcIndex] as? GraphTableView {
                 windowController?.selectedTable = graphView.table
             }
         } else {

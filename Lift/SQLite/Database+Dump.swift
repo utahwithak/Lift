@@ -22,8 +22,10 @@ extension Database {
             return
         }
 
-        try bytes.withUnsafeBytes { (u8Ptr: UnsafePointer<UInt8>) in
-            let rawPtr = UnsafeMutableRawPointer(mutating: u8Ptr)
+        try bytes.withUnsafeBytes { ptr in
+            guard let rawPtr = UnsafeMutableRawPointer(mutating: ptr.baseAddress) else {
+                return
+            }
 
             let start = rawPtr.assumingMemoryBound(to: Int8.self)
             var statementCount = 0
@@ -149,7 +151,7 @@ extension Database {
 
             for rowid in azRowid {
 
-                if azCol.index(where: {$0 == rowid }) == nil {
+                if azCol.firstIndex(where: {$0 == rowid }) == nil {
                     /* At this point, we know that azRowid[j] is not the name of any
                      ** ordinary column in the table.  Verify that azRowid[j] is a valid
                      ** name for the rowid before adding it to azCol[0].  WITHOUT ROWID

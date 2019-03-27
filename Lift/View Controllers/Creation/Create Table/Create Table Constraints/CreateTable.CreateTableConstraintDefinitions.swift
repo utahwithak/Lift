@@ -42,7 +42,7 @@ class CreateTableConstraintDefinitions: NSObject {
     }
 
     func remove(unique: CreateUnique) {
-        if let index = createConstraints.index(where: { $0 === unique}) {
+        if let index = createConstraints.firstIndex(where: { $0 === unique}) {
             createConstraints.remove(at: index)
         }
     }

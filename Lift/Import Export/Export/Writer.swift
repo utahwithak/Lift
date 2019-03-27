@@ -38,9 +38,12 @@ extension FileHandle: Writer {
 
 extension OutputStream: Writer {
     func write(_ data: Data) {
-        let written = data.withUnsafeBytes {
-            write($0, maxLength: data.count)
-        }
+        let written = data.withUnsafeBytes({ (ptr: UnsafeRawBufferPointer) -> Int in
+            guard let basePtr = ptr.baseAddress?.assumingMemoryBound(to: UInt8.self) else {
+                return -1
+            }
+            return write(basePtr, maxLength: data.count)
+        })
 
         assert(written == data.count)
     }

@@ -130,7 +130,7 @@ class SideBarDetailsViewController: LiftViewController {
         }
 
         var index = 0
-        if let old = oldSelection, let newIndex = sections.index(of: old) {
+        if let old = oldSelection, let newIndex = sections.firstIndex(of: old) {
             index = newIndex
         }
 

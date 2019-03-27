@@ -321,7 +321,7 @@ class TableView: NSTableView {
             }
         } else {
 
-            if let index = selectionRects.index(where: { $0.contains(converted) }) {
+            if let index = selectionRects.firstIndex(where: { $0.contains(converted) }) {
                 selectionBoxes = [ selectionBoxes[index] ]
             } else {
 

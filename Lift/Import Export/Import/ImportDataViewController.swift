@@ -332,7 +332,7 @@ extension ImportDataViewController: NSTableViewDelegate {
     }
     func tableView(_ tableView: NSTableView, viewFor tableColumn: NSTableColumn?, row: Int) -> NSView? {
 
-        guard let tbCol = tableColumn, let column = tableView.tableColumns.index(of: tbCol) else {
+        guard let tbCol = tableColumn, let column = tableView.tableColumns.firstIndex(of: tbCol) else {
             fatalError("Asking for column, not in table columns!")
         }
 

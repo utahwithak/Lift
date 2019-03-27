@@ -26,6 +26,8 @@ extension Data {
     }
 
     func to<T>(type: T.Type) -> T {
-        return self.withUnsafeBytes { $0.pointee }
+        return self.withUnsafeBytes { (ptr: UnsafeRawBufferPointer) -> T in
+            ptr.baseAddress!.assumingMemoryBound(to: T.self).pointee
+        }
     }
 }

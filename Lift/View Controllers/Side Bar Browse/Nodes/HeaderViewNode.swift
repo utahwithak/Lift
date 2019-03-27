@@ -21,7 +21,7 @@ class HeaderViewNode: BrowseViewNode {
 
         for newIndex in 0..<allDbs.count {
             let database = allDbs[newIndex]
-            if let index = dbNodes.index(where: { $0.database?.name == database.name}) {
+            if let index = dbNodes.firstIndex(where: { $0.database?.name == database.name}) {
                 toRemove.remove(index)
                 dbNodes[index].reload(with: database, with: predicate)
                 toAdd.remove(newIndex)
@@ -42,7 +42,7 @@ class HeaderViewNode: BrowseViewNode {
                     return false
                 }
 
-                return allDbs.index(of: lhs)! < allDbs.index(of: rhs)!
+                return allDbs.firstIndex(of: lhs)! < allDbs.firstIndex(of: rhs)!
             }
         }
 

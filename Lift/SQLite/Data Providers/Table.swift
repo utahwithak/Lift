@@ -41,7 +41,7 @@ class Table: DataProvider {
             case .text(let name) = data[1] else {
             throw LiftError.invalidTable
         }
-
+        var definition: TableDefinition?
         do {
             definition = try SQLiteCreateTableParser.parseSQL(sql)
         } catch {
@@ -90,14 +90,15 @@ class Table: DataProvider {
         }
 
         foreignKeys = connections
+        definition?.tableName = name
 
+        self.definition = definition
         try super.init(database: database, data: data, connection: connection)
 
         columns.forEach { $0.table = self }
         for column in columns {
             column.definition = definition?.columns.first(where: { $0.name.cleanedVersion == column.name })
         }
-        definition?.tableName = name
 
         refreshIndexes()
         refreshTriggers()

@@ -45,7 +45,7 @@ class CustomRowEditorViewController: NSViewController {
             }
         }
         actionButton.title = creatingRow ? NSLocalizedString("Add", comment: "Button title for adding new custom row") : NSLocalizedString("Update", comment: "Button title when editing custom row")
-        editView.bind(NSBindingName.textColor, to: editValuesArrayController, withKeyPath: "selection.newValue.textColor", options: nil)
+        editView.bind(NSBindingName.textColor, to: editValuesArrayController as Any, withKeyPath: "selection.newValue.textColor", options: nil)
     }
 
     var selectedObject: EditRowData? {

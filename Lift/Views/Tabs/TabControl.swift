@@ -129,17 +129,17 @@ class TabControl: NSControl {
         scrollLeftButton.cell?.sendAction(on: [.leftMouseDown, .periodic])
         scrollRightButton.cell?.sendAction(on: [.leftMouseDown, .periodic])
 
-        let views: [String: Any] = ["scrollView": scrollView, "addButton": addButton, "scrollLeftButton": scrollLeftButton, "scrollRightButton": scrollRightButton]
+        let views: [String: Any] = ["scrollView": scrollView  as Any, "addButton": addButton as Any, "scrollLeftButton": scrollLeftButton as Any, "scrollRightButton": scrollRightButton as Any]
         subviews = [addButton, scrollView, scrollLeftButton, scrollRightButton]
         self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "H:|[addButton]-(-1)-[scrollView]-(-1)-[scrollLeftButton][scrollRightButton]|", options: [], metrics: nil, views: views))
         for view in subviews {
             self.addConstraints(NSLayoutConstraint.constraints(withVisualFormat: "V:|[view]|", options: [], metrics: nil, views: ["view": view]))
         }
-        self.addWidthConstraint = NSLayoutConstraint(item: addButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 48)
+        self.addWidthConstraint = NSLayoutConstraint(item: addButton as Any, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 48)
         addButton.addConstraint(self.addWidthConstraint!)
 
-        scrollLeftButton.addConstraint(NSLayoutConstraint(item: scrollLeftButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 24))
-        scrollRightButton.addConstraint(NSLayoutConstraint(item: scrollRightButton, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 24))
+        scrollLeftButton.addConstraint(NSLayoutConstraint(item: scrollLeftButton as Any, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 24))
+        scrollRightButton.addConstraint(NSLayoutConstraint(item: scrollRightButton as Any, attribute: .width, relatedBy: .equal, toItem: nil, attribute: .notAnAttribute, multiplier: 1, constant: 24))
 
         (addButton.cell as? TabCell)?.borderMask = [.bottom, .right]
         (scrollLeftButton.cell as? TabCell)?.borderMask = [.bottom, .left]
@@ -460,7 +460,7 @@ class TabControl: NSControl {
             // test for reordering...
             if movingLeft && draggingTab.frame.midX < tab.frame.minX && (tab.cell?.representedObject as? NSObject) != (orderedItems.first as? NSObject) {
                 // shift left
-                let index = orderedItems.index(where: { ($0 as? NSObject) == item as? NSObject})!
+                let index = orderedItems.firstIndex(where: { ($0 as? NSObject) == item as? NSObject})!
                 orderedItems.swapAt(index, index - 1)
 
                 swapped = true
@@ -468,7 +468,7 @@ class TabControl: NSControl {
 
             } else if movingRight && draggingTab.frame.midX > tab.frame.maxX && (tab.cell?.representedObject as? NSObject) != (orderedItems.last as? NSObject) {
                 // shift right
-                let index = orderedItems.index(where: { ($0 as? NSObject) == item as? NSObject})!
+                let index = orderedItems.firstIndex(where: { ($0 as? NSObject) == item as? NSObject})!
                 orderedItems.swapAt(index + 1, index)
                 swapped = true
                 reordered = true
