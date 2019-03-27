@@ -19,6 +19,10 @@ class DataProvider: NSObject {
 
     weak var database: Database?
 
+    open var countQuery: String {
+        return "SELECT COUNT(1) FROM \(qualifiedNameForQuery)"
+    }
+
     @objc dynamic var isEditable: Bool {
         return false
     }
@@ -77,7 +81,7 @@ class DataProvider: NSObject {
 
         do {
             refreshingRowCount = true
-            var query: Query? = try Query(connection: connection, query: "SELECT COUNT(*) FROM \(qualifiedNameForQuery)")
+            var query: Query? = try Query(connection: connection, query: countQuery)
             query?.loadInBackground(completion: { [weak self] (result) in
 
                 defer {
@@ -95,6 +99,9 @@ class DataProvider: NSObject {
 
             })
         } catch {
+            rowCount = nil
+            refreshingRowCount = false
+
             print("Failed to get row co:\(error)")
         }
     }

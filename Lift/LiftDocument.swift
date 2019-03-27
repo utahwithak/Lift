@@ -27,6 +27,8 @@ class LiftDocument: NSDocument {
 
     }
 
+    public private(set) var databaseLoadErrors: [String: Error]?
+
     override func canClose(withDelegate delegate: Any, shouldClose shouldCloseSelector: Selector?, contextInfo: UnsafeMutableRawPointer?) {
         var allowed = true
 
@@ -98,10 +100,15 @@ class LiftDocument: NSDocument {
     override func makeWindowControllers() {
         // Returns the Storyboard that contains your Document window.
         let storyboard = NSStoryboard(name: "Main", bundle: nil)
-        guard let windowController = storyboard.instantiateController(withIdentifier: "Document Window Controller") as? NSWindowController else {
+        guard let windowController = storyboard.instantiateController(withIdentifier: "Document Window Controller") as? LiftWindowController else {
             fatalError("Unable to create document window controller")
         }
         self.addWindowController(windowController)
+
+        if let errors = databaseLoadErrors {
+            windowController.showLoadErrors(errors)
+        }
+
     }
 
     override func save(_ sender: Any?) {
@@ -110,7 +117,6 @@ class LiftDocument: NSDocument {
                 try database.endTransaction()
             } catch {
                 presentError(error)
-
             }
         }
     }
@@ -195,7 +201,10 @@ class LiftDocument: NSDocument {
     }
 
     func refresh() {
-        database.refresh()
+        databaseLoadErrors = nil
+        database.refresh { [weak self] errors in
+            self?.databaseLoadErrors = errors
+        }
     }
 
     func cleanDatabase() throws {

@@ -106,7 +106,9 @@ class TableView: NSTableView {
     }
 
     private func refreshSelection() {
-
+        guard !selectionBoxes.isEmpty else {
+            return
+        }
         var rects = [NSRect]()
         for selection in selectionBoxes {
             let firstRect = self.frameOfCell(atColumn: selection.startColumn, row: selection.startRow)

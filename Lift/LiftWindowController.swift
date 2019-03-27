@@ -117,6 +117,15 @@ class LiftWindowController: NSWindowController {
 
     }
 
+    func showLoadErrors(_ errors: [String: Error]) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            if let viewController = self.storyboard?.instantiateController(withIdentifier: "LiftErrorWindow") as? DatabaseLoadErrorViewController {
+                viewController.rawErrors = errors
+                self.mainEditor?.presentAsSheet(viewController)
+            }
+        }
+    }
+
     func toggleBottomBar() {
         guard let splitView = contentViewController as? LiftMainSplitViewController else {
             return
@@ -144,7 +153,12 @@ class LiftWindowController: NSWindowController {
     }
 
     @IBAction func refreshDatabase( _ sender: NSSegmentedControl) {
-        (document as? LiftDocument)?.refresh()
+        if let document = document as? LiftDocument {
+            document.refresh()
+            if let errors = document.databaseLoadErrors {
+                showLoadErrors(errors)
+            }
+        }
     }
 
     @IBAction func toggleAutoCommitStatus(_ sender: NSSegmentedControl) {

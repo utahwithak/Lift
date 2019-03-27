@@ -20,6 +20,8 @@ struct TableDefinition {
         }
     }
 
+    public var isVirtual = false
+
     public var withoutRowID = false
 
     public var databaseName: String? {
@@ -31,6 +33,8 @@ struct TableDefinition {
     }
 
     public var tableName = ""
+
+    public var moduleArguments = ""
 
     public var columns = [ColumnDefinition]()
 

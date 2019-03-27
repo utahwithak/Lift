@@ -45,11 +45,29 @@ class SQLiteCreateTableParser {
             currentTable.isTemp = true
         }
 
+        if stringScanner.scanString("VIRTUAL ", into: nil) {
+            currentTable.isVirtual = true
+        }
+
         guard stringScanner.scanString("TABLE ", into: nil) else {
             throw ParserError.notATableStatement
         }
 
         currentTable.tableName = try SQLiteCreateTableParser.parseStringOrName(from: stringScanner)
+
+        if currentTable.isVirtual {
+            guard stringScanner.scanString("USING ", into: nil) else {
+                throw ParserError.notATableStatement
+            }
+            var tmp: NSString?
+            while !stringScanner.isAtEnd && stringScanner.scanUpTo("\0", into: &tmp) {
+                if let tmp = tmp as String? {
+                    currentTable.moduleArguments = tmp
+                }
+            }
+
+            return currentTable
+        }
 
         guard stringScanner.scanString("(", into: nil) else {
             throw ParserError.noDefinitions

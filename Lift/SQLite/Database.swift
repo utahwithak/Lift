@@ -116,10 +116,10 @@ class Database: NSObject {
         }
     }
 
-    func refresh() {
+    func refresh( tableLoadCompletion: (([String: Error]) -> Void)? = nil) {
         refreshAutoCommit()
         refreshAttachedDatabases()
-        refreshTables()
+        refreshTables(completion: tableLoadCompletion)
     }
 
     func refreshAutoCommit() {
@@ -128,7 +128,7 @@ class Database: NSObject {
         }
     }
 
-    private func refreshTables() {
+    private func refreshTables(completion: (([String: Error]) -> Void)? = nil) {
         do {
             tables.removeAll(keepingCapacity: true)
             systemTables.removeAll(keepingCapacity: true)
@@ -136,9 +136,10 @@ class Database: NSObject {
             let clearedName = name
             let refreshDBQuery = try Query(connection: self.connection, query: "SELECT * from \(clearedName).sqlite_master where type in ('table', 'view') ORDER BY name;")
 
+            var errors = [String: Error]()
             try refreshDBQuery.processRows { (data) in
                 //type|name|tbl_name|rootpage|sql
-                guard case .text(let type) = data[0] else {
+                guard case .text(let type) = data[0], case .text(let name) = data[1] else {
                     return
                 }
                 do {
@@ -154,15 +155,13 @@ class Database: NSObject {
                     }
                 } catch {
                     print("Error!:\(error)")
-                    DispatchQueue.main.async {
-                        NSApp.presentError(error)
-                    }
-
+                    errors[name] = error
                 }
 
             }
 
             systemTables.append(try Table(database: self, data: [.text("table"), .text("sqlite_master"), .text("sqlite_master"), .integer(0), .text("CREATE TABLE sqlite_master(type text,name text,tbl_name text, rootpage integer,sql text)")], connection: connection))
+            completion?(errors)
         } catch {
             print("Failed to refresh:\(error)")
         }

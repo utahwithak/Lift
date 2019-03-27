@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		8F09DB061FB5D84100A19894 /* Database+Dump.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F09DB041FB5D84100A19894 /* Database+Dump.swift */; };
 		8F0D315E214ACCFD00ADE9F8 /* Icon1024-128@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F0D315D214ACCFD00ADE9F8 /* Icon1024-128@2x.png */; };
+		8F10E0BC224A914B000222DC /* DatabaseLoadErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F10E0BB224A914B000222DC /* DatabaseLoadErrorViewController.swift */; };
+		8F10E0BD224A914B000222DC /* DatabaseLoadErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F10E0BB224A914B000222DC /* DatabaseLoadErrorViewController.swift */; };
 		8F11B7911F83D2A9008E19D7 /* LiftWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F11B7901F83D2A9008E19D7 /* LiftWindowController.swift */; };
 		8F11B7951F83DC1C008E19D7 /* Database.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F11B7941F83DC1C008E19D7 /* Database.swift */; };
 		8F11B79A1F83DC58008E19D7 /* sqlite3.c in Sources */ = {isa = PBXBuildFile; fileRef = 8F11B7991F83DC58008E19D7 /* sqlite3.c */; settings = {COMPILER_FLAGS = "-w -DSQLITE_ENABLE_FTS3 -DSQLITE_ENABLE_FTS3_PARENTHESIS"; }; };
@@ -559,6 +561,7 @@
 		8F09DB041FB5D84100A19894 /* Database+Dump.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Database+Dump.swift"; sourceTree = "<group>"; };
 		8F0D315D214ACCFD00ADE9F8 /* Icon1024-128@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon1024-128@2x.png"; sourceTree = "<group>"; };
 		8F0D3165214AD05500ADE9F8 /* Quartz.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Quartz.framework; path = System/Library/Frameworks/Quartz.framework; sourceTree = SDKROOT; };
+		8F10E0BB224A914B000222DC /* DatabaseLoadErrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseLoadErrorViewController.swift; sourceTree = "<group>"; };
 		8F11B7901F83D2A9008E19D7 /* LiftWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiftWindowController.swift; sourceTree = "<group>"; };
 		8F11B7941F83DC1C008E19D7 /* Database.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Database.swift; sourceTree = "<group>"; };
 		8F11B7971F83DC57008E19D7 /* Lift-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Lift-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -1303,6 +1306,7 @@
 				8F9114A11FF84A6C000B6D6A /* WelcomeViewController.swift */,
 				8FC6043D21C2A54300D4A21D /* WelcomeWindowController.swift */,
 				8FB7CC971FFBFE0100D5CDC0 /* URLPathFormatter.swift */,
+				8F10E0BB224A914B000222DC /* DatabaseLoadErrorViewController.swift */,
 				8F2CB2962182490B00BA3A35 /* Store */,
 			);
 			path = "Welcome Screen";
@@ -1834,6 +1838,7 @@
 				8F2CB1E42182208E00BA3A35 /* XMLExportOptions.swift in Sources */,
 				8F2CB1E52182208E00BA3A35 /* SQLiteName.swift in Sources */,
 				8F2CB1E62182208E00BA3A35 /* SQLiteStringValueFormatter.swift in Sources */,
+				8F10E0BD224A914B000222DC /* DatabaseLoadErrorViewController.swift in Sources */,
 				8F2CB2B42183DE3C00BA3A35 /* CreateTable.ForeignKeyTable.swift in Sources */,
 				8F2CB1E72182208E00BA3A35 /* Database+Options.swift in Sources */,
 				8F2CB1E82182208E00BA3A35 /* LineNumberScrollView.swift in Sources */,
@@ -2025,6 +2030,7 @@
 				8FB9F1531F7E7FCE0090FA53 /* SQLiteName.swift in Sources */,
 				8F72E3B71F83FDE3006C88F5 /* SQLiteStringValueFormatter.swift in Sources */,
 				8F2CB2B32183DE3C00BA3A35 /* CreateTable.ForeignKeyTable.swift in Sources */,
+				8F10E0BC224A914B000222DC /* DatabaseLoadErrorViewController.swift in Sources */,
 				8F74FA3B1FC33620008D8B4A /* Database+Options.swift in Sources */,
 				8F72E3BC1F840AFD006C88F5 /* LineNumberScrollView.swift in Sources */,
 				8F178CA11FA0DB790057387A /* JumpToRowViewController.swift in Sources */,
