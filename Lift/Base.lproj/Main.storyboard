@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14460.31"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="14490.70"/>
         <capability name="System colors introduced in macOS 10.14" minToolsVersion="10.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -240,7 +240,7 @@
                                         <menuItem title="Show Sidebar" keyEquivalent="s" id="kIP-vf-haE">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
                                             <connections>
-                                                <action selector="toggleSourceList:" target="Ady-hI-5gd" id="iwa-gc-5KM"/>
+                                                <action selector="toggleSidebar:" target="Ady-hI-5gd" id="iwa-gc-5KM"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem title="Enter Full Screen" keyEquivalent="f" id="4J7-dP-txa">
@@ -1260,7 +1260,7 @@ Gw
                                                     <rect key="frame" x="0.0" y="0.0" width="350" height="418"/>
                                                     <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="SWb-Mb-Zf6">
                                                         <rect key="frame" x="0.0" y="0.0" width="350" height="418"/>
-                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                        <autoresizingMask key="autoresizingMask"/>
                                                         <subviews>
                                                             <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="sequential" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="143" rowSizeStyle="automatic" viewBased="YES" floatsGroupRows="NO" indentationPerLevel="16" indentationMarkerFollowsCell="NO" autoresizesOutlineColumn="YES" outlineTableColumn="lqm-YP-zBu" id="HlQ-Nc-WZZ">
                                                                 <rect key="frame" x="0.0" y="0.0" width="350" height="418"/>
@@ -1326,7 +1326,7 @@ Gw
                                                                                         <rect key="frame" x="4" y="4" width="339" height="119"/>
                                                                                         <clipView key="contentView" copiesOnScroll="NO" id="rhL-ie-j5w">
                                                                                             <rect key="frame" x="1" y="1" width="337" height="117"/>
-                                                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                                            <autoresizingMask key="autoresizingMask"/>
                                                                                             <subviews>
                                                                                                 <textView editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="kSM-W9-fjz" customClass="SQLiteTextView" customModule="Lift" customModuleProvider="target">
                                                                                                     <rect key="frame" x="0.0" y="0.0" width="337" height="117"/>
@@ -1339,6 +1339,10 @@ Gw
                                                                                                 </textView>
                                                                                             </subviews>
                                                                                         </clipView>
+                                                                                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="GLc-RM-T0b">
+                                                                                            <rect key="frame" x="-100" y="-100" width="337" height="16"/>
+                                                                                            <autoresizingMask key="autoresizingMask"/>
+                                                                                        </scroller>
                                                                                         <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="t8k-ps-8NY">
                                                                                             <rect key="frame" x="322" y="1" width="16" height="117"/>
                                                                                             <autoresizingMask key="autoresizingMask"/>
@@ -1367,7 +1371,7 @@ Gw
                                                                                         <rect key="frame" x="4" y="4" width="339" height="135"/>
                                                                                         <clipView key="contentView" drawsBackground="NO" copiesOnScroll="NO" id="tta-gY-fJm">
                                                                                             <rect key="frame" x="1" y="1" width="337" height="133"/>
-                                                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                                                            <autoresizingMask key="autoresizingMask"/>
                                                                                             <subviews>
                                                                                                 <textView editable="NO" importsGraphics="NO" richText="NO" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="Rdh-SY-Sm1" customClass="SQLiteTextView" customModule="Lift" customModuleProvider="target">
                                                                                                     <rect key="frame" x="0.0" y="0.0" width="337" height="133"/>
@@ -1380,6 +1384,10 @@ Gw
                                                                                                 </textView>
                                                                                             </subviews>
                                                                                         </clipView>
+                                                                                        <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="fdJ-QV-fHW">
+                                                                                            <rect key="frame" x="-100" y="-100" width="337" height="16"/>
+                                                                                            <autoresizingMask key="autoresizingMask"/>
+                                                                                        </scroller>
                                                                                         <scroller key="verticalScroller" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="AJK-mf-ERq">
                                                                                             <rect key="frame" x="322" y="1" width="16" height="133"/>
                                                                                             <autoresizingMask key="autoresizingMask"/>
@@ -2658,9 +2666,9 @@ Gw
                                     <constraint firstItem="JhS-Dh-c7P" firstAttribute="centerY" secondItem="nyr-X5-RaI" secondAttribute="centerY" id="xQ9-68-UmZ"/>
                                 </constraints>
                             </customView>
-                            <scrollView wantsLayer="YES" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="deZ-yD-0vM" customClass="TableScrollView" customModule="Lift" customModuleProvider="target">
+                            <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="deZ-yD-0vM" customClass="TableScrollView" customModule="Lift" customModuleProvider="target">
                                 <rect key="frame" x="-1" y="21" width="452" height="265"/>
-                                <clipView key="contentView" wantsLayer="YES" drawsBackground="NO" id="zqs-D4-6hB">
+                                <clipView key="contentView" drawsBackground="NO" id="zqs-D4-6hB">
                                     <rect key="frame" x="1" y="0.0" width="450" height="264"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -4324,6 +4332,16 @@ Gw
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
+                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hp6-6x-rIA">
+                                <rect key="frame" x="18" y="37" width="149" height="18"/>
+                                <buttonCell key="cell" type="check" title="Continue after Errors" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="0CX-c4-bkw">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <binding destination="aUF-1q-p8d" name="value" keyPath="self.shouldContinueAfterErrors" id="YHD-MK-h0Z"/>
+                                </connections>
+                            </button>
                             <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="skc-Op-Bpb">
                                 <rect key="frame" x="372" y="13" width="64" height="32"/>
                                 <buttonCell key="cell" type="push" title="Run" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cvb-Ok-6HG">
@@ -4333,16 +4351,7 @@ Gw
                                 </buttonCell>
                                 <connections>
                                     <action selector="executeStatements:" target="aUF-1q-p8d" id="pAm-KN-NF3"/>
-                                </connections>
-                            </button>
-                            <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hp6-6x-rIA">
-                                <rect key="frame" x="18" y="37" width="149" height="18"/>
-                                <buttonCell key="cell" type="check" title="Continue after Errors" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="0CX-c4-bkw">
-                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                    <font key="font" metaFont="system"/>
-                                </buttonCell>
-                                <connections>
-                                    <binding destination="aUF-1q-p8d" name="value" keyPath="self.shouldContinueAfterErrors" id="YHD-MK-h0Z"/>
+                                    <binding destination="aUF-1q-p8d" name="title" keyPath="self.executeActionTitle" id="hU9-zj-HWl"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -4363,6 +4372,7 @@ Gw
                     </connections>
                 </viewController>
                 <userDefaultsController id="94a-Ll-bFP"/>
+                <userDefaultsController id="nQ6-wM-MGN"/>
             </objects>
             <point key="canvasLocation" x="527" y="2754"/>
         </scene>

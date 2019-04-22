@@ -14,6 +14,8 @@ class QueryViewController: LiftMainViewController {
     private var isCanceled = false
     @objc dynamic var shouldContinueAfterErrors = false
 
+    @objc dynamic var executeActionTitle = Strings.run
+
     private var autocompleteTimer: Timer?
 
     private var shouldAutoComplete = true
@@ -72,6 +74,10 @@ class QueryViewController: LiftMainViewController {
         return vc
     }()
 
+    func textViewDidChangeSelection(_ notification: Notification) {
+        executeActionTitle = sqlView.selectedRange().length == 0 ? Strings.run : Strings.runSelected
+    }
+
     @IBAction func executeStatements(_ sender: Any?) {
         guard view.window != nil else {
             return
@@ -105,7 +111,18 @@ class QueryViewController: LiftMainViewController {
 
         windowController?.showBottomBar()
 
-        let text = sqlView.string
+        let text: String
+        if sqlView.selectedRange().length == 0 {
+            text = sqlView.string
+        } else {
+            let selectedRanges = sqlView.selectedRanges.compactMap { (value: NSValue) -> String? in
+                if let range = value as? NSRange {
+                    return (sqlView.string as NSString).substring(with: range)
+                }
+                return nil
+            }
+            text = selectedRanges.joined()
+        }
         var errors = [Error]()
         DispatchQueue.global(qos: .userInitiated).async {
 
@@ -271,5 +288,18 @@ extension QueryViewController: SQLiteTextViewCompletionDelegate {
 extension QueryViewController: PrintableViewController {
     func printView() {
         sqlView.printView(self)
+    }
+}
+
+extension QueryViewController {
+    enum Strings {
+
+        public static var run: String {
+            return NSLocalizedString("Run", comment: "Run sql button text")
+        }
+
+        public static var runSelected: String {
+            return NSLocalizedString("Run Selected", comment: "Run sql button text")
+        }
     }
 }
