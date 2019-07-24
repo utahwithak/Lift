@@ -9,32 +9,32 @@
 import Foundation
 
 extension String {
-//
-//    public var unescapeXMLString: String {
-//        var cpy = self
-//        cpy = cpy.replacingOccurrences(of:"&amp;" , with:"&" , options: .literal, range: nil)
-//        cpy = cpy.replacingOccurrences(of:"&quot;", with:"\"", options: .literal, range: nil)
-//        cpy = cpy.replacingOccurrences(of:"&#x27;", with:"'" , options: .literal, range: nil)
-//        cpy = cpy.replacingOccurrences(of:"&#39;" , with:"'" , options: .literal, range: nil)
-//        cpy = cpy.replacingOccurrences(of:"&#x92;", with:"'" , options: .literal, range: nil)
-//        cpy = cpy.replacingOccurrences(of:"&#x96;", with:"-" , options: .literal, range: nil)
-//        cpy = cpy.replacingOccurrences(of:"&gt;"  , with:">" , options: .literal, range: nil)
-//        cpy = cpy.replacingOccurrences(of:"&lt;"  , with:"<" , options: .literal, range: nil)
-//        return cpy
-//    }
-//
-//    public var xmlSafeString: String {
-//        var cpy = self
-//        cpy = cpy.replacingOccurrences(of:"&" , with:"&amp;" , options: .literal, range: nil)
-//        cpy = cpy.replacingOccurrences(of:"&quot;", with:"\"", options: .literal, range: nil)
-//        cpy = cpy.replacingOccurrences(of:"&#x27;", with:"'" , options: .literal, range: nil)
-//        cpy = cpy.replacingOccurrences(of:"&#39;" , with:"'" , options: .literal, range: nil)
-//        cpy = cpy.replacingOccurrences(of:"&#x92;", with:"'" , options: .literal, range: nil)
-//        cpy = cpy.replacingOccurrences(of:"&#x96;", with:"-" , options: .literal, range: nil)
-//        cpy = cpy.replacingOccurrences(of:"&gt;"  , with:">" , options: .literal, range: nil)
-//        cpy = cpy.replacingOccurrences(of:"&lt;"  , with:"<" , options: .literal, range: nil)
-//        return cpy
-//    }
+    //
+    //    public var unescapeXMLString: String {
+    //        var cpy = self
+    //        cpy = cpy.replacingOccurrences(of:"&amp;" , with:"&" , options: .literal, range: nil)
+    //        cpy = cpy.replacingOccurrences(of:"&quot;", with:"\"", options: .literal, range: nil)
+    //        cpy = cpy.replacingOccurrences(of:"&#x27;", with:"'" , options: .literal, range: nil)
+    //        cpy = cpy.replacingOccurrences(of:"&#39;" , with:"'" , options: .literal, range: nil)
+    //        cpy = cpy.replacingOccurrences(of:"&#x92;", with:"'" , options: .literal, range: nil)
+    //        cpy = cpy.replacingOccurrences(of:"&#x96;", with:"-" , options: .literal, range: nil)
+    //        cpy = cpy.replacingOccurrences(of:"&gt;"  , with:">" , options: .literal, range: nil)
+    //        cpy = cpy.replacingOccurrences(of:"&lt;"  , with:"<" , options: .literal, range: nil)
+    //        return cpy
+    //    }
+    //
+    //    public var xmlSafeString: String {
+    //        var cpy = self
+    //        cpy = cpy.replacingOccurrences(of:"&" , with:"&amp;" , options: .literal, range: nil)
+    //        cpy = cpy.replacingOccurrences(of:"&quot;", with:"\"", options: .literal, range: nil)
+    //        cpy = cpy.replacingOccurrences(of:"&#x27;", with:"'" , options: .literal, range: nil)
+    //        cpy = cpy.replacingOccurrences(of:"&#39;" , with:"'" , options: .literal, range: nil)
+    //        cpy = cpy.replacingOccurrences(of:"&#x92;", with:"'" , options: .literal, range: nil)
+    //        cpy = cpy.replacingOccurrences(of:"&#x96;", with:"-" , options: .literal, range: nil)
+    //        cpy = cpy.replacingOccurrences(of:"&gt;"  , with:">" , options: .literal, range: nil)
+    //        cpy = cpy.replacingOccurrences(of:"&lt;"  , with:"<" , options: .literal, range: nil)
+    //        return cpy
+    //    }
 
     func CSVFormattedString(qouted: Bool, separator: String) -> String {
 
@@ -63,7 +63,7 @@ extension String {
             return self
         }
 
-        if rangeOfCharacter(from: SQLiteName.invalidChars) != nil || !CharacterSet.decimalDigits.isDisjoint(with: CharacterSet(first.unicodeScalars)) {
+        if rangeOfCharacter(from: SQLiteName.invalidChars) != nil || !CharacterSet.decimalDigits.isDisjoint(with: CharacterSet(first.unicodeScalars)) || String.SQLiteKeywords.contains(self.uppercased()) {
             var returnVal = self
             if contains("\"") {
                 returnVal = self.replacingOccurrences(of: "\"", with: "\"\"")
@@ -74,6 +74,8 @@ extension String {
             return self
         }
     }
+
+    private static let SQLiteKeywords = ["ABORT", "ACTION", "ADD", "AFTER", "ALL", "ALTER", "ANALYZE", "AND", "AS", "ASC", "ATTACH", "AUTOINCREMENT", "BEFORE", "BEGIN", "BETWEEN", "BY", "CASCADE", "CASE", "CAST", "CHECK", "COLLATE", "COLUMN", "COMMIT", "CONFLICT", "CONSTRAINT", "CREATE", "CROSS", "CURRENT_DATE", "CURRENT_TIME", "CURRENT_TIMESTAMP", "DATABASE", "DEFAULT", "DEFERRABLE", "DEFERRED", "DELETE", "DESC", "DETACH", "DISTINCT", "DROP", "EACH", "ELSE", "END", "ESCAPE", "EXCEPT", "EXCLUSIVE", "EXISTS", "EXPLAIN", "FAIL", "FOR", "FOREIGN", "FROM", "FULL", "GLOB", "GROUP", "HAVING", "IF", "IGNORE", "IMMEDIATE", "IN", "INDEX", "INDEXED", "INITIALLY", "INNER", "INSERT", "INSTEAD", "INTERSECT", "INTO", "IS", "ISNULL", "JOIN", "KEY", "LEFT", "LIKE", "LIMIT", "MATCH", "NATURAL", "NO", "NOT", "NOTNULL", "NULL", "OF", "OFFSET", "ON", "OR", "ORDER", "OUTER", "PLAN", "PRAGMA", "PRIMARY", "QUERY", "RAISE", "RECURSIVE", "REFERENCES", "REGEXP", "REINDEX", "RELEASE", "RENAME", "REPLACE", "RESTRICT", "RIGHT", "ROLLBACK", "ROW", "SAVEPOINT", "SELECT", "SET", "TABLE", "TEMP", "TEMPORARY", "THEN", "TO", "TRANSACTION", "TRIGGER", "UNION", "UNIQUE", "UPDATE", "USING", "VACUUM", "VALUES", "VIEW", "VIRTUAL", "WHEN", "WHERE", "WITH", "WITHOUT", "ROWID", "INTEGER", "TEXT", "BLOB", "NULL", "REAL", "FALSE", "TRUE"]
 
     func querySafeString() -> String {
         if (first == "\"" || first == "'" || first == "`") && balancedQoutedString() {

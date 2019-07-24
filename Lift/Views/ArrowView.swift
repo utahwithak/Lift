@@ -51,7 +51,7 @@ class ArrowView: NSView {
         if from.columns.count > 1 {
             path = NSBezierPath()
 
-            var fromColumnPoints = from.columns.map { fromView.outPoint(for: $0)}
+            let fromColumnPoints = from.columns.map { fromView.outPoint(for: $0)}
             let avgFromY = fromColumnPoints.reduce(0, { $0 + $1.y}) / CGFloat(fromColumnPoints.count)
 
             let fromConnectionPoint = CGPoint(x: fromColumnPoints[0].x + 50, y: avgFromY)
@@ -63,7 +63,7 @@ class ArrowView: NSView {
                 path?.curve(to: fromConnectionPoint, controlPoint1: c1, controlPoint2: c2)
             }
 
-            var inPoints: [CGPoint] = to.columns.map {
+            let inPoints: [CGPoint] = to.columns.map {
                 let point = toView.inPoint(for: $0)
                 return point
             }

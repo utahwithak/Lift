@@ -59,7 +59,7 @@ extension ExportViewController {
 
                     handle.open()
                     defer {
-                        handle.close()
+                        handle.closeFile()
                     }
 
                     try table.exportCSV(with: handle, options: self.csvOptions)

@@ -113,7 +113,7 @@ class ExportDataViewController: LiftViewController {
 
                 handle.open()
                 defer {
-                    handle.close()
+                    handle.closeFile()
                 }
                 let writer = handle
                 let options = self.csvOptions
