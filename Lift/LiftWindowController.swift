@@ -33,7 +33,16 @@ class LiftWindowController: NSWindowController {
 
     @objc dynamic weak var selectedTable: DataProvider? {
         didSet {
-            window?.title = selectedTable?.name ?? document?.displayName ?? ""
+            if let name = (document as? LiftDocument)?.displayName {
+                if let selectedTableName = selectedTable?.name {
+                    window?.title = "\(name) - \(selectedTableName)"
+                } else {
+                    window?.title = name
+                }
+            } else {
+                window?.title = ""
+
+            }
             NotificationCenter.default.post(name: LiftWindowController.selectedTableChanged, object: self)
         }
     }
@@ -66,7 +75,6 @@ class LiftWindowController: NSWindowController {
     override func windowDidLoad() {
         window?.delegate = self
 
-        window?.titleVisibility = .hidden
         attachDetachSegmentedControl.setEnabled(false, forSegment: 1)
 
         if let splitView = contentViewController as? LiftMainSplitViewController {
