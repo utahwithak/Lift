@@ -71,7 +71,8 @@ class TableView: NSTableView {
             var views = [NSView]()
 
             for rect in selectionRects {
-                let selection = PassthroughView(frame: rect.insetBy(dx: -4, dy: -4))
+                let width: CGFloat = 1
+                let selection = PassthroughView(frame: rect.insetBy(dx: -2 * width, dy: -2 * width))
                 if selection.frame.origin.x < 0 {
                     selection.frame.size.width += selection.frame.origin.x
                     selection.frame.origin.x = 0
@@ -84,8 +85,9 @@ class TableView: NSTableView {
 
                 selection.wantsLayer = true
                 selection.layer?.backgroundColor = CGColor.clear
-                selection.layer?.borderColor = NSColor.systemBlue.cgColor
-                selection.layer?.borderWidth = 2
+                selection.layer?.borderColor = NSColor.keyboardFocusIndicatorColor.withAlphaComponent(0.7).cgColor
+
+                selection.layer?.borderWidth = width
 
                 views.append(selection)
             }
@@ -107,6 +109,7 @@ class TableView: NSTableView {
 
     private func refreshSelection() {
         guard !selectionBoxes.isEmpty else {
+            selectionRects = []
             return
         }
         var rects = [NSRect]()
@@ -213,6 +216,8 @@ class TableView: NSTableView {
 
         if minCol != -1 && maxCol != -1 {
             selectionBoxes = [SelectionBox(startRow: rowRange.lowerBound, endRow: rowRange.upperBound - 1, startColumn: minCol, endColumn: maxCol)]
+        } else {
+            selectionBoxes = []
         }
     }
 

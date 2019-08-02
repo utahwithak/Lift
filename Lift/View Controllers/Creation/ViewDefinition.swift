@@ -30,7 +30,7 @@ class ViewDefinition: NSObject {
 
     @objc dynamic public var specifyColumns: Bool = false
 
-    @objc dynamic public var columns = [SQLiteName]()
+    @objc dynamic public var columns = [ViewColumn]()
 
     @objc dynamic public var selectStatement = ""
 
@@ -48,12 +48,19 @@ class ViewDefinition: NSObject {
         createStatement += "\(name.sql) "
 
         if specifyColumns {
-            createStatement += "(\(columns.map({ $0.sql }).joined(separator: ", "))) "
+            createStatement += "(\(columns.map({ $0.columnName.sql }).joined(separator: ", "))) "
         }
 
         createStatement += "AS \(selectStatement);"
 
         return createStatement
 
+    }
+}
+
+class ViewColumn: NSObject {
+    @objc dynamic var columnName: String
+    init(name: String) {
+        columnName = name
     }
 }

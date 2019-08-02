@@ -70,6 +70,11 @@ class CreateViewViewController: LiftViewController {
         presentAsSheet(waitingView)
     }
 
+    @IBAction func addNewColumn(sender: Any) {
+        let count = viewDefinition.columns.count
+        viewDefinition.columns.append(ViewColumn(name: "Column \( count + 1)"))
+    }
+
 }
 
 extension CreateViewViewController: StatementWaitingViewDelegate {
@@ -84,9 +89,4 @@ extension CreateViewViewController: StatementWaitingViewDelegate {
 }
 
 class CreateViewArrayController: NSArrayController {
-     // overridden to add a new object to the content objects and to the arranged objects
-    override func newObject() -> Any {
-        let count = (arrangedObjects as? NSArray)?.count
-        return "Column \( (count ?? 0) + 1)"
-    }
 }

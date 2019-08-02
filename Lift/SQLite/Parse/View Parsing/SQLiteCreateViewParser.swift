@@ -38,7 +38,7 @@ class SQLiteCreateViewParser {
             def.specifyColumns = true
 
             let initialColumn = try SQLiteCreateTableParser.parseStringOrName(from: stringScanner)
-            def.columns.append(initialColumn)
+            def.columns.append(ViewColumn(name: initialColumn))
 
             var parsingColumns = stringScanner.scanString(",", into: nil)
             while parsingColumns {
@@ -46,7 +46,7 @@ class SQLiteCreateViewParser {
                 stringScanner.scanCharacters(from: CharacterSet.whitespacesAndNewlines, into: nil)
 
                 let nextName = try SQLiteCreateTableParser.parseStringOrName(from: stringScanner)
-                def.columns.append(nextName)
+                def.columns.append(ViewColumn(name: nextName))
                 parsingColumns = stringScanner.scanString(",", into: nil)
             }
 
