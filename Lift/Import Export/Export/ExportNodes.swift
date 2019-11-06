@@ -14,7 +14,7 @@ class ExportNode: NSObject {
     @objc dynamic let children: [ExportNode]
     @objc dynamic var export = true {
         didSet {
-            let match = children.reduce(true, { $0 && $1.export != export})
+            let match = children.allSatisfy({ $0.export })
             if match {
                 children.forEach({
                     $0.export = export

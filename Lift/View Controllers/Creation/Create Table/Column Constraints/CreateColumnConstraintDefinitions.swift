@@ -117,7 +117,7 @@ class CreateColumnConstraintDefinitions: NSObject {
     }
 
     func checkForeignKeys() {
-        let allEnabled = foreignKeys.reduce(true, { $0 && $1.enabled})
+        let allEnabled = foreignKeys.allSatisfy({ $0.enabled })
         if allEnabled {
             foreignKeys.append(CreateForeignKeyConstraint(database: database))
         }

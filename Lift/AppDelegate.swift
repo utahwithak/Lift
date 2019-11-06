@@ -16,9 +16,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     override init() {
         UserDefaults.standard.register(defaults: ["suggestCompletions": true])
-        if let shortcut = MASShortcut(keyCode: UInt(kVK_F5), modifierFlags: 0) {
-            MASShortcutBinder.shared()?.registerDefaultShortcuts([AppDelegate.runGlobalShortcut: shortcut])
-        }
+
+        MASShortcutBinder.shared()?.registerDefaultShortcuts([AppDelegate.runGlobalShortcut: MASShortcut(keyCode: kVK_F5, modifierFlags: [])])
 
         ValueTransformer.setValueTransformer(RowCountFormatter(), forName: NSValueTransformerName(rawValue: "RowCountFormatter"))
         ValueTransformer.setValueTransformer(URLPathFormatter(), forName: NSValueTransformerName("URLPathFormatter"))
